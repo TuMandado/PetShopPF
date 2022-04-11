@@ -20,14 +20,26 @@ export async function getProduct(uid) {
     }
   }
 
-export async function getAllProducts() {
+export async function getAllProducts(search) {
     const querySnapshot = await getDocs(collection(db, collectionRef));
     let array = [];
     querySnapshot.forEach((doc) => {
-        array.push({
-            uid: doc.id,
-            data: doc.data()
-        });
+      array.push({
+        uid: doc.id,
+        data: doc.data()
       });
-    return array;
+    });
+    
+    let products = [];
+    if(search){
+      let productsFound = array.filter(el => el.data.title.toLowerCase().includes(search.toLowerCase()))
+      if(productsFound.length){
+        products = productsFound
+      } else {
+        products = [{msg: 'product not found'}]
+      }
+    } else {
+      products = array
+    }
+    return products;
 }
