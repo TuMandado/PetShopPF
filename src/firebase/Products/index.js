@@ -1,5 +1,6 @@
 import {firebase, db} from '../credenciales'
 import { doc, setDoc, Timestamp, deleteDoc, getDoc, getDocs, collection } from "firebase/firestore";
+import { async } from '@firebase/util';
 
 var collectionRef = "Products";
 
@@ -20,14 +21,52 @@ export async function getProduct(uid) {
     }
   }
 
-export async function getAllProducts() {
+export async function getAllProducts(search) {
     const querySnapshot = await getDocs(collection(db, collectionRef));
     let array = [];
     querySnapshot.forEach((doc) => {
-        array.push({
-            uid: doc.id,
-            data: doc.data()
-        });
+      array.push({
+        uid: doc.id,
+        data: doc.data()
       });
-    return array;
+    });
+    
+    let products = [];
+    if(search){
+      let productsFound = array.filter(el => el.data.title.toLowerCase().includes(search.toLowerCase()))
+      if(productsFound.length){
+        products = productsFound
+      } else {
+        products = [{msg: 'product not found'}]
+      }
+    } else {
+      products = array
+    }
+    return products;
+}
+
+export async function getAllProductsCategories(){
+  let products = await getAllProducts();
+  let categories = products.flatMap(el => el.data.category)
+  return categories
+}
+
+export async function filterProductByCategory(array,category){
+  let filterProducts = array.filter(el => el.data.category.includes(category))
+  let notFound = [{msg: 'product not found'}]
+  if(filterProducts.length){
+    return filterProducts
+  } else {
+    return notFound
+  }
+}
+
+export async function filterProductByAnimal(array,animal){
+  let filterProducts =array.filter(el => el.data.animalCategory.includes(animal))
+  let notFound = [{msg: 'no products for this animal'}]
+  if(filterProducts.length){
+    return filterProducts
+  } else {
+    return notFound
+  }
 }
