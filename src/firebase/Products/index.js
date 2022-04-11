@@ -1,5 +1,6 @@
 import {firebase, db} from '../credenciales'
 import { doc, setDoc, Timestamp, deleteDoc, getDoc, getDocs, collection } from "firebase/firestore";
+import { async } from '@firebase/util';
 
 var collectionRef = "Products";
 
@@ -48,4 +49,15 @@ export async function getAllCategories(){
   let products = await getAllProducts();
   let categories = products.flatMap(el => el.data.category)
   return categories
+}
+
+export async function filterByCategory(category){
+  let products = await getAllProducts();
+  let filterProducts = products.filter(el => el.data.category.includes(category))
+  let notFound = [{msg: 'product not found'}]
+  if(filterProducts.length){
+    return filterProducts
+  } else {
+    return notFound
+  }
 }
