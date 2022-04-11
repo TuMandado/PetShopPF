@@ -43,3 +43,9 @@ export async function getAllProducts(search) {
     }
     return products;
 }
+
+export async function getAllCategories(){
+  let products = await getAllProducts();
+  let categories = products.flatMap(el => el.data.category)
+  return categories
+}
