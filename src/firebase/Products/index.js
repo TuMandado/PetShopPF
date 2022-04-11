@@ -51,9 +51,8 @@ export async function getAllProductsCategories(){
   return categories
 }
 
-export async function filterProductByCategory(category){
-  let products = await getAllProducts();
-  let filterProducts = products.filter(el => el.data.category.includes(category))
+export async function filterProductByCategory(array,category){
+  let filterProducts = array.filter(el => el.data.category.includes(category))
   let notFound = [{msg: 'product not found'}]
   if(filterProducts.length){
     return filterProducts
@@ -62,9 +61,8 @@ export async function filterProductByCategory(category){
   }
 }
 
-export async function filterProductByAnimal(animal){
-  let products = await getAllProducts();
-  let filterProducts = products.filter(el => el.data.animalCategory.includes(animal))
+export async function filterProductByAnimal(array,animal){
+  let filterProducts =array.filter(el => el.data.animalCategory.includes(animal))
   let notFound = [{msg: 'no products for this animal'}]
   if(filterProducts.length){
     return filterProducts
