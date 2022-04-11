@@ -45,16 +45,27 @@ export async function getAllProducts(search) {
     return products;
 }
 
-export async function getAllCategories(){
+export async function getAllProductsCategories(){
   let products = await getAllProducts();
   let categories = products.flatMap(el => el.data.category)
   return categories
 }
 
-export async function filterByCategory(category){
+export async function filterProductByCategory(category){
   let products = await getAllProducts();
   let filterProducts = products.filter(el => el.data.category.includes(category))
   let notFound = [{msg: 'product not found'}]
+  if(filterProducts.length){
+    return filterProducts
+  } else {
+    return notFound
+  }
+}
+
+export async function filterProductByAnimal(animal){
+  let products = await getAllProducts();
+  let filterProducts = products.filter(el => el.data.animalCategory.includes(animal))
+  let notFound = [{msg: 'no products for this animal'}]
   if(filterProducts.length){
     return filterProducts
   } else {
