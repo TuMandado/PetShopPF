@@ -7,7 +7,6 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { uploadUser } from "../firebase/Users";
-import { Navbar } from "../components/navbar/Navbar.jsx";
 const auth = getAuth(firebaseApp);
 
 function Login() {
@@ -54,7 +53,6 @@ function Login() {
 
   return (
     <div>
-      <Navbar />
       <h1>{isRegistrando ? "Registrarse" : "Iniciar sesion"}</h1>
 
       <form onSubmit={submitHandler}>
