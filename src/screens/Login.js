@@ -14,13 +14,12 @@ function Login() {
 
   const signInUsuario = (email, password) => {
     try {
-      auth()
-        .signInWithEmailAndPassword(email, password)
-        .then((user) => {
-          console.log("Usuario iniciado sesion: ", user);
-        });
+      signInWithEmailAndPassword(auth, email, password).then((user) => {
+        console.log("Usuario iniciado sesion: ", user);
+      });
     } catch (error) {
       alert("Error al iniciar sesión: ", error);
+      console.log("Error al iniciar sesión: ", error);
     }
   };
 
