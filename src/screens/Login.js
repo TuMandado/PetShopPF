@@ -8,10 +8,11 @@ import {
 } from "firebase/auth";
 import { uploadUser } from "../firebase/Users";
 const auth = getAuth(firebaseApp);
+import { signInUsuario, registrarUsuario } from "../firebase/auth";
+
 
 function Login() {
   const [isRegistrando, setIsRegistrando] = useState(false);
-
   const signInUsuario = (email, password) => {
     auth()
       .signInWithEmailAndPassword(email, password)
@@ -36,14 +37,12 @@ function Login() {
         console.log("Error al registrar usuario: ", error);
       });
   }
-
   const submitHandler = (event) => {
     event.preventDefault();
     const email = event.target.email.value;
     const password = event.target.password.value;
     const role = "Cliente";
     console.log("Formulario enviado", email, password, role);
-
     if (isRegistrando) {
       registrarUsuario(email, password, role);
     } else {
