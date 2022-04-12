@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { firebaseApp } from "../firebase/credenciales";
 import { Timestamp } from "firebase/firestore";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { uploadUser } from "../firebase/Users";
 const auth = getAuth(firebaseApp);
 
@@ -9,12 +13,16 @@ function Login() {
   const [isRegistrando, setIsRegistrando] = useState(false);
 
   const signInUsuario = (email, password) => {
-    auth()
-    .signInWithEmailAndPassword(email, password)
-    .then((user) => {
-        console.log("Usuario iniciado sesion: ", user);
-        })
-  }
+    try {
+      auth()
+        .signInWithEmailAndPassword(email, password)
+        .then((user) => {
+          console.log("Usuario iniciado sesion: ", user);
+        });
+    } catch (error) {
+      alert("Error al iniciar sesión: ", error);
+    }
+  };
 
   async function registrarUsuario(email, password, role) {
     createUserWithEmailAndPassword(auth, email, password)
@@ -29,8 +37,8 @@ function Login() {
         });
       })
       .catch((error) => {
-        console.log("Error al registrar usuario: ", error);
-      });     
+        alert("Error al registrar usuario: ", error);
+      });
   }
 
   const submitHandler = (event) => {
@@ -38,12 +46,11 @@ function Login() {
     const email = event.target.email.value;
     const password = event.target.password.value;
     const role = "Cliente";
-    console.log("Formulario enviado", email, password, role);
-    
+
     if (isRegistrando) {
-        registrarUsuario(email, password, role);
+      registrarUsuario(email, password, role);
     } else {
-        signInUsuario(email, password);
+      signInUsuario(email, password);
     }
   };
 
