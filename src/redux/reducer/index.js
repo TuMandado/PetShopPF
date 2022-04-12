@@ -24,20 +24,10 @@ function rootReducer(state = initialState, action) {
       };
 
     case `GET_BY_NAME`: {
-      const nameSearch = state.products.filter((e) => {
-        return e.title === action.payload;
-      });
-      if (nameSearch.length !== 0) {
-        return {
-          ...state,
-          backup: nameSearch,
-        };
-      } else {
-        return {
-          ...state,
-          products: false,
-        };
-      }
+      return {
+        ...state,
+        backup: action.payload,
+      };
     }
     default:
       return state;

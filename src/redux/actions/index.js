@@ -11,6 +11,7 @@ export function getTotalProducts() {
   return async function (dispatch) {
     try {
       let jsonProduct = await getAllProducts();
+      console.log("-Action Flag-", jsonProduct);
       return dispatch({
         type: `GET_TOTAL_PRODUCT`,
         payload: jsonProduct,
@@ -27,10 +28,11 @@ export function getProductName(name) {
       if (name.search(/^[a-zA-Zñáéíóúü]*$/)) {
         return alert("El nombre solo debe contener letras. ¡Intenta de nuevo!");
       }
+      let jsonProduct = await getAllProducts(name);
 
       return dispatch({
         type: `GET_BY_NAME`,
-        payload: name,
+        payload: jsonProduct,
       });
     } catch (error) {
       return alert(`Ups! No existe un producto con ese nombre.`);
