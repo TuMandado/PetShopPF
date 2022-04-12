@@ -1,12 +1,18 @@
 import React from "react";
 // import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { useState } from "react";
-import { getProductName } from "../../redux/actions/index";
+import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { getProductName, getTotalProducts } from "../../redux/actions/index";
 
 export const Navbar = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
+
+  const AllProduct = useSelector((state) => state.backup);
+
+  useEffect(() => {
+    dispatch(getTotalProducts());
+  }, [dispatch]);
 
   //Handle del Input y Search
   function handleInputChange(e) {
@@ -17,6 +23,7 @@ export const Navbar = () => {
   function handleSubmit(e) {
     e.preventDefault();
     dispatch(getProductName(name));
+    console.log(AllProduct);
     setName("");
   }
 
