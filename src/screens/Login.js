@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { signInUsuario, registrarUsuario } from "../firebase/auth";
 
 
+
 function Login() {
   const [isRegistrando, setIsRegistrando] = useState(false);
 
