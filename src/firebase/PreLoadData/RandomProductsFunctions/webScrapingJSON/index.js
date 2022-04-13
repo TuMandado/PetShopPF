@@ -67,6 +67,7 @@ const formatData = (data) => {
     let animalCategory = data.animalCategory ? data.animalCategory : '';
     let category = data.category ? data.category : '';
     let subCategory = data.subCategory ? data.subCategory : '';
+    let comments = [];
     data.title.forEach(element => {
         const { brand, name, price, image } = element;
         formattedData.push({
@@ -76,7 +77,8 @@ const formatData = (data) => {
             brand,
             name,
             price,
-            image
+            image,
+            comments,
         });
     });
     return formattedData;

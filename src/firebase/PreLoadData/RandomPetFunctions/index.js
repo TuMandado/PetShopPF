@@ -13,6 +13,9 @@
 //                 }
 //     photos:[strings]
 
+import { uploadPet } from "../../Pets";
+import { getAllPets } from "../../Pets";
+
 import { LoremIpsum } from "lorem-ipsum";
 import { Timestamp } from "firebase/firestore";
 
@@ -204,3 +207,19 @@ export const randomPet = () => {
     photos: [category === "perro" ? randomDogPhoto() : randomCatPhoto()],
   };
 };
+
+// Push all products to the database if the collection is empty
+export const pushAllPets = async () => {
+  const pets = await getAllPets();
+  let id = 0;
+  let stringId = "";
+  if (pets.length < 4) {
+    for (let i = 0; i < 200; i++) {
+      const pet = randomPet();
+      stringId = id.toString();
+      id++;
+      await uploadPet(pet, stringId);
+
+    }    
+  }
+}
