@@ -150,8 +150,10 @@ const verifyProductCollectionLength = async () => {
 };
 
 // Push all products to the database if the collection is empty
-export const pushAllProducts = async () => {
-  const products = await returnAllData();
+export const pushAllProducts = async (
+  arrayLength,
+) => {
+  const products = await returnAllData(arrayLength);
   const productsLength = await verifyProductCollectionLength();
   if (productsLength < 2) {
     console.log("Pushing products to database...");

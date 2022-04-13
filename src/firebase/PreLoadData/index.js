@@ -44,4 +44,17 @@
 //                 }
 //     photos:[strings]
 
+// Database data configuration
+import { pushAllPets } from "./RandomPetFunctions";
+import { pushAllProducts } from "./RandomProductsFunctions";
 
+// Push an especified amount of products and pets to the database
+export const pushDataToDatabase = async (petsLength, productsLength) => {
+  //Check if productsLength is smaller than 720
+  if (productsLength < 720) {
+    await pushAllPets(petsLength);
+    await pushAllProducts(productsLength);
+  } else {
+    console.log("The amount of products is too big");
+  }
+};
