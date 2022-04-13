@@ -31,7 +31,6 @@ const Titulo = styled.h1`
   font-size: 32px;
   line-height: 140%;
   text-align: center;
-  /* C1/A */
   color: #151515;
   padding-top: 22px;
 `;
@@ -80,7 +79,6 @@ const Error = () => {
         publicaciones relacionadas a ese contenido. Intenta nuevamente más
         tarde.
       </Text>
-
       <Boton>Ir a home</Boton>
     </ErrorPage>
   );
