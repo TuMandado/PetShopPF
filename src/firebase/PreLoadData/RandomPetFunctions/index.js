@@ -211,12 +211,12 @@ export const randomPet = () => {
 
 
 // Push all products to the database if the collection is empty
-export const pushAllPets = async () => {
+export const pushAllPets = async (arrayLength) => {
   const pets = await getAllPets();
   let id = 0;
   let stringId = "";
   if (pets.length < 4) {
-    for (let i = 0; i < 200; i++) {
+    for (let i = 0; i < arrayLength; i++) {
       const pet = randomPet();
       stringId = id.toString();
       id++;
