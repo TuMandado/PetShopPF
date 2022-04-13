@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { signInUsuario, registrarUsuario } from "../firebase/auth";
-import Error from "../components/error/Error";
+
 
 
 function Login() {
@@ -22,7 +22,7 @@ function Login() {
   return (
     <div>
       <h1>{isRegistrando ? "Registrarse" : "Iniciar sesion"}</h1>
-      <Error />
+
       <form onSubmit={submitHandler}>
         <label>
           Email:
