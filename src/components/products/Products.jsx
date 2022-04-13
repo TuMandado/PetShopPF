@@ -3,6 +3,7 @@ import { useDispatch , useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
 import { getTotalProducts } from '../../redux/actions'
 import Product from '../product/Product'
+import { Loader } from '../../page/loader/Loader'
 
 const Products = () => {
   const dispatch = useDispatch()
@@ -23,7 +24,8 @@ const Products = () => {
   if(loader){
     return (
       <div>
-        <h1>Cargando..</h1>
+        <img src={<Loader/>} alt="loader not found" />
+        <h3>cargando...</h3>
       </div>
     )
   }
