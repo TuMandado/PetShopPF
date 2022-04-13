@@ -19,7 +19,7 @@ const Product = ({title, imagen, info, price,animalCategory, category}) => {
         <h3> categoria de aniaml : {animalCategory?.map((t,i) => <div key={i}> {t} </div> )}</h3>
       </div>
       <div>
-        <h4>categoria : {category?.mao((t,i) => <div key={i}> {t}</div>)}</h4>
+        <h4>categoria : {category?.map((t,i) => <div key={i}> {t}</div>)}</h4>
       </div>
     </div>
 
