@@ -13,6 +13,7 @@
 //                 }
 //     photos:[strings]
 
+
 import { uploadPet } from "../../Pets";
 import { getAllPets } from "../../Pets";
 
@@ -208,6 +209,7 @@ export const randomPet = () => {
   };
 };
 
+
 // Push all products to the database if the collection is empty
 export const pushAllPets = async () => {
   const pets = await getAllPets();
@@ -223,3 +225,4 @@ export const pushAllPets = async () => {
     }    
   }
 }
+

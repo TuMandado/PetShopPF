@@ -1,3 +1,30 @@
+// - Productos:
+//     created: timestamp
+//     updated: timestamp
+//     title: string
+//     price: number
+//     stock: number
+//     info: string
+//     animalCategory: [strings]
+//     category: [strings]
+//     subcategory: [strings]
+//     opiniones: [obj] {
+//             user: uid
+//             comment: string
+//             rating: number
+//             timestamp: timestamp
+//                 }
+
+const randomPrice = () => {
+  return randomNumber(1, 100);
+};
+
+const randomAnimalCategory = () => {
+  const categories = ["perro", "gato", "pez", "ave", "reptil"];
+  return categories[randomNumber(0, categories.length)];
+};
+
+
 // Perros -> animalCategory
 //      Alimentos -> category
 //              Secos -> subcategory
@@ -32,7 +59,9 @@
 //              Pipetas y Vacunas -> subcategory
 //              Medicamentos -> subcategory
 
+
 // Gatos -> animalCategory
+
 //      Alimentos -> category
 //              Secos -> subcategory
 //              Húmedos -> subcategory
@@ -57,7 +86,9 @@
 //              Antiparasitarios -> subcategory
 //              Antipulgas y Garrapatas -> subcategory
 
+
 // Peces -> animalCategory
+
 //      Alimentos -> category
 //              Agua fria -> subcategory
 //              Agua tropical -> subcategory
@@ -67,7 +98,9 @@
 //              Iluminación, Adornos y Piedras -> subcategory
 //              Cuidados del Agua -> subcategory
 
+
 // Aves -> animalCategory
+
 //      Accesorios -> category
 //              Comederos y Bebederos -> subcategory
 //              Jaulas y Nidos -> subcategory
@@ -77,7 +110,9 @@
 //      Medicamentos -> category
 //              Medicamentos -> subcategory
 
+
 // Reptiles -> animalCategory
+
 //      Alimentos -> category
 //      Accesorios de Habitat -> category
 //      Higiene -> category
@@ -86,6 +121,7 @@
 //      Alimentos -> category
 //      Habitats, Conejeras y Hamsteras -> category
 //      Higiene -> category
+
 //      Juguetes y Accesorios de Habitat -> category
 
 // - Productos:
@@ -133,3 +169,4 @@ export const pushAllProducts = async () => {
     // await uploadProduct(products[0], id.toString());
   }
 };
+
