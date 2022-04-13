@@ -47,7 +47,14 @@ export async function getAllProducts(search) {
 
 export async function getAllProductsCategories(){
   let products = await getAllProducts();
-  let categories = products.flatMap(el => el.data.category)
+  let cache= products.flatMap(el => el.data.category)
+  let categories = []
+  cache.forEach(el=>{
+    if(!categories.includes(el)){
+      categories.push(el)
+    }
+  })
+
   return categories
 }
 
