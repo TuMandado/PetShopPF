@@ -1,0 +1,90 @@
+{
+ "subCategory": "Snacks",
+ "subCategory_url": "https://www.puppis.com.ar/gatos/alimentos/snacks?PS=12",
+ "category": "Alimentos",
+ "category_url": "https://www.puppis.com.ar/gatos/alimentos?PS=12",
+ "animalCategory": "Gatos",
+ "animalCategory_url": "https://www.puppis.com.ar/gatos",
+ "title": [
+  {
+   "name": "Chocolate Negro Innovar para Gato",
+   "brand": "Innovar",
+   "brand_url": "https://www.puppis.com.ar/innovar",
+   "price": "$ 150,00",
+   "image": "https://puppis.vteximg.com.br/arquivos/ids/174926-150-150/447006.jpg?v=637457622952470000",
+   "image_url": "https://www.puppis.com.ar/chocolate-negro-innovar-para-gato/p"
+  },
+  {
+   "name": "Tiritas Dr. Zoo De Salmón Grillado",
+   "brand": "Dr. Zoo",
+   "brand_url": "https://www.puppis.com.ar/dr--zoo",
+   "price": "$ 140,00",
+   "image": "https://puppis.vteximg.com.br/arquivos/ids/162812-150-150/Tiritas-Salmon.jpg?v=636537021823000000",
+   "image_url": "https://www.puppis.com.ar/tiritas-dr--zoo-de-salmon-grillado/p"
+  },
+  {
+   "name": "Tiritas Dr. Zoo De Atún con Arroz",
+   "brand": "Dr. Zoo",
+   "brand_url": "https://www.puppis.com.ar/dr--zoo",
+   "price": "$ 140,00",
+   "image": "https://puppis.vteximg.com.br/arquivos/ids/162810-150-150/Tiritas-Atun.jpg?v=636537021483900000",
+   "image_url": "https://www.puppis.com.ar/tiritas-dr--zoo-de-atun-con-arroz/p"
+  },
+  {
+   "name": "Chocolate Blanco Innovar para Gato",
+   "brand": "Innovar",
+   "brand_url": "https://www.puppis.com.ar/innovar",
+   "price": "$ 120,00",
+   "image": "https://puppis.vteximg.com.br/arquivos/ids/174919-150-150/447007.jpg?v=637457621673470000",
+   "image_url": "https://www.puppis.com.ar/chocolate-blanco-innovar-para-gato/p"
+  },
+  {
+   "name": "Bocaditos De Granja Golomiau",
+   "brand": "Golomiau",
+   "brand_url": "https://www.puppis.com.ar/golomiau",
+   "price": "Sin Stock",
+   "image": "https://puppis.vteximg.com.br/arquivos/ids/170735-150-150/234007.jpg?v=637189485317300000",
+   "image_url": "https://www.puppis.com.ar/bocaditos-de-granja-golomiau/p"
+  },
+  {
+   "name": "45 Gr",
+   "brand": "Golomiau",
+   "brand_url": "https://www.puppis.com.ar/golomiau",
+   "price": "Sin Stock",
+   "image": "https://puppis.vteximg.com.br/arquivos/ids/170735-150-150/234007.jpg?v=637189485317300000",
+   "image_url": "https://www.puppis.com.ar/bocaditos-de-granja-golomiau/p"
+  },
+  {
+   "name": "Bocaditos De Mar Golomiau",
+   "brand": "Golomiau",
+   "brand_url": "https://www.puppis.com.ar/golomiau",
+   "price": "Sin Stock",
+   "image": "https://puppis.vteximg.com.br/arquivos/ids/167805-150-150/234008.jpg?v=637039823707370000",
+   "image_url": "https://www.puppis.com.ar/bocaditos-de-mar-golomiau-/p"
+  },
+  {
+   "name": "45 Gr",
+   "brand": "Golomiau",
+   "brand_url": "https://www.puppis.com.ar/golomiau",
+   "price": "Sin Stock",
+   "image": "https://puppis.vteximg.com.br/arquivos/ids/167805-150-150/234008.jpg?v=637039823707370000",
+   "image_url": "https://www.puppis.com.ar/bocaditos-de-mar-golomiau-/p"
+  },
+  {
+   "name": "Tiritas Dr. Zoo De Cóctel de Camarones",
+   "brand": "Dr. Zoo",
+   "brand_url": "https://www.puppis.com.ar/dr--zoo",
+   "price": "Sin Stock",
+   "image": "https://puppis.vteximg.com.br/arquivos/ids/162811-150-150/Tiritas-Camarones.jpg?v=636537021701970000",
+   "image_url": "https://www.puppis.com.ar/tiritas-dr--zoo-de-coctel-de-camarones/p"
+  },
+  {
+   "name": "40 Gr",
+   "brand": "Dr. Zoo",
+   "brand_url": "https://www.puppis.com.ar/dr--zoo",
+   "price": "Sin Stock",
+   "image": "https://puppis.vteximg.com.br/arquivos/ids/162811-150-150/Tiritas-Camarones.jpg?v=636537021701970000",
+   "image_url": "https://www.puppis.com.ar/tiritas-dr--zoo-de-coctel-de-camarones/p"
+  }
+ ]
+}
