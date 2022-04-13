@@ -7,7 +7,7 @@ import {
   Room,
   Twitter
 } from '@material-ui/icons'
-import WhatsAppIcon from '@mui/icons-material/WhatsApp'
+// import WhatsAppIcon from '@mui/icons-material/WhatsApp'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import mercadoPago from '../../img/MPlogo.png'
@@ -70,11 +70,11 @@ const Footer = () => {
           </Link>
         </ContactItem> */}
         <ContactItem>
-          <WhatsAppIcon
+          {/* <WhatsAppIcon
             style={{ marginRight: '10px', background: 'none', border: 'none' }}
             number='+01 101 10 01'
             message='Bienvenido a Tu tienda de mascotas!!!'
-          />
+          /> */}
           +54 9 11 0000 0000
         </ContactItem>
         <ContactItem>
