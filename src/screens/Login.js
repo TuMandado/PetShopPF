@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { signInUsuario, registrarUsuario } from "../firebase/auth";
+import Products from "../components/products/Products";
 
 
 function Login() {
@@ -20,6 +21,7 @@ function Login() {
 
   return (
     <div>
+      <Products/>
       <h1>{isRegistrando ? "Registrarse" : "Iniciar sesion"}</h1>
 
       <form onSubmit={submitHandler}>
