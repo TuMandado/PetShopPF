@@ -7,13 +7,11 @@ import {
   Room,
   Twitter
 } from '@material-ui/icons'
-import WhatsAppIcon from '@mui/icons-material/WhatsApp'
+// import WhatsAppIcon from '@mui/icons-material/WhatsApp'
 import styled from 'styled-components'
-import { mobile } from '../responsive'
 import { Link } from 'react-router-dom'
-import mercadoPago from '../Img/MPlogo.png'
+import mercadoPago from '../../img/MPlogo.png'
 // import ReactWhatsapp from 'react-whatsapp';
-
 
 
 const Footer = () => {
@@ -72,12 +70,11 @@ const Footer = () => {
           </Link>
         </ContactItem> */}
         <ContactItem>
-          {/* <Phone style={{ marginRight: '10px' }} /> +01 101 10 01 */}
-          <WhatsAppIcon
+          {/* <WhatsAppIcon
             style={{ marginRight: '10px', background: 'none', border: 'none' }}
             number='+01 101 10 01'
             message='Bienvenido a Tu tienda de mascotas!!!'
-          />
+          /> */}
           +54 9 11 0000 0000
         </ContactItem>
         <ContactItem>
@@ -94,7 +91,7 @@ export default Footer
 const Container = styled.div`
   display: flex;
   background-color: #d3f7db;
-  ${mobile({ flexDirection: 'column' })}
+  
 `
 
 const Left = styled.div`
@@ -129,7 +126,7 @@ const SocialIcon = styled.div`
 const Center = styled.div`
   flex: 1;
   padding: 20px;
-  ${mobile({ display: 'none' })}
+ 
 `
 
 const Title = styled.h3`
@@ -152,7 +149,7 @@ const ListItem = styled.li`
 const Right = styled.div`
   flex: 1;
   padding: 20px;
-  ${mobile({ backgroundColor: '#fff8f8' })}
+ 
 `
 
 const ContactItem = styled.div`

@@ -1,8 +1,7 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@material-ui/icons'
 import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { sliderItems } from '../data'
-import { mobile } from '../responsive'
+import { sliderItems } from '../../data'
 import { Link } from 'react-router-dom'
 
 
@@ -18,9 +17,6 @@ const Slider = () => {
     }
   }
 
-  useEffect(() => {
-    vidRef.current.play()
-  }, [])
   return (
     <Div>
       {/* <Title> ¿ ?</Title> */}
@@ -59,7 +55,6 @@ const Div = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  ${mobile({ display: 'none' })}
   @media (max-width: 320px) {
     display: none;
    
@@ -76,9 +71,7 @@ const Container = styled.div`
   display: flex;
   position: relative;
   overflow: hidden;
-  ${mobile({
-    display: 'none'
-  })} // @media (min-width: 320px) {
+  // @media (min-width: 320px) {
   //   display: none;
   //   padding-top: 10px;
   // }
@@ -132,7 +125,6 @@ const ImgContainer = styled.div`
 const Image = styled.img`
   height: 80%;
   width: 100%;
-  ${mobile({ display: 'none' })}
 `
 const InfoContainer = styled.div`
   flex: 1;
@@ -142,7 +134,6 @@ const Title = styled.h1`
   color: #8aa290;
   font-size: 40px;
   margin: 6px;
-  ${mobile({ display: 'none' })}
 `
 
 const Desc = styled.p`
