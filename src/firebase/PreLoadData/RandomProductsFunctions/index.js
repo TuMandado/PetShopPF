@@ -24,6 +24,7 @@ const randomAnimalCategory = () => {
   return categories[randomNumber(0, categories.length)];
 };
 
+
 // Perros -> animalCategory
 //      Alimentos -> category
 //              Secos -> subcategory
@@ -58,7 +59,9 @@ const randomAnimalCategory = () => {
 //              Pipetas y Vacunas -> subcategory
 //              Medicamentos -> subcategory
 
-// Gatos -> animalCategory 
+
+// Gatos -> animalCategory
+
 //      Alimentos -> category
 //              Secos -> subcategory
 //              Húmedos -> subcategory
@@ -83,7 +86,9 @@ const randomAnimalCategory = () => {
 //              Antiparasitarios -> subcategory
 //              Antipulgas y Garrapatas -> subcategory
 
-// Peces -> animalCategory 
+
+// Peces -> animalCategory
+
 //      Alimentos -> category
 //              Agua fria -> subcategory
 //              Agua tropical -> subcategory
@@ -93,7 +98,9 @@ const randomAnimalCategory = () => {
 //              Iluminación, Adornos y Piedras -> subcategory
 //              Cuidados del Agua -> subcategory
 
-// Aves -> animalCategory 
+
+// Aves -> animalCategory
+
 //      Accesorios -> category
 //              Comederos y Bebederos -> subcategory
 //              Jaulas y Nidos -> subcategory
@@ -103,7 +110,9 @@ const randomAnimalCategory = () => {
 //      Medicamentos -> category
 //              Medicamentos -> subcategory
 
-// Reptiles -> animalCategory 
+
+// Reptiles -> animalCategory
+
 //      Alimentos -> category
 //      Accesorios de Habitat -> category
 //      Higiene -> category
@@ -112,4 +121,52 @@ const randomAnimalCategory = () => {
 //      Alimentos -> category
 //      Habitats, Conejeras y Hamsteras -> category
 //      Higiene -> category
+
 //      Juguetes y Accesorios de Habitat -> category
+
+// - Productos:
+//     created: timestamp
+//     updated: timestamp
+//     title: string
+//     price: number
+//     stock: number
+//     info: string
+//     animalCategory: [strings]
+//     category: [strings]
+//     subcategory: [strings]
+//     opiniones: [obj] {
+//             user: uid
+//             comment: string
+//             rating: number
+//             timestamp: timestamp
+//                 }
+
+import { returnAllData } from "./webScrapingJSON";
+import { uploadProduct, getAllProducts } from "../../Products";
+
+const verifyProductCollectionLength = async () => {
+  const products = await getAllProducts();
+  return products.length;
+};
+
+// Push all products to the database if the collection is empty
+export const pushAllProducts = async () => {
+  const products = await returnAllData();
+  const productsLength = await verifyProductCollectionLength();
+  if (productsLength < 2) {
+    console.log("Pushing products to database...");
+    let id = 0;
+    let stringId = "";
+    products.forEach(async (product) => {
+      console.log("Producto: ", product);
+      id++;
+      stringId = id.toString();
+      console.log("ID: ", id);
+      console.log("StringID: ", stringId);
+      await uploadProduct(product, stringId);
+    });
+    // Push one single product to the database
+    // await uploadProduct(products[0], id.toString());
+  }
+};
+
