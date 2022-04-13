@@ -25,7 +25,7 @@ const Products = () => {
     return (
       <div>
         <img src={<Loader/>} alt="loader not found" />
-        <h4>cargando..</h4>
+        <h3>cargando..</h3>
       </div>
     )
   }
