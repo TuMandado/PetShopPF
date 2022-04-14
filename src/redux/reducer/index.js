@@ -2,6 +2,7 @@ const initialState = {
   products: [],
   backup: [],
   pets: [],
+  backupPets:[],
   users: [],
   filter: [],
   details: {},
@@ -28,6 +29,14 @@ function rootReducer(state = initialState, action) {
         ...state,
         backup: action.payload,
       };
+    }
+    case 'GET_TOTAL_PETS' : {
+      return {
+        ...state,
+        pets: action.payload,
+        backupPets: action.payload
+      }
+
     }
     default:
       return state;
