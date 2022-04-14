@@ -16,10 +16,10 @@ const Product = ({title, imagen, info, price,animalCategory, category}) => {
         <p>{price}</p>
       </div>
       <div>
-        <h3> categoria de animal : {animalCategory?.map((t,i) => <div key={i}> {t} </div> )}</h3>
+        <h3> categoria de animal : {animalCategory}</h3>
       </div>
       <div>
-        <h4>categoria : {category?.map((t,i) => <div key={i}> {t}</div>)}</h4>
+        <h4>categoria : {category}</h4>
       </div>
     </div>
 
