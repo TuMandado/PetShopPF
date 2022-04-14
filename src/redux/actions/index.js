@@ -1,6 +1,6 @@
 import { async } from "@firebase/util";
-import { getAllProducts  } from "../../firebase/Products/index";
-import {getAllPets} from '../../firebase/Pets/index'
+import { getAllProducts } from "../../firebase/Products/index";
+import { getAllPets } from "../../firebase/Pets/index";
 
 export function setUser(payload) {
   return {
@@ -45,15 +45,21 @@ export function getProductName(name) {
 export function getTotalPets() {
   return async function (dispatch) {
     try {
-      let jsonPets = await getAllPets()
-      console.log('esto es jsonPets', jsonPets)
+      let jsonPets = await getAllPets();
+      console.log("esto es jsonPets", jsonPets);
       return dispatch({
-        type: 'GET_ALL_PETS',
-        payload:jsonPets
-      })
+        type: "GET_ALL_PETS",
+        payload: jsonPets,
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
+}
 
+export function setLoading(value) {
+  return {
+    type: `SET_LOADING`,
+    payload: value,
+  };
 }
