@@ -1,56 +1,62 @@
-import React from 'react'
-import { addAnalytics } from '../../../firebase/Analytics'
+import React from "react";
+import { uploadAnalytic } from "../../../firebase/Analytics";
+
 
 // React function component that wraps the component
 // When mouse is over the component, it starts counting the time.
 // When mouse is out of the component, it stops counting the time and sends the data to firebase.
-// The data is sent to firebase using the addAnalytics function.
-// addAnalytics function uses the following parameters:
+// The data is sent to firebase using the uploadAnalytic function.
+// uploadAnalytic function uses the following parameters:
 // - userId: the user id
 // - type: the type of the event
 // - productId: the product id
 // - time: the time spent on the product
 export const Analytics = (props) => {
-  const [time, setTime] = React.useState(0)
-  const [isMouseOver, setIsMouseOver] = React.useState(false)
+  const [time, setTime] = React.useState(0);
+  const [isMouseOver, setIsMouseOver] = React.useState(false);
 
   const handleMouseOver = () => {
-    setIsMouseOver(true)
-  }
+    setIsMouseOver(true);
+  };
 
   const handleMouseOut = () => {
-    setIsMouseOver(false)
-  }
+    setIsMouseOver(false);
+  };
 
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      setTime(time + 1)
-    }, 1000)
-
-    return () => {
-      clearInterval(timer)
-    }
-  }, [time])
-
+  // If mouse is over the component, start counting the time
   React.useEffect(() => {
     if (isMouseOver) {
-      const timer = setTimeout(() => {
-        addAnalytics(props.userId, props.type, props.productId, time)
-        setTime(0)
-      }, 1000)
+      const interval = setInterval(() => {
+        setTime((time) => time + 1);
+      }, 1);
+      return () => clearInterval(interval);
+    }
+  }, [isMouseOver]);
 
-      return () => {
-        clearTimeout(timer)
+  // If mouse is out of the component, reset the time and send the data to firebase
+  React.useEffect(() => {
+    if (!isMouseOver) {
+      try {
+        // Send the data to firebase and console.log something if it works. If time is 0, don't send the data.
+        if (time && time > 0) {
+          uploadAnalytic({
+            userId: props.userId,
+            type: props.type,
+            productId: props.productId,
+            time: time,
+          });
+        }
+        setTime(0);
+      } catch (error) {
+        console.log("uploadAnalytic error: ", error);
       }
     }
-  }, [isMouseOver, time])
+  }, [isMouseOver]);
 
   return (
-    <div
-      onMouseOver={handleMouseOver}
-      onMouseOut={handleMouseOut}
-    >
+    <div onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
       {props.children}
     </div>
-  )
-}
+  );
+};
+
