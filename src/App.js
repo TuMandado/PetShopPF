@@ -17,6 +17,7 @@ import Pets from "./page/pets/Pets";
 import Register from "./page/register/Register";
 import UserSettings from "./page/userSettings/UserSettings";
 import ErrorPage from "./page/error/Error";
+import { pushDataToDatabase } from "./firebase/PreLoadData";
 
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
 
@@ -26,6 +27,10 @@ const auth = getAuth(firebaseApp);
 function App() {
   var user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    pushDataToDatabase(10, 22);
+  },[])
 
   onAuthStateChanged(auth, (usuarioFirebase) => {
     if (usuarioFirebase) {
