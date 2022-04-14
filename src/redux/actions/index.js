@@ -2,9 +2,9 @@
 import { getAllProducts, getProduct } from "../../firebase/Products/index";
 import {getAllPets} from '../../firebase/Pets/index'
 
-import { async } from "@firebase/util";
-import { getAllProducts } from "../../firebase/Products/index";
-import { getAllPets } from "../../firebase/Pets/index";
+// import { async } from "@firebase/util";
+// import { getAllProducts } from "../../firebase/Products/index";
+// import { getAllPets } from "../../firebase/Pets/index";
 
 
 
