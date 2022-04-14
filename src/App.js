@@ -13,7 +13,7 @@ import ProductList from "./page/productList/ProductList";
 import Product from "./page/product/Product";
 import Cart from "./page/cart/Cart";
 import Admin from "./page/admin/Admin";
-import Pets from "./page/pets/Pets";
+import PetsPage from "./page/pets/PetsPage";
 import Register from "./page/register/Register";
 import UserSettings from "./page/userSettings/UserSettings";
 import ErrorPage from "./page/error/Error";
@@ -53,7 +53,7 @@ function App() {
           <Route exact path="/cart" element={<Cart />} />
           <Route exact path="/admin" element={<Admin />} />
           <Route exact path="/UserSettings" element={<UserSettings />} />
-          <Route exact path="/pets" element={<Pets />} />
+          <Route exact path="/pets" element={<PetsPage />} />
           <Route exact path="/register" element={<Register />} />
         </Routes>
       </Router>
