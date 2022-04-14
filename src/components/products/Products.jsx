@@ -5,6 +5,7 @@ import { getTotalProducts } from '../../redux/actions'
 import Product from '../product/Product'
 import  Loader  from '../../page/loader/Loader'
 
+
 const Products = () => {
   const dispatch = useDispatch()
   const allProducts = useSelector(state => state.backup)

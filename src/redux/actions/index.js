@@ -1,6 +1,13 @@
+
+import { getAllProducts, getProduct } from "../../firebase/Products/index";
+import {getAllPets} from '../../firebase/Pets/index'
+
 import { async } from "@firebase/util";
 import { getAllProducts } from "../../firebase/Products/index";
 import { getAllPets } from "../../firebase/Pets/index";
+
+
+
 
 export function setUser(payload) {
   return {
@@ -62,4 +69,25 @@ export function setLoading(value) {
     type: `SET_LOADING`,
     payload: value,
   };
+}
+
+export function getDetailProducts (uid) {
+  return async function(dispatch) {
+    try {
+     let jsonDetail = await getProduct(uid)
+     console.log('jsonDetail', jsonDetail)
+     return dispatch({
+       type: 'GET_DETAIL_PRODUCTS',
+       payload: jsonDetail
+     })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export function detailVacio() {
+  return {
+    type: 'DETAIL_VACIO'
+  }
 }
