@@ -38,8 +38,11 @@ const Products = () => {
         allProducts.length > 0 ? (
           allProducts.map(e => {
             return (
-              <div>
+              <div key={e.uid}>
+                <Link to={'/product/' + e.uid}>
                 <Product title={e.data.title} imagen={e.data.imagen} info= {e.data.info} price={e.data.price} animalCategory={e.data.animalCategory} category= {e.data.category}/>
+                
+                </Link>
               </div>
             )
           })
