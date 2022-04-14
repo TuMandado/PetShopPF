@@ -2,7 +2,7 @@ const initialState = {
   products: [],
   backup: [],
   pets: [],
-  backupPets:[],
+  backupPets: [],
   users: [],
   filter: [],
   details: {},
@@ -31,14 +31,14 @@ function rootReducer(state = initialState, action) {
         backup: action.payload,
       };
     }
-    case 'GET_TOTAL_PETS' : {
+    case "GET_TOTAL_PETS": {
       return {
         ...state,
         pets: action.payload,
-        backupPets: action.payload
-      }
-
+        backupPets: action.payload,
+      };
     }
+
     case 'GET_DETAIL_PRODUCTS': {
       return {
         ...state,
@@ -52,6 +52,13 @@ function rootReducer(state = initialState, action) {
         details:{}
       }
     }
+
+    case "SET_LOADING":
+      return {
+        ...state,
+        products: action.payload ? [] : state.products,
+      };
+
     default:
       return state;
   }

@@ -1,9 +1,11 @@
 import React from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import imageError from "../../assets/error_gato_png.png";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../../redux/actions/index.js";
 import styled from "styled-components";
 
-const ErrorPage = styled.div`
+const ErrorPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -12,13 +14,15 @@ const ErrorPage = styled.div`
   width: 800px;
   height: 364px;
   left: calc(50% - 596px / 2 + 30px);
-  top: 100px;
+  top: 15px;
 `;
 
 const Image = styled.img`
-  position: relative;
-  width: 400px;
-  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 380px;
+  height: 380px;
 `;
 
 const Titulo = styled.h1`
@@ -32,7 +36,7 @@ const Titulo = styled.h1`
   line-height: 140%;
   text-align: center;
   color: #151515;
-  padding-top: 22px;
+  padding-top: 15px;
 `;
 
 const Text = styled.h5`
@@ -40,11 +44,11 @@ const Text = styled.h5`
   width: 420px;
   height: 60px;
   left: 0px;
-  top: 10px;
+  top: 5px;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 22px;
   display: flex;
   align-items: center;
@@ -52,7 +56,7 @@ const Text = styled.h5`
   color: #151515;
   flex: none;
   flex-grow: 0;
-  margin: 40px 0px;
+  margin: 30px 0px;
 `;
 
 const Boton = styled.button`
@@ -70,8 +74,14 @@ const Boton = styled.button`
 `;
 
 const Error = () => {
+  const dispatch = useDispatch();
+
+  function handleGoHome() {
+    dispatch(setLoading(true));
+  }
+
   return (
-    <ErrorPage>
+    <ErrorPageContainer>
       <Image src={imageError} alt="error" />
       <Titulo>¡Ups! Algo malió sal.</Titulo>
       <Text>
@@ -79,8 +89,12 @@ const Error = () => {
         publicaciones relacionadas a ese contenido. Intenta nuevamente más
         tarde.
       </Text>
-      <Boton>Ir a home</Boton>
-    </ErrorPage>
+      <div onClick={handleGoHome()}>
+        <Link to="/">
+          <Boton>Ir a home</Boton>
+        </Link>
+      </div>
+    </ErrorPageContainer>
   );
 };
 
