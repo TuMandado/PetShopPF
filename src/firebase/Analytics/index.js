@@ -13,48 +13,39 @@ var collectionName = 'Analytics';
 //     "productId": "",
 // }
 
-// Analytics types options
-const AnalyticsTypes = {
-    "addToCart": "addToCart",
-    "removeFromCart": "removeFromCart",
-    "checkout": "checkout",
-    "purchase": "purchase",
-    "viewProduct": "viewProduct",
-    "viewCategory": "viewCategory",
-    "viewHome": "viewHome",
-}
-
-// Function that creates an id for the analytics and the verifies if it already exists. 
-// If it does, it creates a new one. 
-// If it doesn't, it returns the id.
 export const createId = async () => {
-    let id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-    let exists = await getDoc(collectionName, id);
-    if (exists) {
-        return createId();
-    } else {
-        return id;
-    }
+  var id = "";
+  var exists = true;
+  while (exists) {
+      id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      exists = await checkIfExists(id);
+  }
+  return id;
 }
 
-// Function that adds an analytics to the database with the given parameters and verifies if the right parameters are given.
-// It also creates a timestamp for the date and time.
-// Time is in milliseconds. It represents the time that the user has been on the react component.
-// The function works only if the user information is passed.
-export const addAnalytics = async (userId, type, productId, time) => {
-    if (userId && type && productId && time) {
-        let id = await createId();
-        let date = new Date();
-        let analytics = {
-            "id": id,
-            "userId": userId,
-            "date": date.toDateString(),
-            "time": Timestamp.fromMillis(time),
-            "type": type,
-            "productId": productId,
-        }
-        await setDoc(collectionName, id, analytics);
-    }
+const checkIfExists = async (id) => {
+  var exists = false;
+  await getAnalytic(id).then(doc => {
+      if (doc){
+          exists = true;
+      }
+  });
+  return exists;
+}
+
+export async function uploadAnalytic(data) {
+  let uid = await createId()
+  uid.toString()
+  await setDoc(doc(db, collectionName, uid), data);
+}
+
+export async function getAnalytic(uid) {
+  try {
+      let toReturn = await getDoc(doc(db, collectionName, uid));
+      return toReturn.data();
+  } catch (error) {
+      console.log("getAnalytic error: ", error)
+  }
 }
 
 
