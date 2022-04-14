@@ -1,6 +1,7 @@
 import React from "react";
 import { uploadAnalytic } from "../../../firebase/Analytics";
 
+
 // React function component that wraps the component
 // When mouse is over the component, it starts counting the time.
 // When mouse is out of the component, it stops counting the time and sends the data to firebase.
@@ -58,3 +59,4 @@ export const Analytics = (props) => {
     </div>
   );
 };
+
