@@ -16,8 +16,8 @@ export const createId = async () => {
 
 const checkIfExists = async (id) => {
     var exists = false;
-    await getDoc(collectionRef, id).then(doc => {
-        if (doc.exists) {
+    await getReview(id).then(doc => {
+        if (doc) {
             exists = true;
         }
     });

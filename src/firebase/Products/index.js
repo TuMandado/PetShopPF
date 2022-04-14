@@ -16,7 +16,7 @@ export const createId = async () => {
 
 const checkIfExists = async (id) => {
   var exists = false;
-  await deleteProduct(id).then(doc => {
+  await getProduct(id).then(doc => {
       if (doc){
           exists = true;
       }
