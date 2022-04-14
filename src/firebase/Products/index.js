@@ -1,5 +1,5 @@
 import {firebase, db} from '../credenciales'
-import { doc, setDoc, Timestamp, deleteDoc, getDoc, getDocs, collection } from "firebase/firestore";
+import { doc, setDoc, Timestamp, deleteDoc, getDoc, getDocs,updateDoc , collection } from "firebase/firestore";
 import { async } from '@firebase/util';
 
 var collectionRef = "Products";
@@ -76,4 +76,8 @@ export async function filterProductByAnimal(array,animal){
   } else {
     return notFound
   }
+}
+
+export async function editProduct(uid,data){
+  await updateDoc(doc(db, collectionRef, uid), data);
 }
