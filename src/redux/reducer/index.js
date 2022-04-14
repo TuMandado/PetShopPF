@@ -31,7 +31,7 @@ function rootReducer(state = initialState, action) {
         backup: action.payload,
       };
     }
-    case "GET_TOTAL_PETS": {
+    case "GET_ALL_PETS": {
       return {
         ...state,
         pets: action.payload,
