@@ -4,7 +4,28 @@ import { async } from '@firebase/util';
 
 var collectionRef = "Products";
 
-export async function uploadProduct(data, uid) {
+export const createId = async () => {
+  var id = "";
+  var exists = true;
+  while (exists) {
+      id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      exists = await checkIfExists(id);
+  }
+  return id;
+}
+
+const checkIfExists = async (id) => {
+  var exists = false;
+  await getDoc(collectionRef, id).then(doc => {
+      if (doc.exists) {
+          exists = true;
+      }
+  });
+  return exists;
+}
+
+export async function uploadProduct(data) {
+    let uid = createId();
     await setDoc(doc(db, collectionRef, uid), data);
   }
 
