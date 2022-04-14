@@ -16,8 +16,8 @@ export const createId = async () => {
 
 const checkIfExists = async (id) => {
   var exists = false;
-  await getDoc(collectionRef, id).then(doc => {
-      if (doc.exists) {
+  await deleteProduct(id).then(doc => {
+      if (doc){
           exists = true;
       }
   });
@@ -25,9 +25,10 @@ const checkIfExists = async (id) => {
 }
 
 export async function uploadProduct(data) {
-    let uid = createId();
-    await setDoc(doc(db, collectionRef, uid), data);
-  }
+  let uid = await createId()
+  uid.toString()
+  await setDoc(doc(db, collectionRef, uid), data);
+}
 
 export async function deleteProduct(uid) {
     await deleteDoc(doc(db, collectionRef, uid));
