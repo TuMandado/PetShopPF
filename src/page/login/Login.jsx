@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { signInUsuario, registrarUsuario } from "../../firebase/auth";
-
+import styled from "styled-components";
 
 const Login = () => {
-  
   const [isRegistrando, setIsRegistrando] = useState(false);
 
   const submitHandler = (event) => {
@@ -21,30 +20,31 @@ const Login = () => {
 
   return (
     <div>
-      <h1>{isRegistrando ? "Registrarse" : "Iniciar sesion"}</h1>
+      <div>
+        <h1>{isRegistrando ? "Registrarse" : "Iniciar sesion"}</h1>
+        <form onSubmit={submitHandler}>
+          <label>
+            Email:
+            <input type="email" id="email" />
+          </label>
 
-      <form onSubmit={submitHandler}>
-        <label>
-          Email:
-          <input type="email" id="email" />
-        </label>
+          <label>
+            Password:
+            <input type="password" id="password" />
+          </label>
 
-        <label>
-          Password:
-          <input type="password" id="password" />
-        </label>
+          <input
+            type="submit"
+            value={isRegistrando ? "Registrar" : "Iniciar sesion"}
+          />
+        </form>
 
-        <input
-          type="submit"
-          value={isRegistrando ? "Registrar" : "Iniciar sesion"}
-        />
-      </form>
-
-      <button onClick={() => setIsRegistrando(!isRegistrando)}>
-        {isRegistrando ? "Ya tengo un cuenta" : "Quiero registrarme"}
-      </button>
+        <button onClick={() => setIsRegistrando(!isRegistrando)}>
+          {isRegistrando ? "Ya tengo un cuenta" : "Quiero registrarme"}
+        </button>
+      </div>
     </div>
   );
-}
+};
 
 export default Login;
