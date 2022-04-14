@@ -6,6 +6,7 @@ const initialState = {
   users: [],
   filter: [],
   details: {},
+  backupDetail: {},
   user: null,
 };
 
@@ -37,6 +38,19 @@ function rootReducer(state = initialState, action) {
         backupPets: action.payload
       }
 
+    }
+    case 'GET_DETAIL_PRODUCTS': {
+      return {
+        ...state,
+        details: action.payload,
+        backupDetail: action.payload
+      }
+    }
+    case 'DETAIL_VACIO' : {
+      return {
+        ...state,
+        details:{}
+      }
     }
     default:
       return state;
