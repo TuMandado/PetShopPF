@@ -3,6 +3,8 @@ import { useDispatch , useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
 import { getTotalPets } from '../../redux/actions'
 import Pet from '../pet/Pet'
+import { Loader } from '../../page/loader/Loader'
+import {Link} from 'react-router-dom'
 
 const Pets = () => {
     const dispatch = useDispatch()
@@ -23,6 +25,7 @@ const Pets = () => {
     if(loader) {
         return ( 
             <div>
+                <Loader/>
                 <h3>Cargando...</h3>
             </div>
         )
@@ -44,7 +47,14 @@ const Pets = () => {
                         <h1>Error, no hay datos</h1>
                     </div>
                 )
+                
             }
+            <div>
+                <Link to='/'>
+                     <button>Volver al Home</button>
+                </Link>
+               
+            </div>
         </div>
     )
 
