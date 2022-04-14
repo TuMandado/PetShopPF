@@ -35,7 +35,7 @@ const Pets = () => {
                     allPets.map(e => {
                         return (
                             <div>
-                                <Pet state={e.data.state} category={category.data.category} sexo={e.data.sexo} description = {e.data.description} photos= {e.data.photos}/>
+                                <Pet state={e.data.state} category={e.data.category} sexo={e.data.sexo} description = {e.data.description} photos= {e.data.photos}/>
                             </div>
                         )
                     })
