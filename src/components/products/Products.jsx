@@ -3,13 +3,14 @@ import { useDispatch , useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
 import { getTotalProducts } from '../../redux/actions'
 import Product from '../product/Product'
-import  Loader  from '../../page/loader/Loader'
+import  {Loader}  from '../../page/loader/Loader'
+import {Link} from 'react-router-dom'
 
 
 const Products = () => {
   const dispatch = useDispatch()
   const allProducts = useSelector(state => state.backup)
-  console.log(allProducts)
+  console.log('esto es allProducts', allProducts)
   const [loader, setLoader] = useState(true)
   const [error, setError] = useState(false )
 
@@ -25,7 +26,7 @@ const Products = () => {
   if(loader){
     return (
       <div>
-        {/* <Loader/> */}
+        <Loader/>
         <h3>cargando..</h3>
       </div>
     )
@@ -48,6 +49,9 @@ const Products = () => {
         </div>
       )
       } 
+      <Link to= '/'>
+         <button>Ir al Home</button>
+      </Link>
 
     </div>
   )
