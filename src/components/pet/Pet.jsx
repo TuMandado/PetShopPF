@@ -29,3 +29,5 @@ const Pet = ({state, owner, category, sexo, description, ubicacion,photos}) => {
     )
 
 }
+
+export default Pet
