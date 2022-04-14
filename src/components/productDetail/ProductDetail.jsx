@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useEffect } from 'react';
 import {Link, useParams} from 'react-router-dom'
 import { useDispatch, useSelector  } from 'react-redux';
 import {getDetailProducts, detailVacio} from '../../redux/actions'
@@ -14,9 +15,18 @@ const  ProductDetail = ()  => {
         }
     }, [dispatch,uid])
 
-    const product = useSelector(state => state.detail)
+    const product = useSelector(state => state.details)
     console.log('esto es product', product)
+
+    return (
+        <div>
+            
+        </div>
+
+    )
 
 
 
 }
+
+export default ProductDetail
