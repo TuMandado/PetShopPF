@@ -1,15 +1,43 @@
 import {firebase, db} from '../credenciales'
-import { doc, setDoc, Timestamp, deleteDoc, getDoc, getDocs, collection } from "firebase/firestore";
+import { doc, setDoc, Timestamp, deleteDoc, getDoc, getDocs, collection, updateDoc } from "firebase/firestore";
 
 var collectionRef = "Pets";
 
-export async function uploadPet(data, uid) {
-    await setDoc(doc(db, collectionRef, uid), data);
+export async function uploadPet(data) {
+    await setDoc(doc(db, collectionRef,createId()), data);
   }
 
-export async function deletePet(uid) {
+  //-- Crea el ID --//
+  export const createId = async () => {
+    var id = "";
+    var exists = true;
+    while (exists) {
+        id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        exists = await checkIfExists(id);
+    }
+    return id;
+  }
+  
+  const checkIfExists = async (id) => {
+    var exists = false;
+    await getDoc(collectionRef, id).then(doc => {
+        if (doc.exists) {
+            exists = true;
+        }
+    });
+    return exists;
+  }
+
+//--- ---//
+
+  export async function deletePet(uid) {
     await deleteDoc(doc(db, collectionRef, uid));
   }
+
+
+export async function editPet(data,uid){ // modifica datos existentes
+  await updateDoc(doc(db, collectionRef, uid),data)
+}
 
 export async function getPet(uid) {
     try {
@@ -40,11 +68,13 @@ export async function getAllCategories() {
   const querySnapshot = await getDocs(collection(db, collectionRef));
   let category = [];
   querySnapshot.forEach((doc) => {
-    category.push({
-          uid: doc.id,
-          data: doc.data().category
-      });
-    });
+    if (!category.includes(doc.data().category)){
+      category.push({
+            uid: doc.id,
+            data: doc.data().category
+        });
+    }
+  });
     
   return category;
 }
@@ -86,5 +116,4 @@ export function filterByCategory(array, Category){
   }
 
 }
-
 
