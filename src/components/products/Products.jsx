@@ -1,11 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { getTotalProducts } from '../../redux/actions';
 import Product from '../product/Product';
-import { Loader } from '../../page/loader/Loader'
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -24,25 +21,7 @@ const Products = () => {
     const navigate = useNavigate();
     const allProducts = useSelector(state => state.backup)
     console.log('esto es allProducts', allProducts)
-    const [loader, setLoader] = useState(true)
-    const [error, setError] = useState(false)
-
-    useEffect(() => {
-        dispatch(getTotalProducts())
-            .then((Response) => {
-                setLoader(false)
-            })
-            .catch(error => setError(error.message))
-    }, [dispatch])
-
-    if (loader) {
-        return (
-            <div>
-                <Loader />
-            </div>
-        )
-    }
-    
+     
     const navigateToProduct = (e) => {
         navigate(`/product/${e.currentTarget.id}`)
     }

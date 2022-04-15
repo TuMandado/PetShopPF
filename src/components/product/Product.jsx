@@ -14,6 +14,12 @@ const Container = styled.div`
     border-radius: 12px;
     margin: 0px 32px;
     margin-bottom: 4em;
+    transition: 0.25s ease;
+    &:hover {
+        transition: 0.5s ease;
+        width: 288px;
+        cursor: pointer;
+    }
 `
 
 const Image = styled.img`
@@ -79,13 +85,13 @@ const Button = styled.button`
 
 
 const Product = ({ title, imagen, info, price, animalCategory, category }) => {
-    price = price.split(',')[0]
+
     return (
         <Container>
             <Image src={imagen} alt="imagen not found" />
             <Title> {title} </Title>
             <Info>{info}</Info>
-            <Price>{price}</Price>
+            <Price>{price.split(',')[0]}</Price>
             <Button> Agregar </Button>
             {/* <div>
         <h3> Animal : {animalCategory && animalCategory?.map((t,i) => <div key={i}> {t} </div> )}</h3>
