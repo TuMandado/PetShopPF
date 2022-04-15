@@ -103,3 +103,17 @@ function sumarItems(db,localS){
     keys.forEach((el)=> finishdb.data[el] ? finishdb.data[el].cantidad = finishdb.data[el].cantidad + localS[el].cantidad : finishdb.data[el]=localS[el]);
     return finishdb
 }
+
+export async function newCart(user,data){
+    if(user){
+        await uploadCart(data)
+    }else{
+        cartLocalStorage(data)
+    }
+}
+
+////Crear funcion, juntar carritos, la ejecutaran al momento de loguear
+
+////crear funcion, editar carrito, if user, actualiza en db o en localStorage
+
+//// crear funcion, agregar item 
