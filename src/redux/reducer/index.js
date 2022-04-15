@@ -5,8 +5,8 @@ const initialState = {
   backupPets: [],
   users: [],
   filter: [],
-  details: {},
-  backupDetail: {},
+  details: [],
+  backupDetail: [],
   user: null,
 };
 

@@ -1,10 +1,16 @@
 import React from 'react'
+import styled from 'styled-components'
 
-const Product = ({title, imagen, info, price,animalCategory, category}) => {
+const MainProduct = styled.div `
+ `
+
+const Product = ({title, image, info, price,animalCategory, category}) => {
   return (
+    <MainProduct>
+
     <div>
       <div>
-        <img src={imagen} alt="imagen not found" />
+        <img src={image} alt="imagen not found" />
       </div>
       <div>
         <h3>{title}</h3>
@@ -22,6 +28,7 @@ const Product = ({title, imagen, info, price,animalCategory, category}) => {
         <h4>categoria : {category}</h4>
       </div>
     </div>
+    </MainProduct>
 
   )
 }

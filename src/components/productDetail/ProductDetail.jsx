@@ -6,21 +6,44 @@ import {getDetailProducts, detailVacio} from '../../redux/actions'
 
 const  ProductDetail = ()  => {
     const dispatch = useDispatch()
-    const {uid} = useParams()
+    const uid = useParams()
+    console.log('uid', uid)
 
     useEffect(() => {
-        dispatch(getDetailProducts(uid))
+        dispatch(getDetailProducts(uid.id))
         return function () {
             dispatch(detailVacio())
         }
     }, [dispatch,uid])
 
-    const product = useSelector(state => state.details)
+    const product = useSelector(state => state.backupDetail)
     console.log('esto es product', product)
 
     return (
         <div>
-            
+            <div>
+            <h1>{product.name}</h1>
+            </div>
+            <div>
+            <img src={product.image} alt="imagen not found" />
+            </div>
+            <div>
+            <span>{product.animalCategory}</span>
+            </div>
+            <div>
+            <p>{product.brand}</p>
+            </div>
+            <div>
+                <p>{product.price}</p>
+            </div>
+            <div>
+              <p>{product.subCategory}</p>
+            </div>
+            <div>
+                <Link to='/'>
+                <button>Ir al Home</button>                
+                </Link>
+            </div>
         </div>
 
     )

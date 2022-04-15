@@ -27,7 +27,6 @@ const Products = () => {
     return (
       <div>
         <Loader/>
-        <h3>cargando..</h3>
       </div>
     )
   }
@@ -40,7 +39,7 @@ const Products = () => {
             return (
               <div key={e.uid}>
                 <Link to={'/product/' + e.uid}>
-                <Product title={e.data.title} imagen={e.data.imagen} info= {e.data.info} price={e.data.price} animalCategory={e.data.animalCategory} category= {e.data.category}/>
+                <Product title={e.data.title} image={e.data.image} info= {e.data.info} price={e.data.price} animalCategory={e.data.animalCategory} category= {e.data.category}/>
                 
                 </Link>
               </div>
