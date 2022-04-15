@@ -1,8 +1,8 @@
-import './App.css'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import React, {useEffect, useState} from "react";
+import "./App.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 //Importamos la aplicación/credenciales
-import {firebaseApp} from "./firebase/credenciales";
+import { firebaseApp } from "./firebase/credenciales";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "./redux/actions";
 // import { doc, setDoc, Timestamp } from "firebase/firestore";
@@ -13,11 +13,11 @@ import ProductList from "./page/productList/ProductList";
 import Product from "./page/product/Product";
 import Cart from "./page/cart/Cart";
 import Admin from "./page/admin/Admin";
-import Pets from "./page/pets/Pets";
+import PetsPage from "./page/pets/PetsPage";
 import Register from "./page/register/Register";
 import UserSettings from "./page/userSettings/UserSettings";
-import Error from "./page/error/Error";
- 
+import ErrorPage from "./page/error/Error";
+
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -25,7 +25,7 @@ const auth = getAuth(firebaseApp);
 
 function App() {
   var user = useSelector((state) => state.user);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   onAuthStateChanged(auth, (usuarioFirebase) => {
     if (usuarioFirebase) {
@@ -38,22 +38,22 @@ function App() {
   // return <>{user ? <Home/> : <Login/>}</>
 
   return (
-    <div className={'App'}>
+    <div className={"App"}>
       <Router>
         <Routes>
-          <Route exact path='*' element={<Error/>} />
-          <Route exact path='/' element={user ? <Home/> : <Login/>} />
-          <Route path='/products' element={<ProductList />} />
-          <Route path='/product/:id' element={<Product />} />
-          <Route exact path='/cart' element={<Cart />} />
-          <Route exact path='/admin' element={<Admin />} />
-          <Route exact path='/UserSettings' element={<UserSettings />} />
-          <Route exact path='/pets' element={<Pets />} />
-          <Route exact path='/register' element={<Register />} />
+          <Route exact path="*" element={<ErrorPage />} />
+          <Route exact path="/" element={user ? <Home /> : <Login />} />
+          <Route path="/products" element={<ProductList />} />
+          <Route path="/product/:id" element={<Product />} />
+          <Route exact path="/cart" element={<Cart />} />
+          <Route exact path="/admin" element={<Admin />} />
+          <Route exact path="/UserSettings" element={<UserSettings />} />
+          <Route exact path="/pets" element={<PetsPage />} />
+          <Route exact path="/register" element={<Register />} />
         </Routes>
       </Router>
     </div>
-  )
+  );
 }
 
 export default App;

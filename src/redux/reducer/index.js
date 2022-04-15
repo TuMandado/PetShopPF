@@ -2,10 +2,11 @@ const initialState = {
   products: [],
   backup: [],
   pets: [],
-  backupPets:[],
+  backupPets: [],
   users: [],
   filter: [],
-  details: {},
+  details: [],
+  backupDetail: [],
   user: null,
 };
 
@@ -30,14 +31,34 @@ function rootReducer(state = initialState, action) {
         backup: action.payload,
       };
     }
-    case 'GET_TOTAL_PETS' : {
+    case "GET_ALL_PETS": {
       return {
         ...state,
         pets: action.payload,
-        backupPets: action.payload
-      }
-
+        backupPets: action.payload,
+      };
     }
+
+    case 'GET_DETAIL_PRODUCTS': {
+      return {
+        ...state,
+        details: action.payload,
+        backupDetail: action.payload
+      }
+    }
+    case 'DETAIL_VACIO' : {
+      return {
+        ...state,
+        details:{}
+      }
+    }
+
+    case "SET_LOADING":
+      return {
+        ...state,
+        products: action.payload ? [] : state.products,
+      };
+
     default:
       return state;
   }

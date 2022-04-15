@@ -1,6 +1,13 @@
-import { async } from "@firebase/util";
-import { getAllProducts  } from "../../firebase/Products/index";
+
+import { getAllProducts, getProduct } from "../../firebase/Products/index";
 import {getAllPets} from '../../firebase/Pets/index'
+
+// import { async } from "@firebase/util";
+// import { getAllProducts } from "../../firebase/Products/index";
+// import { getAllPets } from "../../firebase/Pets/index";
+
+
+
 
 export function setUser(payload) {
   return {
@@ -45,15 +52,44 @@ export function getProductName(name) {
 export function getTotalPets() {
   return async function (dispatch) {
     try {
-      let jsonPets = await getAllPets()
-      console.log('esto es jsonPets', jsonPets)
+      let jsonPets = await getAllPets();
+      console.log("esto es jsonPets", jsonPets);
       return dispatch({
-        type: 'GET_ALL_PETS',
-        payload:jsonPets
-      })
+        type: "GET_ALL_PETS",
+        payload: jsonPets,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function setLoading(value) {
+  return {
+    type: `SET_LOADING`,
+    payload: value,
+  };
+}
+
+export function getDetailProducts (uid) {
+  return async function(dispatch) {
+    try {
+
+     let jsonDetail = await getProduct(uid)
+     console.log('jsonDetail', jsonDetail)
+    // console.log(getDetailProducts(uid))
+     return dispatch({
+       type: 'GET_DETAIL_PRODUCTS',
+       payload: jsonDetail
+     })
     } catch (error) {
       console.log(error)
     }
   }
+}
 
+export function detailVacio() {
+  return {
+    type: 'DETAIL_VACIO'
+  }
 }

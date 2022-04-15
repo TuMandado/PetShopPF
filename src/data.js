@@ -25,4 +25,27 @@ export const sliderItems = [
     info:'',
     bg: '#92C064'
   },
+];
+
+export const categories = [
+  {
+    id: 1,
+    img: "https://as01.epimg.net/diarioas/imagenes/2021/11/07/actualidad/1636307686_778477_1636307902_noticia_normal_recorte1.jpg",
+    title: "Perros",
+  },
+  {
+    id: 2,
+    img: "https://estaticos.muyinteresante.es/media/cache/1000x460_thumb/uploads/images/gallery/60dd8da05bafe884f4c6c56c/gato-slide.jpg",
+    title: "Gatos",
+  },
+  {
+    id: 3,
+    img: "https://www.pecesdeacuarios.net/wp-content/uploads/2018/02/peces-de-acuario-peces-marinos-pez-payaso-800x500.jpg",
+    title: "Peces",
+  },
+  {
+    id: 4,
+    img: "https://www.hogarmania.com/archivos/201710/mascotas-aves-periquito-australiano-1280x720x80xX.jpg",
+    title: "Aves",
+  },
 ]
