@@ -39,12 +39,7 @@ export const Analytics = (props) => {
       try {
         // Send the data to firebase and console.log something if it works. If time is 0, don't send the data.
         if (time && time > 0) {
-          uploadAnalytic({
-            userId: props.userId,
-            type: props.type,
-            productId: props.productId,
-            time: time,
-          });
+          uploadAnalytic(props.userId, props.type, props.productId, time);
         }
         setTime(0);
       } catch (error) {
