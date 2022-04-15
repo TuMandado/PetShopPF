@@ -116,7 +116,6 @@ export async function loginCart(user){
 export async function addItem(user,item){
     if(user){
         let cart =await cartOpen(user.uid)
-        console.log("cart",cart)
         await editCartFirebase(cart[0].uid,item)
         let now= await getCartFirebase(cart[0].uid)
         console.log("now",now)
@@ -136,8 +135,7 @@ export async function deleteItem(user,item){
     if(user){
         let cart = await cartOpen(user.uid)
         await updateDoc(doc(db, collectionRef, cart[0].uid), {...cart[0].data,[item]: deleteField()});
-        let newCart = await getCartFirebase(cart[0].uid) 
-        console.log(newCart)  
+        let newCart = await getCartFirebase(cart[0].uid)  
         return newCart
     } else{
         if(localStorage.getItem('cart')){
@@ -164,4 +162,28 @@ export async function getCart(user,uid){
             return msg
         }
     }
+}
+
+
+////modificar cantidad, db, localStore
+export async function editCart(user,item,number){
+    if(user){
+        let cart = await cartOpen(user.uid)
+        let allItems ={item: cart[0].data[item] = number}
+        await editCartFirebase(cart[0].uid,allItems)
+        let newCart = await getCartFirebase(cart[0].uid)  
+        return newCart
+    }else{
+        if(localStorage.getItem('cart')){
+            let data = JSON.parse(localStorage.getItem('cart'))
+            for(const prop in newCart){
+                if(prop===item){
+                    data[prop].cantidad = number
+                }
+            }
+            localStorage.setItem("cart",JSON.stringify(data))
+            return JSON.parse(localStorage.getItem('cart'))
+        }
+    }
+  
 }
