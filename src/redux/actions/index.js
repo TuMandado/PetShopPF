@@ -1,5 +1,5 @@
 
-import { getAllProducts, getProduct } from "../../firebase/Products/index";
+import { getAllProducts, getProduct, getAllProductsCategories, getAllProductsSubCategory, getAllProductsAnimal } from "../../firebase/Products/index";
 import {getAllPets} from '../../firebase/Pets/index'
 
 // import { async } from "@firebase/util";
@@ -92,4 +92,21 @@ export function detailVacio() {
   return {
     type: 'DETAIL_VACIO'
   }
+}
+
+export function getProductsCategories() {
+    return async function(dispatch) {
+        try {
+            const categories = await getAllProductsCategories();
+            const subcategories = await getAllProductsSubCategory();
+
+            return dispatch({
+                type: 'GET_PRODUCTS_CATEGORIES',
+                payload: {categories, subcategories}
+            })
+
+        } catch(err) {
+            console.log(err)
+        }
+    }
 }

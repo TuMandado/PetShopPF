@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Product from '../product/Product';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { getProductsCategories } from '../../redux/actions'
 
 
 const Container = styled.div`
@@ -20,8 +21,13 @@ const Products = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate();
     const allProducts = useSelector(state => state.backup)
+
     console.log('esto es allProducts', allProducts)
-     
+
+    useEffect(() => {
+        dispatch(getProductsCategories())
+    }, [])
+
     const navigateToProduct = (e) => {
         navigate(`/product/${e.currentTarget.id}`)
     }
