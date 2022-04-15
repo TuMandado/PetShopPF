@@ -33,8 +33,30 @@ const checkIfExists = async (id) => {
   return exists;
 }
 
-export async function uploadAnalytic(data) {
+export async function uploadAnalytic(
+  userId,
+  type,
+  productId,
+  time
+) {
+  // Analytics structure
+// {
+//     "id": "",
+//     "userId": "",
+//     "date: "",
+//     "time": "",
+//     "type": "",
+//     "productId": "",
+// }
+  let date = new Date();
   let uid = await createId()
+  let data = {
+    userId: userId,
+    type: type,
+    productId: productId,
+    time: time,
+    date: date.toLocaleDateString(),
+  }
   uid.toString()
   await setDoc(doc(db, collectionName, uid), data);
 }
@@ -49,49 +71,33 @@ export async function getAnalytic(uid) {
 }
 
 
-// Function that returns an array of analitycs filtered by userId, type, productId.
-// If the userId is not given, it returns all the analytics filtered by type and productId.
-// If the type is not given, it returns all the analytics filtered by userId and productId.
-// If the productId is not given, it returns all the analytics filtered by userId and type.
-// If the userId, type and productId are not given, it returns all the analytics.
-export const getAnalytics = async (userId, type, productId) => {
-    let analytics = [];
-    let query = collection(collectionName);
-    if (userId) {
-        query = query.where("userId", "==", userId);
-    }
-    if (type) {
-        query = query.where("type", "==", type);
-    }
-    if (productId) {
-        query = query.where("productId", "==", productId);
-    }
-    let snapshot = await query.get();
-    snapshot.forEach(doc => {
-        analytics.push(doc.data());
+// Function that returns an array of all analitycs.
+export const getAllAnalytics = async () => {
+    const querySnapshot = await getDocs(collection(db, collectionName));
+    let array = [];
+    querySnapshot.forEach((doc) => {
+        array.push({
+            "id": doc.id,
+            "data": doc.data()
+        });
     });
-    return analytics;
+    return array;
 }
 
-// Function that filters a given array of analytics by a date interval.
-// It returns an array of analytics filtered by the given date interval.
-export const getAnalyticsByDate = async (analytics, startDate, endDate) => {
-    let filteredAnalytics = [];
-    analytics.forEach(analytic => {
-        if (analytic.date >= startDate && analytic.date <= endDate) {
-            filteredAnalytics.push(analytic);
-        }
-    });
-    return filteredAnalytics;
+// Function that filters a an array returned by getAllAnalytics.
+// The function filters by the userId, productId and the type of the analytic.
+export const filterAnalytics = async (array, userId, productId, type) => {
+    let filteredArray = [];
+    if(userId){
+        filteredArray = array.filter(el => el.data.userId === userId);
+    }
+    if(productId){
+        filteredArray = filteredArray.filter(el => el.data.productId === productId);
+    }
+    if(type){
+        filteredArray = filteredArray.filter(el => el.data.type === type);
+    }
+    return filteredArray;
 }
 
-// Function that sums the time of all the analytics in the given array.
-// It returns the sum of the time of all the analytics in the given array.
-export const getTotalTime = async (analytics) => {
-    let totalTime = 0;
-    analytics.forEach(analytic => {
-        totalTime += analytic.time.seconds * 1000 + analytic.time.nanoseconds / 1000000;
-    });
-    return totalTime;
-}
 
