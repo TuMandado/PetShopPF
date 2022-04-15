@@ -20,7 +20,7 @@ const Container = styled.div`
 const Products = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate();
-    const allProducts = useSelector(state => state.backup)
+    const allProducts = useSelector(state => state.clientReducer.backup)
 
     console.log('esto es allProducts', allProducts)
 
