@@ -15,7 +15,7 @@ const FooterContainer = styled.div`
 `
 
 const ProductList = () => {
-    const allProducts = useSelector(state => state.backup)
+    const allProducts = useSelector(state => state.clientReducer.backup)
 
     return (
         <Div >
