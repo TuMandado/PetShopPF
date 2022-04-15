@@ -17,6 +17,7 @@ import PetsPage from "./page/pets/PetsPage";
 import Register from "./page/register/Register";
 import UserSettings from "./page/userSettings/UserSettings";
 import ErrorPage from "./page/error/Error";
+import { getTotalProducts } from './redux/actions';
 
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
 
@@ -34,6 +35,10 @@ function App() {
       dispatch(setUser(null));
     }
   });
+  
+  useEffect(() => {
+    dispatch(getTotalProducts())
+  }, [])
 
   // return <>{user ? <Home/> : <Login/>}</>
 
