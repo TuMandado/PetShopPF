@@ -134,6 +134,11 @@ export async function deleteItem(user,item){
         let newCart = await getCart(cart.uid)   
         return newCart
     } else{
-        
+        if(localStorage.getItem('cart')){
+            let data = JSON.parse(localStorage.getItem('cart'))
+            delete data[item]
+            localStorage.setItem("cart",JSON.stringify(data))
+            return JSON.parse(localStorage.getItem('cart'))
+        }
     }
 }
