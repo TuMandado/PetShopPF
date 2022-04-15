@@ -151,7 +151,7 @@ const PriceFilterSeparator = styled.span`
 
 const Sidebar = () => {
 
-    const allProductsCategories = useSelector(state => state.productsCategories)
+    const allProductsCategories = useSelector(state => state.clientReducer.productsCategories)
 
     const [checksAnimal, setChecksAnimal] = useState({
         lizard: false,
