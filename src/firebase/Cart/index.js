@@ -97,7 +97,7 @@ export async function newCart(user,data){
 }
 
 export async function loginCart(user){
-    db = await cartOpen(user)
+    db = await cartOpen(user.uid)
     if(localStorage.getItem('cart')){
         localS = JSON.parse(localStorage.getItem('cart'))
         if(db && localS){
@@ -113,7 +113,17 @@ export async function loginCart(user){
 
 export async function addItem(user,item){
     if(user){
-
+        let cart = cartOpen(user.uid)
+        await editCartFirebase(cart.uid,item)
+        let now= getCartFirebase(cart.uid)
+        return now
+    }else{
+        if(localStorage.getItem('cart')){
+            let data = JSON.parse(localStorage.getItem('cart'))
+            data = {...data, claro}
+            localStorage.setItem("cart",JSON.stringify(data))
+            return JSON.parse(localStorage.getItem('cart'))
+        }
     }
 }
 
