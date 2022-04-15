@@ -4,7 +4,7 @@ import { async } from '@firebase/util';
 
 var collectionRef = "Reviews";
 
-export const createId = async () => {
+const createId = async () => {
     var id = "";
     var exists = true;
     while (exists) {
