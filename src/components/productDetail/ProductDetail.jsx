@@ -16,7 +16,7 @@ const  ProductDetail = ()  => {
         }
     }, [dispatch,uid])
 
-    const product = useSelector(state => state.backupDetail)
+    const product = useSelector(state => state.clientReducer.backupDetail)
     console.log('esto es product', product)
 
     return (

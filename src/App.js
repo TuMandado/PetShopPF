@@ -25,7 +25,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 const auth = getAuth(firebaseApp);
 
 function App() {
-  var user = useSelector((state) => state.user);
+  var user = useSelector((state) => state.clientReducer.user);
   const dispatch = useDispatch();
 
   onAuthStateChanged(auth, (usuarioFirebase) => {
