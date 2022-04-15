@@ -1,63 +1,50 @@
-import React from 'react'
-import { useDispatch , useSelector } from 'react-redux'
-import { useState, useEffect } from 'react'
-import { getTotalProducts } from '../../redux/actions'
-import Product from '../product/Product'
-import  {Loader}  from '../../page/loader/Loader'
-import {Link} from 'react-router-dom'
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import Product from '../product/Product';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
+
+const Container = styled.div`
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 17em;
+    padding-right: 10em;
+    justify-content: center;
+    margin-bottom: 20%;
+`;
 
 const Products = () => {
-  const dispatch = useDispatch()
-  const allProducts = useSelector(state => state.backup)
-  console.log('esto es allProducts', allProducts)
-  const [loader, setLoader] = useState(true)
-  const [error, setError] = useState(false )
+    const dispatch = useDispatch()
+    const navigate = useNavigate();
+    const allProducts = useSelector(state => state.backup)
+    console.log('esto es allProducts', allProducts)
+     
+    const navigateToProduct = (e) => {
+        navigate(`/product/${e.currentTarget.id}`)
+    }
 
-  useEffect(() => {
-    dispatch(getTotalProducts())
-    .then((Response) => {
-      setLoader(false)
-
-    })
-    .catch(error => setError (error.message))
-  }, [dispatch])
-
-  if(loader){
     return (
-      <div>
-        <Loader/>
-        <h3>cargando..</h3>
-      </div>
+        <Container>
+            {
+                allProducts.length > 0 ? (
+                    allProducts.map(e => {
+                        return (
+                            <div key={e.uid} id={e.uid} onClick={(e) => navigateToProduct(e)}>
+                                <Product title={e.data.name} imagen={e.data.image} info={e.data.info} price={e.data.price} animalCategory={e.data.animalCategory} category={e.data.subCategory} />
+                            </div>
+                        )
+                    })
+                ) : (
+                    <div>
+                        <h1>Error, no hay datos</h1>
+                    </div>
+                )
+            }
+        </Container>
     )
-  }
-
-  return (
-    <div>
-      {
-        allProducts.length > 0 ? (
-          allProducts.map(e => {
-            return (
-              <div key={e.uid}>
-                <Link to={'/product/' + e.uid}>
-                <Product title={e.data.title} imagen={e.data.imagen} info= {e.data.info} price={e.data.price} animalCategory={e.data.animalCategory} category= {e.data.category}/>
-                
-                </Link>
-              </div>
-            )
-          })
-        ): (
-        <div>
-          <h1>Error, no hay datos</h1>
-        </div>
-      )
-      } 
-      <Link to= '/'>
-         <button>Ir al Home</button>
-      </Link>
-
-    </div>
-  )
 }
 
 export default Products

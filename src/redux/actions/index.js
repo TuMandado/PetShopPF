@@ -74,8 +74,10 @@ export function setLoading(value) {
 export function getDetailProducts (uid) {
   return async function(dispatch) {
     try {
+
      let jsonDetail = await getProduct(uid)
      console.log('jsonDetail', jsonDetail)
+    // console.log(getDetailProducts(uid))
      return dispatch({
        type: 'GET_DETAIL_PRODUCTS',
        payload: jsonDetail
