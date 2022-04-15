@@ -5,6 +5,8 @@ import { getTotalProducts } from '../../redux/actions';
 import Product from '../product/Product';
 import { Loader } from '../../page/loader/Loader'
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 const Container = styled.div`
@@ -19,6 +21,7 @@ const Container = styled.div`
 
 const Products = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate();
     const allProducts = useSelector(state => state.backup)
     console.log('esto es allProducts', allProducts)
     const [loader, setLoader] = useState(true)
@@ -35,9 +38,13 @@ const Products = () => {
     if (loader) {
         return (
             <div>
-                 <Loader/>
+                <Loader />
             </div>
         )
+    }
+    
+    const navigateToProduct = (e) => {
+        navigate(`/product/${e.currentTarget.id}`)
     }
 
     return (
@@ -46,7 +53,7 @@ const Products = () => {
                 allProducts.length > 0 ? (
                     allProducts.map(e => {
                         return (
-                            <div key={e.uid}>
+                            <div key={e.uid} id={e.uid} onClick={(e) => navigateToProduct(e)}>
                                 <Product title={e.data.name} imagen={e.data.image} info={e.data.info} price={e.data.price} animalCategory={e.data.animalCategory} category={e.data.subCategory} />
                             </div>
                         )
