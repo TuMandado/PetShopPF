@@ -26,7 +26,7 @@ const checkIfExists = async (id) => {
 
 export async function uploadCart(data) {
     let uid = createId()
-    await setDoc(doc(db, collectionRef, uid), data);
+    await setDoc(doc(db, collectionRef, uid), {...data,createAt: serverTimestamp()});
   }
 
 export async function deleteCart(uid) {
@@ -56,14 +56,14 @@ export async function getAllCarts() {
 }
 
 export async function editCart(uid,data){
-    await updateDoc(doc(db, collectionRef, uid), data);
+    await updateDoc(doc(db, collectionRef, uid), {...data, updateAt: serverTimestamp()});
   }
 
 function cartLocalStorage(data){
     localStorage.setItem("cart",JSON.stringify(data))
 }
 
-export async function cartOpen(userUid){
+async function cartOpen(userUid){
     let cars = await getAllCarts()
     let open = cars.filter(el => el.data.close === false) 
     if (open.length){
@@ -74,12 +74,21 @@ export async function cartOpen(userUid){
     }
 }
 
+
+
+//Apartir de aca no miren es un monstruo, seguramente lo empiece de nuevo... otra vez
+//Pero ya me acerco a lo que quiero
+//Si lees esto esta aburrido
+//Que tengas un buen dia
+//
 // export async function newCart(user,data,uid){
 //     if (user){
 //         prevCart = cartOpen(user.uid)
 //         if (prevCart){
 //             if(localStorage.getItem('cart')){
-                
+//                 let localS = JSON.parse(localStorage.getItem('cart'))
+//                 let newCart =sumarItems(prevCart,localS)
+//                 await editCart(prevCart.uid,newCart)
 //             }
 //             editCart()
 //         }else{
@@ -88,10 +97,9 @@ export async function cartOpen(userUid){
 //     }
 // }
 
-export function sumarItems(db,localS){
+function sumarItems(db,localS){
     let finishdb = db
     let keys = Object.keys(localS)
-    keys.forEach((el)=> finishdb[el] ? finishdb[el].cantidad = finishdb[el].cantidad + localS[el].cantidad : finishdb[el]=localS[el])
-    
+    keys.forEach((el)=> finishdb.data[el] ? finishdb.data[el].cantidad = finishdb.data[el].cantidad + localS[el].cantidad : finishdb.data[el]=localS[el]);
     return finishdb
-  }
+}
