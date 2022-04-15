@@ -4,7 +4,7 @@ import { async } from '@firebase/util';
 
 var collectionRef = "Cart";
 
-export const createId = async () => {
+const createId = async () => {
     var id = "";
     var exists = true;
     while (exists) {
@@ -113,6 +113,19 @@ export async function newCart(user,data){
 }
 
 ////Crear funcion, juntar carritos, la ejecutaran al momento de loguear
+
+export async function updateCart(user){
+    db = await cartOpen(user)
+    if(localStorage.getItem('cart')){
+        localS = JSON.parse(localStorage.getItem('cart'))
+        if(db && localS){
+            let data = sumarItems(db,localS)
+            editCart(db.uid,data)
+        } else {
+            uploadCart(localS)
+        }
+    }
+}
 
 ////crear funcion, editar carrito, if user, actualiza en db o en localStorage
 
