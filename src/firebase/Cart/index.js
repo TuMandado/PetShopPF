@@ -24,16 +24,16 @@ const checkIfExists = async (id) => {
     return exists;
 }
 
-export async function uploadCart(data) {
+async function uploadCartFirebase(data) {
     let uid = createId()
     await setDoc(doc(db, collectionRef, uid), {...data,createAt: serverTimestamp()});
   }
 
-export async function deleteCart(uid) {
+export async function deleteCartFirebase(uid) {
     await deleteDoc(doc(db, collectionRef, uid));
   }
 
-export async function getCart(uid) {
+export async function getCartFirebase(uid) {
     try {
         let toReturn = await getDoc(doc(db, collectionRef, uid));
         return toReturn.data();
@@ -43,7 +43,7 @@ export async function getCart(uid) {
     }
   }
 
-export async function getAllCarts() {
+export async function getAllCartsFirebase() {
     const querySnapshot = await getDocs(collection(db, collectionRef));
     let array = [];
     querySnapshot.forEach((doc) => {
@@ -55,7 +55,7 @@ export async function getAllCarts() {
     return array;
 }
 
-export async function editCart(uid,data){
+export async function editCartFirebase(uid,data){
     await updateDoc(doc(db, collectionRef, uid), {...data, updateAt: serverTimestamp()});
   }
 
@@ -75,27 +75,11 @@ async function cartOpen(userUid){
 }
 
 
+//sigue en obras, pero ya nos estamos acercando al objetivo 
+//Un nuevo dia, un nuevo inicio
+//Tendre que hacer una documentacion de este monstruo
 
-//Apartir de aca no miren es un monstruo, seguramente lo empiece de nuevo... otra vez
-//Pero ya me acerco a lo que quiero
-//Si lees esto esta aburrido
-//Que tengas un buen dia
-//
-// export async function newCart(user,data,uid){
-//     if (user){
-//         prevCart = cartOpen(user.uid)
-//         if (prevCart){
-//             if(localStorage.getItem('cart')){
-//                 let localS = JSON.parse(localStorage.getItem('cart'))
-//                 let newCart =sumarItems(prevCart,localS)
-//                 await editCart(prevCart.uid,newCart)
-//             }
-//             editCart()
-//         }else{
-//             uploadCart()
-//         }
-//     }
-// }
+
 
 function sumarItems(db,localS){
     let finishdb = db
@@ -106,7 +90,7 @@ function sumarItems(db,localS){
 
 export async function newCart(user,data){
     if(user){
-        await uploadCart(data)
+        await uploadCartFirebase(data)
     }else{
         cartLocalStorage(data)
     }
@@ -118,13 +102,24 @@ export async function loginCart(user){
         localS = JSON.parse(localStorage.getItem('cart'))
         if(db && localS){
             let data = sumarItems(db,localS)
-            editCart(db.uid,data)
+            editCartFirebase(db.uid,data)
         } else {
-            uploadCart(localS)
+            uploadCartFirebase(localS)
         }
     }
 }
 
-////crear funcion, editar carrito, if user, actualiza en db o en localStorage
+////crear funcion, agregar item al carrito, if user, actualiza en db o en localStorage
 
-//// crear funcion, agregar item 
+export async function addItem(user,item){
+    if(user){
+
+    }
+}
+
+////crear funcion, eliminar item al carrito, if user, actualiza en db o en localStorage
+export async function deleteItem(user,item){
+    if(user){
+
+    }
+}
