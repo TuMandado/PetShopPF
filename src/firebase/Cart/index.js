@@ -1,5 +1,5 @@
 import {firebase, db} from '../credenciales'
-import { doc, setDoc, Timestamp, deleteDoc, getDoc, getDocs, updateDoc ,collection, serverTimestamp} from "firebase/firestore";
+import { doc, setDoc, Timestamp, deleteDoc, getDoc, getDocs, updateDoc ,collection, serverTimestamp, deleteField} from "firebase/firestore";
 import { async } from '@firebase/util';
 
 var collectionRef = "Cart";
@@ -79,8 +79,6 @@ async function cartOpen(userUid){
 //Un nuevo dia, un nuevo inicio
 //Tendre que hacer una documentacion de este monstruo
 
-
-
 function sumarItems(db,localS){
     let finishdb = db
     let keys = Object.keys(localS)
@@ -130,6 +128,12 @@ export async function addItem(user,item){
 ////crear funcion, eliminar item al carrito, if user, actualiza en db o en localStorage
 export async function deleteItem(user,item){
     if(user){
-
+        let cart = cartOpen(user.uid)
+        let data = await getCart(cart.uid)
+        await updateDoc(doc(db, collectionRef, uid), {...data,[item]: deleteField()});
+        let newCart = await getCart(cart.uid)   
+        return newCart
+    } else{
+        
     }
 }
