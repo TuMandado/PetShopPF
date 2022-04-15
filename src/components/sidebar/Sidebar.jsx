@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 import star from './stars'
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+
 
 const Div = styled.div`
 `
 
 const Container = styled.div`
-    height: 100%;
     width: 16em;
     position: absolute;
     top: 0;
@@ -39,6 +40,33 @@ const Li = styled.li`
     line-height: 19px;
     color: #151515;
     margin-left: 40px;
+    position: relative;
+    transition: 0.1s ease;
+    margin-bottom: 0.3em;
+    &:hover {
+        color: #0ACF83;
+        cursor: pointer;
+        font-weight: 600;
+        transition: 0.1s ease;
+    }
+`
+
+const QuantitySpan = styled.span`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 0;
+    background: #F4F8EC;
+    border-radius: 12px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 18px;
+    color: #0ACF83;
+    padding: 0px 8px;
 `
 
 const Checkbox = styled.input`
@@ -122,6 +150,9 @@ const PriceFilterSeparator = styled.span`
 
 
 const Sidebar = () => {
+
+    const allProductsCategories = useSelector(state => state.productsCategories)
+
     const [checksAnimal, setChecksAnimal] = useState({
         lizard: false,
         rodent: false,
@@ -141,13 +172,13 @@ const Sidebar = () => {
     })
 
     // const [offset, setOffset] = useState(0);
-    
+
     // useEffect(() => {
     //     const onScroll = () => setOffset(window.pageYOffset);
     //     window.addEventListener('scroll', onScroll, {passive: true});
     //     return () => window.removeEventListener('scroll', onScroll)
     // }, [])
-    
+
     // console.log(offset)
 
     const handleChecks = (e) => {
@@ -160,13 +191,18 @@ const Sidebar = () => {
         <Container>
             <H3> Categorias </H3>
             <Ul>
-                <Li> Accesorios </Li>
-                <Li> Transportadoras </Li>
-                <Li> Alimentos Secos </Li>
-                <Li> Alimentos Húmedos </Li>
+                {
+                    allProductsCategories?.map(el => {
+                        const quantityOfProducts = allProductsCategories.filter(product => product === el)
+                        return <Li>
+                            {el} <QuantitySpan> {quantityOfProducts.length} </QuantitySpan>
+                        </Li>
+                    })
+                }
             </Ul>
             <H3> Animal </H3>
             <Ul>
+
                 <Li> <Checkbox type='checkbox' value='lizard' name='Animals' onChange={(e) => handleChecks(e)} /> Reptil </Li>
                 <Li> <Checkbox type='checkbox' value='rodent' name='Animals' onChange={(e) => handleChecks(e)} /> Roedor </Li>
                 <Li> <Checkbox type='checkbox' value='dog' name='Animals' onChange={(e) => handleChecks(e)} /> Perro </Li>
@@ -200,12 +236,12 @@ const Sidebar = () => {
             </Ul>
             <H3> Precio </H3>
             <Div>
-                <PriceSpan style={{ marginRight: "24%",  marginLeft: "42px" }}>Min</PriceSpan>
+                <PriceSpan style={{ marginRight: "24%", marginLeft: "42px" }}>Min</PriceSpan>
                 <PriceSpan>Max</PriceSpan>
                 <Div>
                     <PriceFilter />
                     <PriceFilterSeparator> - </PriceFilterSeparator>
-                    <PriceFilter style={{marginLeft: 0}} />
+                    <PriceFilter style={{ marginLeft: 0 }} />
                 </Div>
             </Div>
             <Div>

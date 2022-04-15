@@ -1,5 +1,6 @@
 const initialState = {
   products: [],
+  productsCategories: [],
   backup: [],
   pets: [],
   backupPets: [],
@@ -58,6 +59,13 @@ function rootReducer(state = initialState, action) {
         ...state,
         products: action.payload ? [] : state.products,
       };
+
+      case 'GET_PRODUCTS_CATEGORIES':
+          let totalCategories = action.payload.categories.concat(action.payload.subcategories)
+          return {
+              ...state,
+              productsCategories: totalCategories
+          }
 
     default:
       return state;
