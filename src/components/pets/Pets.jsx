@@ -40,8 +40,10 @@ const MainAllCards = styled.div`
 
 const Pets = () => {
   const dispatch = useDispatch();
-  const allPets = useSelector((state) => state.backupPets);
-  // console.log("esto es allPets", allPets);
+
+  const allPets = useSelector((state) => state.clientReducer.backupPets);
+  console.log("esto es allPets", allPets);
+
 
   const [loader, setLoader] = useState(true);
   const [error, setError] = useState(false);

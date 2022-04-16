@@ -1,10 +1,8 @@
-import { getAllProducts, getProduct } from "../../firebase/Products/index";
-import {
-  getAllPets,
-  filterByOwner,
+
+import { getAllProducts, getProduct, getAllProductsCategories, getAllProductsSubCategory, getAllProductsAnimal } from "../../firebase/Products/index";
+import {getAllPets, filterByOwner,
   filterByState,
-  filterByCategory,
-} from "../../firebase/Pets/index";
+  filterByCategory} from '../../firebase/Pets/index'
 
 // import { async } from "@firebase/util";
 // import { getAllProducts } from "../../firebase/Products/index";
@@ -87,20 +85,6 @@ export function getDetailProducts(uid) {
   };
 }
 
-export function filterOwner(payload) {
-  return async function (dispatch) {
-    try {
-      let filterxOwner = await filterByOwner(payload.array, payload.Owner);
-      return dispatch({
-        type: "FILTER_PETS_BY_OWNER",
-        payload: filterxOwner,
-      });
-    } catch (error) {
-      console.log("Hubo un error al cargar este filtro => Owner");
-    }
-  };
-}
-
 export function filterState(payload) {
   return async function (dispatch) {
     try {
@@ -116,25 +100,27 @@ export function filterState(payload) {
   };
 }
 
-export function filterCategory(payload) {
-  return async function (dispatch) {
-    try {
-      let filterxCategory = await filterByCategory(
-        payload.array,
-        payload.Category
-      );
-      return dispatch({
-        type: "FILTER_PETS_BY_CATEGORY",
-        payload: filterxCategory,
-      });
-    } catch (error) {
-      console.log("Hubo un error al cargar este filtro => Category");
-    }
-  };
-}
 
 export function detailVacio() {
   return {
-    type: "DETAIL_VACIO",
-  };
+    type: 'DETAIL_VACIO'
+  }
 }
+
+export function getProductsCategories() {
+    return async function(dispatch) {
+        try {
+            const categories = await getAllProductsCategories();
+            const subcategories = await getAllProductsSubCategory();
+
+            return dispatch({
+                type: 'GET_PRODUCTS_CATEGORIES',
+                payload: {categories, subcategories}
+            })
+
+        } catch(err) {
+            console.log(err)
+        }
+    }
+}
+

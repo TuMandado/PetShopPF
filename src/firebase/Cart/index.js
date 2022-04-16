@@ -1,5 +1,5 @@
 import {firebase, db} from '../credenciales'
-import { doc, setDoc, Timestamp, deleteDoc, getDoc, getDocs, updateDoc ,collection, serverTimestamp} from "firebase/firestore";
+import { doc, setDoc, Timestamp, deleteDoc, getDoc, getDocs, updateDoc ,collection, serverTimestamp, deleteField} from "firebase/firestore";
 import { async } from '@firebase/util';
 
 var collectionRef = "Cart";
@@ -16,17 +16,18 @@ const createId = async () => {
 
 const checkIfExists = async (id) => {
     var exists = false;
-    await getDoc(collectionRef, id).then(doc => {
-        if (doc.exists) {
+    await getCartFirebase(collectionRef, id).then(doc => {
+        if (doc) {
             exists = true;
         }
     });
     return exists;
 }
 
-async function uploadCartFirebase(data) {
-    let uid = createId()
-    await setDoc(doc(db, collectionRef, uid), {...data,createAt: serverTimestamp()});
+export async function uploadCartFirebase(data) {
+    let uid = await createId()
+    uid.toString()
+    await setDoc(doc(db, collectionRef, uid), {...data,createdAt: serverTimestamp()});
   }
 
 export async function deleteCartFirebase(uid) {
@@ -57,17 +58,17 @@ export async function getAllCartsFirebase() {
 
 export async function editCartFirebase(uid,data){
     await updateDoc(doc(db, collectionRef, uid), {...data, updateAt: serverTimestamp()});
-  }
+}
 
 function cartLocalStorage(data){
     localStorage.setItem("cart",JSON.stringify(data))
 }
 
-async function cartOpen(userUid){
-    let cars = await getAllCarts()
+export async function cartOpen(userUid){
+    let cars = await getAllCartsFirebase()
     let open = cars.filter(el => el.data.close === false) 
     if (open.length){
-        let cartUser= open.filter(el => el.uid === userUid)
+        let cartUser= open.filter(el => el.data.uid === userUid)
         if(cartUser.length){
             return cartUser
         }
@@ -79,8 +80,6 @@ async function cartOpen(userUid){
 //Un nuevo dia, un nuevo inicio
 //Tendre que hacer una documentacion de este monstruo
 
-
-
 function sumarItems(db,localS){
     let finishdb = db
     let keys = Object.keys(localS)
@@ -91,14 +90,17 @@ function sumarItems(db,localS){
 export async function newCart(user,data){
     if(user){
         await uploadCartFirebase(data)
+        return "listo"
     }else{
         cartLocalStorage(data)
+        return "se fue al local"
     }
 }
 
 export async function loginCart(user){
-    db = await cartOpen(user)
+    db = await cartOpen(user.uid)
     if(localStorage.getItem('cart')){
+        let localS = []
         localS = JSON.parse(localStorage.getItem('cart'))
         if(db && localS){
             let data = sumarItems(db,localS)
@@ -113,13 +115,75 @@ export async function loginCart(user){
 
 export async function addItem(user,item){
     if(user){
-
+        let cart =await cartOpen(user.uid)
+        await editCartFirebase(cart[0].uid,item)
+        let now= await getCartFirebase(cart[0].uid)
+        console.log("now",now)
+        return now
+    }else{
+        if(localStorage.getItem('cart')){
+            let data = JSON.parse(localStorage.getItem('cart'))
+            data = {...data, item}
+            localStorage.setItem("cart",JSON.stringify(data))
+            return JSON.parse(localStorage.getItem('cart'))
+        }
     }
 }
 
-////crear funcion, eliminar item al carrito, if user, actualiza en db o en localStorage
+
 export async function deleteItem(user,item){
     if(user){
-
+        let cart = await cartOpen(user.uid)
+        await updateDoc(doc(db, collectionRef, cart[0].uid), {...cart[0].data,[item]: deleteField()});
+        let newCart = await getCartFirebase(cart[0].uid)  
+        return newCart
+    } else{
+        if(localStorage.getItem('cart')){
+            let data = JSON.parse(localStorage.getItem('cart'))
+            delete data[item]
+            localStorage.setItem("cart",JSON.stringify(data))
+            return JSON.parse(localStorage.getItem('cart'))
+        }
     }
+}
+
+//// traer carrito independientemente de de si esta en localStroage o en firebase
+
+export async function getCart(user,uid){
+    if(user){
+        let cart = await getCartFirebase(uid)
+        return cart
+    }else{
+        if(localStorage.getItem('cart')){
+            let cart = JSON.parse(localStorage.getItem('cart'))
+            return cart
+        }else{
+            let msg = {msg:'no cart created'}
+            return msg
+        }
+    }
+}
+
+
+////modificar cantidad, db, localStore
+export async function editCart(user,item,number){
+    if(user){
+        let cart = await cartOpen(user.uid)
+        let allItems ={item: cart[0].data[item] = number}
+        await editCartFirebase(cart[0].uid,allItems)
+        let newCart = await getCartFirebase(cart[0].uid)  
+        return newCart
+    }else{
+        if(localStorage.getItem('cart')){
+            let data = JSON.parse(localStorage.getItem('cart'))
+            for(const prop in newCart){
+                if(prop===item){
+                    data[prop].cantidad = number
+                }
+            }
+            localStorage.setItem("cart",JSON.stringify(data))
+            return JSON.parse(localStorage.getItem('cart'))
+        }
+    }
+  
 }

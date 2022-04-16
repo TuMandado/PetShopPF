@@ -131,7 +131,7 @@ export const NavbarPets = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
 
-  const AllProduct = useSelector((state) => state.backup);
+  const AllProduct = useSelector((state) => state.clientReducer.backup);
 
   useEffect(() => {
     dispatch(getTotalPets());
