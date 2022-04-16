@@ -1,14 +1,16 @@
+
 const initialState = {
-  products: [],
-  productsCategories: [],
-  backup: [],
-  pets: [],
-  backupPets: [],
-  users: [],
-  filter: [],
-  details: {},
-  backupDetail: {},
-  user: null,
+    products: [],
+    productsCategories: [],
+    productsAnimalCategories: [],
+    backup: [],
+    pets: [],
+    backupPets: [],
+    users: [],
+    filter: [],
+    details: {},
+    backupDetail: {},
+    user: null,
 };
 
 function clientReducer(state = initialState, action) {
