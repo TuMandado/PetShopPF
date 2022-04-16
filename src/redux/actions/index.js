@@ -1,13 +1,14 @@
-
 import { getAllProducts, getProduct } from "../../firebase/Products/index";
-import {getAllPets} from '../../firebase/Pets/index'
+import {
+  getAllPets,
+  filterByOwner,
+  filterByState,
+  filterByCategory,
+} from "../../firebase/Pets/index";
 
 // import { async } from "@firebase/util";
 // import { getAllProducts } from "../../firebase/Products/index";
 // import { getAllPets } from "../../firebase/Pets/index";
-
-
-
 
 export function setUser(payload) {
   return {
@@ -53,7 +54,7 @@ export function getTotalPets() {
   return async function (dispatch) {
     try {
       let jsonPets = await getAllPets();
-      console.log("esto es jsonPets", jsonPets);
+      // console.log("esto es jsonPets", jsonPets);
       return dispatch({
         type: "GET_ALL_PETS",
         payload: jsonPets,
@@ -71,23 +72,69 @@ export function setLoading(value) {
   };
 }
 
-export function getDetailProducts (uid) {
-  return async function(dispatch) {
+export function getDetailProducts(uid) {
+  return async function (dispatch) {
     try {
-     let jsonDetail = await getProduct(uid)
-     console.log('jsonDetail', jsonDetail)
-     return dispatch({
-       type: 'GET_DETAIL_PRODUCTS',
-       payload: jsonDetail
-     })
+      let jsonDetail = await getProduct(uid);
+      console.log("jsonDetail", jsonDetail);
+      return dispatch({
+        type: "GET_DETAIL_PRODUCTS",
+        payload: jsonDetail,
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
+}
+
+export function filterOwner(payload) {
+  return async function (dispatch) {
+    try {
+      let filterxOwner = await filterByOwner(payload.array, payload.Owner);
+      return dispatch({
+        type: "FILTER_PETS_BY_OWNER",
+        payload: filterxOwner,
+      });
+    } catch (error) {
+      console.log("Hubo un error al cargar este filtro => Owner");
+    }
+  };
+}
+
+export function filterState(payload) {
+  return async function (dispatch) {
+    try {
+      let filterPetsState = filterByState(payload.array, payload.state);
+
+      return dispatch({
+        type: "FILTER_PETS_BY_STATE",
+        payload: filterPetsState,
+      });
+    } catch (error) {
+      console.log("Hubo un error al cargar este filtro => State");
+    }
+  };
+}
+
+export function filterCategory(payload) {
+  return async function (dispatch) {
+    try {
+      let filterxCategory = await filterByCategory(
+        payload.array,
+        payload.Category
+      );
+      return dispatch({
+        type: "FILTER_PETS_BY_CATEGORY",
+        payload: filterxCategory,
+      });
+    } catch (error) {
+      console.log("Hubo un error al cargar este filtro => Category");
+    }
+  };
 }
 
 export function detailVacio() {
   return {
-    type: 'DETAIL_VACIO'
-  }
+    type: "DETAIL_VACIO",
+  };
 }

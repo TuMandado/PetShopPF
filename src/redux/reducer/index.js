@@ -5,6 +5,7 @@ const initialState = {
   backupPets: [],
   users: [],
   filter: [],
+  filterPets: [],
   details: {},
   backupDetail: {},
   user: null,
@@ -39,18 +40,25 @@ function rootReducer(state = initialState, action) {
       };
     }
 
-    case 'GET_DETAIL_PRODUCTS': {
+    case "FILTER_PETS_BY_STATE": {
+      return {
+        ...state,
+        backupPets: action.payload,
+      };
+    }
+
+    case "GET_DETAIL_PRODUCTS": {
       return {
         ...state,
         details: action.payload,
-        backupDetail: action.payload
-      }
+        backupDetail: action.payload,
+      };
     }
-    case 'DETAIL_VACIO' : {
+    case "DETAIL_VACIO": {
       return {
         ...state,
-        details:{}
-      }
+        details: {},
+      };
     }
 
     case "SET_LOADING":
