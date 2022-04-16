@@ -1,6 +1,8 @@
+
 const initialState = {
     products: [],
     productsCategories: [],
+    productsAnimalCategories: [],
     backup: [],
     pets: [],
     backupPets: [],
@@ -24,6 +26,7 @@ function clientReducer(state = initialState, action) {
                 ...state,
                 products: action.payload,
                 backup: action.payload,
+                filteredProducts: action.payload,
             };
 
         case `GET_BY_NAME`: {
@@ -60,10 +63,26 @@ function clientReducer(state = initialState, action) {
                 products: action.payload ? [] : state.products,
             };
         case 'GET_PRODUCTS_CATEGORIES':
-            let totalCategories = action.payload.categories.concat(action.payload.subcategories)
+            let totalCategories = new Set(action.payload.categories.concat(action.payload.subcategories))
+            totalCategories = Array.from(totalCategories)
             return {
                 ...state,
                 productsCategories: totalCategories
+            }
+        case "GET_ANIMAL_CATEGORIES":
+            return {
+                ...state,
+                productsAnimalCategories: action.payload
+            }
+        case "FILTER_PRODUCTS":
+            return {
+                ...state,
+                products: action.payload
+            }
+        case "DELETE_FILTERS":
+            return {
+                ...state,
+                products: state.backup
             }
         default:
             return state;

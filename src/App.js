@@ -1,6 +1,6 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 //Importamos la aplicación/credenciales
 import { firebaseApp } from "./firebase/credenciales";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import { setUser } from "./redux/actions";
 // import { doc, setDoc, Timestamp } from "firebase/firestore";
 // import { uploadPet, deletePet, getPet, getAllPets } from "./firebase/Pets";
 import Home from "./page/home/Home";
+// eslint-disable-next-line no-unused-vars
 import Login from "./page/login/Login";
 import ProductList from "./page/productList/ProductList";
 import Product from "./page/product/Product";
@@ -25,6 +26,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 const auth = getAuth(firebaseApp);
 
 function App() {
+  // eslint-disable-next-line no-unused-vars
   var user = useSelector((state) => state.clientReducer.user);
   const dispatch = useDispatch();
 
@@ -38,6 +40,7 @@ function App() {
   
   useEffect(() => {
     dispatch(getTotalProducts())
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // return <>{user ? <Home/> : <Login/>}</>

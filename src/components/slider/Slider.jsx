@@ -1,5 +1,5 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@material-ui/icons'
-import { useEffect, useRef, useState } from 'react'
+import {  useState } from 'react'
 import styled from 'styled-components'
 import { sliderItems } from '../../data'
 import { Link } from 'react-router-dom'
@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom'
 
 const Slider = () => {
   const [slideIndex, setSlideIndex] = useState(0)
-  const vidRef = useRef()
   const handleClick = direction => {
     if (direction === 'left') {
       setSlideIndex(slideIndex > 0 ? slideIndex - 1 : 2)
@@ -48,7 +47,7 @@ const Slider = () => {
   )
 }
 
-export default Slider
+export default Slider;
 
 const Div = styled.div`
   display: flex;
@@ -58,11 +57,11 @@ const Div = styled.div`
   @media (max-width: 320px) {
     display: none;
    
-  // }
+  }
   // @media (min-width: 390px) {
   //   display: none;
     
-  // }
+  //}
 `
 
 const Container = styled.div`

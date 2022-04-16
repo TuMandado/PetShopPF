@@ -13,7 +13,7 @@ const Boton = styled.button`
   width: 120px;
   height: 45px;
   position: relative;
-  ont-family: "Poppins";
+  font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
   color: #ffff;
@@ -24,7 +24,7 @@ const Boton = styled.button`
   border-radius: 8px;
   left: 157px;
   top: 10px;
-  margin-buttom: 10px;
+  margin-bottom: 10px;
 `;
 
 const MainAllCards = styled.div`
@@ -33,7 +33,6 @@ const MainAllCards = styled.div`
   place-content: left;
   grid-template-columns: repeat(3, 16em);
   margin: 18px;
-  padding:
   min-height: 68vh;
 `;
 
@@ -43,6 +42,7 @@ const Pets = () => {
   console.log("esto es allPets", allPets);
 
   const [loader, setLoader] = useState(true);
+  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState(false);
 
   useEffect(() => {
