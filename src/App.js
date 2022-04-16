@@ -39,10 +39,9 @@ function App() {
   });
 
   useEffect(() => {
-    dispatch(getTotalProducts())
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
+    dispatch(getTotalProducts());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // return <>{user ? <Home/> : <Login/>}</>
 
@@ -57,7 +56,7 @@ function App() {
           <Route path="/product/:id" element={<Product />} />
           <Route exact path="/cart" element={<Cart />} />
           <Route exact path="/admin" element={<AdminHome />} />
-          <Route exact path="/UserSettings" element={<UserSettings />} />
+          <Route exact path="/usersettings" element={<UserSettings />} />
           <Route exact path="/pets" element={<PetsPage />} />
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/login" element={<Login />} />
