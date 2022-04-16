@@ -6,6 +6,11 @@ import { Navbar } from "../navbar/Navbar";
 import { Loader } from "../../page/loader/Loader";
 import Footer from "../../components/footer/Footer";
 import { getDetailProducts, detailVacio } from "../../redux/actions";
+import styled from "styled-components";
+
+const DetailContainer = styled.div`
+  position: relative;
+`;
 
 const ProductDetail = () => {
   const dispatch = useDispatch();
@@ -39,27 +44,34 @@ const ProductDetail = () => {
     <div>
       <Navbar />
       <div>
-        <h1>{product.name}</h1>
-      </div>
-      <div>
-        <img src={product.image} alt="imagen not found" />
-      </div>
-      <div>
-        <span>{product.animalCategory}</span>
-      </div>
-      <div>
-        <p>{product.brand}</p>
-      </div>
-      <div>
-        <p>{product.price}</p>
-      </div>
-      <div>
-        <p>{product.subCategory}</p>
-      </div>
-      <div>
-        <Link to="/">
-          <button>Ir al Home</button>
-        </Link>
+        <div>
+          <div>
+            <h1>{product.name}</h1>
+          </div>
+          <div>
+            <span>{product.animalCategory}</span>
+          </div>
+          <div>
+            <p>{product.brand}</p>
+          </div>
+          <div>
+            <p>{product.price}</p>
+          </div>
+          <div>
+            <p>{product.subCategory}</p>
+          </div>
+        </div>
+        <div>
+          <img
+            src={product.image || "https://imgur.com/lhLYKao"}
+            alt="imagen"
+          />
+        </div>
+        <div>
+          <Link to="/">
+            <button>Ir al Home</button>
+          </Link>
+        </div>
       </div>
       <Footer />
     </div>
