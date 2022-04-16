@@ -1,5 +1,5 @@
-import {firebase, db} from '../credenciales'
-import { doc, setDoc, Timestamp, deleteDoc, getDoc, getDocs, collection } from "firebase/firestore";
+import { db} from '../credenciales'
+import { doc, setDoc, deleteDoc, getDoc, getDocs, collection } from "firebase/firestore";
 
 var collectionRef = "Users";
 

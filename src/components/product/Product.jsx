@@ -17,8 +17,10 @@ const Container = styled.div`
     transition: 0.25s ease;
     &:hover {
         transition: 0.5s ease;
-        width: 288px;
+        width: 290px;
         cursor: pointer;
+        margin: 0px 21px;
+        border: 1px solid #0ACF83;
     }
 `
 

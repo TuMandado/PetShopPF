@@ -2,9 +2,7 @@ import {
   Facebook,
   Instagram,
   MailOutline,
-  Whatsapp,
   Pinterest,
-  Room,
   Twitter
 } from '@material-ui/icons'
 // import WhatsAppIcon from '@mui/icons-material/WhatsApp'
