@@ -89,8 +89,7 @@ export async function newCart(user,data){
         return cart
     }else{
         cartLocalStorage(data)
-        let cart = cartOpen()
-        return cart
+        return JSON.parse(localStorage.getItem('cart'))
     }
 }
 
