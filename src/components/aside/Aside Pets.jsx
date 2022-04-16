@@ -28,6 +28,7 @@ export const AsidePets = () => {
       ...allPets,
       state: e.target.value,
     };
+    console.log(pets);
     dispatch(filterState(pets));
   }
 
