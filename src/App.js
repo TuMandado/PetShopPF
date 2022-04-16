@@ -18,7 +18,7 @@ import Register from "./page/register/Register";
 import UserSettings from "./page/userSettings/UserSettings";
 import ErrorPage from "./page/error/Error";
 import AdminHome from "./admin/pages/adminHome/AdminHome";
-import { getTotalProducts } from './redux/actions';
+import { getTotalProducts } from "./redux/actions";
 
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
 
@@ -37,11 +37,12 @@ function App() {
       dispatch(setUser(null));
     }
   });
-  
+
   useEffect(() => {
     dispatch(getTotalProducts())
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
 
   // return <>{user ? <Home/> : <Login/>}</>
 
@@ -59,6 +60,7 @@ function App() {
           <Route exact path="/UserSettings" element={<UserSettings />} />
           <Route exact path="/pets" element={<PetsPage />} />
           <Route exact path="/register" element={<Register />} />
+          <Route exact path="/login" element={<Login />} />
         </Routes>
       </Router>
     </div>
