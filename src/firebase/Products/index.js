@@ -59,7 +59,7 @@ export async function getAllProducts(search) {
     
     let products = [];
     if(search){
-      let productsFound = array.filter(el => el.data.title.toLowerCase().includes(search.toLowerCase()))
+      let productsFound = array.filter(el => el.data.name.toLowerCase().includes(search.toLowerCase()))
       if(productsFound.length){
         products = productsFound
       } else {
