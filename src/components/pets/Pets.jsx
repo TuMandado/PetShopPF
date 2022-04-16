@@ -7,6 +7,7 @@ import { Loader } from "../../page/loader/Loader";
 import { Link } from "react-router-dom";
 import NavbarPets from "../../components/navbar/Navbar Pets";
 import Footer from "../../components/footer/Footer";
+import { AsidePets } from "../../components/aside/Aside Pets";
 import styled from "styled-components";
 
 const Boton = styled.button`
@@ -38,8 +39,10 @@ const MainAllCards = styled.div`
 
 const Pets = () => {
   const dispatch = useDispatch();
+
   const allPets = useSelector((state) => state.clientReducer.backupPets);
   console.log("esto es allPets", allPets);
+
 
   const [loader, setLoader] = useState(true);
   // eslint-disable-next-line no-unused-vars
@@ -64,6 +67,7 @@ const Pets = () => {
   return (
     <div>
       <NavbarPets />
+      <AsidePets />
       <MainAllCards>
         {allPets.length > 0 ? (
           allPets.map((e) => {

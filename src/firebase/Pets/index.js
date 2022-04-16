@@ -4,11 +4,12 @@ import { doc, setDoc, deleteDoc, getDoc, getDocs, collection, updateDoc } from "
 var collectionRef = "Pets";
 
 export async function uploadPet(data) {
-    await setDoc(doc(db, collectionRef,createId()), data);
+    let uid = await createId()
+    await setDoc(doc(db, collectionRef,uid), data);
   }
 
   //-- Crea el ID --//
-  export const createId = async () => {
+  const createId = async () => {
     var id = "";
     var exists = true;
     while (exists) {
@@ -20,8 +21,8 @@ export async function uploadPet(data) {
   
   const checkIfExists = async (id) => {
     var exists = false;
-    await getDoc(collectionRef, id).then(doc => {
-        if (doc.exists) {
+    await getPet(id).then(doc => {
+        if (doc){
             exists = true;
         }
     });
