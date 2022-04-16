@@ -27,7 +27,7 @@ const checkIfExists = async (id) => {
 export async function uploadCartFirebase(data) {
     let uid = await createId()
     uid.toString()
-    await setDoc(doc(db, collectionRef, uid), {...data,createdAt: serverTimestamp()});
+    await setDoc(doc(db, collectionRef, uid), {...data,createdAt: Date()});
   }
 
 export async function deleteCartFirebase(uid) {
@@ -57,11 +57,11 @@ export async function getAllCartsFirebase() {
 }
 
 export async function editCartFirebase(uid,data){
-    await updateDoc(doc(db, collectionRef, uid), {...data, updateAt: serverTimestamp()});
+    await updateDoc(doc(db, collectionRef, uid), {...data, updateAt: Date()});
 }
 
 function cartLocalStorage(data){
-    localStorage.setItem("cart",JSON.stringify(data))
+    localStorage.setItem("cart",JSON.stringify({...data, localCreatedAt: Date()}))
 }
 
 export async function cartOpen(userUid){
@@ -75,11 +75,6 @@ export async function cartOpen(userUid){
     }
 }
 
-
-//sigue en obras, pero ya nos estamos acercando al objetivo 
-//Un nuevo dia, un nuevo inicio
-//Tendre que hacer una documentacion de este monstruo
-
 function sumarItems(db,localS){
     let finishdb = db
     let keys = Object.keys(localS)
@@ -90,10 +85,11 @@ function sumarItems(db,localS){
 export async function newCart(user,data){
     if(user){
         await uploadCartFirebase(data)
-        return "listo"
+        let cart = cartOpen()
+        return cart
     }else{
         cartLocalStorage(data)
-        return "se fue al local"
+        return JSON.parse(localStorage.getItem('cart'))
     }
 }
 
@@ -123,7 +119,7 @@ export async function addItem(user,item){
     }else{
         if(localStorage.getItem('cart')){
             let data = JSON.parse(localStorage.getItem('cart'))
-            data = {...data, item}
+            data = {...data, item, createdAt: Date()}
             localStorage.setItem("cart",JSON.stringify(data))
             return JSON.parse(localStorage.getItem('cart'))
         }
@@ -181,6 +177,7 @@ export async function editCart(user,item,number){
                     data[prop].cantidad = number
                 }
             }
+            data = {...data, item, createdAt: Date()}
             localStorage.setItem("cart",JSON.stringify(data))
             return JSON.parse(localStorage.getItem('cart'))
         }
