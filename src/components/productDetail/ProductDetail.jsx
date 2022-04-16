@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Navbar } from "../navbar/Navbar";
 import { Loader } from "../../page/loader/Loader";
+import Footer from "../../components/footer/Footer";
 import { getDetailProducts, detailVacio } from "../../redux/actions";
 
 const ProductDetail = () => {
@@ -60,6 +61,7 @@ const ProductDetail = () => {
           <button>Ir al Home</button>
         </Link>
       </div>
+      <Footer />
     </div>
   );
 };
