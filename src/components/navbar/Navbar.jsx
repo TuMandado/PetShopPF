@@ -1,5 +1,5 @@
 import React from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { getProductName, getTotalProducts } from "../../redux/actions/index";
@@ -169,12 +169,16 @@ export const Navbar = () => {
             <BtnIconLupa src={icoLupa} alt="search" />
           </BtnSearch>
           <IconsNav>
-            <BtnUser>
-              <UserIcon src={icoUser} alt="user" />
-            </BtnUser>
-            <BtnMarket>
-              <MarketIcon src={icoMarket} alt="market" />
-            </BtnMarket>
+            <Link to={"/login"}>
+              <BtnUser>
+                <UserIcon src={icoUser} alt="user" />
+              </BtnUser>
+            </Link>
+            <Link to={"/cart"}>
+              <BtnMarket>
+                <MarketIcon src={icoMarket} alt="market" />
+              </BtnMarket>
+            </Link>
           </IconsNav>
         </div>
       </NavContainer>
