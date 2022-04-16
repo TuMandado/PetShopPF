@@ -27,7 +27,7 @@ const checkIfExists = async (id) => {
 export async function uploadCartFirebase(data) {
     let uid = await createId()
     uid.toString()
-    await setDoc(doc(db, collectionRef, uid), {...data,createdAt: Date()});
+    await setDoc(doc(db, collectionRef, uid),data);
   }
 
 export async function deleteCartFirebase(uid) {
@@ -84,11 +84,22 @@ function sumarItems(db,localS){
 
 export async function newCart(user,data){
     if(user){
-        await uploadCartFirebase(data)
-        let cart = cartOpen()
-        return cart
+        let cart = {
+            userUid: user.uid,
+            createdAt: Date(),
+            close: false,
+            data
+        }
+        await uploadCartFirebase(cart)
+        let newCart = cartOpen()
+        return newCart
     }else{
-        cartLocalStorage(data)
+        cart = {
+            createdAt: Date(),
+            close: false,
+            data
+        }
+        cartLocalStorage(cart)
         return JSON.parse(localStorage.getItem('cart'))
     }
 }
@@ -101,6 +112,7 @@ export async function loginCart(user){
         if(db && localS){
             let data = sumarItems(db,localS)
             editCartFirebase(db.uid,data)
+            localStorage.clear()
         } else {
             uploadCartFirebase(localS)
         }
@@ -183,4 +195,29 @@ export async function editCart(user,item,number){
         }
     }
   
+}
+
+
+////////////////////////////////////////////////////////////////////////
+/////recibe un item
+/////se fija si hay un carrito abierto
+/////si es necesario lo crea y guarda el item ahi
+/////en caso de encontrar un carrito abierto lo mete ahi
+
+export async function addCartItem(user,item){
+    if(user){
+        let open = cartOpen(user.uid)
+        if (open){
+            addItem(user,item)
+        }else{
+            newCart(user,item)
+        }
+    }else{
+        if(localStorage.getItem('cart')){
+            addItem(user,item)
+        }else{
+            newCart(user,item)
+        }
+    }
+
 }
