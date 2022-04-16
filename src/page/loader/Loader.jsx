@@ -6,12 +6,13 @@ const LoadingPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0px;
+  padding: 12px;
   position: absolute;
   width: 710px;
   height: 364px;
   left: calc(50% - 596px / 2 + 30px);
   top: 15px;
+  margin-top: 15px;
 `;
 
 const Image = styled.img`
@@ -20,6 +21,7 @@ const Image = styled.img`
   align-items: center;
   width: 320px;
   height: 320px;
+  padding-top: 40px;
 `;
 
 const Text = styled.h3`
