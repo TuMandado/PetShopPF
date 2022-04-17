@@ -1,5 +1,5 @@
-import { getAllProducts } from "../../firebase/Products/index";
-
+import { getAllProducts, uploadProduct, getAllProductsCategories } from "../../firebase/Products/index";
+import {getAllCategory} from '../../firebase/AnimalCategory/index'
 export const GET_PRODUCTS = 'GET_PRODUCTS';
 
 
@@ -17,5 +17,36 @@ export function getTotalProducts() {
         console.log(error);
       }
     };
+  }
+
+  export function getProductCategory() {
+    return async function (dispatch) {
+      let jsonCategory = await getAllProductsCategories()
+      // console.log('esto es json category',jsonCategory)
+      return dispatch ({
+        type: 'GET_PRODUCT_CATEGORY',
+        payload: jsonCategory
+      })
+    }
+  }
+
+  export function getProductAnimalCategory() {
+    return async function (dispatch) {
+      let jsonAnimalCategory = await getAllCategory()
+      console.log('esto es json anmimalCategory',jsonAnimalCategory)
+      return dispatch ({
+        type: 'GET_ANIMAL_CATEGORY',
+        payload: jsonAnimalCategory
+      })
+    }
+  }
+
+  export function postProduct(payload) {
+    return async function(dispatch) {
+      const jsonPost = await uploadProduct(payload)
+      console.log('esto es jsonPost', jsonPost)
+      return jsonPost
+    
+    }
   }
   

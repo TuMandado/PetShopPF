@@ -1,4 +1,4 @@
-import { getAllProducts, getProduct, getAllProductsCategories, getAllProductsSubCategory, getAllProductsAnimal, filterProducts } from "../../firebase/Products/index";
+import { getAllProducts, getProduct, getAllProductsCategories, getAllProductsSubCategory, getAllProductsAnimal, filterProducts,uploadProduct} from "../../firebase/Products/index";
 import {getAllPets, filterByOwner,
   filterByState,
   filterByCategory} from '../../firebase/Pets/index'
@@ -154,3 +154,12 @@ export function filterAllProducts(array, category, animal, minPrice, maxPrice) {
         })
     }
 }
+
+// export function postProduct(payload) {
+//   return async function(dispatch) {
+//     const jsonPost = await uploadProduct(payload)
+//     console.log('esto es jsonPost', jsonPost)
+//     return jsonPost
+  
+//   }
+// }
