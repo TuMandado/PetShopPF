@@ -18,6 +18,7 @@ import Register from "./page/register/Register";
 import UserSettings from "./page/userSettings/UserSettings";
 import ErrorPage from "./page/error/Error";
 import AdminHome from "./admin/pages/adminHome/AdminHome";
+import CreatedProduct from './page/createdProduct/CreatedProduct'
 import { getTotalProducts } from "./redux/actions";
 
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
@@ -60,6 +61,7 @@ function App() {
           <Route exact path="/pets" element={<PetsPage />} />
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/login" element={<Login />} />
+          <Route exact path="/createdProduct" element={<CreatedProduct/>} />
         </Routes>
       </Router>
     </div>

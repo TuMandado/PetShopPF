@@ -21,7 +21,7 @@ export async function getAnimalCategory(uid) {
     }
   }
 
-export async function getAllAnimalCategory() {
+export async function getAllCategory() {
     const querySnapshot = await getDocs(collection(db, collectionRef));
     let array = [];
     querySnapshot.forEach((doc) => {
