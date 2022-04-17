@@ -39,7 +39,7 @@ const Sidebar = () => {
                                 Usuarios
                             </li>
                         </Link>
-                        <Link to="/products" className="link">
+                        <Link to="/adminProducts" className="link">
                             <li className="sidebarListItem">
                                 <Storefront className="sidebarIcon" />
                                 Productos
