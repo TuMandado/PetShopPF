@@ -5,6 +5,7 @@ import Product from '../product/Product';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { getProductsCategories, getAnimalCategories } from '../../redux/actions'
+import Pagination from '../../components/pagination/Pagination'
 
 
 const Container = styled.div`
@@ -44,10 +45,18 @@ const CatSleeping = styled.img`
     left: 10%;
 `
 
-const Products = ({viewMode}) => {
+
+const Products = ({ viewMode }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate();
     const allProducts = useSelector(state => state.clientReducer.products)
+
+    const [currentPage, setCurrentPage] = useState(1)
+    const [productsPerPage, setProductsPerPage] = useState(8);
+
+    const viewLastProducts = currentPage * productsPerPage;
+    const viewFirstProducts = viewLastProducts - productsPerPage;
+    const currentProducts = allProducts.slice(viewFirstProducts, viewLastProducts)
 
     useEffect(() => {
         dispatch(getProductsCategories())
@@ -59,11 +68,16 @@ const Products = ({viewMode}) => {
         if (viewMode === 'Grid') navigate(`/product/${e.currentTarget.id}`)
     }
 
+    const paged = (PageNumber) => {
+        setCurrentPage(PageNumber)
+        window.scrollTo(0, 0)
+    }
+
     return (
         <Container products={allProducts}>
             {
-                allProducts?.length && !allProducts[0].msg ? (
-                    allProducts.map(e => {
+                currentProducts?.length && !allProducts[0].msg ? (
+                    currentProducts.map(e => {
                         return (
                             <div key={e.uid} id={e.uid} onClick={(e) => navigateToProduct(e)}>
 
@@ -72,11 +86,12 @@ const Products = ({viewMode}) => {
                             </div>
                         )
                     })
-                ) : <div style={{position: "relative"}}>
+                ) : <div style={{ position: "relative" }}>
                     <Error>Lo siento, no hemos encontrado nada :(</Error>
                     <CatSleeping src='https://31.media.tumblr.com/e9c5a6eb1241c1cd3f89e12e89874c66/tumblr_mv1vm39xs51rz5dlbo1_500.gif' alt='' />
                 </div>
             }
+                <Pagination productsPerPage={productsPerPage} products={allProducts.length} paged={paged} currentPage={currentPage} />
         </Container>
     )
 }
