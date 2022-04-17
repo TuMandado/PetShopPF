@@ -23,7 +23,6 @@ import { getTotalProducts } from "./redux/actions";
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { setUserCart } from "./redux/actions/cartActions";
 const auth = getAuth(firebaseApp);
 
 function App() {
@@ -34,10 +33,8 @@ function App() {
   onAuthStateChanged(auth, (usuarioFirebase) => {
     if (usuarioFirebase) {
       dispatch(setUser(usuarioFirebase));
-      dispatch(setUserCart(usuarioFirebase));
     } else {
       dispatch(setUser(null));
-      dispatch(setUserCart(null));
     }
   });
 

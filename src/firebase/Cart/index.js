@@ -25,6 +25,7 @@ const checkIfExists = async (id) => {
 }
 
 export async function uploadCartFirebase(data) {
+    console.log("upload data",data)
     let uid = await createId()
     uid.toString()
     await setDoc(doc(db, collectionRef, uid),data);
@@ -84,17 +85,19 @@ function sumarItems(db,localS){
 
 export async function newCart(user,data){
     if(user){
+        console.log("newCart", user, data)
         let cart = {
             userUid: user.uid,
             createdAt: Date(),
             close: false,
             data
         }
+        console.log("datanewCart",data)
         await uploadCartFirebase(cart)
         let newCart = cartOpen()
         return newCart
     }else{
-        cart = {
+        let cart = {
             createdAt: Date(),
             close: false,
             data
@@ -206,10 +209,15 @@ export async function editCart(user,item,number){
 
 export async function addCartItem(user,item){
     if(user){
-        let open = cartOpen(user.uid)
+        let open = await cartOpen(user.uid)
+        console.log("open", open)
         if (open){
+            console.log("user open add",user)
+            console.log("item open add", item)
             addItem(user,item)
         }else{
+            console.log("user open close",user)
+            console.log("item open close", item)
             newCart(user,item)
         }
     }else{

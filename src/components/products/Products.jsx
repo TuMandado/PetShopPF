@@ -67,7 +67,7 @@ const Products = () => {
                     allProducts.map(e => {
                         return (
                             <div key={e.uid} id={e.uid} onClick={(e) => navigateToProduct(e)}>
-                                <Product title={e.data.name} imagen={e.data.image} info={e.data.info} price={e.data.price} animalCategory={e.data.animalCategory} category={e.data.subCategory} />
+                                <Product title={e.data.name} imagen={e.data.image} info={e.data.info} price={e.data.price} animalCategory={e.data.animalCategory} category={e.data.subCategory} id={e.uid}/>
                             </div>
                         )
                     })

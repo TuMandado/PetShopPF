@@ -1,5 +1,7 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { addItemCartFront } from "../../redux/actions/cartActions";
 
 const Container = styled.div`
   display: flex;
@@ -84,7 +86,25 @@ const Button = styled.button`
   right: 6%;
 `;
 
-const Product = ({ title, imagen, info, price, animalCategory, category }) => {
+const Product = ({ title, imagen, info, price, animalCategory, category, id }) => {
+const user = useSelector((state)=> state.clientReducer.user)
+const dispatch = useDispatch();
+
+let item={
+    user: user,  
+    item: {id: {
+                createdAt:Date(),
+                title: title,
+                cantidad: 1, 
+            }
+          }}
+
+function handleAdd(e){
+  e.preventDefault()
+  dispatch(addItemCartFront(item));
+}
+
+
   return (
     <Container>
       <Image
@@ -94,7 +114,7 @@ const Product = ({ title, imagen, info, price, animalCategory, category }) => {
       <Title> {title} </Title>
       <Info>{info}</Info>
       <Price>{price.split(",")[0]}</Price>
-      <Button> Agregar </Button>
+      <Button onClick={(e) => handleAdd(e)}> Agregar </Button>
       {/* <div>
         <h3> Animal : {animalCategory && animalCategory?.map((t,i) => <div key={i}> {t} </div> )}</h3>
       </div>
