@@ -3,16 +3,21 @@ import styled from "styled-components";
 
 
 const Container = styled.div`
-  height: 30px;
-  background-color: #92C064;
-  color: #067A4D;
+  height: 3em;
+  background: #29d9c2;
+  color: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
-  font-weight: 500;
+  font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 48px;
   padding-right: 20px;
   width: cover;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
 `;
 
 const Announcement = () => {

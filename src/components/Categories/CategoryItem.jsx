@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useNavigate } from 'react-router-dom';
 
 
 const onClickButton = (e) => {
@@ -7,29 +8,19 @@ const onClickButton = (e) => {
 }
 // categorias: Perro - Gato - Peces - Aves
 const CategoryItem = ({ item }) => {
+    const navigate = useNavigate();
+
+    const goToStore = (e) => {
+        navigate('/products')
+        window.scrollTo(0, 0)
+    }
+
+
     return (
-        <Container>
+        <Container onClick={e => goToStore(e)}>
             <Image src={item.img} />
             <Info>
-                <Title>{item.title}</Title>
-                {
-                    item.id === 1 ?
-                        <Link to='/products'>
-                           <Button onClick={onClickButton}>Tienda</Button>
-                        </Link>
-                        : item.id === 2 ? 
-                        <Link to='/products'>
-                           <Button onClick={onClickButton}>Tienda</Button>
-                        </Link> 
-                        : item.id === 3 ?
-                        <Link to='/products'>
-                          <Button onClick={onClickButton}>Tienda</Button>
-                        </Link> 
-                        : 
-                        <Link to='/products'>
-                           <Button onClick={onClickButton}>Tienda</Button>
-                        </Link> 
-                }
+                <Title> Ir a la Tienda </Title>
             </Info>
         </Container>
     );
@@ -37,20 +28,40 @@ const CategoryItem = ({ item }) => {
 
 export default CategoryItem;
 
-const Container = styled.div`
-  flex: 1;
-  margin: 3px;
-  height: 70vh;
-  position: relative;
-  border-radius: 10px;
+const Title = styled.h1`
+    font-family: 'Poppins';
+    font-style: normal;
+    font-size: 32px;
+    line-height: 48px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    color: white;
 `;
-
 const Image = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    transition: 0.3s ease;
 `;
+
+const Container = styled.div`
+    flex: 1;
+    margin: 3px;
+    height: 70vh;
+    position: relative;
+    &:hover {
+        cursor: pointer;
+    }
+    &:hover ${Image} {
+        transition: 0.3s ease;
+      filter: blur(6px);
+    }
+    &:hover ${Title} {
+        opacity: 1
+    }
+`;
+
 
 const Info = styled.div`
   position: absolute;
@@ -65,16 +76,19 @@ const Info = styled.div`
   text-align: center;
 `;
 
-const Title = styled.h1`
-    color:#f7dbd3;
-    margin-bottom: 20px;
-    
-`;
 
-const Button = styled.button`
-padding: 10px;
-font-size: 20px;
-background: #0ACF83;
-cursor: pointer;
-border-radius: 12px;
-`;
+// const Button = styled.button`
+// padding: 10px;
+// font-size: 20px;
+// background: #29d9c2;
+// cursor: pointer;
+// border: none;
+// border-radius: 12px;
+// font-family: 'Poppins';
+//   font-style: normal;
+//   font-size: 20px;
+//   line-height: 22px;
+// &:hover {
+//     color: white;
+// }
+// `;
