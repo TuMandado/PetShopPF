@@ -1,14 +1,16 @@
+import { ADD_ITEM } from "../actions/cartActions";
+
 const initialState = {
-    user: null
+    cart: {}
 }
   
   
 function cartReducer(state = initialState, action) {
     switch (action.type) {
-        case "SET_USER":
+        case ADD_ITEM:
             return {
                 ...state,
-                user: action.payload,
+                cart: action.payload,
              };
         default:
             return state;

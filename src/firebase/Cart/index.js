@@ -25,6 +25,7 @@ const checkIfExists = async (id) => {
 }
 
 export async function uploadCartFirebase(data) {
+    console.log("upload data",data)
     let uid = await createId()
     uid.toString()
     await setDoc(doc(db, collectionRef, uid),data);
@@ -57,18 +58,18 @@ export async function getAllCartsFirebase() {
 }
 
 export async function editCartFirebase(uid,data){
-    await updateDoc(doc(db, collectionRef, uid), {...data, updateAt: Date()});
+    await updateDoc(doc(db, collectionRef, uid), data);
 }
 
 function cartLocalStorage(data){
     localStorage.setItem("cart",JSON.stringify({...data, localCreatedAt: Date()}))
 }
 
-export async function cartOpen(userUid){
+export async function cartOpen(user){
     let cars = await getAllCartsFirebase()
     let open = cars.filter(el => el.data.close === false) 
     if (open.length){
-        let cartUser= open.filter(el => el.data.uid === userUid)
+        let cartUser= open.filter(el => el.data.uid === user.uid)
         if(cartUser.length){
             return cartUser
         }
@@ -88,13 +89,16 @@ export async function newCart(user,data){
             userUid: user.uid,
             createdAt: Date(),
             close: false,
-            data
         }
         await uploadCartFirebase(cart)
         let newCart = cartOpen()
+        if(newCart){
+           await addItem(user,data)
+           newCart = cartOpen()
+        }
         return newCart
     }else{
-        cart = {
+        let cart = {
             createdAt: Date(),
             close: false,
             data
@@ -126,7 +130,6 @@ export async function addItem(user,item){
         let cart =await cartOpen(user.uid)
         await editCartFirebase(cart[0].uid,item)
         let now= await getCartFirebase(cart[0].uid)
-        console.log("now",now)
         return now
     }else{
         if(localStorage.getItem('cart')){
@@ -206,7 +209,7 @@ export async function editCart(user,item,number){
 
 export async function addCartItem(user,item){
     if(user){
-        let open = cartOpen(user.uid)
+        let open = await cartOpen(user.uid)
         if (open){
             addItem(user,item)
         }else{

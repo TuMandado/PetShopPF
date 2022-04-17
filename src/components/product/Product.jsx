@@ -1,6 +1,9 @@
 import React from "react";
+
 import { useNavigate } from "react-router-dom";
+
 import styled from "styled-components";
+import { addItemCartFront } from "../../redux/actions/cartActions";
 
 const Container = styled.div`
   display: flex;
@@ -84,6 +87,7 @@ const Button = styled.button`
   bottom: 5%;
   right: 6%;
 `;
+
 
 const ListContainer = styled.div`
     display: flex;
@@ -336,6 +340,7 @@ const Product = ({ id, title, imagen, info, price, animalCategory, category, sub
           </div> */}
         </Container>
     );
+
 
 
 
