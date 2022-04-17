@@ -22,7 +22,7 @@ const DetailLeft = styled.div`
   flex-direction: column;
   align-items: flex-start;
   position: absolute;
-  width: 490px;
+  width: 520px;
   height: 659px;
   left: 375px;
   top: 140px;
@@ -49,14 +49,14 @@ const Image = styled.img`
 
 const ProductName = styled.h1`
   position: static;
-  width: 434px;
+  width: 464px;
   height: 40px;
   left: 0px;
   top: 0px;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
-  font-size: 32px;
+  font-size: 30px;
   color: #151515;
   flex-grow: 0;
   margin: 2px;
@@ -78,9 +78,9 @@ const InfoContainer = styled.div`
 const PriceAddContainer = styled.div`
   position: relative;
   display: inline;
-  width: 526px;
-  height: 70px;
-  left: 22px;
+  width: 530px;
+  height: 72px;
+  left: 10px;
   align-self: center;
   margin-top: 78px;
 `;
@@ -90,7 +90,7 @@ const Precio = styled.p`
   flex-direction: column;
   align-items: flex-start;
   position: absolute;
-  width: 101px;
+  width: 200px;
   height: 57px;
   top: 30px;
   font-family: "Poppins";
