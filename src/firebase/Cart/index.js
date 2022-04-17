@@ -65,11 +65,11 @@ function cartLocalStorage(data){
     localStorage.setItem("cart",JSON.stringify({...data, localCreatedAt: Date()}))
 }
 
-export async function cartOpen(userUid){
+export async function cartOpen(user){
     let cars = await getAllCartsFirebase()
     let open = cars.filter(el => el.data.close === false) 
     if (open.length){
-        let cartUser= open.filter(el => el.data.uid === userUid)
+        let cartUser= open.filter(el => el.data.uid === user.uid)
         if(cartUser.length){
             return cartUser
         }
@@ -129,7 +129,6 @@ export async function addItem(user,item){
         let cart =await cartOpen(user.uid)
         await editCartFirebase(cart[0].uid,item)
         let now= await getCartFirebase(cart[0].uid)
-        console.log("now",now)
         return now
     }else{
         if(localStorage.getItem('cart')){
@@ -210,14 +209,9 @@ export async function editCart(user,item,number){
 export async function addCartItem(user,item){
     if(user){
         let open = await cartOpen(user.uid)
-        console.log("open", open)
         if (open){
-            console.log("user open add",user)
-            console.log("item open add", item)
             addItem(user,item)
         }else{
-            console.log("user open close",user)
-            console.log("item open close", item)
             newCart(user,item)
         }
     }else{

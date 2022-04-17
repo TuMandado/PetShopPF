@@ -6,7 +6,7 @@ export function addItemCartFront(payload) {
     return async function (dispatch) {
         try {
             let jsonProduct = await addCartItem(payload.user,payload.item);
-            console.log("-AddCart Flag-", payload);
+            //console.log("-AddCart Flag-", payload);
             return dispatch({
                 type: ADD_ITEM,
                 payload: jsonProduct,
