@@ -58,7 +58,7 @@ export async function getAllCartsFirebase() {
 }
 
 export async function editCartFirebase(uid,data){
-    await updateDoc(doc(db, collectionRef, uid), {...data, updateAt: Date()});
+    await updateDoc(doc(db, collectionRef, uid), data);
 }
 
 function cartLocalStorage(data){
@@ -85,16 +85,17 @@ function sumarItems(db,localS){
 
 export async function newCart(user,data){
     if(user){
-        console.log("newCart", user, data)
         let cart = {
             userUid: user.uid,
             createdAt: Date(),
             close: false,
-            data
         }
-        console.log("datanewCart",data)
         await uploadCartFirebase(cart)
         let newCart = cartOpen()
+        if(newCart){
+           await addItem(user,data)
+           newCart = cartOpen()
+        }
         return newCart
     }else{
         let cart = {

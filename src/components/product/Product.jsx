@@ -92,10 +92,11 @@ const dispatch = useDispatch();
 
 let item={
     user: user,  
-    item: {id: {
+    item: {[id]: {
                 createdAt:Date(),
+                updateAt: Date(), 
                 title: title,
-                cantidad: 1, 
+                cantidad: 1,
             }
           }}
 
