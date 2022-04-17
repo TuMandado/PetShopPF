@@ -1,9 +1,9 @@
 import {
-  Facebook,
-  Instagram,
-  MailOutline,
-  Pinterest,
-  Twitter
+    Facebook,
+    Instagram,
+    MailOutline,
+    Pinterest,
+    Twitter
 } from '@material-ui/icons'
 // import WhatsAppIcon from '@mui/icons-material/WhatsApp'
 import styled from 'styled-components'
@@ -13,83 +13,88 @@ import mercadoPago from '../../img/MPlogo.png'
 
 
 const Footer = () => {
-  const onClickLink = e => {
-    window.scrollTo(0, 0)
-  }
+    const onClickLink = e => {
+        window.scrollTo(0, 0)
+    }
 
-  return (
-    <Container>
-      <Left>
-        <Logo>PETSHOP</Logo>
-        <Desc>
-          Gracias por visitar nuestra app-web
-          y contribuir a encontar o buscarle hogar a las mascotas .
-        </Desc>
-        <SocialContainer>
-          <SocialIcon color='3B5999'>
-            <Facebook />
-          </SocialIcon>
-          <SocialIcon color='E4405F'>
-            <Instagram />
-          </SocialIcon>
-          <SocialIcon color='55ACEE'>
-            <Twitter />
-          </SocialIcon>
-          <SocialIcon color='E60023'>
-            <Pinterest />
-          </SocialIcon>
-        </SocialContainer>
-      </Left>
-      <Center>
-        <Title>Links directos</Title>
-        <List>
-          <Link onClick={onClickLink} to='/' style={linkListItems}>
-            <ListItem>Home</ListItem>
-          </Link>
-          <Link onClick={onClickLink} to='/cart' style={linkListItems}>
-            <ListItem>Carro de compras</ListItem>
-          </Link>
-          <Link onClick={onClickLink} to='/pets' style={linkListItems}>
-            <ListItem>Mascotas</ListItem>
-          </Link>
-          <Link onClick={onClickLink} to='/products' style={linkListItems}>
-            <ListItem>Tienda</ListItem>
-          </Link>
-          {/* <ListItem>Mi cuenta</ListItem> */}
-          {/* <ListItem>Lista de deseos</ListItem> */}
-        </List>
-      </Center>
-      <Right>
-        <Title>Contacto</Title>
-        {/* <ContactItem>
+    return (
+        <Container>
+            <Left>
+                <Title>PETSHOP</Title>
+                <Desc>
+                    Gracias por visitar nuestra app-web
+                    y contribuir a encontrarle un hogar a las mascotas.
+                </Desc>
+                <SocialContainer>
+                    <SocialIcon color='151515'>
+                        <Facebook />
+                    </SocialIcon>
+                    <SocialIcon color='151515'>
+                        <Instagram />
+                    </SocialIcon>
+                    <SocialIcon color='151515'>
+                        <Twitter />
+                    </SocialIcon>
+                    <SocialIcon color='151515'>
+                        <Pinterest />
+                    </SocialIcon>
+                </SocialContainer>
+            </Left>
+            <Center>
+                <Title>Links directos</Title>
+                <List>
+                    <Link onClick={onClickLink} to='/' style={linkListItems}>
+                        <ListItem>Home</ListItem>
+                    </Link>
+                    <Link onClick={onClickLink} to='/cart' style={linkListItems}>
+                        <ListItem>Carro de compras</ListItem>
+                    </Link>
+                    <Link onClick={onClickLink} to='/pets' style={linkListItems}>
+                        <ListItem>Mascotas</ListItem>
+                    </Link>
+                    <Link onClick={onClickLink} to='/products' style={linkListItems}>
+                        <ListItem>Tienda</ListItem>
+                    </Link>
+                    {/* <ListItem>Mi cuenta</ListItem> */}
+                    {/* <ListItem>Lista de deseos</ListItem> */}
+                </List>
+            </Center>
+            <Right>
+                <Title>Contacto</Title>
+                {/* <ContactItem>
           <Link onClick={onClickLink} to='/mapa' style={linkListItems}>
             <Room style={{ marginRight: '10px' }} /> &nbsp; Av. 9 de Julio,
             C1043 CABA, Argentina
           </Link>
         </ContactItem> */}
-        <ContactItem>
-          {/* <WhatsAppIcon
+                <ContactItem>
+                    {/* <WhatsAppIcon
             style={{ marginRight: '10px', background: 'none', border: 'none' }}
             number='+01 101 10 01'
             message='Bienvenido a Tu tienda de mascotas!!!'
           /> */}
-          +54 9 11 0000 0000
-        </ContactItem>
-        <ContactItem>
-          <MailOutline style={{ marginRight: '10px' }} /> petShop@gmail.com
-        </ContactItem>
-        <Payment src={mercadoPago} />
-      </Right>
-    </Container>
-  )
+                    +54 9 11 0000 0000
+                </ContactItem>
+                <ContactItem>
+                    <MailOutline style={{ marginRight: '10px' }} /> petShop@gmail.com
+                </ContactItem>
+            {/* <Payment src={mercadoPago} /> */}
+            </Right>
+        </Container>
+    )
 }
 
 export default Footer
 
 const Container = styled.div`
   display: flex;
-  background-color: #d3f7db;
-  
+  background: #29d9c2;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-size: 15px;
+  line-height: 22px;
 `
 
 const Left = styled.div`
@@ -99,10 +104,8 @@ const Left = styled.div`
   padding: 20px;
 `
 
-const Logo = styled.h1``
-
 const Desc = styled.p`
-  margin: 20px 0px;
+margin-bottom: 1em;
 `
 
 const SocialContainer = styled.div`
@@ -113,7 +116,7 @@ const SocialIcon = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  color: white;
+  color: #29d9c2;
   background-color: #${props => props.color};
   display: flex;
   align-items: center;
@@ -128,7 +131,8 @@ const Center = styled.div`
 `
 
 const Title = styled.h3`
-  margin-bottom: 30px;
+  font-weight: 500;
+  margin-bottom: 1em;
 `
 
 const List = styled.ul`
@@ -140,8 +144,12 @@ const List = styled.ul`
 `
 
 const ListItem = styled.li`
-  width: 50%;
   margin-bottom: 10px;
+  width: 50%;
+  &:hover{
+    font-weight: 500;
+    color: #FFFFFF;
+  }
 `
 
 const Right = styled.div`
@@ -157,15 +165,16 @@ const ContactItem = styled.div`
 `
 
 const Payment = styled.img`
-  width: 200px;
-  border-radius: 25px;
+  height: 50%;
+  padding:0.5em;
+  border-radius: 12px;
   background-color: #fff8f8;
-  margin-right: 35%;
+
 `
 
 const linkListItems = {
-  textDecoration: 'none',
-  color: 'inherit',
-  width: '50%'
+    textDecoration: 'none',
+    color: 'inherit',
+    width: '50%'
 }
 

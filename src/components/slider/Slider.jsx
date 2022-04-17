@@ -33,7 +33,7 @@ const Slider = () => {
                     <Title>{item.title}</Title>
                     <Desc>{item.desc}</Desc>
                     <Link to='/pets'>
-                      <Button>mascotas</Button>
+                      <Button>Mascotas</Button>
                     </Link>
                   </InfoContainer>
             </Slide>
@@ -82,7 +82,7 @@ const Container = styled.div`
 const Arrow = styled.div`
   width: 50px;
   height: 50px;
-  background-color: #0ACF83;
+  background: #29d9c2;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -130,24 +130,35 @@ const InfoContainer = styled.div`
   padding: 50px;
 `
 const Title = styled.h1`
-  color: #8aa290;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
   font-size: 40px;
   margin: 6px;
 `
 
 const Desc = styled.p`
   margin: 50px 0px;
-  font-size: 20px;
-  font-weight: 500;
-  letter-spacing: 3px;
+  font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+  letter-spacing: 2px;
 `
 
 const Button = styled.button`
   padding: 10px;
   font-size: 20px;
-  background: #0ACF83;
+  background: #29d9c2;
   cursor: pointer;
   border-radius: 12px;
+  font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+    color: #FFFFFF;
   // position: absolute;
   // width: 156px;
   // height: 64px;
