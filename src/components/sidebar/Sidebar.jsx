@@ -138,9 +138,10 @@ const Container = styled.div`
     top: 0;
     left: 0;
     overflow-x: hidden;
-    padding-top: 5em;
+    padding-top: 9.5em;
     z-index: 1;
     padding-left: 1.6em;
+
 `
 
 const H3 = styled.h3`
