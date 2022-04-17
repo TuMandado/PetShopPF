@@ -1,6 +1,7 @@
 import React from "react";
 
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
 import { addItemCartFront } from "../../redux/actions/cartActions";
@@ -288,6 +289,24 @@ const Product = ({ id, title, imagen, info, price, animalCategory, category, sub
         navigate(`/product/${e.currentTarget.id}`)
     }
 
+    const user = useSelector((state)=> state.clientReducer.user)
+    const dispatch = useDispatch();
+    
+    let item={
+        user: user,
+        item: {[id]: {
+                    createdAt:Date(),
+                    updateAt: Date(), 
+                    title: title,
+                    cantidad: 1,
+                }
+              }}
+    
+    function handleAdd(e){
+      e.preventDefault()
+      dispatch(addItemCartFront(item));
+    }   
+
     if (viewMode === 'List') {
         return (
             <ListContainer>
@@ -299,7 +318,7 @@ const Product = ({ id, title, imagen, info, price, animalCategory, category, sub
                 <ListTitle> {title} </ListTitle>
                 <ListInfo>{info}</ListInfo>
                 <ListPrice>{price.split(",")[0]}</ListPrice>
-                <ListButton> Agregar </ListButton>
+                <ListButton onClick={(e) => handleAdd(e)}> Agregar </ListButton>
                 <ListDetailButton id={id} onClick={e => navigateToProductDetail(e)}> Ver Detalles {">"} </ListDetailButton>
                 <ListMainCategoriesContainer>
                     <ListMainCategorySpan> Categoria: </ListMainCategorySpan>
@@ -331,7 +350,7 @@ const Product = ({ id, title, imagen, info, price, animalCategory, category, sub
             <Title> {title} </Title>
             <Info>{info}</Info>
             <Price>{price.split(",")[0]}</Price>
-            <Button> Agregar </Button>
+            <Button onClick={(e) => handleAdd(e)}> Agregar </Button>
             {/* <div>
             <h3> Animal : {animalCategory && animalCategory?.map((t,i) => <div key={i}> {t} </div> )}</h3>
           </div>
