@@ -7,6 +7,7 @@ import { Loader } from '../../page/loader/Loader'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 
+
 const Div = styled.div`
     height: 100%;
 `
