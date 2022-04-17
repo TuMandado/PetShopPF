@@ -211,8 +211,8 @@ const ProductDetail = () => {
           />
         </ImageContainer>
         <div>
-          <Link to="/">
-            <BtnHome>Ir al Home</BtnHome>
+          <Link to="/products">
+            <BtnHome>Volver</BtnHome>
           </Link>
         </div>
       </DetailContainer>
