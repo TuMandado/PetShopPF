@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import Product from '../product/Product';
@@ -44,7 +44,7 @@ const CatSleeping = styled.img`
     left: 10%;
 `
 
-const Products = () => {
+const Products = ({viewMode}) => {
     const dispatch = useDispatch()
     const navigate = useNavigate();
     const allProducts = useSelector(state => state.clientReducer.products)
@@ -56,9 +56,8 @@ const Products = () => {
     }, [])
 
     const navigateToProduct = (e) => {
-        navigate(`/product/${e.currentTarget.id}`)
+        if (viewMode === 'Grid') navigate(`/product/${e.currentTarget.id}`)
     }
-
 
     return (
         <Container products={allProducts}>
@@ -67,7 +66,9 @@ const Products = () => {
                     allProducts.map(e => {
                         return (
                             <div key={e.uid} id={e.uid} onClick={(e) => navigateToProduct(e)}>
-                                <Product title={e.data.name} imagen={e.data.image} info={e.data.info} price={e.data.price} animalCategory={e.data.animalCategory} category={e.data.subCategory} id={e.uid}/>
+
+                                <Product title={e.data.name} imagen={e.data.image} info={e.data.info} price={e.data.price} animalCategory={e.data.animalCategory} category={e.data.category} subCategory={e.data.subCategory} viewMode={viewMode} id={e.uid} />
+
                             </div>
                         )
                     })
