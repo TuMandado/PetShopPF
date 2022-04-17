@@ -47,10 +47,10 @@ function App() {
   onAuthStateChanged(auth, (usuarioFirebase) => {
     if (usuarioFirebase) {
       dispatch(setUser(usuarioFirebase));
-      dispatch(setUserCart(usuarioFirebase));
+      // dispatch(setUserCart(usuarioFirebase));
     } else {
       dispatch(setUser(null));
-      dispatch(setUserCart(null));
+      // dispatch(setUserCart(null));
     }
   });
 
