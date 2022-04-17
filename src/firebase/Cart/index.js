@@ -25,9 +25,10 @@ const checkIfExists = async (id) => {
 }
 
 export async function uploadCartFirebase(data) {
+    console.log("upload data",data)
     let uid = await createId()
     uid.toString()
-    await setDoc(doc(db, collectionRef, uid), {...data,createdAt: serverTimestamp()});
+    await setDoc(doc(db, collectionRef, uid),data);
   }
 
 export async function deleteCartFirebase(uid) {
@@ -57,28 +58,23 @@ export async function getAllCartsFirebase() {
 }
 
 export async function editCartFirebase(uid,data){
-    await updateDoc(doc(db, collectionRef, uid), {...data, updateAt: serverTimestamp()});
+    await updateDoc(doc(db, collectionRef, uid), data);
 }
 
 function cartLocalStorage(data){
-    localStorage.setItem("cart",JSON.stringify(data))
+    localStorage.setItem("cart",JSON.stringify({...data, localCreatedAt: Date()}))
 }
 
-export async function cartOpen(userUid){
+export async function cartOpen(user){
     let cars = await getAllCartsFirebase()
     let open = cars.filter(el => el.data.close === false) 
     if (open.length){
-        let cartUser= open.filter(el => el.data.uid === userUid)
+        let cartUser= open.filter(el => el.data.uid === user.uid)
         if(cartUser.length){
             return cartUser
         }
     }
 }
-
-
-//sigue en obras, pero ya nos estamos acercando al objetivo 
-//Un nuevo dia, un nuevo inicio
-//Tendre que hacer una documentacion de este monstruo
 
 function sumarItems(db,localS){
     let finishdb = db
@@ -89,11 +85,26 @@ function sumarItems(db,localS){
 
 export async function newCart(user,data){
     if(user){
-        await uploadCartFirebase(data)
-        return "listo"
+        let cart = {
+            userUid: user.uid,
+            createdAt: Date(),
+            close: false,
+        }
+        await uploadCartFirebase(cart)
+        let newCart = cartOpen()
+        if(newCart){
+           await addItem(user,data)
+           newCart = cartOpen()
+        }
+        return newCart
     }else{
-        cartLocalStorage(data)
-        return "se fue al local"
+        let cart = {
+            createdAt: Date(),
+            close: false,
+            data
+        }
+        cartLocalStorage(cart)
+        return JSON.parse(localStorage.getItem('cart'))
     }
 }
 
@@ -105,6 +116,7 @@ export async function loginCart(user){
         if(db && localS){
             let data = sumarItems(db,localS)
             editCartFirebase(db.uid,data)
+            localStorage.clear()
         } else {
             uploadCartFirebase(localS)
         }
@@ -118,12 +130,11 @@ export async function addItem(user,item){
         let cart =await cartOpen(user.uid)
         await editCartFirebase(cart[0].uid,item)
         let now= await getCartFirebase(cart[0].uid)
-        console.log("now",now)
         return now
     }else{
         if(localStorage.getItem('cart')){
             let data = JSON.parse(localStorage.getItem('cart'))
-            data = {...data, item}
+            data = {...data, item, createdAt: Date()}
             localStorage.setItem("cart",JSON.stringify(data))
             return JSON.parse(localStorage.getItem('cart'))
         }
@@ -181,9 +192,35 @@ export async function editCart(user,item,number){
                     data[prop].cantidad = number
                 }
             }
+            data = {...data, item, createdAt: Date()}
             localStorage.setItem("cart",JSON.stringify(data))
             return JSON.parse(localStorage.getItem('cart'))
         }
     }
   
+}
+
+
+////////////////////////////////////////////////////////////////////////
+/////recibe un item
+/////se fija si hay un carrito abierto
+/////si es necesario lo crea y guarda el item ahi
+/////en caso de encontrar un carrito abierto lo mete ahi
+
+export async function addCartItem(user,item){
+    if(user){
+        let open = await cartOpen(user.uid)
+        if (open){
+            addItem(user,item)
+        }else{
+            newCart(user,item)
+        }
+    }else{
+        if(localStorage.getItem('cart')){
+            addItem(user,item)
+        }else{
+            newCart(user,item)
+        }
+    }
+
 }

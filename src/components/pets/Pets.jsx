@@ -7,13 +7,14 @@ import { Loader } from "../../page/loader/Loader";
 import { Link } from "react-router-dom";
 import NavbarPets from "../../components/navbar/Navbar Pets";
 import Footer from "../../components/footer/Footer";
+import { AsidePets } from "../../components/aside/Aside Pets";
 import styled from "styled-components";
 
 const Boton = styled.button`
   width: 120px;
   height: 45px;
   position: relative;
-  ont-family: "Poppins";
+  font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
   color: #ffff;
@@ -24,7 +25,7 @@ const Boton = styled.button`
   border-radius: 8px;
   left: 157px;
   top: 10px;
-  margin-buttom: 10px;
+  margin-bottom: 10px;
 `;
 
 const MainAllCards = styled.div`
@@ -33,16 +34,18 @@ const MainAllCards = styled.div`
   place-content: left;
   grid-template-columns: repeat(3, 16em);
   margin: 18px;
-  padding:
   min-height: 68vh;
 `;
 
 const Pets = () => {
   const dispatch = useDispatch();
-  const allPets = useSelector((state) => state.backupPets);
+
+  const allPets = useSelector((state) => state.clientReducer.backupPets);
   console.log("esto es allPets", allPets);
 
+
   const [loader, setLoader] = useState(true);
+  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -64,6 +67,7 @@ const Pets = () => {
   return (
     <div>
       <NavbarPets />
+      <AsidePets />
       <MainAllCards>
         {allPets.length > 0 ? (
           allPets.map((e) => {

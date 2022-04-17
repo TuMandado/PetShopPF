@@ -17,7 +17,8 @@ import PetsPage from "./page/pets/PetsPage";
 import Register from "./page/register/Register";
 import UserSettings from "./page/userSettings/UserSettings";
 import ErrorPage from "./page/error/Error";
-// yo import CreatedProduct from './page/createdProduct/CreatedProduct'
+import CreatedProduct from './page/createdProduct/CreatedProduct'
+
 import AdminHome from "./admin/pages/adminHome/AdminHome";
 import UserList from "./admin/pages/userList/UserList";
 import User from "./admin/pages/user/User";
@@ -30,6 +31,7 @@ import PublicPets from "./admin/pages/publicPets/PublicPets";
 import AdminSidebar from "./admin/components/adminSidebar/AdminSidebar";
 
 import { getTotalProducts } from './redux/actions';
+
 
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
 
@@ -45,10 +47,10 @@ function App() {
   onAuthStateChanged(auth, (usuarioFirebase) => {
     if (usuarioFirebase) {
       dispatch(setUser(usuarioFirebase));
-      //  yo dispatch(setUserCart(usuarioFirebase));
+      dispatch(setUserCart(usuarioFirebase));
     } else {
       dispatch(setUser(null));
-      //  yo dispatch(setUserCart(null));
+      dispatch(setUserCart(null));
     }
   });
 
@@ -74,19 +76,19 @@ function App() {
              <Route exact path="/pets" element={<PetsPage />} />
              <Route exact path="/register" element={<Register />} />
              <Route exact path="/login" element={<Login />} />
-             {/* <Route exact path="/createdProduct" element={<CreatedProduct/>} /> */}
+             {<Route exact path="/createdProduct" element={<CreatedProduct/>} />}
    
-                <Route exact path="/admin" element={<AdminHome />} />
-                <Route path="/users" element={<UserList />} />
-                <Route path="/user/:userId" element={<User />} />
-                <Route path="/newUser" element={<NewUser />} />
-                <Route path="/adminProducts" element={<AdminProductList />} />
-                <Route path="/adminProduct/:productId" element={<AdminProduct />} />
-                <Route path="/newProduct" element={<NewProduct />} />
-                <Route path="/ventas" element={<Pyments />} />
-                <Route path="/publicPets" element={<PublicPets />} />
-             </Routes>
-         </Router>
+             <Route exact path="/admin" element={<AdminHome />} />
+             <Route path="/users" element={<UserList />} />
+             <Route path="/user/:userId" element={<User />} />
+             <Route path="/newUser" element={<NewUser />} />
+             <Route path="/adminProducts" element={<AdminProductList />} />
+             <Route path="/adminProduct/:productId" element={<AdminProduct />} />
+             <Route path="/newProduct" element={<NewProduct />} />
+             <Route path="/ventas" element={<Pyments />} />
+             <Route path="/publicPets" element={<PublicPets />} />
+         </Routes>
+      </Router>
     </div>
   );
 }

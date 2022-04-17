@@ -1,5 +1,5 @@
 import React from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { getTotalPets } from "../../redux/actions";
@@ -131,7 +131,7 @@ export const NavbarPets = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
 
-  const AllProduct = useSelector((state) => state.backup);
+  const AllProduct = useSelector((state) => state.clientReducer.backup);
 
   useEffect(() => {
     dispatch(getTotalPets());
@@ -169,12 +169,16 @@ export const NavbarPets = () => {
             <BtnIconLupa src={icoLupa} alt="search" />
           </BtnSearch>
           <IconsNav>
-            <BtnUser>
-              <UserIcon src={icoUser} alt="user" />
-            </BtnUser>
-            <BtnSettings>
-              <SettingsIcon src={icoSettings} alt="market" />
-            </BtnSettings>
+            <Link to={"/login"}>
+              <BtnUser>
+                <UserIcon src={icoUser} alt="user" />
+              </BtnUser>
+            </Link>
+            <Link to={"/usersettings"}>
+              <BtnSettings>
+                <SettingsIcon src={icoSettings} alt="settings" />
+              </BtnSettings>
+            </Link>
           </IconsNav>
         </div>
       </NavContainer>
