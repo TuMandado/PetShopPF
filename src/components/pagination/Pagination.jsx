@@ -72,7 +72,7 @@ function Paged({ productsPerPage, products, paged, currentPage }) {
     return (
         <Div products={products} productsPerPage={productsPerPage} currentPage={currentPage} lastPage={pageNumber[pageNumber.length - 1]}>
             <Paginacion>
-                <Span> Pagina: </Span>
+                {pageNumber.length > 1 ? <Span> Pagina: </Span> : null}
                 {pageNumber.length > 1 ? pageNumber.map(num => <Button currentPage={currentPage} num={num} key={num} onClick={() => paged(num)}>{num}</Button>)
                     :
                     null
