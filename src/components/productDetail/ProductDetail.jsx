@@ -10,6 +10,143 @@ import styled from "styled-components";
 
 const DetailContainer = styled.div`
   position: relative;
+  height: 90%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const DetailLeft = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: absolute;
+  width: 490px;
+  height: 659px;
+  left: 375px;
+  top: 140px;
+`;
+
+const ImageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px;
+  position: absolute;
+  width: 310px;
+  height: 405px;
+  left: 976px;
+  top: 120px;
+`;
+
+const Image = styled.img`
+  position: absolute;
+  width: 310px;
+  height: 310px;
+  left: 0px;
+`;
+
+const ProductName = styled.h1`
+  position: static;
+  width: 434px;
+  height: 40px;
+  left: 0px;
+  top: 0px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 32px;
+  color: #151515;
+  flex-grow: 0;
+  margin: 2px;
+  :hover {
+    color: #0acf83;
+  }
+`;
+
+const InfoContainer = styled.div`
+  position: static;
+  width: 470px;
+  height: 51px;
+  left: 0px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+`;
+
+const PriceAddContainer = styled.div`
+  position: relative;
+  display: inline;
+  width: 526px;
+  height: 70px;
+  left: 22px;
+  align-self: center;
+  margin-top: 78px;
+`;
+
+const Precio = styled.p`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: absolute;
+  width: 101px;
+  height: 57px;
+  top: 30px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  color: #151515;
+`;
+
+const BtnAdd = styled.button`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 14px;
+  position: absolute;
+  width: 118px;
+  height: 47px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  left: 350px;
+  top: 21.5px;
+  color: #ffff;
+  background: #0acf83;
+  border: 2px solid #067a4d;
+  box-sizing: border-box;
+  border-radius: 8px;
+`;
+
+const InfoSpan = styled.p`
+  position: relative;
+  display: inline-block;
+  width: 269px;
+  height: 19px;
+  left: 0px;
+  top: 22px;
+  flex-grow: 0;
+  margin: 8px 0px;
+`;
+
+const BtnHome = styled.button`
+  width: 122px;
+  height: 48px;
+  font-size: 18px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  color: #ffff;
+  padding: 5px 5px;
+  background: #0acf83;
+  border: 2px solid #067a4d;
+  box-sizing: border-box;
+  border-radius: 8px;
+  margin-top: 11px;
+  position: relative;
 `;
 
 const ProductDetail = () => {
@@ -25,7 +162,6 @@ const ProductDetail = () => {
   }, [dispatch, uid]);
 
   const product = useSelector((state) => state.clientReducer.backupDetail);
-  console.log("esto es product", product);
 
   if (!product.name) {
     return (
@@ -43,37 +179,45 @@ const ProductDetail = () => {
   return (
     <div>
       <Navbar />
-      <div>
-        <div>
+      <DetailContainer>
+        <DetailLeft>
           <div>
-            <h1>{product.name}</h1>
+            <ProductName>{product.name}</ProductName>
           </div>
-          <div>
-            <span>{product.animalCategory}</span>
-          </div>
-          <div>
-            <p>{product.brand}</p>
-          </div>
-          <div>
-            <p>{product.price}</p>
-          </div>
-          <div>
-            <p>{product.subCategory}</p>
-          </div>
-        </div>
-        <div>
-          <img
+          <InfoContainer>
+            <div>
+              <InfoSpan>Animal: {product.animalCategory}</InfoSpan>
+            </div>
+            <div>
+              <InfoSpan>Categoria: {product.subCategory}</InfoSpan>
+            </div>
+            <div>
+              <InfoSpan>Marca: {product.brand}</InfoSpan>
+            </div>
+          </InfoContainer>
+          <PriceAddContainer>
+            <div>
+              <Precio>{product.price}</Precio>
+            </div>
+            <div>
+              <BtnAdd>Agregar</BtnAdd>
+            </div>
+          </PriceAddContainer>
+        </DetailLeft>
+        <ImageContainer>
+          <Image
             src={product.image || "https://imgur.com/lhLYKao"}
             alt="imagen"
           />
-        </div>
+        </ImageContainer>
         <div>
           <Link to="/">
-            <button>Ir al Home</button>
+            <BtnHome>Ir al Home</BtnHome>
           </Link>
         </div>
-      </div>
-      <Footer />
+      </DetailContainer>
+
+      {/* <Footer /> */}
     </div>
   );
 };
