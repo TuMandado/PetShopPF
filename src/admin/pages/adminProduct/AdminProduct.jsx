@@ -10,6 +10,7 @@ import { useParams } from "react-router";
 import FileBase from 'react-file-base64';
 
 
+
 import { getDetailProducts, detailVacio } from "../../../redux/actions";
 import Navbar from '../../../components/navbar/Navbar';
 import AdminSidebar from '../../components/adminSidebar/AdminSidebar';
