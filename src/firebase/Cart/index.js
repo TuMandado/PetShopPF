@@ -211,28 +211,28 @@ export async function getCart(user,uid){
 export async function editCart(user,item,number){
     if(user){
         let cart = await cartOpen(user.uid)
-        console.log("item",item)
-        let allItems = {item: cart[0].data.items.map((el) =>{
+        let allItems = {items: cart[0].data.items.map((el) =>{
             if(el.id === item.id){
                 return { ...el,
                    cantidad : number,
                    updateAt: Date()}
             }else{return el}
         })}
-        console.log("allItems",allItems)
         await editCartFirebase(cart[0].uid,allItems)
         let newCart = await getCartFirebase(cart[0].uid)  
         return newCart
     }else{
         if(localStorage.getItem('cart')){
             let data = JSON.parse(localStorage.getItem('cart'))
-            for(const prop in newCart){
-                if(prop===item){
-                    data[prop].cantidad = number
-                }
-            }
-            data = {...data, item, createdAt: Date()}
-            localStorage.setItem("cart",JSON.stringify(data))
+            let allData = { ...data, 
+                items: data.items.map((el) =>{
+                if(el.id === item.id){
+                    return { ...el,
+                       cantidad : number,
+                       updateAt: Date()}
+                }else{return el}
+            })}
+            localStorage.setItem("cart",JSON.stringify(allData))
             return JSON.parse(localStorage.getItem('cart'))
         }
     }

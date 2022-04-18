@@ -1,7 +1,6 @@
-import { ADD_ITEM, OPEN_CART } from "../actions/cartActions";
+import { ADD_ITEM, EDIT_ITEM, OPEN_CART } from "../actions/cartActions";
 
 const initialState = {
-    cart: {},
     openCart: {}
 }
   
@@ -11,13 +10,18 @@ function cartReducer(state = initialState, action) {
         case ADD_ITEM:
             return {
                 ...state,
-                cart: action.payload,
+                openCart: action.payload,
              };
         case OPEN_CART:
             return {
                 ...state,
                 openCart: action.payload,
             };
+        case EDIT_ITEM:
+            return{
+                ...state,
+                openCart: action.payload,
+            }
         default:
             return state;
     }
