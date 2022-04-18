@@ -58,6 +58,7 @@ export async function getAllCartsFirebase() {
 }
 
 export async function editCartFirebase(uid,data){
+    console.log("now data",data)
     await updateDoc(doc(db, collectionRef, uid), data);
 }
 
@@ -73,9 +74,6 @@ export async function cartOpen(user){
             let cartUser= open.filter(el => el.data.uid === user.uid)
             if(cartUser.length){
                 return cartUser
-            }else{
-                let not = "error no se encuentra na"
-                return not
             }
         }
     }else{
@@ -101,9 +99,6 @@ export async function cartOpenUs(user){
     }else{
         if(localStorage.getItem('cart')){
              return JSON.parse(localStorage.getItem('cart'))
-        }else{
-            let not = "error no se encuentra na"
-            return not
         }
     }
 }
@@ -152,6 +147,7 @@ export async function loginCart(user){
             localStorage.clear()
         } else {
             uploadCartFirebase(localS)
+            localStorage.clear()
         }
     }
 }
@@ -215,7 +211,15 @@ export async function getCart(user,uid){
 export async function editCart(user,item,number){
     if(user){
         let cart = await cartOpen(user.uid)
-        let allItems ={item: cart[0].data[item] = number}
+        console.log("item",item)
+        let allItems = {item: cart[0].data.items.map((el) =>{
+            if(el.id === item.id){
+                return { ...el,
+                   cantidad : number,
+                   updateAt: Date()}
+            }else{return el}
+        })}
+        console.log("allItems",allItems)
         await editCartFirebase(cart[0].uid,allItems)
         let newCart = await getCartFirebase(cart[0].uid)  
         return newCart
