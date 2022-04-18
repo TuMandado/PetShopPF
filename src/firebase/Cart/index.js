@@ -66,12 +66,56 @@ function cartLocalStorage(data){
 }
 
 export async function cartOpen(user){
-    let cars = await getAllCartsFirebase()
-    let open = cars.filter(el => el.data.close === false) 
-    if (open.length){
-        let cartUser= open.filter(el => el.data.uid === user.uid)
-        if(cartUser.length){
-            return cartUser
+    console.log("que llega",user)
+    if(user){
+        console.log("usseeeer", user.uid)
+        let cars = await getAllCartsFirebase()
+        let open = cars.filter(el => el.data.close === false) 
+        console.log("primer filtro",open)
+        if (open.length){
+            let cartUser= open.filter(el => el.data.uid === user.uid)
+            console.log("segundo filtro", cartUser)
+            if(cartUser.length){
+                return cartUser
+            }else{
+                let not = "error no se encuentra na"
+                return not
+            }
+        }
+    }else{
+        console.log("not useeeeer")
+        if(localStorage.getItem('cart')){
+             return JSON.parse(localStorage.getItem('cart'))
+        }
+    }
+}
+
+export async function cartOpenUs(user){
+    console.log("que llega",user)
+    if(user){
+        console.log("usseeeer", user.uid)
+        let cars = await getAllCartsFirebase()
+        let open = cars.filter(el => el.data.close === false) 
+        console.log("primer filtro",open)
+        if (open.length){
+            let cartUser= open.filter(el => el.data.userUid === user.uid)
+            console.log("segundo filtro", cartUser)
+            if(cartUser.length){
+                return cartUser
+            }else if(localStorage.getItem('cart')){
+                return JSON.parse(localStorage.getItem('cart'))
+           }else{
+                let not = "error no se encuentra na"
+                return not
+            }
+        }
+    }else{
+        console.log("not useeeeer")
+        if(localStorage.getItem('cart')){
+             return JSON.parse(localStorage.getItem('cart'))
+        }else{
+            let not = "error no se encuentra na"
+            return not
         }
     }
 }
