@@ -1,13 +1,14 @@
-import { addCartItem, cartOpenUs, editCart } from "../../firebase/Cart";
+import { addCartItem, cartOpenUs, deleteItem, editCart } from "../../firebase/Cart";
 
 export const ADD_ITEM = 'ADD_ITEM';
 export const OPEN_CART = 'OPEN_CART';
 export const EDIT_ITEM = 'EDIT_ITEM';
+export const DELETE_ITEM = 'DELETE_ITEM'
 
 export function addItemCartFront(payload) {
     return async function (dispatch) {
         try {
-            let jsonProduct = await addCartItem(payload.user,payload.item, 2);
+            let jsonProduct = await addCartItem(payload.user,payload.item);
             //console.log("-AddCart Flag-", payload);
             return dispatch({
                 type: ADD_ITEM,
@@ -18,6 +19,7 @@ export function addItemCartFront(payload) {
         }
     };
 }
+
 
 export function openCartFront(payload) {
     return async function (dispatch) {
@@ -49,3 +51,18 @@ export function editItemsCartFront(payload) {
         }
     };
 }
+
+export function deleteItemsCartFront(payload) {
+    return async function (dispatch) {
+        try {
+            let jsonProduct = await deleteItem(payload.user,payload.item);
+            //console.log("-deleteCart Flag-", payload);
+            return dispatch({
+                type: DELETE_ITEM,
+                payload: jsonProduct,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    }

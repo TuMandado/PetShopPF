@@ -1,5 +1,5 @@
 import {firebase, db} from '../credenciales'
-import { doc, setDoc, Timestamp, deleteDoc, getDoc, getDocs, updateDoc ,collection, serverTimestamp, deleteField, arrayUnion} from "firebase/firestore";
+import { doc, setDoc, Timestamp, deleteDoc, getDoc, getDocs, updateDoc ,collection, serverTimestamp, deleteField, arrayUnion, arrayRemove} from "firebase/firestore";
 import { async } from '@firebase/util';
 
 var collectionRef = "Cart";
@@ -163,7 +163,9 @@ export async function addItem(user,item){
     }else{
         if(localStorage.getItem('cart')){
             let data = JSON.parse(localStorage.getItem('cart'))
-            let items = data.items.push(item)
+            if(!data.items.find(el=> el.id === item.id)){
+                data.items.push(item)
+            }
             console.log("data a agregar", data)
             data = {...data, createdAt: Date()}
             localStorage.setItem("cart",JSON.stringify(data))
@@ -176,14 +178,19 @@ export async function addItem(user,item){
 export async function deleteItem(user,item){
     if(user){
         let cart = await cartOpen(user.uid)
-        await updateDoc(doc(db, collectionRef, cart[0].uid), {...cart[0].data,[item]: deleteField()});
+        let items = cart[0].data.items.find(el => el.id=== item.id)
+        await editCartFirebase(cart[0].uid,{items: arrayRemove(items)})
         let newCart = await getCartFirebase(cart[0].uid)  
+        console.log("ahora sin", newCart)
         return newCart
     } else{
         if(localStorage.getItem('cart')){
             let data = JSON.parse(localStorage.getItem('cart'))
-            delete data[item]
-            localStorage.setItem("cart",JSON.stringify(data))
+            let items = data.items.filter(el => el.id !== item.id)
+            let del = {...data,
+                items: items
+            }
+            localStorage.setItem("cart",JSON.stringify(del))
             return JSON.parse(localStorage.getItem('cart'))
         }
     }
