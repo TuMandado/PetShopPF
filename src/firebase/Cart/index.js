@@ -96,10 +96,7 @@ export async function cartOpenUs(user){
                 return cartUser
             }else if(localStorage.getItem('cart')){
                 return JSON.parse(localStorage.getItem('cart'))
-           }else{
-                let not = "error no se encuentra na"
-                return not
-            }
+           }
         }
     }else{
         if(localStorage.getItem('cart')){

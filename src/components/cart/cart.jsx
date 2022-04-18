@@ -12,13 +12,11 @@ useEffect(()=>{
     dispatch(openCartFront(user));
 },[dispatch])
 
-
     return(
         <div>
-            {console.log("esto es user", user)}
-            {console.log("open_cart",openCart)}
+            {console.log("carrito contiene:",openCart)}
             <h1>Soy un cart</h1>
-            {openCart ? (<h1>hay algo</h1>):(<h1>no hay nada</h1>)}
+            {openCart ? (<h1>algo</h1>):(<h1>no hay nada</h1>)}
         </div>
     )
 } 
