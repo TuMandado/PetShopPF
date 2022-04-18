@@ -1,16 +1,17 @@
-import { addCartItem, cartOpenUs, deleteItem, editCart, getAllCartsFirebase } from "../../firebase/Cart";
+import { addCartItem, cartOpenUs, closeCartFirebase, deleteItem, editCart, getAllCartsFirebase } from "../../firebase/Cart";
 
 export const GET_CARTS = 'GET_CARTS';
 export const ADD_ITEM = 'ADD_ITEM';
 export const OPEN_CART = 'OPEN_CART';
 export const EDIT_ITEM = 'EDIT_ITEM';
 export const DELETE_ITEM = 'DELETE_ITEM';
+export const CLOSE_CART = 'CLOSE_CART';
 
 export function getAllCarts(){
     return async function (dispatch){
         try {
             let jsonProduct = await getAllCartsFirebase();
-            console.log("-GetAllCarts Flag-", jsonProduct);
+            //console.log("-GetAllCarts Flag-", jsonProduct);
             return dispatch({
                 type: GET_CARTS,
                 payload: jsonProduct,
@@ -24,9 +25,7 @@ export function getAllCarts(){
 export function addItemCartFront(payload) {
     return async function (dispatch) {
         try {
-            let jsonProduct = await getAllCartsFirebase();
-            console.log("-GetAllCarts Flag-", jsonProduct);
-            //let jsonProduct = await addCartItem(payload.user,payload.item);
+            let jsonProduct = await addCartItem(payload.user,payload.item);
             //console.log("-AddCart Flag-", jsonProduct);
             return dispatch({
                 type: ADD_ITEM,
@@ -83,4 +82,19 @@ export function deleteItemsCartFront(payload) {
             console.log(error);
         }
     };
+    }
+
+    export function closeCartFront(payload) {
+        return async function (dispatch) {
+            try {
+                let jsonProduct = await closeCartFirebase(payload)
+                //console.log("-CloseCart Flag-", jsonProduct);
+                return dispatch({
+                    type: CLOSE_CART,
+                    payload: jsonProduct,
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        };
     }

@@ -1,4 +1,4 @@
-import { ADD_ITEM, DELETE_ITEM, EDIT_ITEM, GET_CARTS, OPEN_CART } from "../actions/cartActions";
+import { ADD_ITEM, CLOSE_CART, DELETE_ITEM, EDIT_ITEM, GET_CARTS, OPEN_CART } from "../actions/cartActions";
 
 const initialState = {
     alCarts: [],
@@ -29,6 +29,11 @@ function cartReducer(state = initialState, action) {
                 openCart: action.payload,
             }
         case DELETE_ITEM:
+            return{
+                ...state,
+                openCart: action.payload,
+            }
+        case CLOSE_CART:
             return{
                 ...state,
                 openCart: action.payload,

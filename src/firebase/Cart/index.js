@@ -58,7 +58,6 @@ export async function getAllCartsFirebase() {
 }
 
 export async function editCartFirebase(uid,data){
-    console.log("now data",data)
     await updateDoc(doc(db, collectionRef, uid), data);
 }
 
@@ -263,4 +262,16 @@ export async function addCartItem(user,item){
         }
     }
 
+}
+
+export async function closeCartFirebase(user){
+    console.log("useeeeer",user)
+    if(user){
+        let cart = await cartOpen(user.uid)
+        let close = {...cart[0].data,
+            close: true}
+        await editCartFirebase(cart[0].uid,close)
+        newCart = await getCartFirebase(cart[0].uid)  
+        return newCart
+    }
 }
