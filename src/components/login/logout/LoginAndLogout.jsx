@@ -33,6 +33,7 @@ const ModalLogin = styled.div`
   height: 180px;
   text-decoration: none;
   background-color: white;
+  text-decoration: none;
 `;
 
 const Option = styled.li`
@@ -40,8 +41,9 @@ const Option = styled.li`
   font-family: "Poppins";
   font-style: normal;
   font-weight: 500;
-  outline: none !important;
   top: 4px;
+  text-decoration: none;
+  list-style: none;
 `;
 
 const Text = styled.p`
@@ -55,6 +57,9 @@ const Text = styled.p`
   position: absolute;
   width: 110px;
   text-align: right;
+  :hover {
+    color: #0acf83;
+  }
 `;
 
 export const LoginLogout = () => {

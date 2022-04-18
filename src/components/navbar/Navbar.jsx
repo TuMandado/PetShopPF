@@ -18,6 +18,7 @@ const NavContainer = styled.div`
 const ContainerLoginOption = styled.div`
   background: #fff;
   float: right;
+  position: relative; ;
 `;
 const BrandNav = styled.div`
   width: 120px;
@@ -120,13 +121,15 @@ const BtnClose = styled.button`
   font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
-  color: #ffff;
-  padding: 5px 5px;
-  background: #0acf83;
-  border: 2px solid #067a4d;
-  box-sizing: border-box;
-  border-radius: 8px;
-  margin-top: 5px;
+  color: #067a4d;
+  background: #fff;
+  margin-top: 1px;
+  float: right;
+  margin-right: 77px;
+  border: none;
+  &:hover {
+    color: #0acf83;
+  }
 `;
 
 export const Navbar = () => {
