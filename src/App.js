@@ -2,10 +2,18 @@ import "./App.css";
 import { Avatar } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
 // Import icons from Material UI Icons
+import { Home as HomeIcon, Pets as PetsIcon } from "@material-ui/icons";
+// Import chart components
 import {
-  Home as HomeIcon,
-  Pets as PetsIcon
-} from "@material-ui/icons";
+  LineChart,
+  Line,
+  XAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  YAxis,
+  Legend,
+} from "recharts";
 // Importamos la libreria de mercado pago
 // SDK de Mercado Pago
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -39,9 +47,8 @@ import Login from "./page/login/Login";
 // import PublicPets from "./admin/pages/publicPets/PublicPets";
 // import AdminSidebar from "./admin/components/adminSidebar/AdminSidebar";
 // import mercadopago from "mercadopago";
-import { getTotalProducts } from './redux/actions';
+import { getTotalProducts } from "./redux/actions";
 import mercadopago from "mercadopago";
-
 
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
 
@@ -53,19 +60,18 @@ function App() {
   // Console log mercado pago when loaded
   useEffect(() => {
     mercadopago.configure({
-      access_token: 'TEST-5909391637745101-041518-e07a43a5f92224ee501bc4d9feca4624-191706246'
+      access_token:
+        "TEST-5909391637745101-041518-e07a43a5f92224ee501bc4d9feca4624-191706246",
     });
     console.log("Mercado Pago loaded");
     console.log(mercadopago);
 
     console.log("Material UI loaded");
-
-    
   }, []);
   // eslint-disable-next-line no-unused-vars
   var user = useSelector((state) => state.clientReducer.user);
   const dispatch = useDispatch();
-  
+
   onAuthStateChanged(auth, (usuarioFirebase) => {
     if (usuarioFirebase) {
       dispatch(setUser(usuarioFirebase));
@@ -85,12 +91,24 @@ function App() {
 
   return (
     <div className={"App"}>
+      {
+        !!mercadopago && (
+          <h1>
+            Mercado Pago loaded
+            <br />
+            {mercadopago.configure({
+              access_token:
+                "TEST-5909391637745101-041518-e07a43a5f92224ee501bc4d9feca4624-191706246",
+            })}
+          </h1>
+        )
+      }
       <Router>
-         <Routes>
-             {/* <Route exact path="*" element={<ErrorPage />} /> */}
-             <Route exact path="/" element={<Home />} />
-             {/* <Route exact path="/" element={user ? <Home /> : <Login />} /> */}
-             {/* <Route path="/products" element={<ProductList />} />
+        <Routes>
+          {/* <Route exact path="*" element={<ErrorPage />} /> */}
+          <Route exact path="/" element={<Home />} />
+          {/* <Route exact path="/" element={user ? <Home /> : <Login />} /> */}
+          {/* <Route path="/products" element={<ProductList />} />
              <Route path="/product/:id" element={<Product />} />
              <Route exact path="/cart" element={<Cart />} />
              <Route exact path="/admin" element={<AdminHome />} />
@@ -109,9 +127,12 @@ function App() {
              <Route path="/newProduct" element={<NewProduct />} />
              <Route path="/ventas" element={<Pyments />} />
              <Route path="/publicPets" element={<PublicPets />} /> */}
-         </Routes>
+        </Routes>
       </Router>
-      <Avatar alt="Remy Sharp" src="https://www.mercadopublico.cl/portal/img/logo_mp.png" />
+      <Avatar
+        alt="Remy Sharp"
+        src="https://www.mercadopublico.cl/portal/img/logo_mp.png"
+      />
       {
         // Return DataGrid Example
       }
@@ -164,8 +185,70 @@ function App() {
       />
       <Home />
       <PetsIcon />
+      {
+        // Return chart example, from rechart usgin LineChart, Line, XAxis, CartesianGrid, Tooltip and ResponsiveContainer.
+      }
+      <LineChart
+        width={500}
+        height={300}
+        data={{
+          labels: [
+            "Enero",
+            "Febrero",
+            "Marzo",
+            "Abril",
+            "Mayo",
+            "Junio",
+            "Julio",
+            "Agosto",
+            "Septiembre",
+            "Octubre",
+            "Noviembre",
+            "Diciembre",
+          ],
+          datasets: [
+            {
+              label: "My First dataset",
+              fill: false,
+              lineTension: 0.1,
+              backgroundColor: "rgba(75,192,192,0.4)",
+              borderColor: "rgba(75,192,192,1)",
+              borderCapStyle: "butt",
+              borderDash: [],
+              borderDashOffset: 0.0,
+              borderJoinStyle: "miter",
+              pointBorderColor: "rgba(75,192,192,1)",
+              pointBackgroundColor: "#fff",
+              pointBorderWidth: 1,
+              pointHoverRadius: 5,
+              pointHoverBackgroundColor: "rgba(75,192,192,1)",
+              pointHoverBorderColor: "rgba(220,220,220,1)",
+              pointHoverBorderWidth: 2,
+              pointRadius: 1,
+              pointHitRadius: 10,
+              data: [65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56],
+            },
+          ],
+
+        }}
+        margin={{
+          top: 5,
+          right: 30,
+          left: 20,
+          bottom: 5,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Line type="monotone" dataKey="pv" stroke="#8884d8" />
+        <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+      </LineChart>
     </div>
   );
 }
+
 
 export default App;
