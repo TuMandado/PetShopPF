@@ -4,10 +4,14 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut
+  signOut,
 } from "firebase/auth";
 import { uploadUser } from "../Users";
+
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
 const auth = getAuth(firebaseApp);
+const provider = new GoogleAuthProvider();
 
 export const signInUsuario = (email, password) => {
   try {
@@ -38,10 +42,34 @@ export async function registrarUsuario(email, password, role) {
 }
 
 export const signOutUsuario = () => {
-    try {
-        signOut(auth);
-    } catch (error) {
-        alert("Error al cerrar sesión: ", error);
-        console.log("Error al cerrar sesión: ", error);
-    }
-    };
+  try {
+    signOut(auth);
+  } catch (error) {
+    alert("Error al cerrar sesión: ", error);
+    console.log("Error al cerrar sesión: ", error);
+  }
+};
+
+export const signInWithGoogle = () => {
+signInWithPopup(auth, provider)
+  .then((result) => {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    // The signed-in user info.
+    const user = result.user;
+    // ...
+    console.log("Usuario iniciado sesion: ", user);
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    // ...
+  });
+};
+
+export default auth;
