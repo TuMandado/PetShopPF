@@ -160,92 +160,93 @@ export const userData = [
   export const productRows = [
     {
       id: 1,
-      name: "Apple Airpods",
-      img:
-        "https://images.pexels.com/photos/7156886/pexels-photo-7156886.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+      name: "correa para 2 perros",
+      image:
+        "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1634717579-61bkge3hgml-ac-sl1200-1634717548.jpg?crop=0.9646090534979425xw:1xh;center,top&resize=480:*",
       stock: 123,
       status: "active",
-      price: "$120.00",
+      price: "$1500.00",
     },
     {
       id: 2,
-      name: "Apple Airpods",
-      img:
-        "https://images.pexels.com/photos/7156886/pexels-photo-7156886.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+      name: "correa para 2 perros",
+      image:
+        "https://www.timberline.com.ar/416/correa-para-2-perros.jpg",
       stock: 123,
       status: "active",
-      price: "$120.00",
+      price: "$1500.00",
     },
     {
       id: 3,
-      name: "Apple Airpods",
-      img:
-        "https://images.pexels.com/photos/7156886/pexels-photo-7156886.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+      name: "correa para 2 perros",
+      image:
+        "https://www.timberline.com.ar/416/correa-para-2-perros.jpg",
       stock: 123,
       status: "active",
-      price: "$120.00",
+      price: "$1500.00",
     },
     {
       id: 4,
-      name: "Apple Airpods",
-      img:
-        "https://images.pexels.com/photos/7156886/pexels-photo-7156886.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+      name: "correa para 2 perros",
+      image:
+        "https://www.timberline.com.ar/416/correa-para-2-perros.jpg",
       stock: 123,
       status: "active",
-      price: "$120.00",
+      price: "$1500.00",
     },
     {
       id: 5,
-      name: "Apple Airpods",
-      img:
-        "https://images.pexels.com/photos/7156886/pexels-photo-7156886.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+      name: "correa para 2 perros",
+      image:
+        "https://www.timberline.com.ar/416/correa-para-2-perros.jpg",
       stock: 123,
       status: "active",
-      price: "$120.00",
+      price: "$1500.00",
     },
     {
       id: 6,
-      name: "Apple Airpods",
-      img:
-        "https://images.pexels.com/photos/7156886/pexels-photo-7156886.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+      name: "correa para 2 perros",
+      image:
+        "https://www.timberline.com.ar/416/correa-para-2-perros.jpg",
       stock: 123,
       status: "active",
-      price: "$120.00",
+      price: "$1500.00",
     },
     {
       id: 7,
-      name: "Apple Airpods",
-      img:
-        "https://images.pexels.com/photos/7156886/pexels-photo-7156886.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+      name: "correa para 2 perros",
+      image:
+        "https://www.timberline.com.ar/416/correa-para-2-perros.jpg",
       stock: 123,
       status: "active",
-      price: "$120.00",
+      price: "$1500.00",
     },
     {
       id: 8,
-      name: "Apple Airpods",
-      img:
-        "https://images.pexels.com/photos/7156886/pexels-photo-7156886.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+      name: "correa para 2 perros",
+      image:
+        "https://www.timberline.com.ar/416/correa-para-2-perros.jpg",
       stock: 123,
       status: "active",
-      price: "$120.00",
+      price: "$1500.00",
     },
     {
       id: 9,
-      name: "Apple Airpods",
-      img:
-        "https://images.pexels.com/photos/7156886/pexels-photo-7156886.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+      name: "correa para 2 perros",
+      image:
+        "https://www.timberline.com.ar/416/correa-para-2-perros.jpg",
       stock: 123,
       status: "active",
-      price: "$120.00",
+      price: "$1500.00",
     },
     {
       id: 10,
-      name: "Apple Airpods",
-      img:
-        "https://images.pexels.com/photos/7156886/pexels-photo-7156886.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+      name: "correa para 2 perros",
+      image:
+        "https://www.timberline.com.ar/416/correa-para-2-perros.jpg",
       stock: 123,
       status: "active",
-      price: "$120.00",
+      price: "$1500.00",
     },
+    
   ];

@@ -1,16 +1,102 @@
 import React from 'react';
 import "./adminProduct.css";
+import Chart from "../../components/chart/Chart"
+import {productData} from "../../dummyData"
+import { Publish } from "@material-ui/icons";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
-import FileBase from 'react-file-base64'
+import FileBase from 'react-file-base64';
 
-import { getDetailProducts, detailVacio } from "../../../redux/actions"
+
+import { getDetailProducts, detailVacio } from "../../../redux/actions";
 import Navbar from '../../../components/navbar/Navbar';
-import AdminSidebar from '../../components/adminSidebar/AdminSidebar'
+import AdminSidebar from '../../components/adminSidebar/AdminSidebar';
 
-const AdminProduct = () => {
+
+
+export default function Product() {
+    return (
+    <div >
+        <Navbar/>
+        <div className="container">
+          <AdminSidebar /> 
+    <div className="productList">
+      <div className="product">
+        <div className="productTitleContainer">
+          <h1 className="productTitle">Producto</h1>
+          <Link to="/newproduct">
+            <button className="productAddButton">Crear</button>
+          </Link>
+        </div>
+        <div className="productTop">
+            {/* <div className="productTopLeft">
+                <Chart data={productData} dataKey="Sales" title="Sales Performance"/>
+            </div> */}
+            <div className="productTopRight">
+                <div className="productInfoTop">
+                    <img src="https://www.timberline.com.ar/416/correa-para-2-perros.jpg"  width="200px"  />
+                    <span className="productName">Correa para 2 perros</span>
+                </div>
+                <div className="productInfoBottom">
+                    <div className="productInfoItem">
+                        <span className="productInfoKey">id:</span>
+                        <span className="productInfoValue">123</span>
+                    </div>
+                    <div className="productInfoItem">
+                        <span className="productInfoKey">Precio:</span>
+                        <span className="productInfoValue">$1500</span>
+                    </div>
+                    <div className="productInfoItem">
+                        <span className="productInfoKey">activo:</span>
+                        <span className="productInfoValue">si</span>
+                    </div>
+                    <div className="productInfoItem">
+                        <span className="productInfoKey">stock:</span>
+                        <span className="productInfoValue">123</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div className="productBottom">
+            <form className="productForm">
+                <div className="productFormLeft">
+                    <label>Nombre del Producto</label>
+                    <input type="text" placeholder="Apple AirPod" />
+                    <label>Stock</label>
+                    <select name="inStock" id="idStock">
+                        <option value="yes">si</option>
+                        <option value="no">No</option>
+                    </select>
+                    <label>Active</label>
+                    <select name="active" id="active">
+                        <option value="yes">si</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+                <div className="productFormRight">
+                    <div className="productUpload">
+                        <img src="https://www.timberline.com.ar/416/correa-para-2-perros.jpg" alt="" className="productUploadImg" />
+                        <label for="file">
+                            <Publish/>
+                        </label>
+                        <input type="file" id="file" style={{display:"none"}} />
+                    </div>
+                    <button className="productButton">Modificar</button>
+                </div>
+            </form>
+        </div>
+      </div>
+      </div> 
+    </div>
+    </div>
+
+    );
+}
+  
+
+ {/* const AdminProduct = () => {
 
   const dispatch = useDispatch();
   const uid = useParams();
@@ -244,8 +330,4 @@ const AdminProduct = () => {
     );
 }
 
-export default AdminProduct
-
-
-       
-  
+export default AdminProduct */}
