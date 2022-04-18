@@ -1,4 +1,4 @@
-import "./adminproductList.css";
+import "./adminProductList.css";
 import React from 'react';
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
