@@ -1,6 +1,11 @@
 import "./App.css";
 import { Avatar } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
+// Import icons from Material UI Icons
+import {
+  Home as HomeIcon,
+  Pets as PetsIcon
+} from "@material-ui/icons";
 // Importamos la libreria de mercado pago
 // SDK de Mercado Pago
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -54,6 +59,8 @@ function App() {
     console.log(mercadopago);
 
     console.log("Material UI loaded");
+
+    
   }, []);
   // eslint-disable-next-line no-unused-vars
   var user = useSelector((state) => state.clientReducer.user);
@@ -155,6 +162,8 @@ function App() {
           },
         ]}
       />
+      <Home />
+      <PetsIcon />
     </div>
   );
 }
