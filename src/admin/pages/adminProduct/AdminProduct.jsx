@@ -2,7 +2,7 @@ import React from 'react';
 import "./adminProduct.css";
 import Chart from "../../components/chart/Chart"
 import {productData} from "../../dummyData"
-import { Publish } from "@material-ui/icons";
+// import { Publish } from "@material-ui/icons";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -80,7 +80,7 @@ export default function Product() {
                     <div className="productUpload">
                         <img src="https://www.timberline.com.ar/416/correa-para-2-perros.jpg" alt="" className="productUploadImg" />
                         <label for="file">
-                            <Publish/>
+                            {/* <Publish/> */}
                         </label>
                         <input type="file" id="file" style={{display:"none"}} />
                     </div>

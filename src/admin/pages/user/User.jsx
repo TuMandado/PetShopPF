@@ -1,11 +1,11 @@
-import {
-  CalendarToday,
-  LocationSearching,
-  MailOutline,
-  PermIdentity,
-  PhoneAndroid,
-  Publish,
-} from "@material-ui/icons";
+// import {
+//   CalendarToday,
+//   LocationSearching,
+//   MailOutline,
+//   PermIdentity,
+//   PhoneAndroid,
+//   Publish,
+// } from "@material-ui/icons";
 import "./user.css";
 import { userRows } from "../../dummyData";
 import { useEffect, useState } from "react";
@@ -94,21 +94,21 @@ export default function User() {
                  <div className="userShowBottom">
                    <span className="userShowTitle">Detalle de cuenta</span>
                    <div className="userShowInfo">
-                     <PermIdentity className="userShowIcon" />
+                     {/* <PermIdentity className="userShowIcon" /> */}
                      <span className="userShowInfoTitle">{data && data.nickname}</span>
                    </div>
                    <div className="userShowInfo">
-                     <CalendarToday className="userShowIcon" />
+                     {/* <CalendarToday className="userShowIcon" /> */}
                      <span className="userShowInfoTitle">{data && data.createdAt}</span>
                    </div>
                    <span className="userShowTitle">Contacto</span>
                    <div className="userShowInfo">
-                     <MailOutline className="userShowIcon" />
+                     {/* <MailOutline className="userShowIcon" /> */}
                      <span className="userShowInfoTitle">{data && data.email}</span>
                    </div>
                    <span className="userShowTitle">Direccion</span>
                    <div className="userShowInfo">
-                     <LocationSearching className="userShowIcon" />
+                     {/* <LocationSearching className="userShowIcon" /> */}
                      <span className="userShowInfoTitle">{data && data.shipping_address} </span>
                    </div>
                  </div>
@@ -161,7 +161,7 @@ export default function User() {
                    <div className="userUpdateRight">
                      <div className="userUpdateUpload">
                        <label htmlFor="file">
-                         <Publish className="userUpdateIcon" />
+                         {/* <Publish className="userUpdateIcon" /> */}
                        </label>
                        <input type="file" id="file" style={{ display: "none" }} />
                      </div>

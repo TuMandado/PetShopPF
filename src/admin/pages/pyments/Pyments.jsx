@@ -1,6 +1,6 @@
 import React from 'react';
 import "./pyments.css";
-import { DataGrid } from "@material-ui/data-grid";
+// import { DataGrid } from "@material-ui/data-grid";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import {userRows} from '../../dummyData';
@@ -39,14 +39,14 @@ const Pyments = () => {
        <div className="container">
           <AdminSidebar /> 
           <div className="productList">
-          <DataGrid
+          {/* <DataGrid
             rows={userRows}
             disableSelectionOnClick
             columns={columns}
             pageSize={10}
             rowsPerPageOptions={[10]}
             checkboxSelection
-          />
+          /> */}
           </div>
     </div>
   </div>

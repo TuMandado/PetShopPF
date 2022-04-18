@@ -1,18 +1,18 @@
 import "./adminSidebar.css";
-import {
-    LineStyle,
-    Timeline,
-    TrendingUp,
-    PermIdentity,
-    Storefront,
-    AttachMoney,
-    BarChart,
-    MailOutline,
-    DynamicFeed,
-    ChatBubbleOutline,
-    WorkOutline,
-    Report,
-} from "@material-ui/icons";
+// import {
+//     LineStyle,
+//     Timeline,
+//     TrendingUp,
+//     PermIdentity,
+//     Storefront,
+//     AttachMoney,
+//     BarChart,
+//     MailOutline,
+//     DynamicFeed,
+//     ChatBubbleOutline,
+//     WorkOutline,
+//     Report,
+// } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 
@@ -25,7 +25,7 @@ const Sidebar = () => {
                     <ul className="sidebarList">
                         <Link to="/admin" className="link">
                             <li className="sidebarListItem active">
-                                <LineStyle className="sidebarIcon" />
+                                {/* <LineStyle className="sidebarIcon" /> */}
                                 Pagina principal
                             </li>
                         </Link>
@@ -35,25 +35,25 @@ const Sidebar = () => {
                     <ul className="sidebarList">
                         <Link to="/users" className="link">
                             <li className="sidebarListItem">
-                                <PermIdentity className="sidebarIcon" />
+                                {/* <PermIdentity className="sidebarIcon" /> */}
                                 Usuarios
                             </li>
                         </Link>
                         <Link to="/adminProducts" className="link">
                             <li className="sidebarListItem">
-                                <Storefront className="sidebarIcon" />
+                                {/* <Storefront className="sidebarIcon" /> */}
                                 Productos
                             </li>
                         </Link>
                         <Link to="/newProduct" className="link">
                             <li className="sidebarListItem">
-                                <Storefront className="sidebarIcon" />
+                                {/* <Storefront className="sidebarIcon" /> */}
                                 Nuevo Producto
                             </li>
                         </Link>
                         <Link to="/ventas" className="link">
                             <li className="sidebarListItem">
-                                <AttachMoney className="sidebarIcon" />
+                                {/* <AttachMoney className="sidebarIcon" /> */}
                                 ventas
                             </li>
                         </Link>
@@ -64,7 +64,7 @@ const Sidebar = () => {
                     <ul className="sidebarList">
                         <Link to="/publicPets" className="link" >
                             <li className="sidebarListItem">
-                                <DynamicFeed className="sidebarIcon" />
+                                {/* <DynamicFeed className="sidebarIcon" /> */}
                                 Publicaciones de Mascotas
                             </li>
                         </Link>

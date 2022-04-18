@@ -1,7 +1,7 @@
 import "./userList.css";
 import React from 'react'
-import { DataGrid } from "@material-ui/data-grid";
-import { DeleteOutline } from "@material-ui/icons";
+// import { DataGrid } from "@material-ui/data-grid";
+// import { DeleteOutline } from "@material-ui/icons";
 import { userRows } from "../../dummyData";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
@@ -50,10 +50,10 @@ const UserList = () => {
             <Link to={"/user/" + params.row.id}>
               <button className="userListEdit">Edit</button>
             </Link>
-            <DeleteOutline
+            {/* <DeleteOutline
               className="userListDelete"
               onClick={() => handleDelete(params.row.id)}
-            />
+            /> */}
           </>
         );
       },
@@ -66,14 +66,14 @@ const UserList = () => {
        <div className="container">
          <AdminSidebar />   
          <div className="userList">
-         <DataGrid
+         {/* <DataGrid
            rows={data}
            disableSelectionOnClick
            columns={columns}
            pageSize={8}
            rowsPerPageOptions={[8]}
            checkboxSelection
-         />
+         /> */}
          </div>
        </div>
     </div>

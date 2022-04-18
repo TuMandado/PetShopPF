@@ -1,7 +1,7 @@
 import "./adminProductList.css";
 import React from 'react';
-import { DataGrid } from "@material-ui/data-grid";
-import { DeleteOutline } from "@material-ui/icons";
+// import { DataGrid } from "@material-ui/data-grid";
+// import { DeleteOutline } from "@material-ui/icons";
 import { Loader } from '../../../page/loader/Loader'
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -55,10 +55,10 @@ const ProductList = () => {
             <Link to={"/adminProduct/" + params.row.id}>
               <button className="productListEdit">Edit</button>
             </Link>
-            <DeleteOutline
+            {/* <DeleteOutline
               className="productListDelete"
               onClick={() => handleDelete(params.row.id)}
-            />
+            /> */}
           </>
         );
       },
@@ -72,7 +72,7 @@ const ProductList = () => {
         <div className="container">
           <AdminSidebar /> 
     <div className="productList">
-      {
+      {/* {
          allProducts && allProducts.length
          ? <DataGrid
              rows={data}
@@ -83,7 +83,7 @@ const ProductList = () => {
              checkboxSelection
            />
          : <Loader />  
-      }
+      } */}
     </div>
     </div>
     </div>

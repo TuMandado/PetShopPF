@@ -1,10 +1,10 @@
-import {
-    Facebook,
-    Instagram,
-    MailOutline,
-    Pinterest,
-    Twitter
-} from '@material-ui/icons'
+// import {
+//     Facebook,
+//     Instagram,
+//     MailOutline,
+//     Pinterest,
+//     Twitter
+// } from '@material-ui/icons'
 // import WhatsAppIcon from '@mui/icons-material/WhatsApp'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
@@ -27,16 +27,16 @@ const Footer = () => {
                 </Desc>
                 <SocialContainer>
                     <SocialIcon color='151515'>
-                        <Facebook />
+                        {/* <Facebook /> */}
                     </SocialIcon>
                     <SocialIcon color='151515'>
-                        <Instagram />
+                        {/* <Instagram /> */}
                     </SocialIcon>
                     <SocialIcon color='151515'>
-                        <Twitter />
+                        {/* <Twitter /> */}
                     </SocialIcon>
                     <SocialIcon color='151515'>
-                        <Pinterest />
+                        {/* <Pinterest /> */}
                     </SocialIcon>
                 </SocialContainer>
             </Left>
@@ -76,7 +76,7 @@ const Footer = () => {
                     +54 9 11 0000 0000
                 </ContactItem>
                 <ContactItem>
-                    <MailOutline style={{ marginRight: '10px' }} /> petShop@gmail.com
+                    {/* <MailOutline style={{ marginRight: '10px' }} /> petShop@gmail.com */}
                 </ContactItem>
             {/* <Payment src={mercadoPago} /> */}
             </Right>

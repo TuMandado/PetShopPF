@@ -1,5 +1,5 @@
 import "./featuredInfo.css";
-import { ArrowDownward, ArrowUpward } from "@material-ui/icons";
+// import { ArrowDownward, ArrowUpward } from "@material-ui/icons";
 
 const FeaturedInfo= ()=> {
 
@@ -10,7 +10,7 @@ const FeaturedInfo= ()=> {
         <div className="featuredMoneyContainer">
           <span className="featuredMoney">$15000</span>
           <span className="featuredMoneyRate">
-          -11.4 <ArrowDownward className="featuredIcon negative" />
+          -11.4 {/*<ArrowDownward className="featuredIcon negative" />*/}
             {/* %{Math.floor(perc)}{" "}
             {perc < 0 ? (
               <ArrowDownward className="featuredIcon negative" />
