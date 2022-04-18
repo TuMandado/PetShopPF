@@ -134,7 +134,7 @@ export async function newCart(user,data){
         let cart = {
             createdAt: Date(),
             close: false,
-            data
+            items: [data]
         }
         cartLocalStorage(cart)
         return JSON.parse(localStorage.getItem('cart'))
@@ -167,7 +167,9 @@ export async function addItem(user,item){
     }else{
         if(localStorage.getItem('cart')){
             let data = JSON.parse(localStorage.getItem('cart'))
-            data = {...data, item, createdAt: Date()}
+            let items = data.items.push(item)
+            console.log("data a agregar", data)
+            data = {...data, createdAt: Date()}
             localStorage.setItem("cart",JSON.stringify(data))
             return JSON.parse(localStorage.getItem('cart'))
         }

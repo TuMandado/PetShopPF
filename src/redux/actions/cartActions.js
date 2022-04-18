@@ -1,4 +1,4 @@
-import { addCartItem, cartOpen, cartOpenUs } from "../../firebase/Cart";
+import { addCartItem, cartOpenUs } from "../../firebase/Cart";
 
 export const ADD_ITEM = 'ADD_ITEM';
 export const OPEN_CART = 'OPEN_CART';

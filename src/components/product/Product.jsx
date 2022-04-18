@@ -299,7 +299,8 @@ const Product = ({ id, title, imagen, info, price, animalCategory, category, sub
                     updateAt: Date(), 
                     title,
                     cantidad: 1,
-                    price
+                    price,
+                    id
                 }
               }}
     
