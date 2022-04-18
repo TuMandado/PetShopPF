@@ -8,12 +8,14 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import Navbar from "../../../components/navbar/Navbar";
 import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
+import { productRows } from "../../dummyData";
 
 
 const ProductList = () => {
 
   const allProducts = useSelector(state => state.clientReducer.backup)
-  const [data, setData] = useState(allProducts);
+  const [dat, setDat] = useState(allProducts);
+  const [data, setData] = useState(productRows);
 
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
@@ -24,11 +26,11 @@ const ProductList = () => {
     {
       field: "product",
       headerName: "Producto",
-      width: 480,
+      width: 400,
       renderCell: (params) => {
         return (
           <div className="productListItem">
-            <img className="productListImg" src={params.row.image} alt="https://imgur.com/lhLYKao" />
+            <img className="productListImg" src={params.row.image} alt="" />
             {params.row.name}
           </div>
         );
@@ -72,7 +74,7 @@ const ProductList = () => {
       {
          allProducts && allProducts.length
          ? <DataGrid
-             rows={allProducts}
+             rows={data}
              disableSelectionOnClick
              columns={columns}
              pageSize={10}

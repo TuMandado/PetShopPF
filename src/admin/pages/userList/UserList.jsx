@@ -28,8 +28,8 @@ const UserList = () => {
       renderCell: (params) => {
         return (
           <div className="userListUser">
-            <img className="userListImg" src={params.row.picture || params.row.avatar } alt="" />
-            {params.row.nickname || params.row.username}
+            <img className="userListImg" src={params.row.picture } alt="" />
+            {params.row.username}
           </div>
         );
       },
