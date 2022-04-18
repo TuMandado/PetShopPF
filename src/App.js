@@ -1,4 +1,5 @@
 import "./App.css";
+import { Avatar } from "@material-ui/core";
 // Importamos la libreria de mercado pago
 // SDK de Mercado Pago
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -50,6 +51,8 @@ function App() {
     });
     console.log("Mercado Pago loaded");
     console.log(mercadopago);
+
+    console.log("Material UI loaded");
   }, []);
   // eslint-disable-next-line no-unused-vars
   var user = useSelector((state) => state.clientReducer.user);
@@ -70,38 +73,39 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <>{user ? <Home/> : <Login/>}</>
+  // return <>{user ? <Home/> : <Login/>}</>
 
-  // return (
-  //   <div className={"App"}>
-  //     <Router>
-  //        <Routes>
-  //            <Route exact path="*" element={<ErrorPage />} />
-  //            <Route exact path="/" element={<Home />} />
-  //            {/* <Route exact path="/" element={user ? <Home /> : <Login />} /> */}
-  //            <Route path="/products" element={<ProductList />} />
-  //            <Route path="/product/:id" element={<Product />} />
-  //            <Route exact path="/cart" element={<Cart />} />
-  //            <Route exact path="/admin" element={<AdminHome />} />
-  //            <Route exact path="/usersettings" element={<UserSettings />} />
-  //            <Route exact path="/pets" element={<PetsPage />} />
-  //            <Route exact path="/register" element={<Register />} />
-  //            <Route exact path="/login" element={<Login />} />
-  //            {<Route exact path="/createdProduct" element={<CreatedProduct/>} />}
+  return (
+    <div className={"App"}>
+      <Router>
+         <Routes>
+             {/* <Route exact path="*" element={<ErrorPage />} /> */}
+             <Route exact path="/" element={<Home />} />
+             {/* <Route exact path="/" element={user ? <Home /> : <Login />} /> */}
+             {/* <Route path="/products" element={<ProductList />} />
+             <Route path="/product/:id" element={<Product />} />
+             <Route exact path="/cart" element={<Cart />} />
+             <Route exact path="/admin" element={<AdminHome />} />
+             <Route exact path="/usersettings" element={<UserSettings />} />
+             <Route exact path="/pets" element={<PetsPage />} />
+             <Route exact path="/register" element={<Register />} />
+             <Route exact path="/login" element={<Login />} />
+             {<Route exact path="/createdProduct" element={<CreatedProduct/>} />}
    
-  //            <Route exact path="/admin" element={<AdminHome />} />
-  //            <Route path="/users" element={<UserList />} />
-  //            <Route path="/user/:userId" element={<User />} />
-  //            <Route path="/newUser" element={<NewUser />} />
-  //            <Route path="/adminProducts" element={<AdminProductList />} />
-  //            <Route path="/adminProduct/:productId" element={<AdminProduct />} />
-  //            <Route path="/newProduct" element={<NewProduct />} />
-  //            <Route path="/ventas" element={<Pyments />} />
-  //            <Route path="/publicPets" element={<PublicPets />} />
-  //        </Routes>
-  //     </Router>
-  //   </div>
-  // );
+             <Route exact path="/admin" element={<AdminHome />} />
+             <Route path="/users" element={<UserList />} />
+             <Route path="/user/:userId" element={<User />} />
+             <Route path="/newUser" element={<NewUser />} />
+             <Route path="/adminProducts" element={<AdminProductList />} />
+             <Route path="/adminProduct/:productId" element={<AdminProduct />} />
+             <Route path="/newProduct" element={<NewProduct />} />
+             <Route path="/ventas" element={<Pyments />} />
+             <Route path="/publicPets" element={<PublicPets />} /> */}
+         </Routes>
+      </Router>
+      <Avatar alt="Remy Sharp" src="https://www.mercadopublico.cl/portal/img/logo_mp.png" />
+    </div>
+  );
 }
 
 export default App;
