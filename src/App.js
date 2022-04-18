@@ -1,5 +1,6 @@
 import "./App.css";
 import { Avatar } from "@material-ui/core";
+import { DataGrid } from "@material-ui/data-grid";
 // Importamos la libreria de mercado pago
 // SDK de Mercado Pago
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -104,6 +105,56 @@ function App() {
          </Routes>
       </Router>
       <Avatar alt="Remy Sharp" src="https://www.mercadopublico.cl/portal/img/logo_mp.png" />
+      {
+        // Return DataGrid Example
+      }
+      <DataGrid
+        rows={[
+          {
+            id: 1,
+            name: "Foo",
+            age: 20,
+            city: "Barcelona",
+            country: "Spain",
+          },
+          {
+            id: 2,
+            name: "Bar",
+            age: 30,
+            city: "Madrid",
+            country: "Spain",
+          },
+          {
+            id: 3,
+            name: "Baz",
+            age: 40,
+            city: "Barcelona",
+            country: "Spain",
+          },
+        ]}
+        columns={[
+          {
+            field: "id",
+            headerName: "ID",
+          },
+          {
+            field: "name",
+            headerName: "Name",
+          },
+          {
+            field: "age",
+            headerName: "Age",
+          },
+          {
+            field: "city",
+            headerName: "City",
+          },
+          {
+            field: "country",
+            headerName: "Country",
+          },
+        ]}
+      />
     </div>
   );
 }
