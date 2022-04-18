@@ -1,4 +1,4 @@
-import { ADD_ITEM } from "../actions/cartActions";
+import { ADD_ITEM, OPEN_CART } from "../actions/cartActions";
 
 const initialState = {
     cart: {},
