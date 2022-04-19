@@ -1,6 +1,15 @@
 import "./App.css";
 import { Avatar } from "@material-ui/core";
 import { DataGrid } from "@material-ui/data-grid";
+import {
+  GoogleMap,
+  withScriptjs,
+  withGoogleMap,
+  Marker,
+} from "react-google-maps";
+import { LoremIpsum } from "lorem-ipsum";
+
+
 // Import icons from Material UI Icons
 import { Home as HomeIcon, Pets as PetsIcon } from "@material-ui/icons";
 // Import chart components
@@ -57,6 +66,19 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 const auth = getAuth(firebaseApp);
 
 function App() {
+  const randomDescription = () => {
+    const lorem = new LoremIpsum({
+      sentencesPerParagraph: {
+        max: 8,
+        min: 4,
+      },
+      wordsPerSentence: {
+        max: 16,
+        min: 4,
+      },
+    });
+    return lorem.generateParagraphs(1);
+  };
   // Console log mercado pago when loaded
   useEffect(() => {
     mercadopago.configure({
@@ -91,6 +113,9 @@ function App() {
 
   return (
     <div className={"App"}>
+      <h1>
+     { randomDescription()}
+      </h1>
       {
         !!mercadopago && (
           <h1>
