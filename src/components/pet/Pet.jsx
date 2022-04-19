@@ -1,24 +1,35 @@
 import React from "react";
 import styled from "styled-components";
 
-const MainPet = styled.div`
+const ContainerPets = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  position: static;
-  left: 0%;
-  top: 0%;
-  bottom: 0%;
+  padding: 16px;
+  width: 288px;
+  height: 520px;
+  border: 1px solid #d1d1d1;
+  box-sizing: border-box;
+  border-radius: 12px;
+  margin: 0px 32px;
+  margin-bottom: 4em;
+  transition: 0.25s ease;
+  &:hover {
+    transition: 0.5s ease;
+    width: 290px;
+    cursor: pointer;
+    margin: 0px 10px;
+    border: 1px solid #0acf83;
+  }
 `;
 
 const Image = styled.img`
-  width: 210px;
-  height: 210px;
+  width: 250px;
+  height: 230px;
   border-radius: 8px;
-  box-shadow: 5px 2px 18px -3px rgba(110, 110, 110, 0.11);
-  position: relative;
+  align-items: center;
   margin-top: 8px;
+  position: relative;
 `;
 
 const State = styled.h4`
@@ -64,22 +75,39 @@ const Sexo = styled.h4`
 
 const TagContainer = styled.div`
   display: flex;
+  margin-bottom: 2px;
+  margin-top: 8px;
 `;
 
 const Description = styled.p`
-  position: static;
-  width: 220px;
-  height: 80px;
   overflow: hidden;
-  left: 0px;
-  margin-top: 3px;
-  top: 12px;
-  font-family: "Poppins";
+  max-height: 120px;
+  max-width: 216px;
+  margin-top: 4px;
+  top: 11px;
+  font-family: "Open Sans";
   font-style: normal;
   font-weight: 500;
   font-size: 13px;
+  line-height: 16px;
+  position: static;
+  margin-bottom: 6px;
+  margin-top: 9px;
   line-height: 20px;
   color: #151515;
+`;
+
+const Nombre = styled.h3`
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 20px;
+  color: #575757;
+  margin: 2px;
+  &:hover {
+    color: #0acf83;
+  }
 `;
 
 const Ubicacion = styled.p`
@@ -89,14 +117,43 @@ const Ubicacion = styled.p`
   font-size: 13px;
   line-height: 20px;
   color: #eb8d70;
-  margin: 5px;
+  margin: 3px;
+  padding-: 13px;
+  padding-button: 12px;
 `;
 
+const Button = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+  background: #0acf83;
+  border: 2px solid #067a4d;
+  box-sizing: border-box;
+  border-radius: 12px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 22px;
+  color: #ffffff;
+  height: 31px;
+  width: 120px;
+  position: absolute;
+  bottom: 6%;
+  right: 5%;
+`;
+
+const ButtonContainer = styled.div`
+  position: relative;
+  margin-top: 34px;
+`;
 //A los Pets les falta el Titulo. Por ejm: "Gato negro perdido en el puerto" para mostrar previo a la descripcion. (para revisar con los chicos)
 
 const Pet = ({
   state,
   owner,
+  name,
   category,
   sexo,
   description,
@@ -104,7 +161,7 @@ const Pet = ({
   photos,
 }) => {
   return (
-    <MainPet>
+    <ContainerPets>
       <div>
         <Image src={photos} alt="photo not found" />
       </div>
@@ -120,12 +177,18 @@ const Pet = ({
         </div>
       </TagContainer>
       <div>
+        <Nombre>Me llamo: {name}</Nombre>
+      </div>
+      <div>
         <Description>{description}</Description>
       </div>
       <div>
         <Ubicacion>Aqui va la ubicacion </Ubicacion>
       </div>
-    </MainPet>
+      <ButtonContainer>
+        <Button>Ver detalles</Button>
+      </ButtonContainer>
+    </ContainerPets>
   );
 };
 export default Pet;
