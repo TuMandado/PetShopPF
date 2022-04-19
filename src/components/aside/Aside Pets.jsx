@@ -18,7 +18,7 @@ const AsideContainer = styled.aside`
 export const AsidePets = () => {
   const dispatch = useDispatch();
   const petsObj = useSelector((state) => state.clientReducer.pets);
-  console.log(petsObj);
+
   const allPets = { array: petsObj };
 
   //Filtrado por el Estado de la mascota:
@@ -28,7 +28,7 @@ export const AsidePets = () => {
       ...allPets,
       state: e.target.value,
     };
-    console.log(pets);
+    console.log("-Handle Flag-", pets);
     dispatch(filterState(pets));
   }
 

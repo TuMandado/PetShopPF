@@ -1,12 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { getTotalPets } from "../../redux/actions";
 import icoLupa from "../../assets/lupa.png";
-import icoUser from "../../assets/user.png";
 import logoTemp from "../../assets/logo_temporal.ico";
-import icoSettings from "../../assets/config.png";
+import icoUserOptions from "../../assets/options_user.png";
+import { LoginLogout } from "../login/logout/LoginAndLogout";
 import styled from "styled-components";
 
 const NavContainer = styled.div`
@@ -91,24 +91,6 @@ const IconsNav = styled.div`
   display: inline-block;
 `;
 
-const BtnSettings = styled.button`
-  position: relative;
-  width: 50px;
-  height: 42px;
-  padding: 7px 6px;
-  background: none;
-  border: none;
-`;
-
-const SettingsIcon = styled.img`
-  width: 25px;
-  height: 25px;
-  top: 2.1px;
-  position: absolute;
-  left: 16.79%;
-  top: 25.12%;
-`;
-
 const BtnUser = styled.button`
   position: relative;
   width: 50px;
@@ -118,22 +100,47 @@ const BtnUser = styled.button`
   border: none;
 `;
 
-const UserIcon = styled.img`
-  width: 25px;
-  height: 25px;
+const UserOptions = styled.img`
+  width: 23px;
+  height: 23px;
   top: 2.1px;
   position: absolute;
   left: 16.79%;
   top: 25.12%;
 `;
 
+const BtnClose = styled.button`
+  width: 120px;
+  height: 35px;
+  font-size: 12px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  color: #067a4d;
+  background: #fff;
+  margin-top: 1px;
+  float: right;
+  margin-right: 77px;
+  border: none;
+  &:hover {
+    color: #0acf83;
+  }
+`;
+
+const ContainerLoginOption = styled.div`
+  background: #fff;
+  float: right;
+  position: relative; ;
+`;
+
 export const NavbarPets = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
 
-  const AllProduct = useSelector((state) => state.clientReducer.backup);
+  const AllPets = useSelector((state) => state.clientReducer.pets);
 
   useEffect(() => {
+    document.getElementById(`component-loginlogout`).style.display = `none`;
     dispatch(getTotalPets());
     //Falta el action de buscar por name.
   }, [dispatch]);
@@ -147,9 +154,17 @@ export const NavbarPets = () => {
   function handleSubmit(e) {
     e.preventDefault();
     dispatch(getTotalPets(name));
-    console.log(AllProduct);
+    console.log(AllPets);
     setName("");
   }
+
+  const handlePanelOn = () => {
+    document.getElementById(`component-loginlogout`).style.display = `block`;
+  };
+
+  const handlePanelOff = () => {
+    document.getElementById(`component-loginlogout`).style.display = `none`;
+  };
 
   return (
     <div>
@@ -169,19 +184,16 @@ export const NavbarPets = () => {
             <BtnIconLupa src={icoLupa} alt="search" />
           </BtnSearch>
           <IconsNav>
-            <Link to={"/login"}>
-              <BtnUser>
-                <UserIcon src={icoUser} alt="user" />
-              </BtnUser>
-            </Link>
-            <Link to={"/usersettings"}>
-              <BtnSettings>
-                <SettingsIcon src={icoSettings} alt="settings" />
-              </BtnSettings>
-            </Link>
+            <BtnUser onClick={() => handlePanelOn()}>
+              <UserOptions src={icoUserOptions} alt="user" />
+            </BtnUser>
           </IconsNav>
         </div>
       </NavContainer>
+      <ContainerLoginOption id="component-loginlogout">
+        <LoginLogout />
+        <BtnClose onClick={() => handlePanelOff()}>Cerrar ventana</BtnClose>
+      </ContainerLoginOption>
     </div>
   );
 };
