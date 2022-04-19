@@ -41,6 +41,13 @@ function clientReducer(state = initialState, action) {
       };
     }
 
+    case "FILTER_PETS_BY_STATE": {
+      return {
+        ...state,
+        backupPets: action.payload,
+      };
+    }
+
     case "GET_DETAIL_PRODUCTS": {
       return {
         ...state,
