@@ -102,11 +102,18 @@ export async function cartOpenUs(user){
     }
 }
 
+// function sumarItems(db,localS){
+//     let finishdb = db[0]
+//     console.log("esto llega",finishdb)
+//     let keys = Object.keys(localS)
+//     keys.forEach((el)=> finishdb.data[el] ? finishdb.data[el].cantidad = finishdb.data[el].cantidad + localS[el].cantidad : finishdb.data[el]=localS[el]);
+//     return finishdb
+// }
+
 function sumarItems(db,localS){
-    let finishdb = db
-    let keys = Object.keys(localS)
-    keys.forEach((el)=> finishdb.data[el] ? finishdb.data[el].cantidad = finishdb.data[el].cantidad + localS[el].cantidad : finishdb.data[el]=localS[el]);
-    return finishdb
+    let items= localS.items
+    console.log("local",items)
+
 }
 
 export async function newCart(user,data){
@@ -136,12 +143,13 @@ export async function newCart(user,data){
 }
 
 export async function loginCart(user){
-    db = await cartOpen(user.uid)
+     let db = await cartOpen(user.uid)
     if(localStorage.getItem('cart')){
         let localS = []
         localS = JSON.parse(localStorage.getItem('cart'))
         if(db && localS){
-            let data = sumarItems(db,localS)
+            let data = localS.items
+            console.log("local",data)
             editCartFirebase(db.uid,data)
             localStorage.clear()
         } else {

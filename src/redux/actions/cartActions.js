@@ -1,4 +1,4 @@
-import { addCartItem, cartOpenUs, closeCartFirebase, deleteItem, editCart, getAllCartsFirebase } from "../../firebase/Cart";
+import { addCartItem, cartOpenUs, closeCartFirebase, deleteItem, editCart, getAllCartsFirebase, loginCart } from "../../firebase/Cart";
 
 export const GET_CARTS = 'GET_CARTS';
 export const ADD_ITEM = 'ADD_ITEM';
@@ -6,6 +6,7 @@ export const OPEN_CART = 'OPEN_CART';
 export const EDIT_ITEM = 'EDIT_ITEM';
 export const DELETE_ITEM = 'DELETE_ITEM';
 export const CLOSE_CART = 'CLOSE_CART';
+export const LOGIN_CART = 'LOGIN_CART';
 
 export function getAllCarts(){
     return async function (dispatch){
@@ -22,6 +23,18 @@ export function getAllCarts(){
     };
 }
 
+
+// Recibe el sig. objeto:
+// let item={
+//     user: user,
+//     item:{
+//             createdAt:Date(),
+//             title,
+//             cantidad: 1,
+//             price,
+//             id
+//         }
+// }
 export function addItemCartFront(payload) {
     return async function (dispatch) {
         try {
@@ -38,6 +51,7 @@ export function addItemCartFront(payload) {
 }
 
 
+///Recibe usuario, devuelve su carrito 
 export function openCartFront(payload) {
     return async function (dispatch) {
         try {
@@ -54,6 +68,8 @@ export function openCartFront(payload) {
     };
 }
 
+//Recibe un objeto con las propiedades{user,item,number}, 
+//siendo number el numero final que queda en la base de datos
 export function editItemsCartFront(payload) {
     return async function (dispatch) {
         try {
@@ -69,6 +85,7 @@ export function editItemsCartFront(payload) {
     };
 }
 
+//Recibe un objeto con {user,item} item es un objeto(impotante, la propiedad "id" dentro)
 export function deleteItemsCartFront(payload) {
     return async function (dispatch) {
         try {
@@ -84,17 +101,32 @@ export function deleteItemsCartFront(payload) {
     };
     }
 
-    export function closeCartFront(payload) {
-        return async function (dispatch) {
-            try {
-                let jsonProduct = await closeCartFirebase(payload)
-                //console.log("-CloseCart Flag-", jsonProduct);
-                return dispatch({
-                    type: CLOSE_CART,
-                    payload: jsonProduct,
-                });
-            } catch (error) {
-                console.log(error);
-            }
-        };
-    }
+///Recibe user 
+export function closeCartFront(payload) {
+    return async function (dispatch) {
+        try {
+            let jsonProduct = await closeCartFirebase(payload)
+            //console.log("-CloseCart Flag-", jsonProduct);
+            return dispatch({
+                type: CLOSE_CART,
+                payload: jsonProduct,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+}
+
+export function cartLoginFront(payload){
+    return async function (dispatch){
+        try {
+            let jsonProduct = await loginCart(payload);
+            //console.log("-GetAllCarts Flag-", jsonProduct);
+            return dispatch({
+                type: LOGIN_CART,
+                payload: jsonProduct,
+            });
+        }catch (error) {
+            console.log(error);            };
+    };
+}
