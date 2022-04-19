@@ -39,7 +39,7 @@ export function addItemCartFront(payload) {
     return async function (dispatch) {
         try {
             let jsonProduct = await addCartItem(payload.user,payload.item);
-            //console.log("-AddCart Flag-", jsonProduct);
+            console.log("-AddCart Flag-", jsonProduct);
             return dispatch({
                 type: ADD_ITEM,
                 payload: jsonProduct,
@@ -57,7 +57,7 @@ export function openCartFront(payload) {
         try {
             console.log("payload", payload)
             let jsonProduct = await cartOpenUs(payload);
-            //console.log("OpenCart Flag-", jsonProduct);
+            console.log("OpenCart Flag-", jsonProduct);
             return dispatch({
              type: OPEN_CART,
              payload: jsonProduct,
@@ -120,13 +120,14 @@ export function closeCartFront(payload) {
 export function cartLoginFront(payload){
     return async function (dispatch){
         try {
+            {console.log("More pay",payload)}
             let jsonProduct = await loginCart(payload);
-            //console.log("-GetAllCarts Flag-", jsonProduct);
+            console.log("-GetAllCarts Flag-", jsonProduct);
             return dispatch({
                 type: LOGIN_CART,
                 payload: jsonProduct,
             });
         }catch (error) {
-            console.log(error);            };
+            console.log(error);};
     };
 }
