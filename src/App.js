@@ -29,7 +29,7 @@ import NewProduct from "./admin/pages/newProduct/NewProduct";
 import Pyments from "./admin/pages/pyments/Pyments";
 import PublicPets from "./admin/pages/publicPets/PublicPets";
 import AdminSidebar from "./admin/components/adminSidebar/AdminSidebar";
-
+import {mercadoPago} from './firebase/MercadoPago/index'
 import { getTotalProducts } from './redux/actions';
 
 
@@ -37,7 +37,9 @@ import { getTotalProducts } from './redux/actions';
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Navbar from "./components/navbar/Navbar";
+
 const auth = getAuth(firebaseApp);
+
 
 function App() {
   // eslint-disable-next-line no-unused-vars
@@ -53,9 +55,11 @@ function App() {
       // dispatch(setUserCart(null));
     }
   });
-
+  
   useEffect(() => {
     dispatch(getTotalProducts());
+    let mp = mercadoPago()
+    console.log('mp',mp)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
