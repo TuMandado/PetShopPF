@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 import { firebaseApp } from "./firebase/credenciales";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "./redux/actions";
+import mercadopago from "mercadopago";
 // import { doc, setDoc, Timestamp } from "firebase/firestore";
 // import { uploadPet, deletePet, getPet, getAllPets } from "./firebase/Pets";
 import Home from "./page/home/Home";
@@ -43,6 +44,11 @@ function App() {
   // eslint-disable-next-line no-unused-vars
   var user = useSelector((state) => state.clientReducer.user);
   const dispatch = useDispatch();
+
+  // Console log mercado pago functions when loaded
+  useEffect(() => {
+    console.log("Mercado Pago Functions Loaded", mercadopago);
+  }, []);
   
   onAuthStateChanged(auth, (usuarioFirebase) => {
     if (usuarioFirebase) {
