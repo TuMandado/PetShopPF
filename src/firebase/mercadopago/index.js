@@ -10,6 +10,10 @@ console.log("mercadopago    :",mercadopago)
 mercadopago.configure({
     access_token: REACT_APP_ACCESS_TOKEN
 })
+
+// Get the current url
+const url = window.location.href.split("//")[1].split("/")[0].replace (/^/,'https://');
+
 export const mercadoPago=(title,quantity,unit_price)=>{
 
     const id_orden=1
