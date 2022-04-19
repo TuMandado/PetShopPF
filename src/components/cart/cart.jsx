@@ -12,13 +12,31 @@ useEffect(()=>{
     dispatch(openCartFront(user));
 },[dispatch])
 
+let items = []
+
+if(openCart){
+    if(user && openCart[0]){
+        console.log(openCart)
+        items = openCart[0].data.items
+    }else{
+        items = openCart.items
+    }
+}
 
     return(
         <div>
-            {console.log("esto es user", user)}
-            {console.log("open_cart",openCart)}
+            {console.log("carrito contiene:",items)}
             <h1>Soy un cart</h1>
-            {openCart ? (<h1>hay algo</h1>):(<h1>no hay nada</h1>)}
+            {items && items.length ? items.map((el)=>{
+                return (
+                    <div>
+                        {console.log(el)}
+                        <h1>Producto :{el.title}</h1>
+                        <h2>Precio:{el.price} </h2>
+                        <h3>Cantidad:{el.cantidad}</h3>
+                    </div>
+                )
+            }) :(<h1>no hay nada</h1>)}
         </div>
     )
 } 
