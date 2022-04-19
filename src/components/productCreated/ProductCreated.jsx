@@ -14,6 +14,8 @@ const ProductCreated = () => {
     const animalCategory = useSelector((state) => state.adminReducer.animalCategory)
     console.log('esto es animalCategory', animalCategory)
 
+
+    const [erros, setErrors] = useState({})
     const [input, setInput] = useState({
         name: '',
         image: '',

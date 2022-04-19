@@ -9,6 +9,7 @@ const initialState = {
   filter: [],
   details: {},
   backupDetail: {},
+  categoryPets:[],
   user: null,
 };
 
@@ -85,6 +86,12 @@ function clientReducer(state = initialState, action) {
         ...state,
         products: state.backup,
       };
+    case 'GET_CATEGORY_PETS':
+      return {
+        ...state,
+        categoryPets: action.payload
+
+      }
     default:
       return state;
   }
