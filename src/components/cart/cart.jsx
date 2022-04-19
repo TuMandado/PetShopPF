@@ -25,6 +25,7 @@ if(openCart){
 
     return(
         <div>
+            {console.log("ahora que paso?",openCart)}
             {console.log("carrito contiene:",items)}
             <h1>Soy un cart</h1>
             {items && items.length ? items.map((el)=>{

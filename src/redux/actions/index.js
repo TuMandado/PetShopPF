@@ -5,16 +5,29 @@ import {getAllPets, filterByOwner,
   getAllCategories,
   uploadPet} from '../../firebase/Pets/index'
 import { async } from "@firebase/util";
+import { loginCart } from "../../firebase/Cart";
 
 // import { async } from "@firebase/util";
 // import { getAllProducts } from "../../firebase/Products/index";
 // import { getAllPets } from "../../firebase/Pets/index";
 
 export function setUser(payload) {
-    return {
-        type: "SET_USER",
-        payload,
-    };
+  return async function (dispatch) {
+    try {
+        let jsonProduct = await loginCart(payload);
+        console.log("-login Flag-", jsonProduct);
+        return dispatch({
+          type: "SET_USER",
+          payload,
+        });
+    } catch (error) {
+        console.log(error);
+    }
+};
+//     return {
+//         type: "SET_USER",
+//         payload,
+//     };
 }
 
 export function getTotalProducts() {
