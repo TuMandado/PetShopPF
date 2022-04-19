@@ -28,7 +28,15 @@ const GoogleSignIn = () => {
       }
     });
   }, []);
-  return <BtnForInput value={"Sign In Google"} onClick={signInWithGoogle} />;
+
+  const handleOnClick = () => {
+    try {
+      signInWithGoogle();
+    } catch (error) {
+      console.log("signInWithGoogle error  :", error);
+    }
+  };
+  return <BtnForInput value={"Sign In Facebook"} onClick={handleOnClick} />;
 };
 
 export default GoogleSignIn;

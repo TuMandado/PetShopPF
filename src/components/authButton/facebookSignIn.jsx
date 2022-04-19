@@ -28,9 +28,15 @@ const FacebookSignIn = () => {
       }
     });
   }, []);
-  return (
-    <BtnForInput value={"Sign In Facebook"} onClick={signInWithFacebook} />
-  );
+
+  const handleOnClick = () => {
+    try {
+      signInWithFacebook();
+    } catch (error) {
+      console.log("signInWithFacebook error  :", error);
+    }
+  };
+  return <BtnForInput value={"Sign In Facebook"} onClick={handleOnClick} />;
 };
 
 export default FacebookSignIn;
