@@ -7,6 +7,7 @@ import {
   withGoogleMap,
   Marker,
 } from "react-google-maps";
+// import WhatsAppIcon from '@mui/icons-material/WhatsApp'
 import { LoremIpsum } from "lorem-ipsum";
 import {
     Facebook,
