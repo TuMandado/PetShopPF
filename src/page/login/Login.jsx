@@ -4,6 +4,8 @@ import styled from "styled-components";
 import imgLogin from "../../assets/mascotas_login.png";
 import imgBackground from "../../assets/patrones_pet.png";
 import GoogleSignIn from "../../components/authButton/googleSignIn";
+import FacebookSignIn from "../../components/authButton/facebookSignIn";
+import auth from "../../firebase/auth";
 
 const BodyLogin = styled.div`
   height: 90%;
@@ -167,6 +169,7 @@ const Login = () => {
             value={isRegistrando ? "Registrar" : "Iniciar sesion"}
           />
       <GoogleSignIn/>
+      <FacebookSignIn/>
         </Form>
 
         <BtnLoggin onClick={() => setIsRegistrando(!isRegistrando)}>
