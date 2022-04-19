@@ -28,7 +28,7 @@ import Home from "./page/home/Home";
 // eslint-disable-next-line no-unused-vars
 import Login from "./page/login/Login";
 // import ProductList from "./page/productList/ProductList";
-// import Product from "./page/product/Product";
+import Product from "./page/product/Product";
 // import Cart from "./page/cart/Cart";
 // import PetsPage from "./page/pets/PetsPage";
 // import Register from "./page/register/Register";
@@ -107,9 +107,9 @@ function App() {
         <Routes>
           {/* <Route exact path="*" element={<ErrorPage />} /> */}
           <Route exact path="/" element={<Home />} />
+          <Route path="/product/:id" element={<Product />} />
           {/* <Route exact path="/" element={user ? <Home /> : <Login />} /> */}
           {/* <Route path="/products" element={<ProductList />} />
-             <Route path="/product/:id" element={<Product />} />
              <Route exact path="/cart" element={<Cart />} />
              <Route exact path="/admin" element={<AdminHome />} />
              <Route exact path="/usersettings" element={<UserSettings />} />
