@@ -78,7 +78,7 @@ export const signInWithGoogle = () => {
 };
 
 export const signInWithFacebook = () => {
-  signInWithPopup(auth, provider)
+  signInWithPopup(auth, providerFacebook)
   .then((result) => {
     // The signed-in user info.
     const user = result.user;
