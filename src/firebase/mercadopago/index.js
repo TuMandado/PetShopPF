@@ -2,7 +2,8 @@ import {firebase, db} from '../credenciales'
 import { doc, setDoc, Timestamp, deleteDoc, getDoc, getDocs, collection, updateDoc } from "firebase/firestore";
 
 import {mercadopago} from 'mercadopago'
-const {REACT_APP_ACCESS_TOKEN} = process.env;
+// const {REACT_APP_ACCESS_TOKEN} = process.env;
+const REACT_APP_ACCESS_TOKEN = "TEST-5909391637745101-041518-e07a43a5f92224ee501bc4d9feca4624-191706246";
 
 
 console.log(REACT_APP_ACCESS_TOKEN)
