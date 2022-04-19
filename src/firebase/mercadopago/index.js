@@ -1,11 +1,12 @@
 import {firebase, db} from '../credenciales'
 import { doc, setDoc, Timestamp, deleteDoc, getDoc, getDocs, collection, updateDoc } from "firebase/firestore";
 
-import {mercadopago} from 'mercadopago'
-const {REACT_APP_ACCESS_TOKEN} = process.env;
+const mercadopago = require('mercadopago');
+const REACT_APP_ACCESS_TOKEN = "TEST-5909391637745101-041518-e07a43a5f92224ee501bc4d9feca4624-191706246";
 
 
-console.log(REACT_APP_ACCESS_TOKEN)
+console.log("REACT_APP_ACCESS_TOKEN :",REACT_APP_ACCESS_TOKEN)
+console.log("mercadopago    :",mercadopago)
 mercadopago.configure({
     access_token: REACT_APP_ACCESS_TOKEN
 })
