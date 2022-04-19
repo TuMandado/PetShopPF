@@ -8,6 +8,13 @@ import {
   Marker,
 } from "react-google-maps";
 import { LoremIpsum } from "lorem-ipsum";
+import {
+    Facebook,
+    Instagram,
+    MailOutline,
+    Pinterest,
+    Twitter
+} from '@material-ui/icons'
 
 
 // Import icons from Material UI Icons
@@ -271,6 +278,8 @@ function App() {
         <Line type="monotone" dataKey="pv" stroke="#8884d8" />
         <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
       </LineChart>
+      <Facebook />
+      <Instagram />
     </div>
   );
 }
