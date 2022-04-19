@@ -46,9 +46,9 @@ export const mercadoPago=(title,quantity,unit_price)=>{
                 installments:3, // cant maxima de cuotas
             },
             back_Urls: {
-                        success: 'http://localhost:3001/mercadopago/pagos',
-                        failure: 'http://localhost:3001/mercadopago/pagos',
-                        pending: 'http://localhost:3001/mercadopago/pagos',
+                        success: url + '/mercadopago/pagos',
+                        failure: url + '/mercadopago/pagos',
+                        pending: url + '/mercadopago/pagos',
             },
         }
     
