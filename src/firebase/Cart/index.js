@@ -234,7 +234,7 @@ export async function addItem(user,item){
                 localStorage.setItem("cart",JSON.stringify(data))
                 return JSON.parse(localStorage.getItem('cart'))
             }else{
-                data = {...data, createdAt: Date()}
+                data = {...data,items:[{...item, createdAt: Date()}]}
                 localStorage.setItem("cart",JSON.stringify(data))
                 return JSON.parse(localStorage.getItem('cart'))
             }
