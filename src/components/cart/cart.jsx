@@ -19,9 +19,9 @@ const dispatch = useDispatch()
     },[dispatch])
 
     const mercadoPagoConfiguration = async () => {
-        // await mercadopago.configure({
-        //     access_token: REACT_APP_ACCESS_TOKEN
-        // })
+        await mercadopago.configure({
+            access_token: REACT_APP_ACCESS_TOKEN
+        })
         const id_orden=1
         const carrito =[
             { title: 'prod1', quantity:2, price:10.5},
@@ -97,6 +97,7 @@ if(openCart){
                     </div>
                 )
             }) :(<h1>no hay nada</h1>)}
+            <button onClick={handleSubmit()}>MP</button>
         </div>
     )
 } 
