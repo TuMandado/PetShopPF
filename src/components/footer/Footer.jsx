@@ -95,6 +95,7 @@ const Container = styled.div`
   font-style: normal;
   font-size: 15px;
   line-height: 22px;
+  clear: both;
 `
 
 const Left = styled.div`
