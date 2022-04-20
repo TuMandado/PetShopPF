@@ -1,8 +1,7 @@
 import { getProduct, getAllProducts, uploadProduct, deleteProduct, getAllProductsCategories } from "../../firebase/Products/index";
 import { getAllUsers, deleteUser, getUser } from "../../firebase/Users";
-import {getAllCategory} from '../../firebase/AnimalCategory/index'
+import {getAllAnimalCategory} from '../../firebase/AnimalCategory/index'
 export const GET_PRODUCTS = 'GET_PRODUCTS';
-
 
 
 export function getTotalProducts() {
@@ -62,7 +61,7 @@ export function deleteThisProduct(id) {
 
   export function getProductAnimalCategory() {
     return async function (dispatch) {
-      let jsonAnimalCategory = await getAllCategory()
+      let jsonAnimalCategory = await getAllAnimalCategory()
       console.log('esto es json anmimalCategory',jsonAnimalCategory)
       return dispatch ({
         type: 'GET_ANIMAL_CATEGORY',

@@ -18,6 +18,7 @@ import Register from "./page/register/Register";
 import UserSettings from "./page/userSettings/UserSettings";
 import ErrorPage from "./page/error/Error";
 import CreatedProduct from './page/createdProduct/CreatedProduct'
+import CreatedPets from './page/createdPets/CreatedPets'
 
 import AdminHome from "./admin/pages/adminHome/AdminHome";
 import UserList from "./admin/pages/userList/UserList";
@@ -76,7 +77,8 @@ function App() {
              <Route exact path="/pets" element={<PetsPage />} />
              <Route exact path="/register" element={<Register />} />
              <Route exact path="/login" element={<Login />} />
-             {<Route exact path="/createdProduct" element={<CreatedProduct/>} />}
+             <Route exact path="/createdProduct" element={<CreatedProduct/>} />
+             <Route exact path="/createdPet" element={<CreatedPets/>}/>
    
              <Route exact path="/admin" element={<AdminHome />} />
              <Route path="/users" element={<UserList />} />

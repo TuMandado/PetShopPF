@@ -2,10 +2,10 @@ import React from "react";
 // import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { getTotalPets } from "../../redux/actions";
+import { getProductName, getTotalProducts } from "../../redux/actions/index";
 import icoLupa from "../../assets/lupa.png";
-import logoTemp from "../../assets/logo_temporal.ico";
 import icoUserOptions from "../../assets/options_user.png";
+import logoTemp from "../../assets/logo_temporal.ico";
 import { LoginLogout } from "../login/logout/LoginAndLogout";
 import styled from "styled-components";
 
@@ -13,6 +13,12 @@ const NavContainer = styled.div`
   text-align: center;
   justify-content: space-around;
   padding: 20px;
+`;
+
+const ContainerLoginOption = styled.div`
+  background: #fff;
+  float: right;
+  position: relative; ;
 `;
 const BrandNav = styled.div`
   width: 120px;
@@ -90,7 +96,6 @@ const IconsNav = styled.div`
   float: right;
   display: inline-block;
 `;
-
 const BtnUser = styled.button`
   position: relative;
   width: 50px;
@@ -127,22 +132,16 @@ const BtnClose = styled.button`
   }
 `;
 
-const ContainerLoginOption = styled.div`
-  background: #fff;
-  float: right;
-  position: relative; ;
-`;
-
-export const NavbarPets = () => {
+export const NavbarCart = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
 
-  const AllPets = useSelector((state) => state.clientReducer.pets);
+  const AllProduct = useSelector((state) => state.cartReducer.openCart);
+  console.log("AllProduct-Flag", AllProduct);
 
   useEffect(() => {
     document.getElementById(`component-loginlogout`).style.display = `none`;
-    dispatch(getTotalPets());
-    //Falta el action de buscar por name.
+    dispatch(getTotalProducts());
   }, [dispatch]);
 
   //Handle del Input y Search
@@ -153,8 +152,8 @@ export const NavbarPets = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    dispatch(getTotalPets(name));
-    console.log(AllPets);
+    dispatch(getProductName(name));
+    console.log(AllProduct);
     setName("");
   }
 
@@ -169,6 +168,7 @@ export const NavbarPets = () => {
   return (
     <div>
       <NavContainer>
+        <style>#component-loginlogout( display: none; )</style>
         <BrandNav>
           <Logo src={logoTemp} alt="logo-petshop" />
           <TextPetshop>PetShop</TextPetshop>
@@ -178,7 +178,7 @@ export const NavbarPets = () => {
             value={name}
             onChange={(e) => handleInputChange(e)}
             type="text"
-            placeholder="¿A quien estas buscando?"
+            placeholder="Buscar entre los productos..."
           />
           <BtnSearch onClick={(e) => handleSubmit(e)} type="submit">
             <BtnIconLupa src={icoLupa} alt="search" />
@@ -198,4 +198,4 @@ export const NavbarPets = () => {
   );
 };
 
-export default NavbarPets;
+export default NavbarCart;

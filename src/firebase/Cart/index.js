@@ -1,5 +1,5 @@
 import {firebase, db} from '../credenciales'
-import { doc, setDoc, Timestamp, deleteDoc, getDoc, getDocs, updateDoc ,collection, serverTimestamp, deleteField} from "firebase/firestore";
+import { doc, setDoc, Timestamp, deleteDoc, getDoc, getDocs, updateDoc ,collection, serverTimestamp, deleteField, arrayUnion, arrayRemove} from "firebase/firestore";
 import { async } from '@firebase/util';
 
 var collectionRef = "Cart";
@@ -58,6 +58,7 @@ export async function getAllCartsFirebase() {
 }
 
 export async function editCartFirebase(uid,data){
+    console.log("dataaaaa",data)
     await updateDoc(doc(db, collectionRef, uid), data);
 }
 
@@ -66,21 +67,54 @@ function cartLocalStorage(data){
 }
 
 export async function cartOpen(user){
-    let cars = await getAllCartsFirebase()
-    let open = cars.filter(el => el.data.close === false) 
-    if (open.length){
-        let cartUser= open.filter(el => el.data.uid === user.uid)
-        if(cartUser.length){
-            return cartUser
+    if(user){
+        let cars = await getAllCartsFirebase()
+        let open = cars.filter(el => el.data.close === false) 
+        if (open.length){
+            let cartUser= open.filter(el => el.data.userUid === user)
+            if(cartUser.length){
+                return cartUser
+            }
+        }
+    }else{
+        if(localStorage.getItem('cart')){
+             return JSON.parse(localStorage.getItem('cart'))
         }
     }
 }
 
+export async function cartOpenUs(user){
+    if(user){
+
+        let cars = await getAllCartsFirebase()
+        let open = cars.filter(el => el.data.close === false) 
+        if (open.length){
+            let cartUser= open.filter(el => el.data.userUid === user.uid)
+            if(cartUser.length){
+                return cartUser
+            }else if(localStorage.getItem('cart')){
+                return JSON.parse(localStorage.getItem('cart'))
+           }
+        }
+    }else{
+        if(localStorage.getItem('cart')){
+             return JSON.parse(localStorage.getItem('cart'))
+        }
+    }
+}
+
+// function sumarItems(db,localS){
+//     let finishdb = db[0]
+//     console.log("esto llega",finishdb)
+//     let keys = Object.keys(localS)
+//     keys.forEach((el)=> finishdb.data[el] ? finishdb.data[el].cantidad = finishdb.data[el].cantidad + localS[el].cantidad : finishdb.data[el]=localS[el]);
+//     return finishdb
+// }
+
 function sumarItems(db,localS){
-    let finishdb = db
-    let keys = Object.keys(localS)
-    keys.forEach((el)=> finishdb.data[el] ? finishdb.data[el].cantidad = finishdb.data[el].cantidad + localS[el].cantidad : finishdb.data[el]=localS[el]);
-    return finishdb
+    let items= localS.items
+    console.log("local",items)
+
 }
 
 export async function newCart(user,data){
@@ -89,6 +123,7 @@ export async function newCart(user,data){
             userUid: user.uid,
             createdAt: Date(),
             close: false,
+            items: []
         }
         await uploadCartFirebase(cart)
         let newCart = cartOpen()
@@ -101,7 +136,7 @@ export async function newCart(user,data){
         let cart = {
             createdAt: Date(),
             close: false,
-            data
+            items: [data]
         }
         cartLocalStorage(cart)
         return JSON.parse(localStorage.getItem('cart'))
@@ -109,17 +144,33 @@ export async function newCart(user,data){
 }
 
 export async function loginCart(user){
-    db = await cartOpen(user.uid)
-    if(localStorage.getItem('cart')){
-        let localS = []
-        localS = JSON.parse(localStorage.getItem('cart'))
-        if(db && localS){
-            let data = sumarItems(db,localS)
-            editCartFirebase(db.uid,data)
-            localStorage.clear()
-        } else {
-            uploadCartFirebase(localS)
-        }
+    if(user){
+        let db = await cartOpenUs(user)
+       if(localStorage.getItem('cart')){
+           let localS = []
+           localS = JSON.parse(localStorage.getItem('cart'))
+           if(db[0] && localS){
+                let data = localS.items
+                if(db[0].data.items){
+                    for(let j = 0;j<= localS.items.length-1; j++){
+                        for(let i = 0; i<db[0].data.items.length-1; i++){
+                            if(localS.items[j].id===db[0].data.items[i].id){
+                                await editCartFirebase(db[0].uid,{items: arrayRemove(db[0].data.items[i])})
+                            }
+                        }
+                    }
+                }
+                data.forEach(async el => await editCartFirebase(db[0].uid,{items: arrayUnion(el)}))
+              localStorage.clear()
+           } else {
+               localS ={
+                   ...localS,
+                   userUid: user.uid
+               }
+               uploadCartFirebase(localS)
+               localStorage.clear()
+           }
+       }
     }
 }
 
@@ -128,13 +179,17 @@ export async function loginCart(user){
 export async function addItem(user,item){
     if(user){
         let cart =await cartOpen(user.uid)
-        await editCartFirebase(cart[0].uid,item)
+        await editCartFirebase(cart[0].uid,{items: arrayUnion(item)})
         let now= await getCartFirebase(cart[0].uid)
         return now
     }else{
         if(localStorage.getItem('cart')){
             let data = JSON.parse(localStorage.getItem('cart'))
-            data = {...data, item, createdAt: Date()}
+            if(!data.items.find(el=> el.id === item.id)){
+                data.items.push(item)
+            }
+            console.log("data a agregar", data)
+            data = {...data, createdAt: Date()}
             localStorage.setItem("cart",JSON.stringify(data))
             return JSON.parse(localStorage.getItem('cart'))
         }
@@ -145,14 +200,19 @@ export async function addItem(user,item){
 export async function deleteItem(user,item){
     if(user){
         let cart = await cartOpen(user.uid)
-        await updateDoc(doc(db, collectionRef, cart[0].uid), {...cart[0].data,[item]: deleteField()});
+        let items = cart[0].data.items.find(el => el.id=== item.id)
+        await editCartFirebase(cart[0].uid,{items: arrayRemove(items)})
         let newCart = await getCartFirebase(cart[0].uid)  
+        console.log("ahora sin", newCart)
         return newCart
     } else{
         if(localStorage.getItem('cart')){
             let data = JSON.parse(localStorage.getItem('cart'))
-            delete data[item]
-            localStorage.setItem("cart",JSON.stringify(data))
+            let items = data.items.filter(el => el.id !== item.id)
+            let del = {...data,
+                items: items
+            }
+            localStorage.setItem("cart",JSON.stringify(del))
             return JSON.parse(localStorage.getItem('cart'))
         }
     }
@@ -180,20 +240,28 @@ export async function getCart(user,uid){
 export async function editCart(user,item,number){
     if(user){
         let cart = await cartOpen(user.uid)
-        let allItems ={item: cart[0].data[item] = number}
+        let allItems = {items: cart[0].data.items.map((el) =>{
+            if(el.id === item.id){
+                return { ...el,
+                   cantidad : number,
+                   updateAt: Date()}
+            }else{return el}
+        })}
         await editCartFirebase(cart[0].uid,allItems)
         let newCart = await getCartFirebase(cart[0].uid)  
         return newCart
     }else{
         if(localStorage.getItem('cart')){
             let data = JSON.parse(localStorage.getItem('cart'))
-            for(const prop in newCart){
-                if(prop===item){
-                    data[prop].cantidad = number
-                }
-            }
-            data = {...data, item, createdAt: Date()}
-            localStorage.setItem("cart",JSON.stringify(data))
+            let allData = { ...data, 
+                items: data.items.map((el) =>{
+                if(el.id === item.id){
+                    return { ...el,
+                       cantidad : number,
+                       updateAt: Date()}
+                }else{return el}
+            })}
+            localStorage.setItem("cart",JSON.stringify(allData))
             return JSON.parse(localStorage.getItem('cart'))
         }
     }
@@ -201,15 +269,10 @@ export async function editCart(user,item,number){
 }
 
 
-////////////////////////////////////////////////////////////////////////
-/////recibe un item
-/////se fija si hay un carrito abierto
-/////si es necesario lo crea y guarda el item ahi
-/////en caso de encontrar un carrito abierto lo mete ahi
-
 export async function addCartItem(user,item){
     if(user){
         let open = await cartOpen(user.uid)
+        console.log("useeeer",open,"userUid",user.uid)
         if (open){
             addItem(user,item)
         }else{
@@ -223,4 +286,16 @@ export async function addCartItem(user,item){
         }
     }
 
+}
+
+export async function closeCartFirebase(user){
+    console.log("useeeeer",user)
+    if(user){
+        let cart = await cartOpen(user.uid)
+        let close = {...cart[0].data,
+            close: true}
+        await editCartFirebase(cart[0].uid,close)
+        newCart = await getCartFirebase(cart[0].uid)  
+        return newCart
+    }
 }

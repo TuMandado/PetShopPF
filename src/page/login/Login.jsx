@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { signInUsuario, registrarUsuario } from "../../firebase/auth";
 import styled from "styled-components";
 import imgLogin from "../../assets/mascotas_login.png";
 import imgBackground from "../../assets/patrones_pet.png";
+import GoogleSignIn from "../../components/authButton/googleSignIn";
+import FacebookSignIn from "../../components/authButton/facebookSignIn";
+import auth from "../../firebase/auth";
 
 const BodyLogin = styled.div`
   height: 90%;
@@ -128,6 +131,9 @@ const containerStyle = {
 
 const Login = () => {
   const [isRegistrando, setIsRegistrando] = useState(false);
+  // Handle auth changes
+
+
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -162,6 +168,8 @@ const Login = () => {
             type="submit"
             value={isRegistrando ? "Registrar" : "Iniciar sesion"}
           />
+      <GoogleSignIn/>
+      <FacebookSignIn/>
         </Form>
 
         <BtnLoggin onClick={() => setIsRegistrando(!isRegistrando)}>

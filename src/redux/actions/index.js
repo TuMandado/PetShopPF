@@ -1,17 +1,34 @@
 import { getAllProducts, getProduct, getAllProductsCategories, getAllProductsSubCategory, getAllProductsAnimal, filterProducts,uploadProduct} from "../../firebase/Products/index";
 import {getAllPets, filterByOwner,
   filterByState,
-  filterByCategory} from '../../firebase/Pets/index'
+  filterByCategory,
+  getAllCategories,
+  uploadPet} from '../../firebase/Pets/index'
+import { async } from "@firebase/util";
+import { loginCart } from "../../firebase/Cart";
+import {getAllAnimalCategory} from '../../firebase/AnimalCategory/index'
 
 // import { async } from "@firebase/util";
 // import { getAllProducts } from "../../firebase/Products/index";
 // import { getAllPets } from "../../firebase/Pets/index";
 
 export function setUser(payload) {
-    return {
-        type: "SET_USER",
-        payload,
-    };
+  return async function (dispatch) {
+    try {
+        let jsonProduct = await loginCart(payload);
+        console.log("-login Flag-", jsonProduct);
+        return dispatch({
+          type: "SET_USER",
+          payload,
+        });
+    } catch (error) {
+        console.log(error);
+    }
+};
+//     return {
+//         type: "SET_USER",
+//         payload,
+//     };
 }
 
 export function getTotalProducts() {
@@ -155,11 +172,22 @@ export function filterAllProducts(array, category, animal, minPrice, maxPrice) {
     }
 }
 
-// export function postProduct(payload) {
-//   return async function(dispatch) {
-//     const jsonPost = await uploadProduct(payload)
-//     console.log('esto es jsonPost', jsonPost)
-//     return jsonPost
-  
-//   }
-// }
+export function getTotalCategoryPets () {
+   return async function (dispatch) {
+     const jsonCategoryPets = await getAllAnimalCategory()
+     console.log('esto es jsonCategoryPets', jsonCategoryPets)
+     return dispatch ({
+       type: 'GET_CATEGORY_PETS',
+       payload: jsonCategoryPets
+     })
+   }
+}
+
+export function postPets (payload) {
+  return async function (dispatch) {
+    const jsonPetsPost = await uploadPet(payload)
+    console.log('esto es jsonPetsPost', jsonPetsPost)
+    return jsonPetsPost
+  }
+
+}
