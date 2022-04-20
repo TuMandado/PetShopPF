@@ -66,7 +66,6 @@ const Pets = () => {
 
   return (
     <div>
-      <NavbarPets />
       <AsidePets />
       <MainAllCards>
         {allPets.length > 0 ? (
