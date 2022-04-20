@@ -38,6 +38,7 @@ import { getTotalProducts } from './redux/actions';
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Navbar from "./components/navbar/Navbar";
+import NewPublicPets from "./admin/pages/newPublicPets/NewPublicPets";
 const auth = getAuth(firebaseApp);
 
 function App() {
@@ -89,6 +90,7 @@ function App() {
              <Route path="/newProduct" element={<NewProduct />} />
              <Route path="/ventas" element={<Pyments />} />
              <Route path="/publicPets" element={<PublicPets />} />
+             <Route path="/newPublicPets" element={<NewPublicPets />} />
          </Routes>
       </Router>
     </div>

@@ -6,7 +6,7 @@ import { getTotalPets, getTotalCategoryPets, postPets} from '../../redux/actions
 
 function validadora (input) {
     let error = {}
-    if(!input.name || input.length <3) {
+    if(!input.name || input.name.length <3) {
         error.name = 'ingrese un nombre por favor'
     } else if (!input.owner) {
         error.owner = 'ingrese el nombre del dueño'
@@ -41,7 +41,8 @@ const PetCreated = ()=> {
         photos: '',
         ubicacion : '',
         state: '',
-        category:[]
+        category:[],
+        delete: false
     })
 
     function handleChange(e) {
@@ -91,7 +92,8 @@ const PetCreated = ()=> {
             photos: '',
             ubicacion : '',
             state: '',
-            category:[]
+            category:[],
+            delete:false
         })
         navigate('/pets')
     }

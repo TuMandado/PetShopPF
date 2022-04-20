@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   openCartFront,
   deleteItemsCartFront,
+  editItemsCartFront,
 } from "../../redux/actions/cartActions";
 import CartEmpy from "../../assets/carrito_vacio.gif";
 import styled from "styled-components";
@@ -254,6 +255,7 @@ export function Cart() {
 
   let items = [];
   let itemDelete = {};
+  let itemQuantity = {};
 
   if (openCart) {
     if (user && openCart[0]) {
@@ -275,6 +277,40 @@ export function Cart() {
     dispatch(deleteItemsCartFront(itemDelete));
   };
 
+  //Recibe un objeto con las propiedades{user,item,number},
+  //siendo number el numero final que queda en la base de datos
+  const handleSupr = (e, ele, id) => {
+    e.preventDefault();
+    if (ele > 1) {
+      itemQuantity = {
+        user,
+        item: {
+          id,
+        },
+        number: ele - 1,
+      };
+    } else {
+      alert(
+        "Cuidado! Debe haber al menos 1 articulo para reducir la cantidad."
+      );
+    }
+    console.log("-Number-Flag", itemQuantity);
+    dispatch(editItemsCartFront(itemQuantity));
+  };
+
+  const handleAdd = (e, ele, id) => {
+    e.preventDefault();
+    itemQuantity = {
+      user,
+      item: {
+        id,
+      },
+      number: ele + 1,
+    };
+    console.log("Number+Flag", itemQuantity);
+    dispatch(editItemsCartFront(itemQuantity));
+  };
+
   return (
     <div>
       {/* <TitleContainer>
@@ -292,9 +328,24 @@ export function Cart() {
               <PrecioProd>{el.price} </PrecioProd>
               <CantidadContainer>
                 <SumDelContainer>
-                  Cantidad: <BtnSup>-</BtnSup>
+
+                  Cantidad:{" "}
+                  <BtnSup
+                    onClick={(e) => {
+                      handleSupr(e, el.cantidad, el.id);
+                    }}
+                  >
+                    -
+                  </BtnSup>
                   {el.quantity}
-                  <BtnSum>+</BtnSum>
+                  <BtnSum
+                    onClick={(e) => {
+                      handleAdd(e, el.cantidad, el.id);
+                    }}
+                  >
+                    +
+                  </BtnSum>
+
                 </SumDelContainer>
               </CantidadContainer>
               <ButtonDelete onClick={(e) => handleDelete(e, el.id)}>
