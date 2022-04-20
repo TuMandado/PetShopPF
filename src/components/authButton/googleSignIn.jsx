@@ -21,13 +21,13 @@ const BtnForInput = styled.input`
 `;
 
 const GoogleSignIn = () => {
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        window.location.href = "/";
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   auth.onAuthStateChanged((user) => {
+  //     if (user) {
+  //       window.location.href = "/";
+  //     }
+  //   });
+  // }, []);
   return <BtnForInput value={"Sign In Google"} onClick={signInWithGoogle} />;
 };
 
