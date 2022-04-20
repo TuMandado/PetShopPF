@@ -4,31 +4,58 @@ import { useDispatch, useSelector  } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { postProduct, getTotalProducts,getProductCategory, getProductAnimalCategory } from '../../redux/actions/adminActions';
 
+function validadora (input) {
+    let error = {}
+    if(!input.name || input.name.length < 3) {
+        error.name = 'ingrese un nombre por favor'
+    } else if (!input.image) {
+        error.image = 'ingrese una imagen plis'
+    } else if (input.animalCategory.length === 0) {
+        error.animalCategory = 'por favor ingrese una categoria de animal'
+    } else if (input.category.length === 0) {
+        error.category = 'ingrese una categoria porfitas'
+    } else if (!input.subCategory) {
+        error.subCategory = 'ingrese sub categoria'
+    } else if (!input.price || input.price < 0 ) {
+        error.price = 'ingrese precio adecuado por favor'
+    } 
+
+    return error
+
+}
+
 const ProductCreated = () => {
     const dispatch = useDispatch()
     const navegate = useNavigate()
     const product = useSelector((state) => state.adminReducer.products)
     console.log('esto es product', product)
     const category = useSelector((state) => state.adminReducer.categories)
-    // console.log('esto es category',category)
+    console.log('esto es category',category)
     const animalCategory = useSelector((state) => state.adminReducer.animalCategory)
     console.log('esto es animalCategory', animalCategory)
 
 
-    const [erros, setErrors] = useState({})
+    const [errors, setErrors] = useState({})
     const [input, setInput] = useState({
         name: '',
         image: '',
-        animalCategory: '',
-        category: '',
+        animalCategory: [],
+        category: [],
         price: '',
-        subCategory: ''
+        subCategory: '',
+        delete: false
     })
     function handleChange(e) {
         setInput({
             ...input,
             [e.target.name]: e.target.value
         })
+        setErrors(
+            validadora({
+                ...input,
+                [e.target.name] : e.target.value
+            })
+        )
         console.log(input)
     }
 
@@ -42,12 +69,27 @@ const ProductCreated = () => {
 
     }
 
+    function handleDelete (e) {
+        setInput({
+            ...input,
+            category: input.category.filter(category => category !== e)
+        })
+
+    }
+    function handleDelete2 (e) {
+        setInput({
+            ...input,
+            animalCategory: input.animalCategory.filter(animalCategory => animalCategory !== e)
+        })
+
+    }
+
     function handleSubmit (e) {
         e.preventDefault()
         if(input.name.trim() === '') {
             return alert('Ingrese un nombre')
         } else if (
-            product.find(e => e.name.toLowerCase().trim() === input.name.toLowerCase().trim())
+            product.find(e => e.data.name.toLowerCase().trim() === input.name.toLowerCase().trim())
         ) {
             return alert(`El Producto ${input.name} ya existe`)
         } else {
@@ -57,12 +99,13 @@ const ProductCreated = () => {
             setInput({
                 name: '',
                 image: '',
-                animalCategory: '',
-                category: '',
+                animalCategory: [],
+                category: [],
                 price: '',
-                subCategory: ''
+                subCategory: '',
+                delete: false
             })
-            navegate('/')
+            navegate('/products')
 
             
         }
@@ -97,11 +140,17 @@ const ProductCreated = () => {
                     <label > Nombre del Producto</label>
                     <br />
                     <input type="text"
-                     name="name" 
                      value={input.name}
+                     name="name" 
+                     placeholder='nombre del producto'
                      onChange={(e) => handleChange(e) }
                     
                     />
+                     {
+                       errors.name && (
+                           <p>{errors.name}</p>
+                       )
+                   }
                 </div>
                 <div>
                     <label> Agrege una imagen </label>
@@ -111,6 +160,11 @@ const ProductCreated = () => {
                     name= 'image'
                     onChange={(e) => handleChange(e) }
                     />
+                     {
+                       errors.image && (
+                           <p>{errors.image}</p>
+                       )
+                   }
                 </div>
                 <div>
                     <select onChange={e => handleSelect(e)}>
@@ -121,7 +175,28 @@ const ProductCreated = () => {
                        }
 
                     </select>
+                    <div>
+                    <ul>
+                           <li>
+                               {input.animalCategory?.map((e) => (
+                                  <div>
+                                      {e + ' '}
+                                      <button type='button' onClick={() => handleDelete2(e)}>
+                                          X
+                                      </button>
+                                  </div>
+                               ))}
+                           </li>
+                       </ul>
 
+                    {
+                       errors.animalCategory && (
+                           <p>{errors.animalCategory}</p>
+                       )
+                   }
+                    </div>
+
+                    
                 </div>
                 <div>
                     <select onChange={e => handleSelect2(e)}>
@@ -132,6 +207,28 @@ const ProductCreated = () => {
                             ))
                         }
                     </select>
+                    <div>
+
+                    <ul>
+                           <li>
+                               {input.category?.map((e) => (
+                                  <div>
+                                      {e + ' '}
+                                      <button type='button' onClick={() => handleDelete(e)}>
+                                          X
+                                      </button>
+                                  </div>
+                               ))}
+                           </li>
+                       </ul>
+                       {
+                       errors.category && (
+                           <p>{errors.category}</p>
+                       )
+                   }
+
+                    </div>
+                    
                 </div>
                 <div>
                     <label>Agrega una Sub categoria</label>
@@ -141,6 +238,11 @@ const ProductCreated = () => {
                     name='subCategory'
                     onChange={(e) => handleChange(e) }
                     />
+                    {
+                       errors.subCategory && (
+                           <p>{errors.subCategory}</p>
+                       )
+                   }
                 </div>
                 <div>
                     <label>Agrega Precio</label>
@@ -151,10 +253,15 @@ const ProductCreated = () => {
                     onChange={(e) => handleChange(e) }
                     
                     />
+                       {
+                       errors.price && (
+                           <p>{errors.price}</p>
+                       )
+                   }
                 </div>
                 <button type='submit'>Crear producto</button>
             </form>
-            <Link to='/'><button>volver al home</button></Link>
+            <Link to='/admin'><button>volver al administrador</button></Link>
             
         </div>
     )
