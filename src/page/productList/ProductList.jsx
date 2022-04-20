@@ -13,14 +13,15 @@ const Div = styled.div`
 `
 
 const FooterContainer = styled.div`
+    
 `
 
 const ViewModeContainer = styled.div`
     margin-top: 2em;
     ${props => (
         props.viewMode === 'List'
-        ? `margin-bottom: 0; `
-        : `margin-bottom: 0.6em; `
+            ? `margin-bottom: 0; `
+            : `margin-bottom: 0.6em; `
     )}
     
     margin-left: 86%;

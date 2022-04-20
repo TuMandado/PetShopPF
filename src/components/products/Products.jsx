@@ -12,7 +12,6 @@ const Container = styled.div`
     padding: 20px;
     display: flex;
     flex-wrap: wrap;
-    padding-left: 20em;
     padding-right: 10em;
     justify-content: center;
     ${props => props.products.length > 8

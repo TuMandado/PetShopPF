@@ -134,14 +134,13 @@ const Div = styled.div`
 
 const Container = styled.div`
     width: 16em;
-    position: absolute;
-    top: 0;
-    left: 0;
     overflow-x: hidden;
-    padding-top: 9.5em;
+    padding-top: 4.5em;
     z-index: 1;
     padding-left: 1.6em;
-
+    float: left;
+    padding-left: 3em;
+    margin-bottom: 3em;
 `
 
 const H3 = styled.h3`
