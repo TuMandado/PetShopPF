@@ -10,6 +10,7 @@ const initialState = {
   details: {},
   backupDetail: {},
   categoryPets:[],
+  petsCategory:[],
   user: null,
 };
 
