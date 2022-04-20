@@ -299,7 +299,8 @@ const Product = ({ id, title, imagen, info, price, animalCategory, category, sub
                 title,
                 cantidad: 1,
                 price,
-                id
+                id,
+                imagen
             }
     }
     
