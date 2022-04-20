@@ -32,7 +32,8 @@ export function getAllCarts(){
 //             title,
 //             cantidad: 1,
 //             price,
-//             id
+//             id,
+//             image, 
 //         }
 // }
 export function addItemCartFront(payload) {
