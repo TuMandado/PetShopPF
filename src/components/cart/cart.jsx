@@ -1,6 +1,11 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { openCartFront } from "../../redux/actions/cartActions";
+import {
+  openCartFront,
+  deleteItemsCartFront,
+} from "../../redux/actions/cartActions";
+import CartEmpy from "../../assets/carrito_vacio.gif";
 import styled from "styled-components";
 
 const TitleContainer = styled.div`
@@ -160,6 +165,84 @@ const BtnSup = styled.button`
   }
 `;
 
+const EmpyContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  position: absolute;
+  width: 800px;
+  height: 364px;
+  left: calc(50% - 596px / 2 + 30px);
+  top: 15px;
+`;
+
+const Error = styled.h1`
+  position: static;
+  width: 400px;
+  height: 45px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 140%;
+  text-align: center;
+  color: #151515;
+  padding-top: 15px;
+`;
+
+const Description = styled.p`
+  position: static;
+  width: 425px;
+  height: 60px;
+  left: 0px;
+  top: 5px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 22px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #151515;
+  flex: none;
+  flex-grow: 0;
+  margin: 20px 0px;
+`;
+
+const BtnVolver = styled.button`
+  width: 125px;
+  height: 47px;
+  position: relative;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  color: #ffff;
+  padding: 10px 10px;
+  background: #0acf83;
+  border: 2px solid #067a4d;
+  box-sizing: border-box;
+  border-radius: 8px;
+  left: 157px;
+  top: 2px;
+  :hover {
+    color: #0acf83;
+    background: #ffff;
+    border: 2px solid #067a4d;
+  }
+`;
+
+const ImageError = styled.img`
+  display: relative;
+  justify-content: center;
+  align-items: center;
+  margin-top: 17%;
+  width: 310px;
+  height: 310px;
+`;
+
 export function Cart() {
   const user = useSelector((state) => state.clientReducer.user);
   const openCart = useSelector((state) => state.cartReducer.openCart);
@@ -170,26 +253,38 @@ export function Cart() {
   }, [dispatch, user]);
 
   let items = [];
+  let itemDelete = {};
 
   if (openCart) {
     if (user && openCart[0]) {
-      console.log(openCart);
       items = openCart[0].data.items;
     } else {
       items = openCart.items;
     }
   }
 
+  const handleDelete = (e, id) => {
+    e.preventDefault();
+    itemDelete = {
+      user: user,
+      item: {
+        id,
+      },
+    };
+    // console.log("-Item-Delete-Flag", itemDelete);
+    dispatch(deleteItemsCartFront(itemDelete));
+  };
+
   return (
     <div>
-      <TitleContainer>
-        <TuCarritoText>Tu carrito:</TuCarritoText>
-      </TitleContainer>
+      {/* <TitleContainer>
+        <TuCarritoText>¡Llevá todo lo que necesites!</TuCarritoText>
+      </TitleContainer> */}
+      ;
       {items && items.length ? (
         items.map((el) => {
           return (
             <ContainerProduct>
-              {/* {console.log(el)} */}
               <ImageBackground>
                 <ImageProduct src={el.imagen} alt="image" />
               </ImageBackground>
@@ -202,15 +297,24 @@ export function Cart() {
                   <BtnSum>+</BtnSum>
                 </SumDelContainer>
               </CantidadContainer>
-              <ButtonDelete>Eliminar</ButtonDelete>
+              <ButtonDelete onClick={(e) => handleDelete(e, el.id)}>
+                Eliminar
+              </ButtonDelete>
             </ContainerProduct>
           );
         })
       ) : (
-        <div>
-          <h1>No hay productos para mostrar</h1>
-          <button>Ir a la tienda</button>
-        </div>
+        <EmpyContainer>
+          <ImageError src={CartEmpy} alt="carrito vacio" />
+          <Error>¡Tu carrito está vacío!</Error>
+          <Description>
+            ¿Aún no te has decidido?.¡No hay problema! <br /> Podés seguir
+            recorriendo la tienda sin apuros :)
+          </Description>
+          <Link to={"/products"}>
+            <BtnVolver>Ir a la tienda</BtnVolver>
+          </Link>
+        </EmpyContainer>
       )}
     </div>
   );
