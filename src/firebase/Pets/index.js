@@ -96,6 +96,19 @@ export function filterByOwner(array,Owner){
 
 }
 
+export async function getStatePets(){
+  let pets = await getAllPets();
+  let cache = pets.flatMap(el => el.data.state)
+  let state = []
+  cache.forEach(el => {
+      if (!state.includes(el)) {
+          state.push(el)
+      }
+  })
+
+  return state
+}
+
 export function filterByState(array, state){
   let filterState = array.filter(el=>el.data.state.toLowerCase() === state.toLowerCase());
   if ( filterState.length > 0){

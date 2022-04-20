@@ -37,7 +37,7 @@ export function getAllCarts() {
 //     item:{
 //             createdAt:Date(),
 //             title,
-//             cantidad: 1,
+//             quantity: 1,
 //             price,
 //             id,
 //             image, 
