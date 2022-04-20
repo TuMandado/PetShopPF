@@ -294,13 +294,14 @@ const Product = ({ id, title, imagen, info, price, animalCategory, category, sub
     
     let item={
         user: user,
-        item: {[id]: {
-                    createdAt:Date(),
-                    updateAt: Date(), 
-                    title: title,
-                    cantidad: 1,
-                }
-              }}
+        item:{
+                createdAt:Date(),
+                title,
+                cantidad: 1,
+                price,
+                id
+            }
+    }
     
     function handleAdd(e){
       e.preventDefault()

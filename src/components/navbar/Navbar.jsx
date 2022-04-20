@@ -1,19 +1,24 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { getProductName, getTotalProducts } from "../../redux/actions/index";
 import icoLupa from "../../assets/lupa.png";
-import icoMarket from "../../assets/market.png";
-import icoUser from "../../assets/user.png";
+import icoUserOptions from "../../assets/options_user.png";
 import logoTemp from "../../assets/logo_temporal.ico";
-// import icoSettings from "../../assets/config.png"
+import { LoginLogout } from "../login/logout/LoginAndLogout";
 import styled from "styled-components";
 
 const NavContainer = styled.div`
   text-align: center;
   justify-content: space-around;
   padding: 20px;
+`;
+
+const ContainerLoginOption = styled.div`
+  background: #fff;
+  float: right;
+  position: relative; ;
 `;
 const BrandNav = styled.div`
   width: 120px;
@@ -91,25 +96,6 @@ const IconsNav = styled.div`
   float: right;
   display: inline-block;
 `;
-
-const BtnMarket = styled.button`
-  position: relative;
-  width: 50px;
-  height: 42px;
-  padding: 7px 6px;
-  background: none;
-  border: none;
-`;
-
-const MarketIcon = styled.img`
-  width: 25px;
-  height: 25px;
-  top: 2.1px;
-  position: absolute;
-  left: 16.79%;
-  top: 25.12%;
-`;
-
 const BtnUser = styled.button`
   position: relative;
   width: 50px;
@@ -119,13 +105,31 @@ const BtnUser = styled.button`
   border: none;
 `;
 
-const UserIcon = styled.img`
-  width: 25px;
-  height: 25px;
+const UserOptions = styled.img`
+  width: 23px;
+  height: 23px;
   top: 2.1px;
   position: absolute;
   left: 16.79%;
   top: 25.12%;
+`;
+
+const BtnClose = styled.button`
+  width: 120px;
+  height: 35px;
+  font-size: 12px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  color: #067a4d;
+  background: #fff;
+  margin-top: 1px;
+  float: right;
+  margin-right: 77px;
+  border: none;
+  &:hover {
+    color: #0acf83;
+  }
 `;
 
 export const Navbar = () => {
@@ -135,6 +139,7 @@ export const Navbar = () => {
   const AllProduct = useSelector((state) => state.clientReducer.backup);
 
   useEffect(() => {
+    document.getElementById(`component-loginlogout`).style.display = `none`;
     dispatch(getTotalProducts());
   }, [dispatch]);
 
@@ -151,9 +156,18 @@ export const Navbar = () => {
     setName("");
   }
 
+  const handlePanelOn = () => {
+    document.getElementById(`component-loginlogout`).style.display = `block`;
+  };
+
+  const handlePanelOff = () => {
+    document.getElementById(`component-loginlogout`).style.display = `none`;
+  };
+
   return (
     <div>
       <NavContainer>
+        <style>#component-loginlogout( display: none; )</style>
         <BrandNav>
           <Logo src={logoTemp} alt="logo-petshop" />
           <TextPetshop>PetShop</TextPetshop>
@@ -169,19 +183,16 @@ export const Navbar = () => {
             <BtnIconLupa src={icoLupa} alt="search" />
           </BtnSearch>
           <IconsNav>
-            <Link to={"/login"}>
-              <BtnUser>
-                <UserIcon src={icoUser} alt="user" />
-              </BtnUser>
-            </Link>
-            <Link to={"/cart"}>
-              <BtnMarket>
-                <MarketIcon src={icoMarket} alt="market" />
-              </BtnMarket>
-            </Link>
+            <BtnUser onClick={() => handlePanelOn()}>
+              <UserOptions src={icoUserOptions} alt="user" />
+            </BtnUser>
           </IconsNav>
         </div>
       </NavContainer>
+      <ContainerLoginOption id="component-loginlogout">
+        <LoginLogout />
+        <BtnClose onClick={() => handlePanelOff()}>Cerrar ventana</BtnClose>
+      </ContainerLoginOption>
     </div>
   );
 };

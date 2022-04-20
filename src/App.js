@@ -36,8 +36,8 @@ import Navbar from "./components/navbar/Navbar";
 const {REACT_APP_ACCESS_TOKEN,PUBLIC_KEY,ID} = process.env;
 
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
-
 const auth = getAuth(firebaseApp);
+
 
 function App() {
   // eslint-disable-next-line no-unused-vars
@@ -53,9 +53,8 @@ function App() {
       // dispatch(setUserCart(null));
     }
   });
-
+  
   useEffect(() => {
-    console.log('token',process.env)
     dispatch(getTotalProducts());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
