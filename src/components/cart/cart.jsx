@@ -97,7 +97,7 @@ if(openCart){
                     </div>
                 )
             }) :(<h1>no hay nada</h1>)}
-            <button onClick={handleSubmit()}>MP</button>
+            <button onClick={handleSubmit}>MP</button>
         </div>
     )
 } 
