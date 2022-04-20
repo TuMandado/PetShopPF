@@ -7,25 +7,22 @@ import {
   Publish,
 } from "@material-ui/icons";
 import "./user.css";
-import { userRows } from "../../dummyData";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { useNavigate } from 'react-router';
+import { getDetailUser } from "../../../redux/actions/adminActions";
 import Navbar from "../../../components/navbar/Navbar";
 import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
-
 
 
 export default function User() {
   const navigate = useNavigate()
 
   const dispatch = useDispatch();
-  const id = useParams().userId;
-  const token = useSelector(state => state.token);
-  const users = useSelector(state => state.users);
-  const [allUsers, setAllUsers] = useState(userRows);
-  const [data, setData] = useState();
+  const uid = useParams().userId;
+  const user = useSelector((state) => state.adminReducer.user);
+  const [data, setData] = useState([]);
   const [input, setInput] = useState({
     nickname: "",
     given_name: "",
@@ -33,16 +30,16 @@ export default function User() {
     newEmail: ""
   })
 
-
+  useEffect(() => {
+      dispatch(getDetailUser(uid));
+  }, [])
 
   useEffect(() => {
-
-    if (users.length) {
-      setAllUsers(allUsers.concat(users));
-      setData(allUsers.find(obj => obj.id == id));
-    };
-  }, [users])
-
+    setData(user);
+    // setData(allUser.find(obj => obj.id == id));
+    console.log("uid 💥:", uid);
+    console.log("data 🍕:", data);
+  }, [user])
 
 
   const handleChange = function (e) {
@@ -62,10 +59,8 @@ export default function User() {
       ...input,
       email: data.email
     }
-    
-
     alert("Ha sido modificado con exito")
-    navigate("/")
+    navigate("/users")
   }
 
 
@@ -85,31 +80,36 @@ export default function User() {
                <div className="userShow">
                  <div className="userShowTop">
                    <img
-                     src={data && data.picture} alt="" className="userShowImg" />
+                     src= "http://los40ar00.epimg.net/los40/imagenes/2020/09/11/tecnologia/1599840475_254452_1599841345_noticia_normal.jpg" alt="" className="userShowImg" />
                    <div className="userShowTopTitle">
                      <span className="userShowUserTitle">nombre de usuario</span>
-                     <span className="userShowUsername">{data && data.nickname}</span>
+                     <span className="userShowUsername">{data.role && data.role}</span>
                    </div>
                  </div>
                  <div className="userShowBottom">
                    <span className="userShowTitle">Detalle de cuenta</span>
                    <div className="userShowInfo">
                      <PermIdentity className="userShowIcon" />
-                     <span className="userShowInfoTitle">{data && data.nickname}</span>
+                     <span className="userShowInfoTitle">{data.role && data.role}</span>
                    </div>
                    <div className="userShowInfo">
                      <CalendarToday className="userShowIcon" />
-                     <span className="userShowInfoTitle">{data && data.createdAt}</span>
+                     <span className="userShowInfoTitle">{data.role && data.role}</span>
                    </div>
                    <span className="userShowTitle">Contacto</span>
                    <div className="userShowInfo">
                      <MailOutline className="userShowIcon" />
-                     <span className="userShowInfoTitle">{data && data.email}</span>
+                     <span className="userShowInfoTitle">{data.email && data.email}</span>
+                   </div>
+                   <span className="userShowTitle">Rol</span>
+                   <div className="userShowInfo">
+                     <PermIdentity className="userShowIcon" />
+                     <span className="userShowInfoTitle">{data.role && data.role}</span>
                    </div>
                    <span className="userShowTitle">Direccion</span>
                    <div className="userShowInfo">
                      <LocationSearching className="userShowIcon" />
-                     <span className="userShowInfoTitle">{data && data.shipping_address} </span>
+                     <span className="userShowInfoTitle">{data.role && data.role} </span>
                    </div>
                  </div>
                </div>

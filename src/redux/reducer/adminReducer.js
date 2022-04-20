@@ -7,7 +7,8 @@ const initialState = {
     details: [],
     categories: [],
     filteredProducts: [],
-    users:[],
+    users: [],
+    user:[],
     orders:[],
     form:[],
     animalCategory:[]
@@ -26,6 +27,13 @@ const initialState = {
           products: action.payload
         }
       }
+      case "GET_DETAIL_PRODUCTS": {
+        return {
+          ...state,
+          details: action.payload,
+          backupDetail: action.payload,
+        };
+      }
       case 'GET_PRODUCT_CATEGORY': {
         return {
           ...state,
@@ -33,11 +41,36 @@ const initialState = {
 
         }
       }
+      case `DELETE_PRODUCT`: {
+          return {  
+            ...state,
+            products: state.products.filter(
+              (product) => product.id != action.payload
+            )
+          };
+      }
       case 'GET_ANIMAL_CATEGORY': {
         return {
           ...state,
           animalCategory:action.payload
         }
+      }
+      case 'GET_USERS':
+        return {
+          ...state, users: action.payload,
+      }
+      case 'DELETE_USER':
+        return {
+          ...state, 
+          users: state.users.filter(
+            (us) => us.id != action.payload
+          )
+      }
+      case "GET_DETAIL_USER": {
+        return {
+          ...state,
+          user: action.payload,
+        };
       }
         default:
           return state;
