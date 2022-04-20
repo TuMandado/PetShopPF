@@ -43,11 +43,11 @@ export function getAllCarts() {
 //         }
 // }
 export function addItemCartFront(payload) {
-  console.log("Flag-Payload-Add", payload);
+  //   console.log("Flag-Payload-Add", payload);
   return async function (dispatch) {
     try {
       let jsonProduct = await addCartItem(payload.user, payload.item);
-      console.log("-AddCart-Flag-Json", jsonProduct);
+      //   console.log("-AddCart-Flag-Json", jsonProduct);
       return dispatch({
         type: ADD_ITEM,
         payload: jsonProduct,
@@ -62,9 +62,9 @@ export function addItemCartFront(payload) {
 export function openCartFront(payload) {
   return async function (dispatch) {
     try {
-      console.log("payload", payload);
+      //   console.log("payload", payload);
       let jsonProduct = await cartOpenUs(payload);
-      console.log("OpenCart Flag-", jsonProduct);
+      //   console.log("OpenCart Flag-", jsonProduct);
       return dispatch({
         type: OPEN_CART,
         payload: jsonProduct,
@@ -98,10 +98,11 @@ export function editItemsCartFront(payload) {
 
 //Recibe un objeto con {user,item} item es un objeto(impotante, la propiedad "id" dentro)
 export function deleteItemsCartFront(payload) {
+  console.log("payload-delete", payload);
   return async function (dispatch) {
     try {
       let jsonProduct = await deleteItem(payload.user, payload.item);
-      //console.log("-deleteCart Flag-", jsonProduct);
+      console.log("-deleteCart Flag-", jsonProduct);
       return dispatch({
         type: DELETE_ITEM,
         payload: jsonProduct,
