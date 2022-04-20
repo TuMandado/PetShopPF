@@ -29,17 +29,16 @@ import NewProduct from "./admin/pages/newProduct/NewProduct";
 import Pyments from "./admin/pages/pyments/Pyments";
 import PublicPets from "./admin/pages/publicPets/PublicPets";
 import AdminSidebar from "./admin/components/adminSidebar/AdminSidebar";
-import {mercadoPago} from './firebase/mercadopago/index'
 import { getTotalProducts } from './redux/actions';
-
+import MercadoPago from 'mercadopago'
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import Navbar from "./components/navbar/Navbar";
+const {REACT_APP_ACCESS_TOKEN,PUBLIC_KEY,ID} = process.env;
 
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
 
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import Navbar from "./components/navbar/Navbar";
 const auth = getAuth(firebaseApp);
-let mp=mercadoPago()
-console.log(mp)
+
 function App() {
   // eslint-disable-next-line no-unused-vars
   var user = useSelector((state) => state.clientReducer.user);
@@ -56,6 +55,7 @@ function App() {
   });
 
   useEffect(() => {
+    console.log('token',process.env)
     dispatch(getTotalProducts());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
