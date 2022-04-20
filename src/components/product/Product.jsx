@@ -297,7 +297,7 @@ const Product = ({ id, title, imagen, info, price, animalCategory, category, sub
         item: {
             createdAt: Date(),
             title,
-            cantidad: 1,
+            quantity: 1,
             price,
             id,
             imagen

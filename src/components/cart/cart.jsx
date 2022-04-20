@@ -328,6 +328,7 @@ export function Cart() {
               <PrecioProd>{el.price} </PrecioProd>
               <CantidadContainer>
                 <SumDelContainer>
+
                   Cantidad:{" "}
                   <BtnSup
                     onClick={(e) => {
@@ -336,7 +337,7 @@ export function Cart() {
                   >
                     -
                   </BtnSup>
-                  {el.cantidad}
+                  {el.quantity}
                   <BtnSum
                     onClick={(e) => {
                       handleAdd(e, el.cantidad, el.id);
@@ -344,6 +345,7 @@ export function Cart() {
                   >
                     +
                   </BtnSum>
+
                 </SumDelContainer>
               </CantidadContainer>
               <ButtonDelete onClick={(e) => handleDelete(e, el.id)}>
