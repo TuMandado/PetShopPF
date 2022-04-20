@@ -45,17 +45,11 @@ const CatSleeping = styled.img`
 `
 
 
-const Products = ({ viewMode }) => {
+const Products = ({ viewMode, currentProducts, productsPerPage, paged, currentPage }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate();
     const allProducts = useSelector(state => state.clientReducer.products)
 
-    const [currentPage, setCurrentPage] = useState(1)
-    const [productsPerPage, setProductsPerPage] = useState(8);
-
-    const viewLastProducts = currentPage * productsPerPage;
-    const viewFirstProducts = viewLastProducts - productsPerPage;
-    const currentProducts = allProducts.slice(viewFirstProducts, viewLastProducts)
 
     useEffect(() => {
         dispatch(getProductsCategories())
@@ -67,10 +61,6 @@ const Products = ({ viewMode }) => {
         if (viewMode === 'Grid') navigate(`/product/${e.currentTarget.id}`)
     }
 
-    const paged = (PageNumber) => {
-        setCurrentPage(PageNumber)
-        window.scrollTo(0, 0)
-    }
 
     return (
         <Container products={allProducts}>
@@ -90,7 +80,7 @@ const Products = ({ viewMode }) => {
                     <CatSleeping src='https://31.media.tumblr.com/e9c5a6eb1241c1cd3f89e12e89874c66/tumblr_mv1vm39xs51rz5dlbo1_500.gif' alt='' />
                 </div>
             }
-                <Pagination productsPerPage={productsPerPage} products={allProducts.length} paged={paged} currentPage={currentPage} />
+            <Pagination productsPerPage={productsPerPage} products={allProducts.length} paged={paged} currentPage={currentPage} />
         </Container>
     )
 }

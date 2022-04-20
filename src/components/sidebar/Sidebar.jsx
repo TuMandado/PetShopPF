@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteFilters, filterAllProducts } from '../../redux/actions'
 
-const Sidebar = () => {
+const Sidebar = ({changeCurrentPage}) => {
     const dispatch = useDispatch();
     const allProductsCategories = useSelector(state => state.clientReducer.productsCategories)
     const animalCategories = useSelector(state => state.clientReducer.productsAnimalCategories)
@@ -44,12 +44,18 @@ const Sidebar = () => {
         setCheckCategory({})
         setMinPrice(1)
         setMaxPrice(99999)
+        setChecksAnimal({})
+        changeCurrentPage(1)
+        window.scrollTo(0, 0)
     }
 
     const onClickFilter = (e) => {
         //if(checkCategory[categoryToFilter]) dispatch(filterProductsByCategories(backupProducts, categoryToFilter))
         dispatch(filterAllProducts(backupProducts, categoryToFilter, Object.keys(checksAnimal), parseInt(minPrice), parseInt(maxPrice)))
-    }
+        changeCurrentPage(1)
+        window.scrollTo(0, 0)
+    }  
+
 
     return (
         <Container>
@@ -75,6 +81,7 @@ const Sidebar = () => {
                     animalCategories?.map(el => (
                         <Li key={el}>
                             <Checkbox
+                                checked={checksAnimal[el]}
                                 type='checkbox'
                                 id={el}
                                 value={el}

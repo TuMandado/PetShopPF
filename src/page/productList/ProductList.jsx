@@ -97,15 +97,33 @@ const Label = styled.label`
 `
 
 const ProductList = () => {
-    const allProducts = useSelector(state => state.clientReducer.backup)
+    const allProducts = useSelector(state => state.clientReducer.products)
     const [viewMode, setViewMode] = useState('Grid')
+
+    const [currentPage, setCurrentPage] = useState(1)
+    const [productsPerPage, setProductsPerPage] = useState(8);
+
+    const viewLastProducts = currentPage * productsPerPage;
+    const viewFirstProducts = viewLastProducts - productsPerPage;
+    const currentProducts = allProducts.slice(viewFirstProducts, viewLastProducts)
 
     const changeViewModeGrid = (e) => {
         setViewMode('Grid')
+        setProductsPerPage(8)
     }
 
     const changeViewModeList = (e) => {
         setViewMode('List')
+        setProductsPerPage(6)
+    }
+
+    const paged = (PageNumber) => {
+        setCurrentPage(PageNumber)
+        window.scrollTo(0, 0)
+    }
+
+    const changeCurrentPage = (num) => {
+        setCurrentPage(num)
     }
 
     return (
@@ -114,14 +132,20 @@ const ProductList = () => {
                 allProducts && allProducts.length
                     ? <Div>
                         <Navbar />
-                        <Sidebar />
+                        <Sidebar changeCurrentPage={changeCurrentPage} />
                         <ViewModeContainer viewMode={viewMode}>
                             <GridMode id='Grid' viewMode={viewMode} onClick={e => changeViewModeGrid(e)}> ⠀ </GridMode>
                             <Label for='Grid'> Cuadricula </Label>
                             <ListMode id='List' viewMode={viewMode} onClick={e => changeViewModeList(e)}> ⠀ </ListMode>
                             <Label for='List'> Lista </Label>
                         </ViewModeContainer>
-                        <Products viewMode={viewMode} />
+                        <Products
+                            viewMode={viewMode}
+                            currentProducts={currentProducts}
+                            productsPerPage={productsPerPage}
+                            paged={paged}
+                            currentPage={currentPage}
+                        />
                         <FooterContainer>
                             <Footer />
                         </FooterContainer>
