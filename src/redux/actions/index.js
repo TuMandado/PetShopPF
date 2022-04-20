@@ -6,6 +6,7 @@ import {getAllPets, filterByOwner,
   uploadPet} from '../../firebase/Pets/index'
 import { async } from "@firebase/util";
 import { loginCart } from "../../firebase/Cart";
+import {getAllAnimalCategory} from '../../firebase/AnimalCategory/index'
 
 // import { async } from "@firebase/util";
 // import { getAllProducts } from "../../firebase/Products/index";
@@ -173,7 +174,7 @@ export function filterAllProducts(array, category, animal, minPrice, maxPrice) {
 
 export function getTotalCategoryPets () {
    return async function (dispatch) {
-     const jsonCategoryPets = await getAllCategories()
+     const jsonCategoryPets = await getAllAnimalCategory()
      console.log('esto es jsonCategoryPets', jsonCategoryPets)
      return dispatch ({
        type: 'GET_CATEGORY_PETS',
