@@ -179,19 +179,65 @@ export async function loginCart(user){
 export async function addItem(user,item){
     if(user){
         let cart =await cartOpen(user.uid)
-        await editCartFirebase(cart[0].uid,{items: arrayUnion(item)})
-        let now= await getCartFirebase(cart[0].uid)
+        let now= []
+        if(cart[0].data.items.length){
+            let oldItems = cart[0].data.items
+            let find = false
+            let items = oldItems.map(el=>{
+                if(el.id === item.id){
+                    console.log("lo encontre!!",el)
+                    find = true
+                    let sum = el.quantity + item.quantity
+                    return {
+                        ...el,
+                        quantity: sum
+                    }
+                }else {
+                    return el
+                }
+            })
+            if(!find){
+                items.push(item)
+            }
+            await editCartFirebase(cart[0].uid,{items})
+            now= await getCartFirebase(cart[0].uid)
+        }else{
+            await editCartFirebase(cart[0].uid,{items: arrayUnion(item)})
+            now= await getCartFirebase(cart[0].uid)
+        }
         return now
     }else{
         if(localStorage.getItem('cart')){
             let data = JSON.parse(localStorage.getItem('cart'))
-            if(!data.items.find(el=> el.id === item.id)){
-                data.items.push(item)
+            if(data.items.length){
+                let oldItems = data.items
+                let find = false
+                let items = oldItems.map(el=>{
+                    if(el.id === item.id){
+                        console.log("lo encontre!!",el)
+                        find = true
+                        let sum = el.quantity + item.quantity
+                        return {
+                            ...el,
+                            quantity: sum,
+                            updateAt:Date,
+                        }
+                    }else {
+                        return el
+                    }
+                })
+                if(!find){
+                    items.push({...item,createdAt: Date()})
+                }
+                data ={ ...data,
+                    items} 
+                localStorage.setItem("cart",JSON.stringify(data))
+                return JSON.parse(localStorage.getItem('cart'))
+            }else{
+                data = {...data, createdAt: Date()}
+                localStorage.setItem("cart",JSON.stringify(data))
+                return JSON.parse(localStorage.getItem('cart'))
             }
-            console.log("data a agregar", data)
-            data = {...data, createdAt: Date()}
-            localStorage.setItem("cart",JSON.stringify(data))
-            return JSON.parse(localStorage.getItem('cart'))
         }
     }
 }

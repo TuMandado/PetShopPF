@@ -293,7 +293,7 @@ export function Cart() {
               <CantidadContainer>
                 <SumDelContainer>
                   Cantidad: <BtnSup>-</BtnSup>
-                  {el.cantidad}
+                  {el.quantity}
                   <BtnSum>+</BtnSum>
                 </SumDelContainer>
               </CantidadContainer>

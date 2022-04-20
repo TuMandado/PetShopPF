@@ -168,7 +168,7 @@ const ProductDetail = () => {
     user: user,
     item: {
       title: product.name,
-      cantidad: 1,
+      quantity: 1,
       price: product.price,
       id: uid.id,
     },
