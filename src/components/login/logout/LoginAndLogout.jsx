@@ -109,7 +109,7 @@ export const LoginLogout = () => {
         </Link>
       </Option>
       <Option>
-      {user && user.role.toLowerCase() === "admin" && (
+      {user && user.role.toLowerCase() == "admin" && (
           <Link to={"/admin"}>
             <BtnOption>
               <SupervisorAccountRounded className="sidebarIcon" />
