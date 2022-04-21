@@ -55,6 +55,10 @@ const Footer = () => {
                     <Link onClick={onClickLink} to='/products' style={linkListItems}>
                         <ListItem>Tienda</ListItem>
                     </Link>
+                    <Link to='/createdProduct'>
+                       <button>createdProduct</button>
+                    </Link>
+
                     {/* <ListItem>Mi cuenta</ListItem> */}
                     {/* <ListItem>Lista de deseos</ListItem> */}
                 </List>
