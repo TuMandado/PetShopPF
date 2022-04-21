@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { signInUsuario, registrarUsuario } from "../../firebase/auth";
+import { uploadUser } from "../../firebase/Users";
 import styled from "styled-components";
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import imgLogin from "../../assets/mascotas_login.png";
 import imgBackground from "../../assets/patrones_pet.png";
 import GoogleSignIn from "../../components/authButton/googleSignIn";
@@ -19,7 +21,7 @@ const LoginContainer = styled.div`
   padding-top: 5%;
   width: 425px;
   background: #ffff;
-  height: 495px;
+  height: auto;
   border: 1px solid #067a4d;
   box-sizing: border-box;
   padding: 50px 30px;
@@ -42,8 +44,8 @@ const Title = styled.h1`
   font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
-  width: 190px;
-  height: 50px;
+  // width: 190px;
+  // height: 50px;
   float: left;
   display: inline-block;
 `;
@@ -57,16 +59,21 @@ const LabelEmail = styled.label`
   font-weight: 400;
   display: block;
 `;
+const LabelDiv = styled.div`
+display: flex;
+align-items: center;
+`
+
 
 const LabelPass = styled.label`
   display: block;
+  align-items: center;
   float: left;
   padding: 2px;
   margin-top: 5px;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 400;
-  display: block;
 `;
 
 const Input = styled.input`
@@ -75,6 +82,7 @@ const Input = styled.input`
   color: black;
   padding: 12px;
   margin-top: 8px;
+  margin-right: 4px;
   font-size: 12px;
   font-family: "Poppins";
   font-style: normal;
@@ -121,6 +129,7 @@ const BtnLoggin = styled.button`
 
 const Form = styled.form`
   margin-top: 200px;
+  
 `;
 
 const containerStyle = {
@@ -132,7 +141,7 @@ const containerStyle = {
 const Login = () => {
   const [isRegistrando, setIsRegistrando] = useState(false);
   // Handle auth changes
-
+  const [showPassword, setShowPasword] = useState(true);
 
 
   const submitHandler = (event) => {
@@ -140,9 +149,12 @@ const Login = () => {
     const email = event.target.email.value;
     const password = event.target.password.value;
     const role = "Cliente";
-
+    const data = {
+      shipping_address: event.target.shipping_address.value
+    };
+    
     if (isRegistrando) {
-      registrarUsuario(email, password, role);
+      registrarUsuario(email, password, role, data);
     } else {
       signInUsuario(email, password);
     }
@@ -161,7 +173,10 @@ const Login = () => {
 
           <LabelPass>
             Password:
-            <Input type="password" id="password" placeholder="**********" />
+            <LabelDiv>
+            <Input type={showPassword ? 'password' : 'text'} id="password" placeholder="Contraseña" />
+            {showPassword ? < VisibilityIcon color="disabled" onClick={() => setShowPasword(!showPassword)}/> : <VisibilityIcon onClick={() => setShowPasword(!showPassword)}/> }
+            </LabelDiv>
           </LabelPass>
 
           <BtnForInput
@@ -181,3 +196,4 @@ const Login = () => {
 };
 
 export default Login;
+
