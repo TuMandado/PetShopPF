@@ -127,6 +127,9 @@ const BtnUser = styled.button`
   padding: 7px 6px;
   background: none;
   border: none;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const UserOptions = styled.img`
@@ -210,6 +213,7 @@ export const Navbar = () => {
 
     const AllProducts = useSelector((state) => state.clientReducer.backup);
     const [searchedProducts, setSearchedProducts] = useState(AllProducts.slice())
+    const [panel, setPanel] = useState(false);
 
 
     useEffect(() => {
@@ -239,12 +243,15 @@ export const Navbar = () => {
         }
     }
 
-    const handlePanelOn = () => {
-        document.getElementById(`component-loginlogout`).style.display = `block`;
-    };
-
-    const handlePanelOff = () => {
-        document.getElementById(`component-loginlogout`).style.display = `none`;
+    const handlePanel = () => {
+        if (!panel) {
+            document.getElementById(`component-loginlogout`).style.display = `block`;
+            setPanel(true)
+        }
+        if (panel) {
+            document.getElementById(`component-loginlogout`).style.display = `none`;
+            setPanel(false)
+        }
     };
 
 
@@ -286,7 +293,7 @@ export const Navbar = () => {
                         }
                     </PopUpSearchProduct>
                     <IconsNav>
-                        <BtnUser onClick={() => handlePanelOn()}>
+                        <BtnUser onClick={() => handlePanel()}>
                             <UserOptions src={icoUserOptions} alt="user" />
                         </BtnUser>
                     </IconsNav>
@@ -294,7 +301,6 @@ export const Navbar = () => {
             </NavContainer>
             <ContainerLoginOption id="component-loginlogout">
                 <LoginLogout />
-                <BtnClose onClick={() => handlePanelOff()}>Cerrar ventana</BtnClose>
             </ContainerLoginOption>
         </div>
     );
