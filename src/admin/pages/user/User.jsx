@@ -22,7 +22,7 @@ export default function User() {
   const dispatch = useDispatch();
   const uid = useParams().userId;
   const user = useSelector((state) => state.adminReducer.user);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
   const [input, setInput] = useState({
     nickname: "",
     given_name: "",
@@ -94,7 +94,7 @@ export default function User() {
                    </div>
                    <div className="userShowInfo">
                      <CalendarToday className="userShowIcon" />
-                     <span className="userShowInfoTitle">{data.role && data.role}</span>
+                     <span className="userShowInfoTitle">{data.createdAt && data.createdAt}</span>
                    </div>
                    <span className="userShowTitle">Contacto</span>
                    <div className="userShowInfo">

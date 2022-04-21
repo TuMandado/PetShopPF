@@ -24,27 +24,40 @@ const UserList = () => {
 
   useEffect (()=>{
       dispatch(getTotalUsers())
+
   },[])
 
   useEffect(() => {
-    setTotalUsers(allUsers.map(el=>{
-      return({
-       id: el.uid,
-       user: el.data.name,
-       email: el.data.email,
-       createdAt: el.data.createdAt,
-       updatedAt: el.data.updatedAt, 
-       image: el.data.image,
-       role: el.data.role,
-      })
-    }))
-  }, [dispatch]);
+    if (allUsers.length){
+      setTotalUsers(allUsers.map(el=>{
+         return({
+          id: el.uid,
+          user: el.data.name,
+          email: el.data.email,
+          createdAt: el.data.createdAt,
+          updatedAt: el.data.updatedAt, 
+          image: el.data.image,
+          role: el.data.role,
+         })
+      }))
+    }
+  },[dispatch]);
 
-  // if (!totalUsers.length) {
-  //   setTimeout(() => {
-  //     dispatch(getTotalUsers());
-  //   }, 2000)
-  // }
+  if (!totalUsers.length) {
+    setTimeout(() => {
+         setTotalUsers(allUsers.map(el=>{
+            return({
+              id: el.uid,
+              user: el.data.name,
+              email: el.data.email,
+              createdAt: el.data.createdAt,
+              updatedAt: el.data.updatedAt, 
+              image: el.data.image,
+              role: el.data.role,
+             })
+         }))
+    }, 2000)
+  }
   
   const columns = [
     { field: "id", headerName: "ID", width: 95 },
