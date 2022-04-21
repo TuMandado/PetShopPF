@@ -1,11 +1,11 @@
 import React from "react";
-import NavbarCart from "../../components/navbar/Navbar Cart";
+import NavBar from '../../components/navbar/Navbar'
 import { Cart as Carrito } from "../../components/cart/cart";
 
 const Cart = () => {
   return (
     <div>
-      <NavbarCart />
+      <NavBar />
       <Carrito />
     </div>
   );
