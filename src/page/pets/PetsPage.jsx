@@ -1,11 +1,12 @@
 import React from "react";
-import NavbarPets from "../../components/navbar/Navbar Pets";
+
+import NavBar from '../../components/navbar/Navbar'
 import Pets from "../../components/pets/Pets";
 
 const PetsPage = () => {
   return (
     <div>
-      <NavbarPets />
+      <NavBar/>
       <Pets />
     </div>
   );

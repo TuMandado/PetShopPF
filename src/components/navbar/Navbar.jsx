@@ -209,6 +209,7 @@ export const Navbar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [name, setName] = useState("");
+    const actualUrl = window.location.pathname;
 
     const AllProducts = useSelector((state) => state.clientReducer.backup);
     const [searchedProducts, setSearchedProducts] = useState(AllProducts.slice())
@@ -275,7 +276,13 @@ export const Navbar = () => {
                         value={name}
                         onChange={(e) => handleInputChange(e)}
                         type="text"
-                        placeholder="¿Qué vas a llevar hoy?"
+                        placeholder={
+                            actualUrl === '/cart'
+                                ? "Buscar entre los productos..."
+                                : actualUrl === '/pets'
+                                    ? "¿A quien estas buscando?"
+                                    : "¿Que vas a llevar hoy?"
+                        }
                         onKeyPress={e => handleEnterKeyPress(e)}
                     />
                     <BtnSearch onClick={(e) => handleSubmit(e)} type="submit">
