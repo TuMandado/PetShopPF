@@ -6,6 +6,7 @@ import IcoProducts from "../../../assets/tienda_menu.png";
 import IcoPets from "../../../assets/patita_menu.png";
 import icoLogOut from "../../../assets/cerrar.png";
 import icoUser from "../../../assets/user.png";
+import { SupervisorAccountRounded } from "@material-ui/icons";
 import { signOutUsuario } from "../../../firebase/auth";
 import { useSelector } from "react-redux";
 
@@ -30,7 +31,7 @@ const BtnIcon = styled.img`
 
 const ModalLogin = styled.div`
   width: 250px;
-  height: 180px;
+  height: auto;
   text-decoration: none;
   background-color: white;
   text-decoration: none;
@@ -107,6 +108,16 @@ export const LoginLogout = () => {
           </BtnOption>
         </Link>
       </Option>
+      {user && user.role.toLowerCase() === "admin" && (
+        <Option>
+          <Link to={"/admin"}>
+            <BtnOption>
+              <SupervisorAccountRounded className="sidebarIcon" />
+              <Text>Opciones de administrador</Text>
+            </BtnOption>
+          </Link>
+        </Option>
+      )}
     </ModalLogin>
   );
 };
