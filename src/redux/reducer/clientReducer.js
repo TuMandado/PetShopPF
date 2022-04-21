@@ -32,7 +32,7 @@ function clientReducer(state = initialState, action) {
     case `GET_BY_NAME`: {
       return {
         ...state,
-        backup: action.payload,
+        products: action.payload,
       };
     }
     case "GET_ALL_PETS": {
