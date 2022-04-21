@@ -32,13 +32,13 @@ export async function registrarUsuario(email, password, role) {
   createUserWithEmailAndPassword(auth, email, password)
     .then((user) => {
       console.log("Usuario registrado: ", user);
-      uploadUser(user.user.uid, {
-        email: user.user.email,
-        role: role,
-        uid: user.user.uid,
-        createdAt: Timestamp.now(),
-        updatedAt: Timestamp.now(),
-      });
+      // uploadUser(user.user.uid, {
+      //   email: user.user.email,
+      //   role: role,
+      //   uid: user.user.uid,
+      //   createdAt: Timestamp.now(),
+      //   updatedAt: Timestamp.now(),
+      // });
     })
     .catch((error) => {
       alert("Error al registrar usuario: ", error);
