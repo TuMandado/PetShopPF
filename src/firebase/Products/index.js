@@ -223,7 +223,7 @@ export async function filterProducts(array, category, animal = [], minPrice, max
 
     if (!category && !animal.length) {
         filteredProducts = array.filter(el => (
-            (el.data.price.match(/\d+.\d+(?=,)|Sin Stock/g)[0].split('.').join('') === 'Sin Stock'
+             (el.data.price.match(/\d+.\d+(?=,)|Sin Stock/g)[0].split('.').join('') === 'Sin Stock'
                 || el.data.price.match(/\d+.\d+(?=,)|Sin Stock/g)[0].split('.').join('') >= minPrice)
             &&
             (el.data.price.match(/\d+.\d+(?=,)|Sin Stock/g)[0].split('.').join('') === 'Sin Stock'
