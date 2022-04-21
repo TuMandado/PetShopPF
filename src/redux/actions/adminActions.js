@@ -55,6 +55,7 @@ export function deleteThisProduct(id) {
       return dispatch ({
         type: 'GET_PRODUCT_CATEGORY',
         payload: jsonCategory
+
       })
     }
   }

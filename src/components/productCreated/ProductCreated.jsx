@@ -6,11 +6,13 @@ import { postProduct, getTotalProducts,getProductCategory, getProductAnimalCateg
 
 function validadora (input) {
     let error = {}
-    if(!input.name || input.name.length < 3) {
+    if(!input.name || input.name.length < 3 || input.name.search(/^[^$%&|<>#]*$/)) {
         error.name = 'ingrese un nombre por favor'
     } else if (!input.image) {
         error.image = 'ingrese una imagen plis'
-    } else if (input.animalCategory.length === 0) {
+    } else if (!input.brand) {
+        error.brand = 'ingrese una marca por favor'
+    }else if (!input.animalCategory) {
         error.animalCategory = 'por favor ingrese una categoria de animal'
     } else if (input.category.length === 0) {
         error.category = 'ingrese una categoria porfitas'
@@ -19,6 +21,7 @@ function validadora (input) {
     } else if (!input.price || input.price < 0 ) {
         error.price = 'ingrese precio adecuado por favor'
     } 
+     
 
     return error
 
@@ -39,8 +42,9 @@ const ProductCreated = () => {
     const [input, setInput] = useState({
         name: '',
         image: '',
-        animalCategory: [],
-        category: [],
+        brand:'',
+        animalCategory: '',
+        category: '',
         price: '',
         subCategory: '',
         delete: false
@@ -62,45 +66,62 @@ const ProductCreated = () => {
     function handleSelect(e) {
         setInput({
             ...input,
-            animalCategory: input.animalCategory.includes(e.target.value)? 
-            input.animalCategory :
-            [...input.animalCategory, e.target.value]
+            animalCategory: e.target.value
         })
+        // input.animalCategory.includes(e.target.value)? 
+        //     input.animalCategory :
+        //     [...input.animalCategory, e.target.value]
 
     }
 
-    function handleDelete (e) {
-        setInput({
-            ...input,
-            category: input.category.filter(category => category !== e)
-        })
+    // function handleDelete (e) {
+    //     setInput({
+    //         ...input,
+    //         category: input.category.filter(category => category !== e)
+    //     })
 
-    }
-    function handleDelete2 (e) {
-        setInput({
-            ...input,
-            animalCategory: input.animalCategory.filter(animalCategory => animalCategory !== e)
-        })
+    // }
+    // function handleDelete2 (e) {
+    //     setInput({
+    //         ...input,
+    //         animalCategory: input.animalCategory.filter(animalCategory => animalCategory !== e)
+    //     })
 
-    }
+    // }
 
     function handleSubmit (e) {
         e.preventDefault()
-        if(input.name.trim() === '') {
-            return alert('Ingrese un nombre')
+        if(input.name.trim() === '' || input.name.search(/^[^$%&|<>#]*$/)) {
+            return alert('Ingrese un nombre adecuado')
         } else if (
             product.find(e => e.data.name.toLowerCase().trim() === input.name.toLowerCase().trim())
         ) {
             return alert(`El Producto ${input.name} ya existe`)
-        } else {
+        } else if (input.image.trim() === '' || input.image.search(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|gif|png|svg)/gi) ) {
+            return alert ('por favor ingrese imagen')
+        } else if (input.brand.trim() === '' || input.brand.search(/^[^$%&|<>#]*$/)) {
+            return alert('ingrese una marca')
+        } else if (input.animalCategory.trim() === '') {
+            return alert('selecciona una categoria de animal por favor')
+        }  else if (input.category.trim() === '') {
+            return alert('selecciona una categoria por favor')
+        }   else if (input.price.trim() === '' || input.price < 1) {
+            return alert('precio inadecuado ')
+        } else if (input.subCategory.trim() === '' || input.subCategory.search(/^[^$%&|<>#]*$/)) {
+            return alert('ingrese sub categoria')
+        }
+        
+        
+        
+        else {
             console.log(input)
             dispatch(postProduct(input))
             alert('Producto creado con exito!')
             setInput({
                 name: '',
                 image: '',
-                animalCategory: [],
-                category: [],
+                animalCategory: '',
+                category: '',
                 price: '',
                 subCategory: '',
                 delete: false
@@ -115,9 +136,7 @@ const ProductCreated = () => {
     function handleSelect2(e) {
         setInput({
             ...input,
-            category: input.category.includes(e.target.value)? 
-            input.category :
-            [...input.category, e.target.value]
+            category: e.target.value
         })
 
     }
@@ -167,6 +186,20 @@ const ProductCreated = () => {
                    }
                 </div>
                 <div>
+                    <label >Nombre de la marca : </label>
+                    <br />
+                    <input type="text"
+                    value={input.brand}
+                    name='brand'
+                    onChange={(e)=> handleChange(e)}
+                    />
+                    {
+                       errors.brand && (
+                           <p>{errors.brand}</p>
+                       )
+                   }
+                </div>
+                <div>
                     <select onChange={e => handleSelect(e)}>
                        {
                            animalCategory?.map(e => (
@@ -175,8 +208,13 @@ const ProductCreated = () => {
                        }
 
                     </select>
+                    {
+                       errors.animalCategory && (
+                           <p>{errors.animalCategory}</p>
+                       )
+                   }
                     <div>
-                    <ul>
+                    {/* <ul>
                            <li>
                                {input.animalCategory?.map((e) => (
                                   <div>
@@ -187,13 +225,8 @@ const ProductCreated = () => {
                                   </div>
                                ))}
                            </li>
-                       </ul>
+                       </ul> */}
 
-                    {
-                       errors.animalCategory && (
-                           <p>{errors.animalCategory}</p>
-                       )
-                   }
                     </div>
 
                     
@@ -209,7 +242,7 @@ const ProductCreated = () => {
                     </select>
                     <div>
 
-                    <ul>
+                    {/* <ul>
                            <li>
                                {input.category?.map((e) => (
                                   <div>
@@ -220,7 +253,7 @@ const ProductCreated = () => {
                                   </div>
                                ))}
                            </li>
-                       </ul>
+                       </ul> */}
                        {
                        errors.category && (
                            <p>{errors.category}</p>
@@ -245,7 +278,7 @@ const ProductCreated = () => {
                    }
                 </div>
                 <div>
-                    <label>Agrega Precio</label>
+                    <label>Agrega Precio: </label>
                     <br />
                     <input type="number"
                     value={input.price}
