@@ -2,13 +2,12 @@ import React from "react";
 // import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { getProductName, getTotalProducts } from "../../redux/actions/index";
+import { getProductName } from "../../redux/actions/index";
 import icoLupa from "../../assets/lupa.png";
 import icoUserOptions from "../../assets/options_user.png";
 import logoTemp from "../../assets/logo_temporal.ico";
 import { LoginLogout } from "../login/logout/LoginAndLogout";
 import styled from "styled-components";
-import { useDebounce } from 'use-debounce'
 import { useNavigate } from "react-router-dom";
 
 const NavContainer = styled.div`
