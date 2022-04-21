@@ -149,12 +149,9 @@ const Login = () => {
     const email = event.target.email.value;
     const password = event.target.password.value;
     const role = "Cliente";
-    const data = {
-      shipping_address: event.target.shipping_address.value
-    };
-    
+  
     if (isRegistrando) {
-      registrarUsuario(email, password, role, data);
+      registrarUsuario(email, password, role);
     } else {
       signInUsuario(email, password);
     }
