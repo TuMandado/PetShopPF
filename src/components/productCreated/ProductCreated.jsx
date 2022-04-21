@@ -178,6 +178,7 @@ const ProductCreated = () => {
                     value={input.image}
                     name= 'image'
                     onChange={(e) => handleChange(e) }
+                    placeholder='agrege imagen'
                     />
                      {
                        errors.image && (
@@ -192,6 +193,7 @@ const ProductCreated = () => {
                     value={input.brand}
                     name='brand'
                     onChange={(e)=> handleChange(e)}
+                    placeholder='agrege marca'
                     />
                     {
                        errors.brand && (
@@ -270,6 +272,7 @@ const ProductCreated = () => {
                     value={input.subCategory}
                     name='subCategory'
                     onChange={(e) => handleChange(e) }
+                    placeholder='agrege sub categoria'
                     />
                     {
                        errors.subCategory && (
@@ -284,6 +287,7 @@ const ProductCreated = () => {
                     value={input.price}
                     name='price'
                     onChange={(e) => handleChange(e) }
+                    placeholder='agrege precio'
                     
                     />
                        {
