@@ -40,6 +40,7 @@ import Navbar from "./components/navbar/Navbar";
 import NewPublicPets from "./admin/pages/newPublicPets/NewPublicPets";
 
 import { getUser, uploadUser } from "./firebase/Users";
+import { cartLoginFront } from "./redux/actions/cartActions";
 
 const auth = getAuth(firebaseApp);
 
@@ -73,6 +74,8 @@ function App() {
       if (!user) {
         await dispatch(setUser(userData));
       }
+      // Cart actions
+      await dispatch(cartLoginFront(usuarioFirebase));
     } else {
       dispatch(setUser(null));
     }
