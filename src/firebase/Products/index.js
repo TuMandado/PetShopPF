@@ -27,7 +27,7 @@ const checkIfExists = async (id) => {
 export async function uploadProduct(data) {
     let uid = await createId()
     uid.toString()
-    await setDoc(doc(db, collectionRef, uid), {...data, delete:false});
+    await setDoc(doc(db, collectionRef, uid), data);
 }
 
 
