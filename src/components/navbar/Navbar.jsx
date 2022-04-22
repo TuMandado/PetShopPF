@@ -112,8 +112,6 @@ const BtnSearch = styled.button`
   }
 `;
 
-
-
 const IconsNav = styled.div`
   width: 120px;
   height: 42px;
@@ -140,30 +138,13 @@ const UserOptions = styled.img`
   top: 25.12%;
 `;
 
-const BtnClose = styled.button`
-  width: 120px;
-  height: 35px;
-  font-size: 12px;
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 600;
-  color: #067a4d;
-  background: #fff;
-  margin-top: 1px;
-  float: right;
-  margin-right: 77px;
-  border: none;
-  &:hover {
-    color: #0acf83;
-  }
-`;
 
 const PopUpSearchProduct = styled.div`
     content: "";
     width: 320px;
     position: absolute;
     left: 41.4%;
-    ${props => props.name.length > 2
+    ${props => props.name.length > 2 && props.products.length >= 1
         ? ` border: 1px solid black;
             border-radius: 8px;
             border-top-right-radius: 0;`
@@ -288,9 +269,9 @@ export const Navbar = () => {
                     <BtnSearch onClick={(e) => handleSubmit(e)} type="submit">
                         <BtnIconLupa src={icoLupa} alt="search" />
                     </BtnSearch>
-                    <PopUpSearchProduct name={name}>
+                    <PopUpSearchProduct name={name} products={searchedProducts}>
                         {
-                            name.length > 2 && searchedProducts.length && searchedProducts.map(el => (
+                            name.length > 2 && searchedProducts.length >=1 && searchedProducts.map(el => (
                                 <PopUpProductDiv key={el.uid} id={el.uid} onClick={e => goToProductDetail(e)}>
                                     <PopUpSpan>  {el.data.name} </PopUpSpan>
                                     <PopUpImage src={el.data.image} alt='Not Found' />
