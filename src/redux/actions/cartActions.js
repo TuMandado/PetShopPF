@@ -133,8 +133,9 @@ export function closeCartFront(payload) {
 export function cartLoginFront(payload) {
   return async function (dispatch) {
     try {
+      // eslint-disable-next-line no-lone-blocks
       {
-        console.log("More pay", payload);
+        
       }
       let jsonProduct = await loginCart(payload);
       console.log("-GetAllCarts Flag-", jsonProduct);

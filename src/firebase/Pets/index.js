@@ -121,7 +121,7 @@ export function filterByCategory(array, Category) {
 }
 
 export function filterByGender(array, gender) {
-    let filterGender = array.filter(el => el.data.category.toLowerCase() === gender.toLowerCase());
+    let filterGender = array.filter(el => el.data.sexo.toLowerCase() === gender.toLowerCase());
     if(filterGender.length) return filterGender;
     else return "Not Found"
 }
@@ -131,5 +131,6 @@ export async function filterPets(array, animal, gender, state, owner) {
     if(state) array = filterByState(array, state);
     if(gender) array = filterByGender(array, gender)
     if(owner) array = filterByOwner(array, owner)
+    console.log("Desde firebase", array)
     return array;
 }
