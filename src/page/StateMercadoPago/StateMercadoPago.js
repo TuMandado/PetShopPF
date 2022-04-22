@@ -10,7 +10,7 @@ import React from "react";
        
 // }
 
-const StateMercadoPago =()=>{
+const StateMercadoPago =(uid)=>{
     const querystring = window.location.search
     let info = querystring.slice(1)
     let arrayinfo= info.split('&')
@@ -27,6 +27,8 @@ const StateMercadoPago =()=>{
     })
     if (infoMercadoPago.status=== 'aproved'){
         // llamo a la funcion guardar carrito en bd 
+        // status = aproved
+    //     return ({status:aproved})
     }
 
 return(
