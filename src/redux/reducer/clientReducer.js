@@ -9,6 +9,8 @@ const initialState = {
   filter: [],
   details: {},
   backupDetail: {},
+  categoryPets:[],
+  petsCategory:[],
   user: null,
 };
 
@@ -30,7 +32,7 @@ function clientReducer(state = initialState, action) {
     case `GET_BY_NAME`: {
       return {
         ...state,
-        backup: action.payload,
+        products: action.payload,
       };
     }
     case "GET_ALL_PETS": {
@@ -92,6 +94,12 @@ function clientReducer(state = initialState, action) {
         ...state,
         products: state.backup,
       };
+    case 'GET_CATEGORY_PETS':
+      return {
+        ...state,
+        categoryPets: action.payload
+
+      }
     default:
       return state;
   }

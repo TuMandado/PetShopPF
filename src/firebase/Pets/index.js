@@ -31,14 +31,15 @@ export async function uploadPet(data) {
 
 //--- ---//
 
-  export async function deletePet(uid) {
-    await deleteDoc(doc(db, collectionRef, uid));
-  }
-
-
 export async function editPet(data,uid){ // modifica datos existentes
   await updateDoc(doc(db, collectionRef, uid),data)
 }
+
+export async function deletePet(uid) {
+  editPet(uid,{delete:true})
+}
+
+
 
 export async function getPet(uid) {
     try {
@@ -59,7 +60,8 @@ export async function getAllPets() {
             data: doc.data()
         });
       });
-    return array;
+    let pets = array.filter(el=> el.data.delete === false)
+    return pets;
 }
 
 
@@ -92,6 +94,19 @@ export function filterByOwner(array,Owner){
     return NotFound;
   }
 
+}
+
+export async function getStatePets(){
+  let pets = await getAllPets();
+  let cache = pets.flatMap(el => el.data.state)
+  let state = []
+  cache.forEach(el => {
+      if (!state.includes(el)) {
+          state.push(el)
+      }
+  })
+
+  return state
 }
 
 export function filterByState(array, state){

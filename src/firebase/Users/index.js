@@ -4,7 +4,7 @@ import { doc, setDoc, deleteDoc, getDoc, getDocs, collection } from "firebase/fi
 var collectionRef = "Users";
 
 export async function uploadUser(uid, data) {
-    await setDoc(doc(db, collectionRef, uid), data);
+    await setDoc(doc(db, collectionRef, uid), {...data, delete:false});
   }
 
 export async function deleteUser(uid) {

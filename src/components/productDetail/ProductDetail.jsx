@@ -6,6 +6,7 @@ import { Navbar } from "../navbar/Navbar";
 import { Loader } from "../../page/loader/Loader";
 import Footer from "../../components/footer/Footer";
 import { getDetailProducts, detailVacio } from "../../redux/actions";
+import { addItemCartFront } from "../../redux/actions/cartActions";
 import styled from "styled-components";
 
 const DetailContainer = styled.div`
@@ -150,6 +151,8 @@ const BtnHome = styled.button`
 `;
 
 const ProductDetail = () => {
+  const user = useSelector((state) => state.clientReducer.user);
+  const product = useSelector((state) => state.clientReducer.backupDetail);
   const dispatch = useDispatch();
   const uid = useParams();
   console.log("uid", uid);
@@ -161,7 +164,20 @@ const ProductDetail = () => {
     };
   }, [dispatch, uid]);
 
-  const product = useSelector((state) => state.clientReducer.backupDetail);
+  let item = {
+    user: user,
+    item: {
+      title: product.name,
+      quantity: 1,
+      price: product.price,
+      id: uid.id,
+    },
+  };
+
+  const handleAddCart = (e) => {
+    e.preventDefault();
+    dispatch(addItemCartFront(item));
+  };
 
   if (!product.name) {
     return (
@@ -200,7 +216,7 @@ const ProductDetail = () => {
               <Precio>{product.price}</Precio>
             </div>
             <div>
-              <BtnAdd>Agregar</BtnAdd>
+              <BtnAdd onClick={(e) => handleAddCart(e)}>Agregar</BtnAdd>
             </div>
           </PriceAddContainer>
         </DetailLeft>
