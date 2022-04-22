@@ -123,6 +123,7 @@ export function deleteThisProduct(id) {
       }
     };
   }
+  
   export function putUser(uid, data) {
     return async function (dispatch) {
       try {
