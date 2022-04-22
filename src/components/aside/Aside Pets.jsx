@@ -204,10 +204,10 @@ export const AsidePets = () => {
             <BlockContainer onChange={(e) => handleFiltersChanges(e)}>
                 <IndividualContainer>
                     <Input
-                        checked={filters.gender === 'macho'}
+                        checked={filters.gender === 'male'}
                         type="radio"
                         name="gender"
-                        value="macho"
+                        value="male"
                         id="macho"
                         onClick={e => handleUncheck(e)}
                     />
@@ -215,10 +215,10 @@ export const AsidePets = () => {
                 </IndividualContainer>
                 <IndividualContainer>
                     <Input
-                        checked={filters.gender === 'hembra'}
+                        checked={filters.gender === 'female'}
                         type="radio"
                         name="gender"
-                        value="hembra"
+                        value="female"
                         id="hembra"
                         onClick={e => handleUncheck(e)}
                     />
