@@ -9,8 +9,8 @@ const initialState = {
     users: [],
     filter: [],
     details: {},
-    categoryPets: [],
     backupDetail: {},
+    categoryPets: [],
     petsCategory: [],
     user: null,
 };

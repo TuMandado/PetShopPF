@@ -72,8 +72,6 @@ const initialState = {
           user: action.payload,
         };
       }
-      case "PUT_USER":
-        return state;
         default:
           return state;
 

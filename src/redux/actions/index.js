@@ -1,9 +1,22 @@
-import { getAllProducts, getProduct, getAllProductsCategories, getAllProductsSubCategory, getAllProductsAnimal, filterProducts, uploadProduct } from "../../firebase/Products/index";
-import { getAllPets, filterPets, uploadPet, getAllCategories, getStatePets } from '../../firebase/Pets/index'
+import {
+    getAllProducts,
+    getProduct,
+    getAllProductsCategories,
+    getAllProductsSubCategory,
+    getAllProductsAnimal,
+    filterProducts,
+    uploadProduct,
+} from "../../firebase/Products/index";
+import {
+    getAllPets,
+    filterPets,
+    getAllCategories,
+    uploadPet,
+    getPet,
+} from "../../firebase/Pets/index";
+import { async } from "@firebase/util";
 import { loginCart } from "../../firebase/Cart";
-import { getAllAnimalCategory } from '../../firebase/AnimalCategory/index'
-// import { pushAllProducts } from "../../firebase/PreLoadData/RandomProductsFunctions";
-// import {pushAllPets} from '../../firebase/PreLoadData/RandomPetFunctions/index'
+import { getAllAnimalCategory } from "../../firebase/AnimalCategory/index";
 
 // import { async } from "@firebase/util";
 // import { getAllProducts } from "../../firebase/Products/index";
@@ -100,8 +113,8 @@ export function getDetailProducts(uid) {
 
 export function detailVacio() {
     return {
-        type: 'DETAIL_VACIO'
-    }
+        type: "DETAIL_VACIO",
+    };
 }
 
 export function getProductsCategories() {
@@ -111,76 +124,95 @@ export function getProductsCategories() {
             const subcategories = await getAllProductsSubCategory();
 
             return dispatch({
-                type: 'GET_PRODUCTS_CATEGORIES',
-                payload: { categories, subcategories }
-            })
-
+                type: "GET_PRODUCTS_CATEGORIES",
+                payload: { categories, subcategories },
+            });
         } catch (err) {
-            console.log(err)
+            console.log(err);
         }
-    }
+    };
 }
 
 export function getAnimalCategories() {
     return async function (dispatch) {
         try {
-            const categories = await getAllProductsAnimal()
+            const categories = await getAllProductsAnimal();
             return dispatch({
                 type: "GET_ANIMAL_CATEGORIES",
-                payload: categories
-            })
+                payload: categories,
+            });
         } catch (err) {
-            console.log(err)
+            console.log(err);
         }
-    }
+    };
 }
-
 
 export function deleteFilters() {
     return {
-        type: "DELETE_FILTERS"
-    }
+        type: "DELETE_FILTERS",
+    };
 }
 
 export function filterAllProducts(array, category, animal, minPrice, maxPrice) {
     return async function (dispatch) {
-        const response = await filterProducts(array, category, animal, minPrice, maxPrice)
-        console.log(response)
+        const response = await filterProducts(
+            array,
+            category,
+            animal,
+            minPrice,
+            maxPrice
+        );
+        console.log(response);
         return dispatch({
             type: "FILTER_PRODUCTS",
-            payload: response
-        })
-    }
+            payload: response,
+        });
+    };
 }
 
 export function getTotalCategoryPets() {
     return async function (dispatch) {
-        const jsonCategoryPets = await getAllAnimalCategory()
-        console.log('esto es jsonCategoryPets', jsonCategoryPets)
+        const jsonCategoryPets = await getAllAnimalCategory();
+        console.log("esto es jsonCategoryPets", jsonCategoryPets);
         return dispatch({
-            type: 'GET_CATEGORY_PETS',
-            payload: jsonCategoryPets
-        })
-    }
+            type: "GET_CATEGORY_PETS",
+            payload: jsonCategoryPets,
+        });
+    };
 }
 
 export function postPets(payload) {
     return async function (dispatch) {
-        const jsonPetsPost = await uploadPet(payload)
-        console.log('esto es jsonPetsPost', jsonPetsPost)
-        return jsonPetsPost
-    }
+        const jsonPetsPost = await uploadPet(payload);
+        console.log("esto es jsonPetsPost", jsonPetsPost);
+        return jsonPetsPost;
+    };
 }
+
+export function petDetails(uid) {
+    return async function (dispatch) {
+        try {
+            let petDetail = await getPet(uid);
+            console.log("Pet Details =>", petDetail);
+            return dispatch({
+                type: "GET_DETAIL_PET",
+                payload: petDetail,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+};
 
 export function getSpeciesPets() {
     return async function (dispatch) {
-        const species = await getAllCategories() 
+        const species = await getAllCategories()
         dispatch({
-            type : "GET_SPECIES_PETS",
+            type: "GET_SPECIES_PETS",
             payload: species
         })
     }
-}
+};
 
 export function filterAllPets(array, animal, gender, state, owner) {
     return async function (dispatch) {
@@ -190,10 +222,10 @@ export function filterAllPets(array, animal, gender, state, owner) {
             payload: filteredPets
         })
     }
-}
+};
 
 export function resetPetFilters() {
     return {
         type: "RESET_PET_FILTERS"
     }
-}
+};

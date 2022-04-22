@@ -5,6 +5,7 @@ import { getTotalPets, getSpeciesPets, getStateAllPets } from "../../redux/actio
 import Pet from "../pet/Pet";
 import { Loader } from "../../page/loader/Loader";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Footer from "../../components/footer/Footer";
 import { AsidePets } from "../../components/aside/Aside Pets";
 import styled from "styled-components";
@@ -25,11 +26,16 @@ const MainAllCards = styled.div`
 
 const Pets = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const allPets = useSelector((state) => state.clientReducer.pets);
     const [loader, setLoader] = useState(true);
     // eslint-disable-next-line no-unused-vars
     const [error, setError] = useState(false);
+
+    const navigatePet = (e) => {
+        navigate(`/pets/${e.currentTarget.id}`);
+      };
 
     useEffect(() => {
 
@@ -56,7 +62,7 @@ const Pets = () => {
                 {allPets.length ? (
                     allPets.map((e) => {
                         return (
-                            <div>
+                            <div key={e.uid} id={e.uid} onClick={(e) => navigatePet(e)}>
                                 <Pet
                                     state={e.data.state}
                                     category={e.data.category}

@@ -1,71 +1,77 @@
-import { db } from '../credenciales'
-import { doc, setDoc, deleteDoc, getDoc, getDocs, collection, updateDoc } from "firebase/firestore";
+import { db } from "../credenciales";
+import {
+  doc,
+  setDoc,
+  deleteDoc,
+  getDoc,
+  getDocs,
+  collection,
+  updateDoc,
+} from "firebase/firestore";
 
 var collectionRef = "Pets";
 
 export async function uploadPet(data) {
-    let uid = await createId()
-    await setDoc(doc(db, collectionRef, uid), data);
+  let uid = await createId();
+  await setDoc(doc(db, collectionRef, uid), data);
 }
 
 //-- Crea el ID --//
 const createId = async () => {
-    var id = "";
-    var exists = true;
-    while (exists) {
-        id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-        exists = await checkIfExists(id);
-    }
-    return id;
-}
+  var id = "";
+  var exists = true;
+  while (exists) {
+    id =
+      Math.random().toString(36).substring(2, 15) +
+      Math.random().toString(36).substring(2, 15);
+    exists = await checkIfExists(id);
+  }
+  return id;
+};
 
 const checkIfExists = async (id) => {
-    var exists = false;
-    await getPet(id).then(doc => {
-        if (doc) {
-            exists = true;
-        }
-    });
-    return exists;
-}
+  var exists = false;
+  await getPet(id).then((doc) => {
+    if (doc) {
+      exists = true;
+    }
+  });
+  return exists;
+};
 
 //--- ---//
 
-export async function editPet(data, uid) { // modifica datos existentes
-    await updateDoc(doc(db, collectionRef, uid), data)
+export async function editPet(data, uid) {
+  // modifica datos existentes
+  await updateDoc(doc(db, collectionRef, uid), data);
 }
 
 export async function deletePet(uid) {
-    editPet(uid, { delete: true })
+  editPet(uid, { delete: true });
 }
 
-
-
 export async function getPet(uid) {
-    try {
-        let toReturn = await getDoc(doc(db, collectionRef, uid));
-        return toReturn.data();
-    } catch (error) {
-        console.log("getPet error: ", error)
-        return error
-    }
+  try {
+    let toReturn = await getDoc(doc(db, collectionRef, uid));
+    return toReturn.data();
+  } catch (error) {
+    console.log("getPet error: ", error);
+    return error;
+  }
 }
 
 export async function getAllPets() {
-    const querySnapshot = await getDocs(collection(db, collectionRef));
-    let array = [];
-    querySnapshot.forEach((doc) => {
-        array.push({
-            uid: doc.id,
-            data: doc.data()
-        });
+  const querySnapshot = await getDocs(collection(db, collectionRef));
+  let array = [];
+  querySnapshot.forEach((doc) => {
+    array.push({
+      uid: doc.id,
+      data: doc.data(),
     });
-    let pets = array.filter(el => el.data.delete === false)
-    return pets;
+  });
+  let pets = array.filter((el) => el.data.delete === false);
+  return pets;
 }
-
-
-
 
 export async function getAllCategories() {
     let pets = await getAllPets();
@@ -127,4 +133,3 @@ export async function filterPets(array, animal, gender, state, owner) {
     if(owner) array = filterByOwner(array, owner)
     return array;
 }
-

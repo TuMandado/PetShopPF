@@ -125,18 +125,3 @@ export function deleteThisProduct(id) {
     };
   }
   
-  export function putUser(uid, data) {
-    return async function (dispatch) {
-      try {
-        let uploadUser = await uploadUser(uid, data);
-        console.log("uploadUser", uploadUser);
-        return dispatch({
-          type: "PUT_USER",
-          payload: uploadUser,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  }
-  
