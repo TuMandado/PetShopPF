@@ -14,6 +14,7 @@ import ProductList from "./page/productList/ProductList";
 import Product from "./page/product/Product";
 import Cart from "./page/cart/Cart";
 import PetsPage from "./page/pets/PetsPage";
+import Pet from "./page/pet/Pet.jsx";
 import Register from "./page/register/Register";
 import UserSettings from "./page/userSettings/UserSettings";
 import ErrorPage from "./page/error/Error";
@@ -49,7 +50,6 @@ function App() {
   var user = useSelector((state) => state.clientReducer.user);
   const dispatch = useDispatch();
 
-  
   onAuthStateChanged(auth, async (usuarioFirebase) => {
     if (usuarioFirebase) {
       // If location is not "/" (home page), redirect to home page
@@ -70,7 +70,7 @@ function App() {
           shippingAddress: "",
           name: "",
           surname: "",
-          nickname: ""
+          nickname: "",
         };
         // Upload the user to the database
         await uploadUser(usuarioFirebase.uid, userData);
@@ -106,6 +106,7 @@ function App() {
           <Route exact path="/admin" element={<AdminHome />} />
           <Route exact path="/usersettings" element={<UserSettings />} />
           <Route exact path="/pets" element={<PetsPage />} />
+          <Route exact path="/pets/:id" element={<Pet />} />
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/createdProduct" element={<CreatedProduct />} />
