@@ -30,10 +30,9 @@ import Pyments from "./admin/pages/pyments/Pyments";
 import PublicPets from "./admin/pages/publicPets/PublicPets";
 import AdminSidebar from "./admin/components/adminSidebar/AdminSidebar";
 import { getTotalProducts } from './redux/actions';
-import MercadoPago from 'mercadopago'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Navbar from "./components/navbar/Navbar";
-const {REACT_APP_ACCESS_TOKEN,PUBLIC_KEY,ID} = process.env;
+import StateMercadoPago from "./page/StateMercadoPago/StateMercadoPago"
 
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
 const auth = getAuth(firebaseApp);
@@ -65,6 +64,7 @@ function App() {
     <div className={"App"}>
       <Router>
          <Routes>
+            <Route exact path="/Success" element={<StateMercadoPago />} />
              <Route exact path="*" element={<ErrorPage />} />
              <Route exact path="/" element={<Home />} />
              {/* <Route exact path="/" element={user ? <Home /> : <Login />} /> */}

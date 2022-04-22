@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useDispatch, useSelector } from "react-redux";
 import { openCartFront } from "../../redux/actions/cartActions";
 import mercadopago from 'mercadopago'
+// import { useQuery } from 'react-query'
 
 const REACT_APP_ACCESS_TOKEN = 'TEST-5909391637745101-041518-e07a43a5f92224ee501bc4d9feca4624-191706246'
 // Get the current url
@@ -13,12 +14,12 @@ const user = useSelector((state)=> state.clientReducer.user)
 const openCart = useSelector((state)=> state.cartReducer.openCart)
 const dispatch = useDispatch()
 
-
+ 
     useEffect(()=>{
         dispatch(openCartFront(user));
     },[dispatch])
 
-    const mercadoPagoConfiguration = async () => {
+    const MercadoPagoConfiguration = async () => {
         await mercadopago.configure({
             access_token: REACT_APP_ACCESS_TOKEN
         })
@@ -47,12 +48,14 @@ const dispatch = useDispatch()
                 installments:3, // cant maxima de cuotas
             },
             back_Urls: {
-                        success: url + '/mercadopago/pagos',
-                        failure: url + '/mercadopago/pagos',
-                        pending: url + '/mercadopago/pagos',
+                        success:'http://localhost:3000/StateMercadoPago',
+                        failure:'http://localhost:3000/StateMercadoPago',
+                        pending:'http://localhost:3000/StateMercadoPago',
             },
         }
-        axios({
+    
+
+        axios({ /// anterior
             method: 'POST',
             url: 'https://api.mercadopago.com/checkout/preferences',
             data: preference,
@@ -66,10 +69,12 @@ const dispatch = useDispatch()
             console.log('esta es la respuesta de mp', response)
             window.location.replace(response.data.sandbox_init_point)
         })
+        
+
     }
 
     const handleSubmit = () => {
-        mercadoPagoConfiguration()
+        MercadoPagoConfiguration()
     }
 
 let items = []
@@ -97,7 +102,10 @@ if(openCart){
                     </div>
                 )
             }) :(<h1>no hay nada</h1>)}
-            <button onClick={handleSubmit()}>MP</button>
+            <button onClick={handleSubmit}>MP</button>
         </div>
     )
 } 
+
+
+
