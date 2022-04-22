@@ -5,21 +5,7 @@ const Div = styled.div`
   flex-direction: row;
   justify-content: center;
   margin-bottom: 20%;
-  ${props => (
-        //   props.products % props.productsPerPage
-        props.products % props.productsPerPage <= 4 && props.currentPage === props.lastPage
-            ? `
-            margin-bottom: 30%;
-             `
-            : props.products % props.productsPerPage <= 6 && props.currentPage === props.lastPage
-                ? `
-            margin-bottom: 25%;
-                `
-                : `
-                margin-bottom: 1%;
-                 `
-    )
-    }
+  flex-basis: 100%;
 `;
 
 const Span = styled.span`
@@ -34,9 +20,8 @@ const Paginacion = styled.div`
   justify-content: center;
   margin: 20px 0;
   align-items: center;
-//  text-align: center;
-// align-content:center; 
 `;
+
 const Button = styled.button`
     border: none;
     background: none;

@@ -1,109 +1,32 @@
 import React from 'react';
 import "./adminProduct.css";
-import Chart from "../../components/chart/Chart"
-import {productData} from "../../dummyData"
+// import Chart from "../../components/chart/Chart"
+// import {productData} from "../../dummyData"
 import { Publish } from "@material-ui/icons";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router-dom";
+import { useNavigate } from 'react-router';
 import FileBase from 'react-file-base64';
 
-
-
-import { getDetailProducts, detailVacio } from "../../../redux/actions";
+import { getDetailProducts} from "../../../redux/actions";
+// import { getDetailProducts } from "../../../redux/actions/adminActions";
 import Navbar from '../../../components/navbar/Navbar';
 import AdminSidebar from '../../components/adminSidebar/AdminSidebar';
 
 
+  const AdminProduct = () => {
 
-export default function Product() {
-    return (
-    <div >
-        <Navbar/>
-        <div className="container">
-          <AdminSidebar /> 
-    <div className="productList">
-      <div className="product">
-        <div className="productTitleContainer">
-          <h1 className="productTitle">Producto</h1>
-          <Link to="/newproduct">
-            <button className="productAddButton">Crear</button>
-          </Link>
-        </div>
-        <div className="productTop">
-            {/* <div className="productTopLeft">
-                <Chart data={productData} dataKey="Sales" title="Sales Performance"/>
-            </div> */}
-            <div className="productTopRight">
-                <div className="productInfoTop">
-                    <img src="https://www.timberline.com.ar/416/correa-para-2-perros.jpg"  width="200px"  />
-                    <span className="productName">Correa para 2 perros</span>
-                </div>
-                <div className="productInfoBottom">
-                    <div className="productInfoItem">
-                        <span className="productInfoKey">id:</span>
-                        <span className="productInfoValue">123</span>
-                    </div>
-                    <div className="productInfoItem">
-                        <span className="productInfoKey">Precio:</span>
-                        <span className="productInfoValue">$1500</span>
-                    </div>
-                    <div className="productInfoItem">
-                        <span className="productInfoKey">activo:</span>
-                        <span className="productInfoValue">si</span>
-                    </div>
-                    <div className="productInfoItem">
-                        <span className="productInfoKey">stock:</span>
-                        <span className="productInfoValue">123</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div className="productBottom">
-            <form className="productForm">
-                <div className="productFormLeft">
-                    <label>Nombre del Producto</label>
-                    <input type="text" placeholder="Apple AirPod" />
-                    <label>Stock</label>
-                    <select name="inStock" id="idStock">
-                        <option value="yes">si</option>
-                        <option value="no">No</option>
-                    </select>
-                    <label>Active</label>
-                    <select name="active" id="active">
-                        <option value="yes">si</option>
-                        <option value="no">No</option>
-                    </select>
-                </div>
-                <div className="productFormRight">
-                    <div className="productUpload">
-                        <img src="https://www.timberline.com.ar/416/correa-para-2-perros.jpg" alt="" className="productUploadImg" />
-                        <label for="file">
-                            <Publish/>
-                        </label>
-                        <input type="file" id="file" style={{display:"none"}} />
-                    </div>
-                    <button className="productButton">Modificar</button>
-                </div>
-            </form>
-        </div>
-      </div>
-      </div> 
-    </div>
-    </div>
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
+    const uid = useParams().productId;
+    const product = useSelector((state) => state.clientReducer.details);
 
-    );
-}
-  
-
- {/* const AdminProduct = () => {
-
-  const dispatch = useDispatch();
-  const uid = useParams();
-  console.log("uid", uid);
-  const product = useSelector((state) => state.clientReducer.backupDetail);
-  console.log("esto es product", product);
+  useEffect(() => {
+    dispatch(getDetailProducts(uid));
+    console.log("uid 💥:", uid);
+    
+  }, [dispatch, uid]);
 
   const [state, setState] = useState({
         name: '',
@@ -119,17 +42,11 @@ export default function Product() {
         setState(prevState => ({ ...prevState, image: files.base64 }))  
     }
 
-    useEffect(() => {
-        dispatch(getDetailProducts(uid.id));
-        return function () {
-          dispatch(detailVacio());
-        };
-      }, [dispatch, uid]);
+   
 
 
     useEffect(() => {
-        if (!product.name) {
-            
+        if (!product.name) {   
             setState({
 
                 name: product ? product.name : '',
@@ -159,21 +76,22 @@ export default function Product() {
     // }
 
     function hundleOnSubmit(e) {
-        e.preventDefault()
-        console.log(uid.id, state)
-        // dispatch(putProduct(id, state))
-        setState({
-            name: '',
-            animalCategory: '',
-            brand: '',
-            price: '',
-            subCategory:'',
-            stock: '',
-            image: '',
-        })
-
+      e.preventDefault()
+      console.log(uid.id, state)
+      // dispatch(putProduct(id, state))
+      setState({
+          name: '',
+          animalCategory: '',
+          brand: '',
+          price: '',
+          subCategory:'',
+          stock: '',
+          image: '',
+      }) 
+      alert("Ha sido modificado con exito")
+      navigate("/adminProducts")
     }
-    
+  
     // function hundleOnCategory(e) {
     //     setCategory(e.target.value)
     //     setState({
@@ -331,4 +249,4 @@ export default function Product() {
     );
 }
 
-export default AdminProduct */}
+export default AdminProduct 

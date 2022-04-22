@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { signInWithGoogle } from "../../firebase/auth";
+import { signInWithFacebook } from "../../firebase/auth";
 import auth from "../../firebase/auth";
 
 const BtnForInput = styled.input`
@@ -20,7 +20,7 @@ const BtnForInput = styled.input`
   margin-top: 11px;
 `;
 
-const GoogleSignIn = () => {
+const FacebookSignIn = () => {
   // useEffect(() => {
   //   auth.onAuthStateChanged((user) => {
   //     if (user) {
@@ -28,7 +28,9 @@ const GoogleSignIn = () => {
   //     }
   //   });
   // }, []);
-  return <BtnForInput value={"Sign In Google"} onClick={signInWithGoogle} />;
+  return (
+    <BtnForInput value={"Sign In Facebook"} onClick={signInWithFacebook} />
+  );
 };
 
-export default GoogleSignIn;
+export default FacebookSignIn;

@@ -32,8 +32,9 @@ const MainAllCards = styled.div`
   box-sizing: border-box;
   display: grid;
   place-content: left;
-  grid-template-columns: repeat(3, 16em);
-  margin: 18px;
+  grid-template-columns: repeat(3, 21em);
+  margin: 2px;
+  justify-content: center;
   min-height: 68vh;
 `;
 
@@ -42,7 +43,6 @@ const Pets = () => {
 
   const allPets = useSelector((state) => state.clientReducer.backupPets);
   console.log("esto es allPets", allPets);
-
 
   const [loader, setLoader] = useState(true);
   // eslint-disable-next-line no-unused-vars
@@ -66,7 +66,6 @@ const Pets = () => {
 
   return (
     <div>
-      <NavbarPets />
       <AsidePets />
       <MainAllCards>
         {allPets.length > 0 ? (
@@ -77,6 +76,7 @@ const Pets = () => {
                   state={e.data.state}
                   category={e.data.category}
                   sexo={e.data.sexo}
+                  name={e.data.name}
                   description={e.data.description}
                   photos={e.data.photos}
                 />

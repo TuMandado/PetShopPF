@@ -8,18 +8,38 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import Navbar from "../../../components/navbar/Navbar";
 import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
-import { productRows } from "../../dummyData";
-
+import { deleteThisProduct } from "../../../redux/actions/adminActions";
 
 const ProductList = () => {
 
-  const allProducts = useSelector(state => state.clientReducer.backup)
-  const [dat, setDat] = useState(allProducts);
-  const [data, setData] = useState(productRows);
+  const dispatch = useDispatch()
+  const allProducts = useSelector(state => state.clientReducer.products)
+  const [totalProducts, setTotalProducts] = useState([]);
 
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+
+  useEffect(() => {
+    setTotalProducts(allProducts.map(el=>{
+      return({
+       id: el.uid,
+       animalCategory: el.data.animalCategory,
+       brand: el.data.brand,
+       category: el.data.category, 
+       image: el.data.image,
+       name: el.data.name,
+       price: el.data.price,
+       subCategory: el.data.subCategory,
+      })
+    }))
+  }, [allProducts, dispatch]);
+
+  const handleDelete = (id)=> {
+    dispatch(deleteThisProduct(id));
+    setTotalProducts(totalProducts.filter((item) => item.id !== id));
+    // setTimeout( ()=>{
+    //   window.location.reload();
+    // },1500)
   };
+
 
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
@@ -75,7 +95,7 @@ const ProductList = () => {
       {
          allProducts && allProducts.length
          ? <DataGrid
-             rows={data}
+             rows={totalProducts}
              disableSelectionOnClick
              columns={columns}
              pageSize={10}
