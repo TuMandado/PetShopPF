@@ -5,7 +5,7 @@ var collectionRef = "Pets";
 
 export async function uploadPet(data) {
     let uid = await createId()
-    await setDoc(doc(db, collectionRef,uid), data);
+    await setDoc(doc(db, collectionRef,uid), {...data, delete:false});
   }
 
   //-- Crea el ID --//

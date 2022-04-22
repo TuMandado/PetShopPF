@@ -16,6 +16,7 @@
     "firebase": "^9.1.3",
     "lorem-ipsum": "^2.0.4",
     "mercadopago": "^1.5.12",
+    "mapbox-gl": "^2.8.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-file-base64": "^1.0.3",
@@ -45,7 +46,9 @@
     "production": [
       ">0.2%",
       "not dead",
-      "not op_mini all"
+      "not op_mini all",
+      "defaults",
+      "not ie 11"
     ],
     "development": [
       "last 1 chrome version",
