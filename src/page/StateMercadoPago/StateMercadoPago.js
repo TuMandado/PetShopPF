@@ -27,6 +27,14 @@ const StateMercadoPago =()=>{
     })
     if (infoMercadoPago.status=== 'aproved'){
         // llamo a la funcion guardar carrito en bd 
+        // poner en estado aproved
+    }else if(infoMercadoPago === 'rejected'){
+        // llamo a la funcion de guardar carrito 
+        // status rejected
+        // status_detail=> va el porque se rechazo
+    }else if(infoMercadoPago === 'pending'){
+        // funcion carrito 
+        // status pending
     }
 
 return(
