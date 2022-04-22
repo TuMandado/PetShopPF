@@ -1,12 +1,7 @@
-import { getAllProducts, getProduct, getAllProductsCategories, getAllProductsSubCategory, getAllProductsAnimal, filterProducts,uploadProduct} from "../../firebase/Products/index";
-import {getAllPets, filterByOwner,
-  filterByState,
-  filterByCategory,
-  getAllCategories,
-  uploadPet} from '../../firebase/Pets/index'
-import { async } from "@firebase/util";
+import { getAllProducts, getProduct, getAllProductsCategories, getAllProductsSubCategory, getAllProductsAnimal, filterProducts, uploadProduct } from "../../firebase/Products/index";
+import { getAllPets, filterPets, uploadPet, getAllCategories, getStatePets } from '../../firebase/Pets/index'
 import { loginCart } from "../../firebase/Cart";
-import {getAllAnimalCategory} from '../../firebase/AnimalCategory/index'
+import { getAllAnimalCategory } from '../../firebase/AnimalCategory/index'
 // import { pushAllProducts } from "../../firebase/PreLoadData/RandomProductsFunctions";
 // import {pushAllPets} from '../../firebase/PreLoadData/RandomPetFunctions/index'
 
@@ -15,22 +10,22 @@ import {getAllAnimalCategory} from '../../firebase/AnimalCategory/index'
 // import { getAllPets } from "../../firebase/Pets/index";
 
 export function setUser(payload) {
-  return async function (dispatch) {
-    try {
-        let jsonProduct = await loginCart(payload);
-        console.log("-login Flag-", jsonProduct);
-        return dispatch({
-          type: "SET_USER",
-          payload,
-        });
-    } catch (error) {
-        console.log(error);
-    }
-};
-//     return {
-//         type: "SET_USER",
-//         payload,
-//     };
+    return async function (dispatch) {
+        try {
+            let jsonProduct = await loginCart(payload);
+            console.log("-login Flag-", jsonProduct);
+            return dispatch({
+                type: "SET_USER",
+                payload,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    //     return {
+    //         type: "SET_USER",
+    //         payload,
+    //     };
 }
 
 export function getTotalProducts() {
@@ -67,18 +62,18 @@ export function getProductName(name) {
 }
 
 export function getTotalPets() {
-  return async function (dispatch) {
-    try {
-      let jsonPets = await getAllPets();
-      // console.log("esto es jsonPets", jsonPets);
-      return dispatch({
-        type: "GET_ALL_PETS",
-        payload: jsonPets,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    return async function (dispatch) {
+        try {
+            let jsonPets = await getAllPets();
+            // console.log("esto es jsonPets", jsonPets);
+            return dispatch({
+                type: "GET_ALL_PETS",
+                payload: jsonPets,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
 }
 
 export function setLoading(value) {
@@ -89,35 +84,19 @@ export function setLoading(value) {
 }
 
 export function getDetailProducts(uid) {
-  return async function (dispatch) {
-    try {
-      let jsonDetail = await getProduct(uid);
-      console.log("jsonDetail", jsonDetail);
-      return dispatch({
-        type: "GET_DETAIL_PRODUCTS",
-        payload: jsonDetail,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    return async function (dispatch) {
+        try {
+            let jsonDetail = await getProduct(uid);
+            console.log("jsonDetail", jsonDetail);
+            return dispatch({
+                type: "GET_DETAIL_PRODUCTS",
+                payload: jsonDetail,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
 }
-
-export function filterState(payload) {
-  return async function (dispatch) {
-    try {
-      let filterPetsState = filterByState(payload.array, payload.state);
-
-      return dispatch({
-        type: "FILTER_PETS_BY_STATE",
-        payload: filterPetsState,
-      });
-    } catch (error) {
-      console.log("Hubo un error al cargar este filtro => State");
-    }
-  };
-}
-
 
 export function detailVacio() {
     return {
@@ -150,7 +129,7 @@ export function getAnimalCategories() {
                 type: "GET_ANIMAL_CATEGORIES",
                 payload: categories
             })
-        } catch(err) {
+        } catch (err) {
             console.log(err)
         }
     }
@@ -164,7 +143,7 @@ export function deleteFilters() {
 }
 
 export function filterAllProducts(array, category, animal, minPrice, maxPrice) {
-    return async function(dispatch) {
+    return async function (dispatch) {
         const response = await filterProducts(array, category, animal, minPrice, maxPrice)
         console.log(response)
         return dispatch({
@@ -174,22 +153,47 @@ export function filterAllProducts(array, category, animal, minPrice, maxPrice) {
     }
 }
 
-export function getTotalCategoryPets () {
-   return async function (dispatch) {
-     const jsonCategoryPets = await getAllAnimalCategory()
-     console.log('esto es jsonCategoryPets', jsonCategoryPets)
-     return dispatch ({
-       type: 'GET_CATEGORY_PETS',
-       payload: jsonCategoryPets
-     })
-   }
+export function getTotalCategoryPets() {
+    return async function (dispatch) {
+        const jsonCategoryPets = await getAllAnimalCategory()
+        console.log('esto es jsonCategoryPets', jsonCategoryPets)
+        return dispatch({
+            type: 'GET_CATEGORY_PETS',
+            payload: jsonCategoryPets
+        })
+    }
 }
 
-export function postPets (payload) {
-  return async function (dispatch) {
-    const jsonPetsPost = await uploadPet(payload)
-    console.log('esto es jsonPetsPost', jsonPetsPost)
-    return jsonPetsPost
-  }
+export function postPets(payload) {
+    return async function (dispatch) {
+        const jsonPetsPost = await uploadPet(payload)
+        console.log('esto es jsonPetsPost', jsonPetsPost)
+        return jsonPetsPost
+    }
+}
 
+export function getSpeciesPets() {
+    return async function (dispatch) {
+        const species = await getAllCategories() 
+        dispatch({
+            type : "GET_SPECIES_PETS",
+            payload: species
+        })
+    }
+}
+
+export function filterAllPets(array, animal, gender, state, owner) {
+    return async function (dispatch) {
+        const filteredPets = await filterPets(array, animal, gender, state, owner)
+        dispatch({
+            type: "FILTER_ALL_PETS",
+            payload: filteredPets
+        })
+    }
+}
+
+export function resetPetFilters() {
+    return {
+        type: "RESET_PET_FILTERS"
+    }
 }
