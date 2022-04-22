@@ -7,6 +7,8 @@ import {getAllPets, filterByOwner,
 import { async } from "@firebase/util";
 import { loginCart } from "../../firebase/Cart";
 import {getAllAnimalCategory} from '../../firebase/AnimalCategory/index'
+// import { pushAllProducts } from "../../firebase/PreLoadData/RandomProductsFunctions";
+// import {pushAllPets} from '../../firebase/PreLoadData/RandomPetFunctions/index'
 
 // import { async } from "@firebase/util";
 // import { getAllProducts } from "../../firebase/Products/index";
