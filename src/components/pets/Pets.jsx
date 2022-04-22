@@ -5,6 +5,7 @@ import { getTotalPets } from "../../redux/actions";
 import Pet from "../pet/Pet";
 import { Loader } from "../../page/loader/Loader";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import NavbarPets from "../../components/navbar/Navbar Pets";
 import Footer from "../../components/footer/Footer";
 import { AsidePets } from "../../components/aside/Aside Pets";
@@ -40,9 +41,13 @@ const MainAllCards = styled.div`
 
 const Pets = () => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const allPets = useSelector((state) => state.clientReducer.backupPets);
-  console.log("esto es allPets", allPets);
+  console.log("Pets Flag =>", allPets);
+
+  const navigatePet = (e) => {
+    navigate(`/pets/${e.currentTarget.id}`);
+  };
 
   const [loader, setLoader] = useState(true);
   // eslint-disable-next-line no-unused-vars
@@ -71,7 +76,7 @@ const Pets = () => {
         {allPets.length > 0 ? (
           allPets.map((e) => {
             return (
-              <div>
+              <div key={e.uid} id={e.uid} onClick={(e) => navigatePet(e)}>
                 <Pet
                   state={e.data.state}
                   category={e.data.category}

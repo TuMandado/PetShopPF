@@ -9,8 +9,8 @@ const initialState = {
   filter: [],
   details: {},
   backupDetail: {},
-  categoryPets:[],
-  petsCategory:[],
+  categoryPets: [],
+  petsCategory: [],
   user: null,
 };
 
@@ -57,6 +57,15 @@ function clientReducer(state = initialState, action) {
         backupDetail: action.payload,
       };
     }
+
+    case "GET_DETAIL_PET": {
+      return {
+        ...state,
+        details: action.payload,
+        backupDetail: action.payload,
+      };
+    }
+
     case "DETAIL_VACIO": {
       return {
         ...state,
@@ -94,12 +103,11 @@ function clientReducer(state = initialState, action) {
         ...state,
         products: state.backup,
       };
-    case 'GET_CATEGORY_PETS':
+    case "GET_CATEGORY_PETS":
       return {
         ...state,
-        categoryPets: action.payload
-
-      }
+        categoryPets: action.payload,
+      };
     default:
       return state;
   }
