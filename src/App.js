@@ -31,24 +31,19 @@ import NewProduct from "./admin/pages/newProduct/NewProduct";
 import Pyments from "./admin/pages/pyments/Pyments";
 import PublicPets from "./admin/pages/publicPets/PublicPets";
 import AdminSidebar from "./admin/components/adminSidebar/AdminSidebar";
-import { getTotalProducts } from './redux/actions';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import Navbar from "./components/navbar/Navbar";
-import StateMercadoPago from "./page/StateMercadoPago/StateMercadoPago"
 
-
+import { getTotalProducts } from "./redux/actions";
 
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
 
-
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import Navbar from "./components/navbar/Navbar";
 import NewPublicPets from "./admin/pages/newPublicPets/NewPublicPets";
 
 import { getUser, uploadUser } from "./firebase/Users";
 import { cartLoginFront } from "./redux/actions/cartActions";
 
-
 const auth = getAuth(firebaseApp);
-
 
 function App() {
   // eslint-disable-next-line no-unused-vars
@@ -90,7 +85,7 @@ function App() {
       dispatch(setUser(null));
     }
   });
-  
+
   useEffect(() => {
     dispatch(getTotalProducts());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -102,7 +97,6 @@ function App() {
     <div className={"App"}>
       <Router>
         <Routes>
-          <Route exact path="/StateMercadoPago" element={<StateMercadoPago />} />
           <Route exact path="*" element={<ErrorPage />} />
           <Route exact path="/" element={<Home />} />
           {/* <Route exact path="/" element={user ? <Home /> : <Login />} /> */}

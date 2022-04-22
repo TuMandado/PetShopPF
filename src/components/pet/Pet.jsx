@@ -24,7 +24,6 @@ const ContainerPets = styled.div`
 `;
 
 const Image = styled.img`
-  object-fit: cover;
   width: 250px;
   height: 230px;
   border-radius: 8px;

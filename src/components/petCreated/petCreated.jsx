@@ -41,7 +41,7 @@ const PetCreated = ()=> {
         photos: '',
         ubicacion : '',
         state: '',
-        category:'',
+        category:[],
         delete: false
     })
 
@@ -78,23 +78,9 @@ const PetCreated = ()=> {
 
     function handleSubmit(e) {
         e.preventDefault()
-        if(input.name.trim() === '' ||  input.name.search(/^[^$%&|<>#]*$/)) {
-            return alert('Ingrese nombre adecuado')
-    }  else if (
-        pets.find(e => e.data.name.toLowerCase().trim() === input.name.toLowerCase().trim())
-    ) {
-        return alert(`El Producto ${input.name} ya existe`)
-    } else if (input.owner.trim() === ''||  input.name.search(/^[^$%&|<>#]*$/) ) {
-        return alert ('por favor ingrese dueño')
-    } else if (input.sexo.trim() === ''||  input.name.search(/^[^$%&|<>#]*$/) ) {
-        return alert ('por favor ingrese sexo adecuado')
-    } else if (input.category.trim() === '') {
-        return alert('selecciona una categoria de animal por favor')
-    } 
-    
-    
-    
-    else {
+        if(input.name.trim() === '') {
+            return alert('Ingrese un nombre')
+    } else {
         console.log(input)
         dispatch(postPets(input))
         alert('Animal creado con exito!')
@@ -106,7 +92,7 @@ const PetCreated = ()=> {
             photos: '',
             ubicacion : '',
             state: '',
-            category:'',
+            category:[],
             delete:false
         })
         navigate('/pets')
@@ -184,7 +170,7 @@ const PetCreated = ()=> {
                                ))
                            }
                        </select>
-                       {/* <ul>
+                       <ul>
                            <li>
                                {input.category.map((e) => (
                                   <div>
@@ -195,7 +181,7 @@ const PetCreated = ()=> {
                                   </div>
                                ))}
                            </li>
-                       </ul> */}
+                       </ul>
                        {
                            errors.category && (
                                <p>{errors.category}</p>

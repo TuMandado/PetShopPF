@@ -20,9 +20,6 @@ import { async } from "@firebase/util";
 import { loginCart } from "../../firebase/Cart";
 import { getAllAnimalCategory } from "../../firebase/AnimalCategory/index";
 
-
-
-
 // import { async } from "@firebase/util";
 // import { getAllProducts } from "../../firebase/Products/index";
 // import { getAllPets } from "../../firebase/Pets/index";
