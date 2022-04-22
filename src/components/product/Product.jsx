@@ -289,24 +289,26 @@ const Product = ({ id, title, imagen, info, price, animalCategory, category, sub
         navigate(`/product/${e.currentTarget.id}`)
     }
 
-    const user = useSelector((state)=> state.clientReducer.user)
+    const user = useSelector((state) => state.clientReducer.user)
     const dispatch = useDispatch();
-    
-    let item={
+
+    let item = {
         user: user,
-        item:{
-                createdAt:Date(),
-                title,
-                cantidad: 1,
-                price,
-                id
-            }
+        item: {
+            createdAt: Date(),
+            title,
+            quantity: 1,
+            price,
+            id,
+            imagen
+        }
     }
-    
-    function handleAdd(e){
-      e.preventDefault()
-      dispatch(addItemCartFront(item));
-    }   
+
+    function handleAdd(e) {
+        e.preventDefault()
+        dispatch(addItemCartFront(item));
+    }
+
 
     if (viewMode === 'List') {
         return (
@@ -327,7 +329,12 @@ const Product = ({ id, title, imagen, info, price, animalCategory, category, sub
                 </ListMainCategoriesContainer>
                 <ListSubCategoryContainer>
                     <ListSubCategorySpan> Tipo: </ListSubCategorySpan>
-                    <ListSubCategory> {subCategory}</ListSubCategory>
+                    <ListSubCategory>
+                        {subCategory.length > 30
+                            ? subCategory.split('').slice(0, 35).join('') + '...'
+                            : subCategory
+                        }
+                    </ListSubCategory>
                 </ListSubCategoryContainer>
                 <ListAnimalCategoryContainer>
                     <ListAnimalCategorySpan> Animal: </ListAnimalCategorySpan>

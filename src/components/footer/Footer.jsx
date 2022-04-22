@@ -55,6 +55,13 @@ const Footer = () => {
                     <Link onClick={onClickLink} to='/products' style={linkListItems}>
                         <ListItem>Tienda</ListItem>
                     </Link>
+                    <Link onClick={onClickLink} to='/createdProduct' style={linkListItems}>
+                        <ListItem>Publicar producto</ListItem>
+                    </Link>
+                      {/* <Link to='/createdProduct'>
+                        <button>createdProduct</button>
+                      </Link> */}
+
                     {/* <ListItem>Mi cuenta</ListItem> */}
                     {/* <ListItem>Lista de deseos</ListItem> */}
                 </List>
@@ -95,6 +102,7 @@ const Container = styled.div`
   font-style: normal;
   font-size: 15px;
   line-height: 22px;
+  clear: both;
 `
 
 const Left = styled.div`

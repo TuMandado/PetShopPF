@@ -30,9 +30,6 @@ export async function uploadProduct(data) {
     await setDoc(doc(db, collectionRef, uid), data);
 }
 
-export async function deleteProduct(uid) {
-    await deleteDoc(doc(db, collectionRef, uid));
-}
 
 export async function getProduct(uid) {
     try {
@@ -56,7 +53,7 @@ export async function getAllProducts(search) {
             data: doc.data()
         });
     });
-
+    
     let products = [];
     if (search) {
         let productsFound = array.filter(el => el.data.name.toLowerCase().includes(search.toLowerCase()))
@@ -66,9 +63,26 @@ export async function getAllProducts(search) {
             products = [{ msg: 'product not found' }]
         }
     } else {
-        products = array
+        products = array.filter(el=> el.data.delete === false)
     }
     return products;
+}
+
+export async function getReallyAllProducts() {
+    const querySnapshot = await getDocs(collection(db, collectionRef));
+    let array = [];
+    querySnapshot.forEach((doc) => {
+        array.push({
+            uid: doc.id,
+            data: doc.data()
+        });
+      });
+    return array;
+}
+
+
+export async function deleteProduct(uid) {
+    editProduct(uid,{delete:true})
 }
 
 export async function getAllProductsCategories() {
@@ -209,7 +223,7 @@ export async function filterProducts(array, category, animal = [], minPrice, max
 
     if (!category && !animal.length) {
         filteredProducts = array.filter(el => (
-            (el.data.price.match(/\d+.\d+(?=,)|Sin Stock/g)[0].split('.').join('') === 'Sin Stock'
+             (el.data.price.match(/\d+.\d+(?=,)|Sin Stock/g)[0].split('.').join('') === 'Sin Stock'
                 || el.data.price.match(/\d+.\d+(?=,)|Sin Stock/g)[0].split('.').join('') >= minPrice)
             &&
             (el.data.price.match(/\d+.\d+(?=,)|Sin Stock/g)[0].split('.').join('') === 'Sin Stock'

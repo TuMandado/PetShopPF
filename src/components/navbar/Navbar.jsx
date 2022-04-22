@@ -2,12 +2,13 @@ import React from "react";
 // import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { getProductName, getTotalProducts } from "../../redux/actions/index";
+import { getProductName } from "../../redux/actions/index";
 import icoLupa from "../../assets/lupa.png";
 import icoUserOptions from "../../assets/options_user.png";
 import logoTemp from "../../assets/logo_temporal.ico";
 import { LoginLogout } from "../login/logout/LoginAndLogout";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const NavContainer = styled.div`
   text-align: center;
@@ -18,20 +19,9 @@ const NavContainer = styled.div`
 const ContainerLoginOption = styled.div`
   background: #fff;
   float: right;
-  position: relative; ;
-`;
-const BrandNav = styled.div`
-  width: 120px;
-  height: 42px;
-  float: left;
-  display: inline-block;
-`;
-
-const Logo = styled.img`
-  width: 30px;
-  height: 30px;
-  left: -38px;
-  position: relative;
+  position: absolute;
+  right: 0;
+  z-index: 2;
 `;
 
 const TextPetshop = styled.h1`
@@ -43,11 +33,31 @@ const TextPetshop = styled.h1`
   font-style: normal;
   font-weight: 600;
   background: none;
+`;
+
+const BrandNav = styled.div`
+  width: 120px;
+  height: 42px;
+  float: left;
+  transition: 0.25s ease;
   &:hover {
+    cursor: pointer;
+  }
+  &:hover ${TextPetshop} {
+      transition: 0.25s ease;
     font-weight: 700;
     color: #0acf83;
   }
 `;
+
+const Logo = styled.img`
+  width: 30px;
+  height: 30px;
+  left: -38px;
+  position: relative;
+`;
+
+
 
 const InputSearch = styled.input`
   width: 320px;
@@ -68,6 +78,15 @@ const InputSearch = styled.input`
     color: #a9a9a9;
   }
 `;
+
+const BtnIconLupa = styled.img`
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: 28%;
+  top: 25.12%;
+`;
+
 const BtnSearch = styled.button`
   position: absolute;
   width: 50px;
@@ -79,22 +98,26 @@ const BtnSearch = styled.button`
   box-sizing: border-box;
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
+  transition: 0.3s ease;
+  &:hover {
+    cursor: pointer;
+    background: #0ACF83;
+    transition: 0.3s ease;
+  }
+  &:hover ${BtnIconLupa} {
+    width: 22px;
+    height: 22px;
+    left: 27%;
+    top: 23.12%;
+  }
 `;
 
-const BtnIconLupa = styled.img`
-  width: 20px;
-  height: 20px;
-  top: 2.1px;
-  position: absolute;
-  left: 16.79%;
-  top: 25.12%;
-`;
+
 
 const IconsNav = styled.div`
   width: 120px;
   height: 42px;
   float: right;
-  display: inline-block;
 `;
 const BtnUser = styled.button`
   position: relative;
@@ -103,6 +126,9 @@ const BtnUser = styled.button`
   padding: 7px 6px;
   background: none;
   border: none;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const UserOptions = styled.img`
@@ -132,69 +158,158 @@ const BtnClose = styled.button`
   }
 `;
 
+const PopUpSearchProduct = styled.div`
+    content: "";
+    width: 320px;
+    position: absolute;
+    left: 41.4%;
+    ${props => props.name.length > 2
+        ? ` border: 1px solid black;
+            border-radius: 8px;
+            border-top-right-radius: 0;`
+        : ``
+    }
+    z-index: 4; 
+    background-color: white;
+`;
+
+const PopUpProductDiv = styled.div`
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 0.6em;
+    transition: background-color 0.25s ease;
+    &:hover {
+        transition: background-color 0.25s ease;
+        cursor: pointer;
+        background-color:  #0acf83;
+    }
+`
+
+const PopUpSpan = styled.span`
+    font-size: 12px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  position: absolute;
+  left: 5%;
+  width: 70%;
+
+`;
+
+const PopUpImage = styled.img`
+    height: 35px;
+    width: 35px;
+    margin-left: auto;
+    margin-right: 1em;
+`;
+
+
 export const Navbar = () => {
-  const dispatch = useDispatch();
-  const [name, setName] = useState("");
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [name, setName] = useState("");
+    const actualUrl = window.location.pathname;
 
-  const AllProduct = useSelector((state) => state.clientReducer.backup);
+    const AllProducts = useSelector((state) => state.clientReducer.backup);
+    const [searchedProducts, setSearchedProducts] = useState(AllProducts.slice())
+    const [panel, setPanel] = useState(false);
 
-  useEffect(() => {
-    document.getElementById(`component-loginlogout`).style.display = `none`;
-    dispatch(getTotalProducts());
-  }, [dispatch]);
 
-  //Handle del Input y Search
-  function handleInputChange(e) {
-    e.preventDefault();
-    setName(e.target.value);
-  }
+    useEffect(() => {
+        document.getElementById(`component-loginlogout`).style.display = `none`;
+    }, [dispatch]);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    dispatch(getProductName(name));
-    console.log(AllProduct);
-    setName("");
-  }
+    //Handle del Input y Search
+    function handleInputChange(e) {
+        e.preventDefault();
+        setName(e.target.value);
+        if (name.length > e.target.value.length) setSearchedProducts(AllProducts.filter(el => el.data.name.toLowerCase().includes(e.target.value.toLowerCase())))
+        else setSearchedProducts(searchedProducts.filter(el => el.data.name.toLowerCase().includes(e.target.value.toLowerCase())))
+    }
 
-  const handlePanelOn = () => {
-    document.getElementById(`component-loginlogout`).style.display = `block`;
-  };
+    function handleSubmit(e) {
+        e.preventDefault();
+        navigate(`/products`);
+        dispatch(getProductName(name));
+        setName("");
+    }
 
-  const handlePanelOff = () => {
-    document.getElementById(`component-loginlogout`).style.display = `none`;
-  };
+    function handleEnterKeyPress(e) {
+        if (e.key === 'Enter') {
+            navigate(`/products`)
+            dispatch(getProductName(name));
+            setName("");
+        }
+    }
 
-  return (
-    <div>
-      <NavContainer>
-        <style>#component-loginlogout( display: none; )</style>
-        <BrandNav>
-          <Logo src={logoTemp} alt="logo-petshop" />
-          <TextPetshop>PetShop</TextPetshop>
-        </BrandNav>
+    const handlePanel = () => {
+        if (!panel) {
+            document.getElementById(`component-loginlogout`).style.display = `block`;
+            setPanel(true)
+        }
+        if (panel) {
+            document.getElementById(`component-loginlogout`).style.display = `none`;
+            setPanel(false)
+        }
+    };
+
+
+    const goToProductDetail = (e) => {
+        navigate(`/product/${e.currentTarget.id}`)
+    }
+
+    const goHome = (e) => {
+        navigate('/')
+    }
+
+    return (
         <div>
-          <InputSearch
-            value={name}
-            onChange={(e) => handleInputChange(e)}
-            type="text"
-            placeholder="¿Qué vas a llevar hoy?"
-          />
-          <BtnSearch onClick={(e) => handleSubmit(e)} type="submit">
-            <BtnIconLupa src={icoLupa} alt="search" />
-          </BtnSearch>
-          <IconsNav>
-            <BtnUser onClick={() => handlePanelOn()}>
-              <UserOptions src={icoUserOptions} alt="user" />
-            </BtnUser>
-          </IconsNav>
+            <NavContainer>
+                <style>#component-loginlogout( display: none; )</style>
+                <BrandNav onClick={e => goHome(e)}>
+                    <Logo src={logoTemp} alt="logo-petshop" />
+                    <TextPetshop>PetShop</TextPetshop>
+                </BrandNav>
+                <div>
+                    <InputSearch
+                        value={name}
+                        onChange={(e) => handleInputChange(e)}
+                        type="text"
+                        placeholder={
+                            actualUrl === '/cart'
+                                ? "Buscar entre los productos..."
+                                : actualUrl === '/pets'
+                                    ? "¿A quien estas buscando?"
+                                    : "¿Que vas a llevar hoy?"
+                        }
+                        onKeyPress={e => handleEnterKeyPress(e)}
+                    />
+                    <BtnSearch onClick={(e) => handleSubmit(e)} type="submit">
+                        <BtnIconLupa src={icoLupa} alt="search" />
+                    </BtnSearch>
+                    <PopUpSearchProduct name={name}>
+                        {
+                            name.length > 2 && searchedProducts.length && searchedProducts.map(el => (
+                                <PopUpProductDiv key={el.uid} id={el.uid} onClick={e => goToProductDetail(e)}>
+                                    <PopUpSpan>  {el.data.name} </PopUpSpan>
+                                    <PopUpImage src={el.data.image} alt='Not Found' />
+                                </PopUpProductDiv>
+                            ))
+                        }
+                    </PopUpSearchProduct>
+                    <IconsNav>
+                        <BtnUser onClick={() => handlePanel()}>
+                            <UserOptions src={icoUserOptions} alt="user" />
+                        </BtnUser>
+                    </IconsNav>
+                </div>
+            </NavContainer>
+            <ContainerLoginOption id="component-loginlogout">
+                <LoginLogout />
+            </ContainerLoginOption>
         </div>
-      </NavContainer>
-      <ContainerLoginOption id="component-loginlogout">
-        <LoginLogout />
-        <BtnClose onClick={() => handlePanelOff()}>Cerrar ventana</BtnClose>
-      </ContainerLoginOption>
-    </div>
-  );
+    );
 };
 
 export default Navbar;

@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 import { firebaseApp } from "./firebase/credenciales";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "./redux/actions";
-// import { doc, setDoc, Timestamp } from "firebase/firestore";
+import { Timestamp } from "firebase/firestore";
 // import { uploadPet, deletePet, getPet, getAllPets } from "./firebase/Pets";
 import Home from "./page/home/Home";
 // eslint-disable-next-line no-unused-vars
@@ -17,7 +17,8 @@ import PetsPage from "./page/pets/PetsPage";
 import Register from "./page/register/Register";
 import UserSettings from "./page/userSettings/UserSettings";
 import ErrorPage from "./page/error/Error";
-import CreatedProduct from './page/createdProduct/CreatedProduct'
+import CreatedProduct from "./page/createdProduct/CreatedProduct";
+import CreatedPets from "./page/createdPets/CreatedPets";
 
 import AdminHome from "./admin/pages/adminHome/AdminHome";
 import UserList from "./admin/pages/userList/UserList";
@@ -29,12 +30,23 @@ import NewProduct from "./admin/pages/newProduct/NewProduct";
 import Pyments from "./admin/pages/pyments/Pyments";
 import PublicPets from "./admin/pages/publicPets/PublicPets";
 import AdminSidebar from "./admin/components/adminSidebar/AdminSidebar";
+
 import { getTotalProducts } from './redux/actions';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Navbar from "./components/navbar/Navbar";
 import StateMercadoPago from "./page/StateMercadoPago/StateMercadoPago"
 
+
+
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
+
+
+import NewPublicPets from "./admin/pages/newPublicPets/NewPublicPets";
+
+import { getUser, uploadUser } from "./firebase/Users";
+import { cartLoginFront } from "./redux/actions/cartActions";
+
+
 const auth = getAuth(firebaseApp);
 
 
@@ -42,14 +54,41 @@ function App() {
   // eslint-disable-next-line no-unused-vars
   var user = useSelector((state) => state.clientReducer.user);
   const dispatch = useDispatch();
+
   
-  onAuthStateChanged(auth, (usuarioFirebase) => {
+  onAuthStateChanged(auth, async (usuarioFirebase) => {
     if (usuarioFirebase) {
-      dispatch(setUser(usuarioFirebase));
-      // dispatch(setUserCart(usuarioFirebase));
+      // If location is not "/" (home page), redirect to home page
+      if (window.location.pathname != "/") {
+        window.location.href = "/";
+      }
+      // Checks if user exists in the database
+      let userData = await getUser(usuarioFirebase.uid);
+      // If the user does not exist, create it
+      if (!userData) {
+        userData = {
+          email: usuarioFirebase.email,
+          role: "Cliente",
+          uid: usuarioFirebase.uid,
+          createdAt: Timestamp.now(),
+          updatedAt: Timestamp.now(),
+          phone: "",
+          shippingAddress: "",
+          name: "",
+          surname: "",
+          nickname: ""
+        };
+        // Upload the user to the database
+        await uploadUser(usuarioFirebase.uid, userData);
+      }
+      // Set user in redux
+      if (!user) {
+        await dispatch(setUser(userData));
+      }
+      // Cart actions
+      await dispatch(cartLoginFront(usuarioFirebase));
     } else {
       dispatch(setUser(null));
-      // dispatch(setUserCart(null));
     }
   });
   
@@ -63,31 +102,33 @@ function App() {
   return (
     <div className={"App"}>
       <Router>
-         <Routes>
-            <Route exact path="/Success" element={<StateMercadoPago />} />
-             <Route exact path="*" element={<ErrorPage />} />
-             <Route exact path="/" element={<Home />} />
-             {/* <Route exact path="/" element={user ? <Home /> : <Login />} /> */}
-             <Route path="/products" element={<ProductList />} />
-             <Route path="/product/:id" element={<Product />} />
-             <Route exact path="/cart" element={<Cart />} />
-             <Route exact path="/admin" element={<AdminHome />} />
-             <Route exact path="/usersettings" element={<UserSettings />} />
-             <Route exact path="/pets" element={<PetsPage />} />
-             <Route exact path="/register" element={<Register />} />
-             <Route exact path="/login" element={<Login />} />
-             {<Route exact path="/createdProduct" element={<CreatedProduct/>} />}
-   
-             <Route exact path="/admin" element={<AdminHome />} />
-             <Route path="/users" element={<UserList />} />
-             <Route path="/user/:userId" element={<User />} />
-             <Route path="/newUser" element={<NewUser />} />
-             <Route path="/adminProducts" element={<AdminProductList />} />
-             <Route path="/adminProduct/:productId" element={<AdminProduct />} />
-             <Route path="/newProduct" element={<NewProduct />} />
-             <Route path="/ventas" element={<Pyments />} />
-             <Route path="/publicPets" element={<PublicPets />} />
-         </Routes>
+        <Routes>
+          <Route exact path="/Success" element={<StateMercadoPago />} />
+          <Route exact path="*" element={<ErrorPage />} />
+          <Route exact path="/" element={<Home />} />
+          {/* <Route exact path="/" element={user ? <Home /> : <Login />} /> */}
+          <Route path="/products" element={<ProductList />} />
+          <Route path="/product/:id" element={<Product />} />
+          <Route exact path="/cart" element={<Cart />} />
+          <Route exact path="/admin" element={<AdminHome />} />
+          <Route exact path="/usersettings" element={<UserSettings />} />
+          <Route exact path="/pets" element={<PetsPage />} />
+          <Route exact path="/register" element={<Register />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/createdProduct" element={<CreatedProduct />} />
+          <Route exact path="/createdPet" element={<CreatedPets />} />
+
+          <Route exact path="/admin" element={<AdminHome />} />
+          <Route path="/users" element={<UserList />} />
+          <Route path="/user/:userId" element={<User />} />
+          <Route path="/newUser" element={<NewUser />} />
+          <Route path="/adminProducts" element={<AdminProductList />} />
+          <Route path="/adminProduct/:productId" element={<AdminProduct />} />
+          <Route path="/newProduct" element={<NewProduct />} />
+          <Route path="/ventas" element={<Pyments />} />
+          <Route path="/publicPets" element={<PublicPets />} />
+          <Route path="/newPublicPets" element={<NewPublicPets />} />
+        </Routes>
       </Router>
     </div>
   );

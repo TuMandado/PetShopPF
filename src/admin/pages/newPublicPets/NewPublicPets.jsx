@@ -1,18 +1,20 @@
-import "./newProduct.css";
+import "./newPublicPets.css";
 import Navbar from "../../../components/navbar/Navbar";
 import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
-import ProductCreated from "../../../components/productCreated/ProductCreated";
+import Pets from "../../../components/pets/Pets";
 
-export default function NewProduct() {
+const NewPublicPets = () => {
   return (
     <div >
     <Navbar/>
     <div className="container">
        <AdminSidebar /> 
        <div className="petList">
-          <ProductCreated/>
+          <Pets/>
        </div>
     </div>
   </div>
-  );
+  )
 }
+
+export default NewPublicPets

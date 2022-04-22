@@ -1,12 +1,14 @@
-import React from 'react'
-import { Cart as Carrito} from '../../components/cart/cart'
+import React from "react";
+import NavBar from '../../components/navbar/Navbar'
+import { Cart as Carrito } from "../../components/cart/cart";
 
 const Cart = () => {
   return (
     <div>
-      <Carrito/>
+      <NavBar />
+      <Carrito />
     </div>
-  )
-}
+  );
+};
 
-export default Cart
+export default Cart;
