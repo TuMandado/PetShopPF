@@ -74,65 +74,63 @@ export async function getAllPets() {
 }
 
 export async function getAllCategories() {
-  const querySnapshot = await getDocs(collection(db, collectionRef));
-  let category = [];
-  querySnapshot.forEach((doc) => {
-    if (!category.includes(doc.data().category)) {
-      category.push({
-        uid: doc.id,
-        data: doc.data().category,
-      });
-    }
-  });
+    let pets = await getAllPets();
+    let cache = pets.flatMap(el => el.data.category)
+    let category = []
+    cache.forEach(el => {
+        if (!category.includes(el)) {
+            category.push(el)
+        }
+    })
 
-  return category;
+    return category
 }
 
+
+
 export function filterByOwner(array, Owner) {
-  let filterOwner = array.filter(
-    (el) => el.data.owner.toLowerCase() === Owner.toLowerCase()
-  );
-  if (filterOwner.length > 0) {
-    return filterOwner;
-  } else {
-    let NotFound = " Not Found";
-    return NotFound;
-  }
+    let filterOwner = array.filter(el => el.data.owner.toLowerCase() === Owner.toLowerCase());
+    if (filterOwner.length) return filterOwner;
+    else return 'Not Found';
 }
 
 export async function getStatePets() {
-  let pets = await getAllPets();
-  let cache = pets.flatMap((el) => el.data.state);
-  let state = [];
-  cache.forEach((el) => {
-    if (!state.includes(el)) {
-      state.push(el);
-    }
-  });
+    let pets = await getAllPets();
+    let cache = pets.flatMap(el => el.data.state)
+    let state = []
+    cache.forEach(el => {
+        if (!state.includes(el)) {
+            state.push(el)
+        }
+    })
 
-  return state;
+    return state
 }
 
 export function filterByState(array, state) {
-  let filterState = array.filter(
-    (el) => el.data.state.toLowerCase() === state.toLowerCase()
-  );
-  if (filterState.length > 0) {
-    return filterState;
-  } else {
-    let NotFound = " Not Found";
-    return NotFound;
-  }
+    let filterState = array.filter(el => el.data.state.toLowerCase() === state.toLowerCase());
+    if (filterState.length ) return filterState;
+    else return 'Not Found';
 }
 
 export function filterByCategory(array, Category) {
-  let filterCategory = array.filter(
-    (el) => el.data.category.toLowerCase() === Category.toLowerCase()
-  );
-  if (filterCategory.length > 0) {
-    return filterCategory;
-  } else {
-    let NotFound = " Not Found";
-    return NotFound;
-  }
+    let filterCategory = array.filter(el => el.data.category.toLowerCase() === Category.toLowerCase());
+    if (filterCategory.length) return filterCategory;
+    else return "Not Found";
+
+}
+
+export function filterByGender(array, gender) {
+    let filterGender = array.filter(el => el.data.sexo.toLowerCase() === gender.toLowerCase());
+    if(filterGender.length) return filterGender;
+    else return "Not Found"
+}
+
+export async function filterPets(array, animal, gender, state, owner) {
+    if(animal) array = filterByCategory(array, animal);
+    if(state) array = filterByState(array, state);
+    if(gender) array = filterByGender(array, gender)
+    if(owner) array = filterByOwner(array, owner)
+    console.log("Desde firebase", array)
+    return array;
 }

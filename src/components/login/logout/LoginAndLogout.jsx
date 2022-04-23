@@ -35,6 +35,8 @@ const ModalLogin = styled.div`
   text-decoration: none;
   background-color: white;
   text-decoration: none;
+  border: 1px solid white;
+  border-radius: 12px;
 `;
 
 const Option = styled.li`
@@ -79,7 +81,7 @@ export const LoginLogout = () => {
           <Link to={"/login"}>
             <BtnOption>
               <BtnIcon src={icoUser} alt="user" />
-              <Text>Loggin</Text>
+              <Text>Iniciar Sesión</Text>
             </BtnOption>
           </Link>
         )}
@@ -109,7 +111,7 @@ export const LoginLogout = () => {
         </Link>
       </Option>
       <Option>
-      {user && user.role.toLowerCase() == "admin" && (
+      {user && user.role.toLowerCase() === "admin" && (
           <Link to={"/admin"}>
             <BtnOption>
               <SupervisorAccountRounded className="sidebarIcon" />
