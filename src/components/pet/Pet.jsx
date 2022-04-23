@@ -1,6 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 
+
+const NombreSpan = styled.span`
+display: inline-block;
+&::after {
+    content: '';
+    width: 0px;
+    height: 1px;
+    display: block;
+    background: black;
+    transition: color 0.2s ease;
+    transition: width 0.3s;
+  }
+`
+
 const ContainerPets = styled.div`
   display: flex;
   position: relative;
@@ -13,14 +27,19 @@ const ContainerPets = styled.div`
   border-radius: 12px;
   margin: 0px 32px;
   margin-bottom: 4em;
-  transition: 0.25s ease;
   &:hover {
-    transition: 0.5s ease;
-    width: 290px;
+    padding: 15px;
     cursor: pointer;
-    margin: 0px 10px;
-    border: 1px solid #0acf83;
+    border: 2px solid #0acf83;
   }
+  &:hover ${NombreSpan} {
+     transition: color 0.2s ease;
+     color: #0acf83;
+    &::after {
+        background: #0acf83;
+        width: 100%;
+    }
+ }
 `;
 
 const Image = styled.img`
@@ -105,10 +124,7 @@ const Nombre = styled.h3`
   font-size: 18px;
   line-height: 20px;
   color: #575757;
-  margin: 2px;
-  &:hover {
-    color: #0acf83;
-  }
+  margin: 2px;  
 `;
 
 const Ubicacion = styled.p`
@@ -118,78 +134,47 @@ const Ubicacion = styled.p`
   font-size: 13px;
   line-height: 20px;
   color: #eb8d70;
-  margin: 3px;
-  padding-: 13px;
-  padding-button: 12px;
 `;
 
-const Button = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 12px;
-  background: #0acf83;
-  border: 2px solid #067a4d;
-  box-sizing: border-box;
-  border-radius: 12px;
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 22px;
-  color: #ffffff;
-  height: 31px;
-  width: 120px;
-  position: absolute;
-  bottom: 6%;
-  right: 5%;
-`;
 
-const ButtonContainer = styled.div`
-  position: relative;
-  margin-top: 34px;
-`;
 //A los Pets les falta el Titulo. Por ejm: "Gato negro perdido en el puerto" para mostrar previo a la descripcion. (para revisar con los chicos)
 
 const Pet = ({
-  state,
-  owner,
-  name,
-  category,
-  sexo,
-  description,
-  ubicacion,
-  photos,
+    state,
+    owner,
+    name,
+    category,
+    sexo,
+    description,
+    ubicacion,
+    photos,
 }) => {
-  return (
-    <ContainerPets>
-      <div>
-        <Image src={photos} alt="photo not found" />
-      </div>
-      <TagContainer>
-        <div>
-          <State>{state}</State>
-        </div>
-        <div>
-          <Category>{category}</Category>
-        </div>
-        <div>
-          <Sexo>{sexo}</Sexo>
-        </div>
-      </TagContainer>
-      <div>
-        <Nombre>Me llamo: {name}</Nombre>
-      </div>
-      <div>
-        <Description>{description}</Description>
-      </div>
-      <div>
-        <Ubicacion>Aqui va la ubicacion </Ubicacion>
-      </div>
-      <ButtonContainer>
-        <Button>Ver detalles</Button>
-      </ButtonContainer>
-    </ContainerPets>
-  );
+    return (
+        <ContainerPets>
+            <div>
+                <Image src={photos} alt="Photo not found" />
+            </div>
+            <TagContainer>
+                <div>
+                    <State>{state === "encontrado" ? "Encontrado" : state === "perdido" ? "Perdido" : state === "en adopcion" ? "En Adopcion" : state}</State>
+                </div>
+                <div>
+                    <Category>{category === 'gato' ? "Gato" : category === 'perro' ? "Perro" : category}</Category>
+                </div>
+                <div>
+                    <Sexo>{sexo === 'male' ? "Macho" : "Hembra"}</Sexo>
+                </div>
+            </TagContainer>
+            <div>
+                <Nombre>Me llamo: <NombreSpan>{name} </NombreSpan> </Nombre>
+            </div>
+            <div>
+                <Description>{description}</Description>
+            </div>
+            <div>
+                <Ubicacion>Aqui va la ubicacion </Ubicacion>
+            </div>
+        </ContainerPets>
+    );
 };
 export default Pet;
