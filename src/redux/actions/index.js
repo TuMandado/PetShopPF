@@ -1,9 +1,28 @@
+<<<<<<< HEAD
 import { getAllProducts, getProduct, getAllProductsCategories, getAllProductsSubCategory, getAllProductsAnimal, filterProducts,uploadProduct} from "../../firebase/Products/index";
 import {getAllPets, filterByOwner,
   filterByState,
   filterByCategory,
   getAllCategories,
   uploadPet} from '../../firebase/Pets/index'
+=======
+import {
+    getAllProducts,
+    getProduct,
+    getAllProductsCategories,
+    getAllProductsSubCategory,
+    getAllProductsAnimal,
+    filterProducts,
+    uploadProduct,
+} from "../../firebase/Products/index";
+import {
+    getAllPets,
+    filterPets,
+    getAllCategories,
+    uploadPet,
+    getPet,
+} from "../../firebase/Pets/index";
+>>>>>>> parent of 527e7af (Merge pull request #151 from TuMandado/termino-con-validaciones-en-createdPet)
 import { async } from "@firebase/util";
 import { loginCart } from "../../firebase/Cart";
 import {getAllAnimalCategory} from '../../firebase/AnimalCategory/index'
@@ -174,6 +193,7 @@ export function filterAllProducts(array, category, animal, minPrice, maxPrice) {
     }
 }
 
+<<<<<<< HEAD
 export function getTotalCategoryPets () {
    return async function (dispatch) {
      const jsonCategoryPets = await getAllAnimalCategory()
@@ -193,3 +213,64 @@ export function postPets (payload) {
   }
 
 }
+=======
+export function getTotalCategoryPets() {
+    return async function (dispatch) {
+        const jsonCategoryPets = await getAllAnimalCategory();
+        console.log("esto es jsonCategoryPets", jsonCategoryPets);
+        return dispatch({
+            type: "GET_CATEGORY_PETS",
+            payload: jsonCategoryPets,
+        });
+    };
+}
+
+export function postPets(payload) {
+    return async function (dispatch) {
+        const jsonPetsPost = await uploadPet(payload);
+        console.log("esto es jsonPetsPost", jsonPetsPost);
+        return jsonPetsPost;
+    };
+}
+
+export function petDetails(uid) {
+    return async function (dispatch) {
+        try {
+            let petDetail = await getPet(uid);
+            console.log("Pet Details =>", petDetail);
+            return dispatch({
+                type: "GET_DETAIL_PET",
+                payload: petDetail,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+export function getSpeciesPets() {
+    return async function (dispatch) {
+        const species = await getAllCategories()
+        dispatch({
+            type: "GET_SPECIES_PETS",
+            payload: species
+        })
+    }
+};
+
+export function filterAllPets(array, animal, gender, state, owner) {
+    return async function (dispatch) {
+        const filteredPets = await filterPets(array, animal, gender, state, owner)
+        dispatch({
+            type: "FILTER_ALL_PETS",
+            payload: filteredPets
+        })
+    }
+};
+
+export function resetPetFilters() {
+    return {
+        type: "RESET_PET_FILTERS"
+    }
+};
+>>>>>>> parent of 527e7af (Merge pull request #151 from TuMandado/termino-con-validaciones-en-createdPet)
