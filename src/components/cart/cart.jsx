@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-// import axios from 'axios'
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -9,15 +8,10 @@ import {
 } from "../../redux/actions/cartActions";
 import CartEmpy from "../../assets/carrito_vacio.gif";
 import styled from "styled-components";
-import mercadopago from 'mercadopago'
-
-const REACT_APP_ACCESS_TOKEN = 'TEST-5909391637745101-041518-e07a43a5f92224ee501bc4d9feca4624-191706246'
-const url = window.location.href.split("//")[1].split("/")[0].replace (/^/,'https://');
 
 const TitleContainer = styled.div`
   height: 80px;
 `;
-
 
 const TuCarritoText = styled.h1`
   height: 100px;
@@ -143,6 +137,7 @@ const CantidadContainer = styled.div`
   line-height: 22px;
   background: #edeeee;
   border: 1px solid #edeeee;
+xxxxxxx
   color: #ffffff;
 `;
 
@@ -249,76 +244,14 @@ const ImageError = styled.img`
   height: 310px;
 `;
 
+export function Cart() {
+  const user = useSelector((state) => state.clientReducer.user);
+  const openCart = useSelector((state) => state.cartReducer.openCart);
+  const dispatch = useDispatch();
 
-const MercadoPagoConfiguration = async () => {
-      await mercadopago.configure({
-          access_token: REACT_APP_ACCESS_TOKEN
-      })
-      const id_orden=1
-      const carrito =[
-          { title: 'prod1', quantity:2, price:10.5},
-          { title: 'prod2', quantity:5, price:10.5},
-          { title: 'prod3', quantity:3, price:10.5},
-      ]
-      const items = carrito.map(i=>{ // mapeo elementos del carrito
-          return {
-              title: i.title,
-              unit_price: i.price,
-              quantity: i.quantity
-          }
-      })
-      let preference ={
-          items:items, // item para vender
-          external_reference:  `${id_orden}`,// id orden compra
-          parament_methods:{  // metodos de pago
-              excludeds_payment_types:[ // excluimos el pago por cajero automatico
-                  {
-                      id:'atm'
-                  }
-              ],
-              installments:3, // cant maxima de cuotas
-          },
-          back_Urls: {
-                      success:'http://localhost:3000/StateMercadoPago',
-                      failure:'http://localhost:3000/StateMercadoPago',
-                      pending:'http://localhost:3000/StateMercadoPago',
-          },
-      }
-  
-
-    //   axios({ /// anterior
-    //       method: 'POST',
-    //       url: 'https://api.mercadopago.com/checkout/preferences',
-    //       data: preference,
-    //       headers: {
-    //           'cache-control': 'no-cache',
-    //           'content-type': 'application/json',
-    //           Authorization: `Bearer ${REACT_APP_ACCESS_TOKEN}`,
-    //       },
-    //   })
-    //   .then((response) => {
-    //       console.log('esta es la respuesta de mp', response)
-    //       window.location.replace(response.data.sandbox_init_point)
-    //   })
-      
-
-  }
-
-  
-  export function Cart() {
-    const user = useSelector((state) => state.clientReducer.user);
-    const openCart = useSelector((state) => state.cartReducer.openCart);
-    const dispatch = useDispatch();
-    
-    const handleSubmit = () => {
-        MercadoPagoConfiguration()
-    }
   useEffect(() => {
     dispatch(openCartFront(user));
   }, [dispatch, user]);
-      
-  
-
 
   let items = [];
   let itemDelete = {};
@@ -343,7 +276,6 @@ const MercadoPagoConfiguration = async () => {
     // console.log("-Item-Delete-Flag", itemDelete);
     dispatch(deleteItemsCartFront(itemDelete));
   };
-
 
   //Recibe un objeto con las propiedades{user,item,number},
   //siendo number el numero final que queda en la base de datos
@@ -419,10 +351,7 @@ const MercadoPagoConfiguration = async () => {
               <ButtonDelete onClick={(e) => handleDelete(e, el.id)}>
                 Eliminar
               </ButtonDelete>
-             <button onClick={handleSubmit}>MP</button>
             </ContainerProduct>
-            
-
           );
         })
       ) : (
@@ -441,4 +370,3 @@ const MercadoPagoConfiguration = async () => {
     </div>
   );
 }
-
