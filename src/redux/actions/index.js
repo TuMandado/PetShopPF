@@ -175,7 +175,6 @@ export function filterAllProducts(array, category, animal, minPrice, maxPrice) {
     };
 }
 
-
 export function getTotalCategoryPets() {
     return async function (dispatch) {
         const jsonCategoryPets = await getAllAnimalCategory();

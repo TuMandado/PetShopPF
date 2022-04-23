@@ -12,7 +12,6 @@ const initialState = {
     backupDetail: {},
     categoryPets: [],
     petsCategory: [],
-    statePets:[],
     user: null,
 };
 
