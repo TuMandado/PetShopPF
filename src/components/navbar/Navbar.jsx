@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 // import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
@@ -22,6 +22,8 @@ const ContainerLoginOption = styled.div`
   position: absolute;
   right: 0;
   z-index: 2;
+  border: 1px solid white;
+  border-radius: 12px;
 `;
 
 const TextPetshop = styled.h1`
@@ -195,6 +197,8 @@ export const Navbar = () => {
     const AllProducts = useSelector((state) => state.clientReducer.backup);
     const [searchedProducts, setSearchedProducts] = useState(AllProducts.slice())
     const [panel, setPanel] = useState(false);
+    const loginContainer = useRef(null);
+    const userButton = useRef(null);
 
 
     //Handle del Input y Search
@@ -221,6 +225,11 @@ export const Navbar = () => {
     }
 
     const handlePanel = () => {
+        if(!panel) document.addEventListener('click', (e) => {
+            if(loginContainer.current && !loginContainer.current.contains(e.target) && !userButton.current.contains(e.target)) {
+                setPanel(false)
+            }
+        })
         setPanel(!panel)
     };
 
@@ -269,7 +278,7 @@ export const Navbar = () => {
                         }
                     </PopUpSearchProduct>
                     <IconsNav>
-                        <BtnUser onClick={() => handlePanel()}>
+                        <BtnUser ref={userButton} onClick={() => handlePanel()}>
                             <UserOptions state={panel} src={icoUserOptions} alt="user" />
                         </BtnUser>
                     </IconsNav>
@@ -278,7 +287,7 @@ export const Navbar = () => {
             {
                 panel
                 &&
-                <ContainerLoginOption>
+                <ContainerLoginOption ref={loginContainer}>
                     <LoginLogout />
                 </ContainerLoginOption>
             }
