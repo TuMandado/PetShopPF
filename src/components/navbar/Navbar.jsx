@@ -197,10 +197,6 @@ export const Navbar = () => {
     const [panel, setPanel] = useState(false);
 
 
-    useEffect(() => {
-        document.getElementById(`component-loginlogout`).style.display = `none`;
-    }, [dispatch]);
-
     //Handle del Input y Search
     function handleInputChange(e) {
         e.preventDefault();
@@ -225,14 +221,7 @@ export const Navbar = () => {
     }
 
     const handlePanel = () => {
-        if (!panel) {
-            document.getElementById(`component-loginlogout`).style.display = `block`;
-            setPanel(true)
-        }
-        if (panel) {
-            document.getElementById(`component-loginlogout`).style.display = `none`;
-            setPanel(false)
-        }
+        setPanel(!panel)
     };
 
 
@@ -271,7 +260,7 @@ export const Navbar = () => {
                     </BtnSearch>
                     <PopUpSearchProduct name={name} products={searchedProducts}>
                         {
-                            name.length > 2 && searchedProducts.length >=1 && searchedProducts.map(el => (
+                            name.length > 2 && searchedProducts.length >= 1 && searchedProducts.map(el => (
                                 <PopUpProductDiv key={el.uid} id={el.uid} onClick={e => goToProductDetail(e)}>
                                     <PopUpSpan>  {el.data.name} </PopUpSpan>
                                     <PopUpImage src={el.data.image} alt='Not Found' />
@@ -281,14 +270,18 @@ export const Navbar = () => {
                     </PopUpSearchProduct>
                     <IconsNav>
                         <BtnUser onClick={() => handlePanel()}>
-                            <UserOptions src={icoUserOptions} alt="user" />
+                            <UserOptions state={panel} src={icoUserOptions} alt="user" />
                         </BtnUser>
                     </IconsNav>
                 </div>
             </NavContainer>
-            <ContainerLoginOption id="component-loginlogout">
-                <LoginLogout />
-            </ContainerLoginOption>
+            {
+                panel
+                &&
+                <ContainerLoginOption>
+                    <LoginLogout />
+                </ContainerLoginOption>
+            }
         </div>
     );
 };
