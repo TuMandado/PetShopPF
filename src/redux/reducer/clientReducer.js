@@ -44,10 +44,11 @@ function clientReducer(state = initialState, action) {
             };
         }
 
-        case "FILTER_PETS_BY_STATE": {
+        case "GET_DETAIL_PET": {
             return {
                 ...state,
-                backupPets: action.payload,
+                details: action.payload,
+                backupDetail: action.payload,
             };
         }
 
@@ -58,6 +59,7 @@ function clientReducer(state = initialState, action) {
                 backupDetail: action.payload,
             };
         }
+
         case "DETAIL_VACIO": {
             return {
                 ...state,
@@ -70,6 +72,15 @@ function clientReducer(state = initialState, action) {
             return {
                 ...state,
                 products: action.payload ? [] : state.products,
+            };
+        case "GET_PRODUCTS_CATEGORIES":
+            let totalCategories = new Set(
+                action.payload.categories.concat(action.payload.subcategories)
+            );
+            totalCategories = Array.from(totalCategories);
+            return {
+                ...state,
+                productsCategories: totalCategories,
             };
         case "GET_ANIMAL_CATEGORIES":
             return {
@@ -91,21 +102,10 @@ function clientReducer(state = initialState, action) {
                 ...state,
                 categoryPets: action.payload
             }
-
-
-        case "GET_PRODUCTS_CATEGORIES":
-            let totalCategories = new Set(
-                action.payload.categories.concat(action.payload.subcategories)
-            );
-            totalCategories = Array.from(totalCategories);
-            return {
-                ...state,
-                productsCategories: totalCategories,
-            };
         case "GET_SPECIES_PETS":
             let fixedSpecies = action.payload.map(el => {
-                if (el === 'gato') return "Gato"
-                if (el === 'perro' || el === 'dog') return "Perro"
+                if(el === 'gato') return "Gato"
+                if(el === 'perro' || el === 'dog') return "Perro"
                 return el
             })
             fixedSpecies = new Set(fixedSpecies)
