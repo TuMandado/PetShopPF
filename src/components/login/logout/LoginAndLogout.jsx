@@ -10,6 +10,59 @@ import { SupervisorAccountRounded } from "@material-ui/icons";
 import { signOutUsuario } from "../../../firebase/auth";
 import { useSelector } from "react-redux";
 
+
+export const LoginLogout = () => {
+  var user = useSelector((state) => state.clientReducer.user);
+  return (
+    <ModalLogin>
+      <Option>
+      {user && user.role.toLowerCase() === "admin" && (
+          <Link to={"/admin"}>
+            <BtnOption>
+              <SupervisorAccountRounded className="sidebarIcon" />
+              <Text>Opciones de administrador</Text>
+            </BtnOption>
+          </Link>
+      )}
+      </Option>
+      <Option>
+        <Link to={"/products"}>
+          <BtnOption>
+            <BtnIcon src={IcoProducts} alt="products" />
+            <Text>Ver Tienda</Text>
+          </BtnOption>
+        </Link>
+      </Option>
+      <Option>
+        <Link to={"/pets"}>
+          <BtnOption>
+            <BtnIcon src={IcoPets} alt="mascotas" />
+            <Text>Ver Mascotas</Text>
+          </BtnOption>
+        </Link>
+      </Option>
+      <Option>
+        <Link to={"/cart"}>
+          <BtnOption>
+            <BtnIcon src={icoMarket} alt="market" />
+            <Text>Ir al carrito</Text>
+          </BtnOption>
+        </Link>
+      </Option>
+      <Option>
+        {user &&
+          <BtnOption onClick={() => signOutUsuario()}>
+            <Link to={"/"}>
+              <BtnIcon src={icoLogOut} alt="logout" />{" "}
+              <Text>Cerrar Sesión</Text>
+            </Link>
+          </BtnOption>
+         }
+      </Option>
+    </ModalLogin>
+  );
+};
+
 const BtnOption = styled.button`
   position: relative;
   width: 50px;
@@ -35,6 +88,8 @@ const ModalLogin = styled.div`
   text-decoration: none;
   background-color: white;
   text-decoration: none;
+  border: 1px solid white;
+  border-radius: 12px;
 `;
 
 const Option = styled.li`
@@ -62,62 +117,3 @@ const Text = styled.p`
     color: #0acf83;
   }
 `;
-
-export const LoginLogout = () => {
-  var user = useSelector((state) => state.clientReducer.user);
-  return (
-    <ModalLogin>
-      <Option>
-        {user ? (
-          <BtnOption onClick={() => signOutUsuario()}>
-            <Link to={"/"}>
-              <BtnIcon src={icoLogOut} alt="logout" />{" "}
-              <Text>Cerrar Sesión</Text>
-            </Link>
-          </BtnOption>
-        ) : (
-          <Link to={"/login"}>
-            <BtnOption>
-              <BtnIcon src={icoUser} alt="user" />
-              <Text>Loggin</Text>
-            </BtnOption>
-          </Link>
-        )}
-      </Option>
-      <Option>
-        <Link to={"/products"}>
-          <BtnOption>
-            <BtnIcon src={IcoProducts} alt="products" />
-            <Text>Ver Tienda</Text>
-          </BtnOption>
-        </Link>
-      </Option>
-      <Option>
-        <Link to={"/pets"}>
-          <BtnOption>
-            <BtnIcon src={IcoPets} alt="mascotas" />
-            <Text>Ver Mascotas</Text>
-          </BtnOption>
-        </Link>
-      </Option>
-      <Option>
-        <Link to={"/cart"}>
-          <BtnOption>
-            <BtnIcon src={icoMarket} alt="market" />
-            <Text>Ir al carrito</Text>
-          </BtnOption>
-        </Link>
-      </Option>
-      <Option>
-      {user && user.role.toLowerCase() == "admin" && (
-          <Link to={"/admin"}>
-            <BtnOption>
-              <SupervisorAccountRounded className="sidebarIcon" />
-              <Text>Opciones de administrador</Text>
-            </BtnOption>
-          </Link>
-      )}
-      </Option>
-    </ModalLogin>
-  );
-};
