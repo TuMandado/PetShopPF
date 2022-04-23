@@ -175,6 +175,7 @@ export function filterAllProducts(array, category, animal, minPrice, maxPrice) {
     };
 }
 
+
 export function getTotalCategoryPets() {
     return async function (dispatch) {
         const jsonCategoryPets = await getAllAnimalCategory();
@@ -193,6 +194,16 @@ export function postPets(payload) {
         return jsonPetsPost;
     };
 }
+export function getStatePet() {
+    return async function (dispatch) {
+        const jsonState = await getStatePets()
+        return dispatch({
+            type: 'GET_STATE_PETS',
+            payload: jsonState
+        })
+    }
+}
+
 
 export function petDetails(uid) {
     return async function (dispatch) {
@@ -206,7 +217,7 @@ export function petDetails(uid) {
         } catch (error) {
             console.log(error);
         }
-    };
+    }
 }
 
 export function getSpeciesPets() {
