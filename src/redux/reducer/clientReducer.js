@@ -30,6 +30,7 @@ function clientReducer(state = initialState, action) {
                 backup: action.payload,
             };
 
+
         case `GET_BY_NAME`: {
             return {
                 ...state,
@@ -43,6 +44,14 @@ function clientReducer(state = initialState, action) {
                 backupPets: action.payload,
             };
         }
+        
+            case "GET_DETAIL_PET": {
+      return {
+        ...state,
+        details: action.payload,
+        backupDetail: action.payload,
+      };
+    }
 
         case "GET_DETAIL_PRODUCTS": {
             return {
