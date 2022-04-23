@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import axios from 'axios'
+// import axios from 'axios'
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -143,7 +143,6 @@ const CantidadContainer = styled.div`
   line-height: 22px;
   background: #edeeee;
   border: 1px solid #edeeee;
-xxxxxxx
   color: #ffffff;
 `;
 
@@ -287,20 +286,20 @@ const MercadoPagoConfiguration = async () => {
       }
   
 
-      axios({ /// anterior
-          method: 'POST',
-          url: 'https://api.mercadopago.com/checkout/preferences',
-          data: preference,
-          headers: {
-              'cache-control': 'no-cache',
-              'content-type': 'application/json',
-              Authorization: `Bearer ${REACT_APP_ACCESS_TOKEN}`,
-          },
-      })
-      .then((response) => {
-          console.log('esta es la respuesta de mp', response)
-          window.location.replace(response.data.sandbox_init_point)
-      })
+    //   axios({ /// anterior
+    //       method: 'POST',
+    //       url: 'https://api.mercadopago.com/checkout/preferences',
+    //       data: preference,
+    //       headers: {
+    //           'cache-control': 'no-cache',
+    //           'content-type': 'application/json',
+    //           Authorization: `Bearer ${REACT_APP_ACCESS_TOKEN}`,
+    //       },
+    //   })
+    //   .then((response) => {
+    //       console.log('esta es la respuesta de mp', response)
+    //       window.location.replace(response.data.sandbox_init_point)
+    //   })
       
 
   }
