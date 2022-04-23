@@ -1,6 +1,4 @@
 import React from "react";
-import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Navbar } from "../navbar/Navbar";
 import { Loader } from "../../page/loader/Loader";
@@ -14,39 +12,26 @@ const Hola = styled.div`
 const Chau = styled.span`
 `
 
-const PetDetail = () => {
-    // const user = useSelector((state) => state.clientReducer.user);
-    const pet = useSelector((state) => state.clientReducer.backupDetail);
-    const dispatch = useDispatch();
-    const uid = useParams();
-    console.log("Uid flag =>", uid);
 
 
-
-    console.log("PETS =>", pet);
-
-    useEffect(() => {
-        dispatch(petDetails(uid.id));
-        return function () {
-            dispatch(detailVacio());
-        };
-    },)
-
-    if (!pet.name) {
-        return (
-            <div>
+return (
+    <div>
+        <button>Algo</button>
+    </div>
+                    </div >
+                </div >
                 <div>
-                    <Navbar />
+                    <img src={pet.photos || "https://imgur.com/lhLYKao"} alt="imagen" />
                 </div>
                 <div>
-                    <Loader />
+                    <Link to="/pets">
+                        <button>Volver</button>
+                    </Link>
                 </div>
-            </div>
-        );
-    }
+            </div >
 
-    return (
-        <div>
+    {/* <Footer /> */ }
+        </div >
             <Navbar />
             <div>
                 <div>
@@ -69,23 +54,21 @@ const PetDetail = () => {
                             <p>{pet.description}</p>
                         </div>
                         <div>
-                            <button>Algo</button>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <img src={pet.photos || "https://imgur.com/lhLYKao"} alt="imagen" />
-                </div>
-                <div>
-                    <Link to="/pets">
-                        <button>Volver</button>
-                    </Link>
-                </div>
-            </div>
-
-            {/* <Footer /> */}
-        </div>
+             
     );
 };
+if (!pet.name) {
+    return (
+        <div>
+            <div>
+                <Navbar />
+            </div>
+            <div>
+                <Loader />
+            </div>
+        </div>
+    );
+}
+
 
 export default PetDetail;
