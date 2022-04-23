@@ -12,6 +12,7 @@ import {
     filterPets,
     getAllCategories,
     uploadPet,
+    getStatePets,
     getPet,
 } from "../../firebase/Pets/index";
 import { async } from "@firebase/util";
@@ -205,7 +206,7 @@ export function petDetails(uid) {
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 }
 
 export function getSpeciesPets() {
