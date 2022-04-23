@@ -1,3 +1,4 @@
+
 import {
     getAllProducts,
     getProduct,
@@ -13,7 +14,10 @@ import {
     getAllCategories,
     uploadPet,
     getPet,
+  getStatePets,
+  filterByOwner
 } from "../../firebase/Pets/index";
+
 import { async } from "@firebase/util";
 import { loginCart } from "../../firebase/Cart";
 import { getAllAnimalCategory } from "../../firebase/AnimalCategory/index";
@@ -174,6 +178,7 @@ export function filterAllProducts(array, category, animal, minPrice, maxPrice) {
     };
 }
 
+
 export function getTotalCategoryPets() {
     return async function (dispatch) {
         const jsonCategoryPets = await getAllAnimalCategory();
@@ -192,6 +197,16 @@ export function postPets(payload) {
         return jsonPetsPost;
     };
 }
+  export function getStatePet () {
+  return async function (dispatch) {
+    const jsonState = await getStatePets()
+    return dispatch ({
+      type : 'GET_STATE_PETS',
+      payload: jsonState
+    })
+  }
+}
+
 
 export function petDetails(uid) {
     return async function (dispatch) {
