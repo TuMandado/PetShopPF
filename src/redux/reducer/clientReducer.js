@@ -11,7 +11,6 @@ const initialState = {
   backupDetail: {},
   categoryPets:[],
   petsCategory:[],
-  statePets:[],
   user: null,
 };
 
@@ -100,11 +99,6 @@ function clientReducer(state = initialState, action) {
         ...state,
         categoryPets: action.payload
 
-      }
-    case 'GET_STATE_PETS':
-      return {
-        ...state,
-        statePets: action.payload
       }
     default:
       return state;
