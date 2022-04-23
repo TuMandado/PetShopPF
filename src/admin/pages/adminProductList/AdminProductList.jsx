@@ -1,4 +1,4 @@
-import "./adminProductList.css";
+import "../adminProductList/adminProductList.css";
 import React from 'react';
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline } from "@material-ui/icons";
@@ -13,7 +13,7 @@ import { deleteThisProduct } from "../../../redux/actions/adminActions";
 const ProductList = () => {
 
   const dispatch = useDispatch()
-  const allProducts = useSelector(state => state.clientReducer.backup)
+  const allProducts = useSelector(state => state.clientReducer.products)
   const [totalProducts, setTotalProducts] = useState([]);
 
 

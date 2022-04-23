@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 // import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
@@ -22,8 +22,6 @@ const ContainerLoginOption = styled.div`
   position: absolute;
   right: 0;
   z-index: 2;
-  border: 1px solid white;
-  border-radius: 12px;
 `;
 
 const TextPetshop = styled.h1`
@@ -114,6 +112,8 @@ const BtnSearch = styled.button`
   }
 `;
 
+
+
 const IconsNav = styled.div`
   width: 120px;
   height: 42px;
@@ -140,13 +140,30 @@ const UserOptions = styled.img`
   top: 25.12%;
 `;
 
+const BtnClose = styled.button`
+  width: 120px;
+  height: 35px;
+  font-size: 12px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  color: #067a4d;
+  background: #fff;
+  margin-top: 1px;
+  float: right;
+  margin-right: 77px;
+  border: none;
+  &:hover {
+    color: #0acf83;
+  }
+`;
 
 const PopUpSearchProduct = styled.div`
     content: "";
     width: 320px;
     position: absolute;
     left: 41.4%;
-    ${props => props.name.length > 2 && props.products.length >= 1
+    ${props => props.name.length > 2
         ? ` border: 1px solid black;
             border-radius: 8px;
             border-top-right-radius: 0;`
@@ -197,9 +214,11 @@ export const Navbar = () => {
     const AllProducts = useSelector((state) => state.clientReducer.backup);
     const [searchedProducts, setSearchedProducts] = useState(AllProducts.slice())
     const [panel, setPanel] = useState(false);
-    const loginContainer = useRef(null);
-    const userButton = useRef(null);
 
+
+    useEffect(() => {
+        document.getElementById(`component-loginlogout`).style.display = `none`;
+    }, [dispatch]);
 
     //Handle del Input y Search
     function handleInputChange(e) {
@@ -225,12 +244,14 @@ export const Navbar = () => {
     }
 
     const handlePanel = () => {
-        if(!panel) document.addEventListener('click', (e) => {
-            if(loginContainer.current && !loginContainer.current.contains(e.target) && !userButton.current.contains(e.target)) {
-                setPanel(false)
-            }
-        })
-        setPanel(!panel)
+        if (!panel) {
+            document.getElementById(`component-loginlogout`).style.display = `block`;
+            setPanel(true)
+        }
+        if (panel) {
+            document.getElementById(`component-loginlogout`).style.display = `none`;
+            setPanel(false)
+        }
     };
 
 
@@ -267,9 +288,9 @@ export const Navbar = () => {
                     <BtnSearch onClick={(e) => handleSubmit(e)} type="submit">
                         <BtnIconLupa src={icoLupa} alt="search" />
                     </BtnSearch>
-                    <PopUpSearchProduct name={name} products={searchedProducts}>
+                    <PopUpSearchProduct name={name}>
                         {
-                            name.length > 2 && searchedProducts.length >= 1 && searchedProducts.map(el => (
+                            name.length > 2 && searchedProducts.length && searchedProducts.map(el => (
                                 <PopUpProductDiv key={el.uid} id={el.uid} onClick={e => goToProductDetail(e)}>
                                     <PopUpSpan>  {el.data.name} </PopUpSpan>
                                     <PopUpImage src={el.data.image} alt='Not Found' />
@@ -278,19 +299,15 @@ export const Navbar = () => {
                         }
                     </PopUpSearchProduct>
                     <IconsNav>
-                        <BtnUser ref={userButton} onClick={() => handlePanel()}>
-                            <UserOptions state={panel} src={icoUserOptions} alt="user" />
+                        <BtnUser onClick={() => handlePanel()}>
+                            <UserOptions src={icoUserOptions} alt="user" />
                         </BtnUser>
                     </IconsNav>
                 </div>
             </NavContainer>
-            {
-                panel
-                &&
-                <ContainerLoginOption ref={loginContainer}>
-                    <LoginLogout />
-                </ContainerLoginOption>
-            }
+            <ContainerLoginOption id="component-loginlogout">
+                <LoginLogout />
+            </ContainerLoginOption>
         </div>
     );
 };
