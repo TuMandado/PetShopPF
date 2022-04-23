@@ -326,48 +326,12 @@ const BtnUser = styled.button`
   }
 `
 
-const UserOptions = styled.img`
-  width: 23px;
-  height: 23px;
-  top: 2.1px;
-  position: absolute;
-  left: 16.79%;
-  top: 25.12%;
-`
-
-const BtnIcon = styled.img`
-  width: 25px;
-  height: 25px;
-  top: 2.1px;
-  position: absolute;
-  left: 16.79%;
-  top: 13.12%;
-`
-
-const BtnClose = styled.button`
-  width: 120px;
-  height: 35px;
-  font-size: 12px;
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 600;
-  color: #067a4d;
-  background: #fff;
-  margin-top: 1px;
-  float: right;
-  margin-right: 77px;
-  border: none;
-  &:hover {
-    color: #0acf83;
-  }
-`
-
 const PopUpSearchProduct = styled.div`
     content: "";
     width: 320px;
     position: absolute;
     left: 41.4%;
-    ${props => props.name.length > 2
+    ${props => props.name.length > 2 && props.products.length >= 1
         ? ` border: 1px solid black;
             border-radius: 8px;
             border-top-right-radius: 0;`

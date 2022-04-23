@@ -13,7 +13,7 @@ import { deleteThisProduct } from "../../../redux/actions/adminActions";
 const ProductList = () => {
 
   const dispatch = useDispatch()
-  const allProducts = useSelector(state => state.clientReducer.products)
+  const allProducts = useSelector(state => state.clientReducer.backup)
   const [totalProducts, setTotalProducts] = useState([]);
 
 
