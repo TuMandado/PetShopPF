@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 // import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
@@ -37,14 +37,14 @@ export const Navbar = () => {
     const AllProducts = useSelector((state) => state.clientReducer.backup);
     const [searchedProducts, setSearchedProducts] = useState(AllProducts.slice())
     const [panel, setPanel] = useState(false);
+    const loginContainer = useRef(null);
+    const userButton = useRef(null);
 
 
     useEffect(() => {
-      dispatch(cartLoginFront(user)) ;
+        dispatch(cartLoginFront(user));
     }, []);
-    useEffect(() => {
-        document.getElementById(`component-loginlogout`).style.display = `none`;
-    }, [dispatch]);
+
 
     //Handle del Input y Search
     function handleInputChange(e) {
@@ -70,15 +70,14 @@ export const Navbar = () => {
     }
 
     const handlePanel = () => {
-        if (!panel) {
-            document.getElementById(`component-loginlogout`).style.display = `block`;
-            setPanel(true)
-        }
-        if (panel) {
-            document.getElementById(`component-loginlogout`).style.display = `none`;
-            setPanel(false)
-        }
+        if (!panel) document.addEventListener('click', (e) => {
+            if (loginContainer.current && !loginContainer.current.contains(e.target) && !userButton.current.contains(e.target)) {
+                setPanel(false)
+            }
+        })
+        setPanel(!panel)
     };
+
 
 
     const goToProductDetail = (e) => {
@@ -95,7 +94,7 @@ export const Navbar = () => {
     return (
         <div>
             <NavContainer>
-             {/* <Wrapper> */}
+                {/* <Wrapper> */}
                 <style>#component-loginlogout( display: none; )</style>
                 <BrandNav onClick={e => goHome(e)}>
                     <Logo src={logoTemp} alt="logo-petshop" />
@@ -118,9 +117,9 @@ export const Navbar = () => {
                     <BtnSearch onClick={(e) => handleSubmit(e)} type="submit">
                         <BtnIconLupa src={icoLupa} alt="search" />
                     </BtnSearch>
-                    <PopUpSearchProduct name={name}>
+                    <PopUpSearchProduct name={name} products={searchedProducts}>
                         {
-                            name.length > 2 && searchedProducts.length && searchedProducts.map(el => (
+                            name.length > 2 && searchedProducts.length >= 1 && searchedProducts.map(el => (
                                 <PopUpProductDiv key={el.uid} id={el.uid} onClick={e => goToProductDetail(e)}>
                                     <PopUpSpan>  {el.data.name} </PopUpSpan>
                                     <PopUpImage src={el.data.image} alt='Not Found' />
@@ -130,65 +129,69 @@ export const Navbar = () => {
                     </PopUpSearchProduct>
                 </Center>
                 <Right>
-                  <MenuItem>
-                     <Link to={"/products"} style={linkStyle}>
-                         <Img height='30px'border="8px"  src={IcoProducts} alt="productos" />
-                         Tienda
-                     </Link>
-                  </MenuItem>
-                  <MenuItem>
-                     <Link to={"/pets"} style={linkStyle}>
-                         <Img height='30px' margin='50px' src={IcoPets} alt="Mascotas" />
-                         Mascotas
-                     </Link>
-                  </MenuItem>
+                    <MenuItem>
+                        <Link to={"/products"} style={linkStyle}>
+                            <Img height='30px' border="8px" src={IcoProducts} alt="productos" />
+                            Tienda
+                        </Link>
+                    </MenuItem>
+                    <MenuItem>
+                        <Link to={"/pets"} style={linkStyle}>
+                            <Img height='30px' margin='50px' src={IcoPets} alt="Mascotas" />
+                            Mascotas
+                        </Link>
+                    </MenuItem>
                 </Right>
-              { user ? (
-                <Right>
-                   <MenuItem1 >
-                      { user.image? 
-                           <img src={user.image && user.image} style={profilePic} alt="" />
-                        : 
-                           <img src={icoUser} style={profilePic} alt="" /> 
-                      }
-                      <span>{user.name?user.name : user.email}</span>
-            
-                      {/* <Link to='/cart' style={linkStyle}>
+                {user ? (
+                    <Right>
+                        <MenuItem1 >
+                            {user.image ?
+                                <img src={user.image && user.image} style={profilePic} alt="" />
+                                :
+                                <img src={icoUser} style={profilePic} alt="" />
+                            }
+                            <span>{user.name ? user.name : user.email}</span>
+
+                            {/* <Link to='/cart' style={linkStyle}>
                        <Badge badgeContent={5} color='primary'>
                          <ShoppingCartOutlined />
                        </Badge>
                       </Link> */}
-                   </MenuItem1>
-                </Right>
+                        </MenuItem1>
+                    </Right>
                 ) : (
-                <Right>
-                   <MenuItem onClick={goLogin}>
-                     Iniciar Sesion / Registrarse
-                   </MenuItem>
-                   {/* <MenuItem>
+                    <Right>
+                        <MenuItem onClick={goLogin}>
+                            Iniciar Sesion / Registrarse
+                        </MenuItem>
+                        {/* <MenuItem>
                      <Link to='/cart' style={linkStyle}>
                        <Badge badgeContent={1} color='primary'>
                          <ShoppingCartOutlined />
                        </Badge>
                      </Link>
                    </MenuItem> */}
-                </Right>
+                    </Right>
                 )}
-               <IconsNav>
-                   <BtnUser onClick={() => handlePanel()}>
-                       <ExpandMoreRounded />
-                   </BtnUser>
-               </IconsNav>
-               <MenuItem>
-                     <Link to='/cart' style={linkStyle}>
-                       <Badge badgeContent={1} color='primary'>
-                         <ShoppingCartOutlined />
-                       </Badge>
-                     </Link>
-                   </MenuItem>
-               <ContainerLoginOption id="component-loginlogout">
-                   <LoginLogout />
-               </ContainerLoginOption>
+                <IconsNav>
+                    <BtnUser ref={userButton} onClick={() => handlePanel()}>
+                        <ExpandMoreRounded />
+                    </BtnUser>
+                </IconsNav>
+                <MenuItem>
+                    <Link to='/cart' style={linkStyle}>
+                        <Badge badgeContent={1} color='primary'>
+                            <ShoppingCartOutlined />
+                        </Badge>
+                    </Link>
+                </MenuItem>
+                {
+                    panel
+                    &&
+                    <ContainerLoginOption ref={loginContainer}>
+                        <LoginLogout />
+                    </ContainerLoginOption>
+                }
             </NavContainer>
         </div>
     );
@@ -210,6 +213,8 @@ const ContainerLoginOption = styled.div`
   position: absolute;
   right: 0;
   z-index: 2;
+  border: 1px solid white;
+  border-radius: 12px;
   margin-top: 250px;
   margin-right: 40px;
 `
@@ -402,12 +407,12 @@ const PopUpImage = styled.img`
     margin-right: 1em;
 `;
 
-  const Center = styled.div`
+const Center = styled.div`
   flex: 1;
   text-align: center;
   margin-left: 100px;
 `;
- 
+
 const Right = styled.div`
   flex: 0.5;
   display: flex;
@@ -455,20 +460,20 @@ border-radius: 8px;
 
 `
 const linkStyle = {
-  display:'flex',
-  justifyContent: 'space-between',
-  padding: '3px 10px',
-  alignItems: 'center',
-  textDecoration: 'none',
-  color: 'inherit',
-  fontSize: '20px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: '3px 10px',
+    alignItems: 'center',
+    textDecoration: 'none',
+    color: 'inherit',
+    fontSize: '20px',
 }
 
 const profilePic = {
-  width: 'auto',
-  height: '30px',
-  padding: '4px',
-  margin: '8px',
-  borderRadius: '2rem',
-  border: '1px solid black'
+    width: 'auto',
+    height: '30px',
+    padding: '4px',
+    margin: '8px',
+    borderRadius: '2rem',
+    border: '1px solid black'
 }
