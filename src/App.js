@@ -14,6 +14,7 @@ import ProductList from "./page/productList/ProductList";
 import Product from "./page/product/Product";
 import Cart from "./page/cart/Cart";
 import PetsPage from "./page/pets/PetsPage";
+// import Pet from "./page/pet/Pet.jsx";
 import Register from "./page/register/Register";
 import UserSettings from "./page/userSettings/UserSettings";
 import ErrorPage from "./page/error/Error";
@@ -30,30 +31,34 @@ import NewProduct from "./admin/pages/newProduct/NewProduct";
 import Pyments from "./admin/pages/pyments/Pyments";
 import PublicPets from "./admin/pages/publicPets/PublicPets";
 import AdminSidebar from "./admin/components/adminSidebar/AdminSidebar";
+import { getTotalProducts } from './redux/actions';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import Navbar from "./components/navbar/Navbar";
+// import StateMercadoPago from "./page/StateMercadoPago/StateMercadoPago"
 
-import { getTotalProducts } from "./redux/actions";
+
 
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
 
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import Navbar from "./components/navbar/Navbar";
+
 import NewPublicPets from "./admin/pages/newPublicPets/NewPublicPets";
 
 import { getUser, uploadUser } from "./firebase/Users";
 import { cartLoginFront } from "./redux/actions/cartActions";
 
+
 const auth = getAuth(firebaseApp);
+
 
 function App() {
   // eslint-disable-next-line no-unused-vars
   var user = useSelector((state) => state.clientReducer.user);
   const dispatch = useDispatch();
 
-  
   onAuthStateChanged(auth, async (usuarioFirebase) => {
     if (usuarioFirebase) {
       // If location is not "/" (home page), redirect to home page
-      if (window.location.pathname != "/") {
+      if (window.location.pathname === "/login") {
         window.location.href = "/";
       }
       // Checks if user exists in the database
@@ -70,7 +75,7 @@ function App() {
           shippingAddress: "",
           name: "",
           surname: "",
-          nickname: ""
+          nickname: "",
         };
         // Upload the user to the database
         await uploadUser(usuarioFirebase.uid, userData);
@@ -85,7 +90,7 @@ function App() {
       dispatch(setUser(null));
     }
   });
-
+  
   useEffect(() => {
     dispatch(getTotalProducts());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -97,6 +102,7 @@ function App() {
     <div className={"App"}>
       <Router>
         <Routes>
+          {/* <Route exact path="/StateMercadoPago" element={<StateMercadoPago />} /> */}
           <Route exact path="*" element={<ErrorPage />} />
           <Route exact path="/" element={<Home />} />
           {/* <Route exact path="/" element={user ? <Home /> : <Login />} /> */}
@@ -106,6 +112,7 @@ function App() {
           <Route exact path="/admin" element={<AdminHome />} />
           <Route exact path="/usersettings" element={<UserSettings />} />
           <Route exact path="/pets" element={<PetsPage />} />
+          {/* <Route exact path="/pets/:id" element={<Pet />} /> */}
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/createdProduct" element={<CreatedProduct />} />
