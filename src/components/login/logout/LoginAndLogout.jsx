@@ -16,7 +16,7 @@ export const LoginLogout = () => {
   return (
     <ModalLogin>
       <Option>
-      {user && user.role.toLowerCase() == "admin" && (
+      {user && user.role.toLowerCase() === "admin" && (
           <Link to={"/admin"}>
             <BtnOption>
               <SupervisorAccountRounded className="sidebarIcon" />
@@ -88,6 +88,8 @@ const ModalLogin = styled.div`
   text-decoration: none;
   background-color: white;
   text-decoration: none;
+  border: 1px solid white;
+  border-radius: 12px;
 `;
 
 const Option = styled.li`

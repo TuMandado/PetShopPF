@@ -58,7 +58,7 @@ function App() {
   onAuthStateChanged(auth, async (usuarioFirebase) => {
     if (usuarioFirebase) {
       // If location is not "/" (home page), redirect to home page
-      if (window.location.pathname != "/") {
+      if (window.location.pathname === "/login") {
         window.location.href = "/";
       }
       // Checks if user exists in the database
