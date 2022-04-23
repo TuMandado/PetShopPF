@@ -8,7 +8,7 @@ import Footer from "../../components/footer/Footer";
 import { petDetails, detailVacio } from "../../redux/actions";
 import styled from "styled-components";
 
-const Container = styled.div``;
+const ASdasdasddddd = styled.div``;
 
 const PetDetail = () => {
   // const user = useSelector((state) => state.clientReducer.user);
