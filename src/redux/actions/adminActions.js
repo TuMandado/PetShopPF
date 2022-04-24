@@ -1,5 +1,5 @@
 import { getProduct, getAllProducts, uploadProduct, deleteProduct, getAllProductsCategories } from "../../firebase/Products/index";
-import { getAllUsers, deleteUser, getUser } from "../../firebase/Users";
+import { getAllUsers, deleteUser, getUser, uploadUser, editUser } from "../../firebase/Users";
 import {getAllAnimalCategory} from '../../firebase/AnimalCategory/index'
 export const GET_PRODUCTS = 'GET_PRODUCTS';
 
@@ -128,11 +128,11 @@ export function deleteThisProduct(id) {
   export function putUser(uid, data) {
     return async function (dispatch) {
       try {
-        let uploadUser = await uploadUser(uid, data);
-        console.log("uploadUser", uploadUser);
+        let jsonUploadUser = await editUser(uid, data);
+        console.log("uploadUser 🍳", uid, data);
         return dispatch({
           type: "PUT_USER",
-          payload: uploadUser,
+          // payload: jsonUploadUser,
         });
       } catch (error) {
         console.log(error);
