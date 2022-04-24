@@ -90,9 +90,6 @@ export const Navbar = () => {
     const goLogin = (e) => {
         navigate('/login')
     }
-    const goToStore = (e) => {
-        navigate('/products')
-    }
 
     return (
         <div>
@@ -237,6 +234,7 @@ const BrandNav = styled.div`
   justify-content: space-between;
   align-items: center;
   float: left;
+  margin-left: 10px;
   transition: 0.25s ease;
   &:hover {
     cursor: pointer;
@@ -250,6 +248,7 @@ const BrandNav = styled.div`
 
 const Logo = styled.img`
   height: 40px;
+  margin-right: 10px;
 `
 
 const InputSearch = styled.input`
