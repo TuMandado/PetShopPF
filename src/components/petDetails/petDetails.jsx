@@ -10,7 +10,7 @@ import styled from "styled-components";
 
 const Container = styled.div``;
 
-const PetDetail = () => {
+const PetDetails = () => {
   // const user = useSelector((state) => state.clientReducer.user);
   const pet = useSelector((state) => state.clientReducer.backupDetail);
   const dispatch = useDispatch();
@@ -81,4 +81,4 @@ const PetDetail = () => {
   );
 };
 
-export default PetDetail;
+export default PetDetails;
