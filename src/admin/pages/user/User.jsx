@@ -15,18 +15,16 @@ import FileBase from 'react-file-base64';
 import { getDetailUser, putUser } from "../../../redux/actions/adminActions";
 import Navbar from "../../../components/navbar/Navbar";
 import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
-import { uploadUser } from "../../../firebase/Users";
 
 export default function User() {
   const navigate = useNavigate()
   const dispatch = useDispatch();
   const uid = useParams().userId;
   const userDetail = useSelector((state) => state.adminReducer.user);
-  const [dataDetail, setDataDetail] = useState([]);
   const [input, setInput] = useState({
     nickname: "",
     name: "",
-    burname: "",
+    surname: "",
     email: "",
     phone: "",
     shippingAddress: "",
@@ -41,38 +39,18 @@ export default function User() {
    }
   },[])
 
-  useEffect(() => {
-   console.log("user 🍗:", userDetail);
-    console.log("data 🍕:", dataDetail);
-  },[userDetail])
-
-  useEffect(() => {
-    if (userDetail.length) {   
+  useEffect(() => { 
+    console.log("user 🍗:", userDetail); 
         setInput({
-            nickname: userDetail ? userDetail.nickname : '',
-            name: userDetail ? userDetail.name : '',
-            burname: userDetail ? userDetail.burname : '',
-            email: userDetail ? userDetail.email : '',
-            stock: userDetail ? userDetail.stock : '',
-            shippingAddress: userDetail ? userDetail.shippingAddress : '',
-            phone: userDetail ? userDetail.phone : '',
+            nickname: userDetail.nickname ? userDetail.nickname : '',
+            name: userDetail.name ? userDetail.name : '',
+            surname: userDetail.surname ? userDetail.surname : '',
+            email: userDetail.email ? userDetail.email : '',
+            shippingAddress: userDetail.shippingAddress ? userDetail.shippingAddress : '',
+            phone: userDetail.phone ? userDetail.phone : '',
             image: userDetail ? userDetail.image : '',
-
         })
-    }
   }, [userDetail])
-
-  // useEffect(() => {
-     
-  //   // setDataDetail(allUser.find(obj => obj.id == id));
-  //   console.log("uid 💥:", uid);
-  // },[])
-
-  // setTimeout(() => {
-  //   console.log("user 🍗:", userDetail);
-  //   console.log("data 🍕:", dataDetail);
-  // }, 2000)
-
 
   const handleChange = function (e) {
     e.preventDefault()
@@ -89,7 +67,7 @@ export default function User() {
     setInput({
       nickname: "",
       name: "",
-      burname: "",
+      surname: "",
       email: "",
       phone: "",
       shippingAddress: "",
@@ -114,18 +92,24 @@ export default function User() {
         <div className="userContainer">
           <div className="userShow">
             <div className="userShowTop">
-              <img src="https://wwwhatsnew.com/wp-content/uploads/2021/11/mascota.jpg" alt="" className="userShowImg" />
+              <img src={userDetail && userDetail.image} alt="" className="userShowImg" />
               <div className="userShowTopTitle">
                 <span className="userShowUserTitle">nombre de usuario</span>
-                <span className="userShowUsername">{userDetail && userDetail.nickname} {userDetail && userDetail.surname}</span>
+                <span className="userShowUsername">{userDetail.nickname? userDetail.nickname : userDetail.email}</span>
               </div>
             </div>
             <div className="userShowBottom">
+              <span className="userShowTitle">nombre</span>
+              <div className="userShowInfo">
+                <PermIdentity className="userShowIcon" />
+                <span className="userShowInfoTitle">{userDetail && userDetail.name}  {userDetail && userDetail.surname}</span>
+              </div>
               <span className="userShowTitle">rol</span>
               <div className="userShowInfo">
                 <PermIdentity className="userShowIcon" />
                 <span className="userShowInfoTitle">{userDetail && userDetail.role}</span>
               </div>
+              <span className="userShowTitle"></span>
               <div className="userShowInfo">
                 <CalendarToday className="userShowIcon" />
                 <span className="userShowInfoTitle"></span>
@@ -167,7 +151,7 @@ export default function User() {
                     onChange={handleChange}
                     name="name"
                     type="text"
-                    placeholder={userDetail.nickname ? userDetail.nickname : "nombre..." }
+                    placeholder={userDetail.name ? userDetail.name : "nombre..." }
                     className="userUpdateInput"
                   />
                 </div>
@@ -197,7 +181,7 @@ export default function User() {
                     onChange={handleChange}
                     name="phone"
                     type="text"
-                    placeholder={userDetail.mail? userDetail.mail : "mail..." }
+                    placeholder={userDetail.phone? userDetail.phone : "telefono de contacto..." }
                     className="userUpdateInput"
                   />
                 </div>
@@ -207,7 +191,7 @@ export default function User() {
                     onChange={handleChange}
                     name="shippingAddress"
                     type="text"
-                    placeholder={userDetail.mail? userDetail.mail : "mail..." }
+                    placeholder={userDetail.shippingAddress? userDetail.shippingAddress : "direccion de envio..." }
                     className="userUpdateInput"
                   />
                 </div>
@@ -220,15 +204,9 @@ export default function User() {
                       onDone={getBaseFile}
                   />
                 </div>
-              </div>
-              <div className="userUpdateRight">
                 <div className="userUpdateUpload">
-                  <label htmlFor="file">
-                    <Publish className="userUpdateIcon" />
-                  </label>
-                  <input type="file" id="file" style={{ display: "none" }} />
-                </div>
                 <input type="submit" className="userUpdateButton" value="modificar" />
+                </div>
               </div>
             </form>
           </div>

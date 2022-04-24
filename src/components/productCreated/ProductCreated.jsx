@@ -66,7 +66,7 @@ const ProductCreated = () => {
     function handleSelect(e) {
         setInput({
             ...input,
-            animalCategory: e.target.value
+            animalCategory: e.target.value + 's'
         })
         // input.animalCategory.includes(e.target.value)? 
         //     input.animalCategory :
@@ -97,7 +97,7 @@ const ProductCreated = () => {
             product.find(e => e.data.name.toLowerCase().trim() === input.name.toLowerCase().trim())
         ) {
             return alert(`El Producto ${input.name} ya existe`)
-        } else if (input.image.trim() === '' || input.image.search(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|gif|png|svg)/gi) ) {
+        } else if (input.image.trim() === ''  ) {
             return alert ('por favor ingrese imagen')
         } else if (input.brand.trim() === '' || input.brand.search(/^[^$%&|<>#]*$/)) {
             return alert('ingrese una marca')
@@ -205,7 +205,7 @@ const ProductCreated = () => {
                     <select onChange={e => handleSelect(e)}>
                        {
                            animalCategory?.map(e => (
-                               <option value={e.data.name}>{e.data.name}</option>
+                               <option value={e.data.name}>{e.data.name + 's'}</option>
                            ))
                        }
 
@@ -281,7 +281,7 @@ const ProductCreated = () => {
                    }
                 </div>
                 <div>
-                    <label>Agrega Precio: </label>
+                    <label>Agrega Precio: $</label>
                     <br />
                     <input type="number"
                     value={input.price}

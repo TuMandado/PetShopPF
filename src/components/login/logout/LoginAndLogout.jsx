@@ -10,79 +10,20 @@ import { SupervisorAccountRounded } from "@material-ui/icons";
 import { signOutUsuario } from "../../../firebase/auth";
 import { useSelector } from "react-redux";
 
-const BtnOption = styled.button`
-  position: relative;
-  width: 50px;
-  height: 42px;
-  padding: 7px 6px;
-  background: none;
-  border: none;
-  cursor: pointer;
-`;
-
-const BtnIcon = styled.img`
-  width: 25px;
-  height: 25px;
-  top: 2.1px;
-  position: absolute;
-  left: 16.79%;
-  top: 13.12%;
-`;
-
-const ModalLogin = styled.div`
-  width: 250px;
-  height: auto;
-  text-decoration: none;
-  background-color: white;
-  text-decoration: none;
-`;
-
-const Option = styled.li`
-  font-size: 14px;
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 500;
-  top: 4px;
-  text-decoration: none;
-  list-style: none;
-`;
-
-const Text = styled.p`
-  font-size: 14px;
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 500;
-  text-decoration: none;
-  left: 49px;
-  top: 10px;
-  position: absolute;
-  width: 110px;
-  text-align: right;
-  :hover {
-    color: #0acf83;
-  }
-`;
 
 export const LoginLogout = () => {
   var user = useSelector((state) => state.clientReducer.user);
   return (
     <ModalLogin>
       <Option>
-        {user ? (
-          <BtnOption onClick={() => signOutUsuario()}>
-            <Link to={"/"}>
-              <BtnIcon src={icoLogOut} alt="logout" />{" "}
-              <Text>Cerrar Sesión</Text>
-            </Link>
-          </BtnOption>
-        ) : (
-          <Link to={"/login"}>
+      {user && user.role.toLowerCase() === "admin" && (
+          <Link to={"/admin"}>
             <BtnOption>
-              <BtnIcon src={icoUser} alt="user" />
-              <Text>Loggin</Text>
+              <SupervisorAccountRounded className="sidebarIcon" />
+              <Text>Opciones de administrador</Text>
             </BtnOption>
           </Link>
-        )}
+      )}
       </Option>
       <Option>
         <Link to={"/products"}>
@@ -109,15 +50,75 @@ export const LoginLogout = () => {
         </Link>
       </Option>
       <Option>
-      {user && user.role.toLowerCase() == "admin" && (
-          <Link to={"/admin"}>
-            <BtnOption>
-              <SupervisorAccountRounded className="sidebarIcon" />
-              <Text>Opciones de administrador</Text>
-            </BtnOption>
-          </Link>
-      )}
+        {user &&
+          <BtnOption onClick={() => signOutUsuario()}>
+            <Link to={"/"}>
+              <BtnIcon src={icoLogOut} alt="logout" />{" "}
+              <Text>Cerrar Sesión</Text>
+            </Link>
+          </BtnOption>
+         }
       </Option>
     </ModalLogin>
   );
 };
+
+
+const Text = styled.p`
+  font-size: 14px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  text-decoration: none;
+  left: 49px;
+  top: 10px;
+  position: absolute;
+  width: 110px;
+  text-align: right;
+`;
+
+const BtnOption = styled.button`
+  position: relative;
+  width: 50px;
+  height: 42px;
+  padding: 7px 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  &:hover ${Text} {
+    color: #0acf83;
+  }
+`;
+
+const BtnIcon = styled.img`
+  width: 25px;
+  height: 25px;
+  top: 2.1px;
+  position: absolute;
+  left: 16.79%;
+  top: 13.12%;
+`;
+
+const ModalLogin = styled.div`
+  width: 190px;
+  height: auto;
+  text-decoration: none;
+  background-color: white;
+  text-decoration: none;
+  border: 1px solid black;
+  border-radius: 12px;
+  padding-top: 0.4em;
+  padding-bottom: 0.4em;
+`;
+
+const Option = styled.li`
+  font-size: 14px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  top: 4px;
+  text-decoration: none;
+  list-style: none;
+  margin-left: 1em;
+
+`;

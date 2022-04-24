@@ -87,6 +87,11 @@ const Button = styled.button`
   position: absolute;
   bottom: 5%;
   right: 6%;
+    :hover {
+    background: #ffffff;
+    cursor: pointer;
+    color: #0acf83;
+  }
 `;
 
 

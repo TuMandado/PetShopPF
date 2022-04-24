@@ -143,7 +143,6 @@ const CantidadContainer = styled.div`
   line-height: 22px;
   background: #edeeee;
   border: 1px solid #edeeee;
-xxxxxxx
   color: #ffffff;
 `;
 
@@ -447,4 +446,3 @@ export function Cart() {
     </div>
   );
 }
-

@@ -66,15 +66,16 @@ const initialState = {
             (us) => us.id != action.payload
           )
       }
-      case "GET_DETAIL_USER": {
+      case 'GET_DETAIL_USER': {
         return {
           ...state,
           user: action.payload,
         };
       }
-      case "PUT_USER":
+      case 'PUT_USER':
         return state;
-        default:
+        
+      default:
           return state;
 
     }
