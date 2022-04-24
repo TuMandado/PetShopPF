@@ -1,20 +1,16 @@
 import React from "react";
-
-// const splitObj=(arrayinfo)=>{
-//     let infomp={}
-//     let sep=[]
-//     for (let i = 0; i < arrayinfo.length; i++) {
-//         sep=arrayinfo.split('=')
-        
-//     }
-       
-// }
+import {editCartFirebase} from '../../firebase/Cart/index'
+import { useDispatch, useSelector } from "react-redux";
 
 const StateMercadoPago =()=>{
+    const dispatch = useDispatch();
     const querystring = window.location.search
     let info = querystring.slice(1)
     let arrayinfo= info.split('&')
     let infospliteada=[]
+    let status
+    const user = useSelector((state) => state.clientReducer.user);
+    console.log('user',user)
     console.log('arrayinfo',arrayinfo)
     let infoMercadoPago ={}
     arrayinfo.map(i=>{
@@ -24,17 +20,32 @@ const StateMercadoPago =()=>{
             ...infoMercadoPago,
             [infospliteada[0]]:infospliteada[1]
         }
-    })
+    }) 
     if (infoMercadoPago.status=== 'aproved'){
         // llamo a la funcion guardar carrito en bd 
         // poner en estado aproved
-    }else if(infoMercadoPago === 'rejected'){
+        status= {
+            status:'aproved'
+        }
+        return dispatch(editCartFirebase(user.uid,status))
+
+    }else if(infoMercadoPago.status === 'rejected'){
         // llamo a la funcion de guardar carrito 
         // status rejected
         // status_detail=> va el porque se rechazo
-    }else if(infoMercadoPago === 'pending'){
+        status= {
+            status:'rejected',
+            cause:infoMercadoPago.status_detail // causa del rechazo
+        }
+        return dispatch(editCartFirebase(user.uid,status))
+
+    }else if(infoMercadoPago.status === 'pending'){
         // funcion carrito 
         // status pending
+        status={
+            status:'pending'
+        } 
+        return dispatch(editCartFirebase(user.uid,status))
     }
 
 return(

@@ -103,7 +103,7 @@ function App() {
     <div className={"App"}>
       <Router>
         <Routes>
-          <Route exact path="/Success" element={<StateMercadoPago />} />
+          <Route exact path="/StateMercadoPago" element={<StateMercadoPago />} />
           <Route exact path="*" element={<ErrorPage />} />
           <Route exact path="/" element={<Home />} />
           {/* <Route exact path="/" element={user ? <Home /> : <Login />} /> */}
