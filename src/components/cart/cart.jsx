@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-// import axios from 'axios'
+import axios from 'axios'
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -248,28 +248,34 @@ const ImageError = styled.img`
   width: 310px;
   height: 310px;
 `;
-
-
-const MercadoPagoConfiguration = async () => {
+const MercadoPagoConfiguration = async (carrito, id_order) => {
       await mercadopago.configure({
           access_token: REACT_APP_ACCESS_TOKEN
       })
-      const id_orden=1
-      const carrito =[
-          { title: 'prod1', quantity:2, price:10.5},
-          { title: 'prod2', quantity:5, price:10.5},
-          { title: 'prod3', quantity:3, price:10.5},
-      ]
+      console.log(carrito, id_order)
+      // const id_orden=1
+      // const carrito =[
+      //     { title: 'prod1', quantity:2, price:10.5},
+      //     { title: 'prod2', quantity:5, price:10.5},
+      //     { title: 'prod3', quantity:3, price:10.5},
+      // ]
       const items = carrito.map(i=>{ // mapeo elementos del carrito
+        let price= i.price.slice(1)
+        let price1= price.split('.')
+        let price2=price1.join('')
+        let pricefinally=price2.split(',')
+
+         console.log('price',pricefinally)
           return {
               title: i.title,
-              unit_price: i.price,
+              unit_price:Number(pricefinally[0]),
               quantity: i.quantity
           }
       })
+      console.log('item',items,'id_order',id_order[0].uid)
       let preference ={
           items:items, // item para vender
-          external_reference:  `${id_orden}`,// id orden compra
+          external_reference:  `${id_order[0].uid}`,// id orden compra
           parament_methods:{  // metodos de pago
               excludeds_payment_types:[ // excluimos el pago por cajero automatico
                   {
@@ -286,40 +292,39 @@ const MercadoPagoConfiguration = async () => {
       }
   
 
-    //   axios({ /// anterior
-    //       method: 'POST',
-    //       url: 'https://api.mercadopago.com/checkout/preferences',
-    //       data: preference,
-    //       headers: {
-    //           'cache-control': 'no-cache',
-    //           'content-type': 'application/json',
-    //           Authorization: `Bearer ${REACT_APP_ACCESS_TOKEN}`,
-    //       },
-    //   })
-    //   .then((response) => {
-    //       console.log('esta es la respuesta de mp', response)
-    //       window.location.replace(response.data.sandbox_init_point)
-    //   })
+      axios({ /// anterior
+          method: 'POST',
+          url: 'https://api.mercadopago.com/checkout/preferences',
+          data: preference,
+          headers: {
+              'cache-control': 'no-cache',
+              'content-type': 'application/json',
+              Authorization: `Bearer ${REACT_APP_ACCESS_TOKEN}`,
+          },
+      })
+      .then((response) => {
+          console.log('esta es la respuesta de mp', response)
+          window.location.replace(response.data.sandbox_init_point)
+      })
       
 
   }
 
-  
-  export function Cart() {
-    const user = useSelector((state) => state.clientReducer.user);
-    const openCart = useSelector((state) => state.cartReducer.openCart);
-    const dispatch = useDispatch();
-    
-    const handleSubmit = () => {
-        MercadoPagoConfiguration()
-    }
+export function Cart() {
+  const user = useSelector((state) => state.clientReducer.user);
+  const openCart = useSelector((state) => state.cartReducer.openCart);
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(openCartFront(user));
   }, [dispatch, user]);
       
   
 
+    const handleSubmit = () => {
+        MercadoPagoConfiguration(items, openCart)
+    }
 
+    
   let items = [];
   let itemDelete = {};
   let itemQuantity = {};

@@ -34,7 +34,7 @@ import AdminSidebar from "./admin/components/adminSidebar/AdminSidebar";
 import { getTotalProducts } from "./redux/actions";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Navbar from "./components/navbar/Navbar";
-// import StateMercadoPago from "./page/StateMercadoPago/StateMercadoPago"
+import StateMercadoPago from "./page/StateMercadoPago/StateMercadoPago"
 
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
 
@@ -97,7 +97,7 @@ function App() {
     <div className={"App"}>
       <Router>
         <Routes>
-          {/* <Route exact path="/StateMercadoPago" element={<StateMercadoPago />} /> */}
+          <Route exact path="/StateMercadoPago" element={<StateMercadoPago />} />
           <Route exact path="*" element={<ErrorPage />} />
           <Route exact path="/" element={<Home />} />
           {/* <Route exact path="/" element={user ? <Home /> : <Login />} /> */}
