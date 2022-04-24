@@ -8,15 +8,31 @@ import Footer from "../../components/footer/Footer";
 import { petDetails, detailVacio } from "../../redux/actions";
 import styled from "styled-components";
 
-const Container = styled.div``;
+const Name = styled.h1`
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  color: #151515;
+  flex-grow: 0;
+  margin: 2px;
+  &:hover {
+    color: #0acf83;
+  }
+`;
+
+const Image = styled.img`
+  max-width: 250;
+  max-height 250;
+`;
 
 const PetDetails = () => {
   // const user = useSelector((state) => state.clientReducer.user);
   const pet = useSelector((state) => state.clientReducer.backupDetail);
   const dispatch = useDispatch();
   const uid = useParams();
-  console.log("Uid flag =>", uid);
-  console.log("PETS =>", pet);
+  /*   console.log("Uid flag =>", uid);
+  console.log("PETS =>", pet); */
 
   useEffect(() => {
     dispatch(petDetails(uid.id));
@@ -43,31 +59,35 @@ const PetDetails = () => {
       <Navbar />
       <div>
         <div>
+          <Name>{pet.name}</Name>
           <div>
-            <h1>{pet.name}</h1>
+            <Image
+              src={pet.photos || "https://imgur.com/lhLYKao"}
+              alt="imagen"
+            />
           </div>
           <div>
             <div>
-              <h5>Animal: {pet.category}</h5>
+              <div>
+                <h5>Animal: {pet.category}</h5>
+              </div>
+              <div>
+                <h5>Estado: {pet.state}</h5>
+              </div>
+              <div>
+                <h5>Sexo: {pet.sexo}</h5>
+              </div>
             </div>
             <div>
-              <h5>Estado: {pet.state}</h5>
-            </div>
-            <div>
-              <h5>Sexo: {pet.sexo}</h5>
+              <div>
+                <h5>Sobre {pet.name}:</h5>
+                <p>{pet.description}</p>
+              </div>
+              <div>
+                <button>Algo</button>
+              </div>
             </div>
           </div>
-          <div>
-            <div>
-              <p>{pet.description}</p>
-            </div>
-            <div>
-              <button>Algo</button>
-            </div>
-          </div>
-        </div>
-        <div>
-          <img src={pet.photos || "https://imgur.com/lhLYKao"} alt="imagen" />
         </div>
         <div>
           <Link to="/pets">
