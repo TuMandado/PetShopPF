@@ -90,7 +90,7 @@ export const Navbar = () => {
     const goLogin = (e) => {
         navigate('/login')
     }
-    const goToStore= (e) => {
+    const goToStore = (e) => {
         navigate('/products')
     }
 
@@ -204,6 +204,8 @@ export default Navbar;
 
 const NavContainer = styled.div`
 background-color: #e7faf3;
+font-family: "Poppins";
+  font-style: normal;
 padding: 3px 10px;
 display: flex;
 align-items: center;
@@ -256,7 +258,7 @@ const InputSearch = styled.input`
   width: 320px;
   height: 42px;
   color: black;
-  font-size: 12px;
+  font-size: 14px;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 500;
@@ -390,32 +392,10 @@ const MenuItem1 = styled.div`
   display:flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 18px;
+  font-size: 16px;
   text-decoration: none;
   margin: 2px;
   padding: 4px;
-`
-
-const MenuItem = styled.div`
-  display:flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 18px;
-  cursor: pointer;
-  text-decoration: none;
-  margin: 2px;
-  padding: 4px;
-  &:hover {
-  transition: 0.25s ease;
-  font-weight: 700;
-  color: #0acf83;
-}
-  &:hover {
-    cursor: pointer;
-    border-radius: 8px;
-    border: 1px solid #0ACF83;
-    transition: 0.3s ease;
-}
 `
 
 const Img = styled.img`
@@ -424,6 +404,30 @@ padding: 4px;
 margin: 8px;
 border-radius: 8px;
 `
+
+const MenuItem = styled.div`
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none;
+  margin: 2px;
+  padding: 4px;
+  transition: 0.25s ease;
+  &:hover {
+    transition: 0.25s ease;
+    font-weight: 600;
+    color: #0acf83;
+    transition: 0.3s ease;
+  }
+  &:hover ${Img} {
+    height: 34px;
+    margin: 4px;
+  }
+`
+
+
 const linkStyle = {
     display: 'flex',
     justifyContent: 'space-between',

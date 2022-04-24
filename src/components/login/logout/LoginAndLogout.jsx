@@ -63,6 +63,20 @@ export const LoginLogout = () => {
   );
 };
 
+
+const Text = styled.p`
+  font-size: 14px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  text-decoration: none;
+  left: 49px;
+  top: 10px;
+  position: absolute;
+  width: 110px;
+  text-align: right;
+`;
+
 const BtnOption = styled.button`
   position: relative;
   width: 50px;
@@ -71,6 +85,9 @@ const BtnOption = styled.button`
   background: none;
   border: none;
   cursor: pointer;
+  &:hover ${Text} {
+    color: #0acf83;
+  }
 `;
 
 const BtnIcon = styled.img`
@@ -104,20 +121,4 @@ const Option = styled.li`
   list-style: none;
   margin-left: 1em;
 
-`;
-
-const Text = styled.p`
-  font-size: 14px;
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 500;
-  text-decoration: none;
-  left: 49px;
-  top: 10px;
-  position: absolute;
-  width: 110px;
-  text-align: right;
-  :hover {
-    color: #0acf83;
-  }
 `;
