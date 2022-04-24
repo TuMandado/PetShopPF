@@ -2,11 +2,11 @@ import React from 'react';
 import {Link,useNavigate} from 'react-router-dom'
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTotalPets, getTotalCategoryPets, postPets} from '../../redux/actions/index';
+import { getTotalPets, getTotalCategoryPets, postPets, getStatePet} from '../../redux/actions/index';
 
 function validadora (input) {
     let error = {}
-    if(!input.name || input.name.length <3) {
+    if(!input.name || input.name.length <3 || input.name.search(/^[^$%&|<>#]*$/)) {
         error.name = 'ingrese un nombre por favor'
     } else if (!input.owner) {
         error.owner = 'ingrese el nombre del dueño'
@@ -18,7 +18,9 @@ function validadora (input) {
         error.sexo = 'ingrese una imagen porfitas'
     } else if (!input.description) {
         error.description = 'ingrese una descripcion por favor'
-    } 
+    } else if (!input.state || input.state.search(/^[^$%&|<>#]*$/)) {
+        error.state = 'ingrese un estado'
+    }
 
     return error
 
@@ -30,7 +32,9 @@ const PetCreated = ()=> {
     let pets = useSelector((state) => state.clientReducer.pets)
     console.log('esto es pets', pets)
     const petsCategory = useSelector((state) => state.clientReducer.categoryPets)
-    console.log('esto es petsCategory', petsCategory)
+    // console.log('esto es petsCategory', petsCategory)
+    const state = useSelector((state) => state.clientReducer.statePets)
+    console.log('esto es statePets', state)
 
     const [errors, setErrors] = useState({})
     const [input, setInput] = useState({
@@ -62,19 +66,24 @@ const PetCreated = ()=> {
     function handleSelect(e) {
         setInput({
             ...input,
-            category: input.category.includes(e.target.value)? 
-            input.category :
-            [...input.category, e.target.value]
+            category: e.target.value
         })
     }
 
-    function handleDelete (e) {
+    function handleSelect2(e) {
         setInput({
             ...input,
-            category: input.category.filter(category => category !== e)
+            state: e.target.value
         })
-
     }
+
+    // function handleDelete (e) {
+    //     setInput({
+    //         ...input,
+    //         category: input.category.filter(category => category !== e)
+    //     })
+
+    // }
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -84,13 +93,19 @@ const PetCreated = ()=> {
         pets.find(e => e.data.name.toLowerCase().trim() === input.name.toLowerCase().trim())
     ) {
         return alert(`El Producto ${input.name} ya existe`)
-    } else if (input.owner.trim() === ''||  input.name.search(/^[^$%&|<>#]*$/) ) {
+    } else if (input.owner.trim() === ''||  input.owner.search(/^[^$%&|<>#]*$/) ) {
         return alert ('por favor ingrese dueño')
-    } else if (input.sexo.trim() === ''||  input.name.search(/^[^$%&|<>#]*$/) ) {
+    } else if (input.sexo.trim() === ''||  input.sexo.search(/^[^$%&|<>#]*$/) ) {
         return alert ('por favor ingrese sexo adecuado')
     } else if (input.category.trim() === '') {
         return alert('selecciona una categoria de animal por favor')
-    } 
+    } else if (input.photos.trim() === '' || input.photos.search(/(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|gif|png|svg)/gi) ) {
+        return alert ('por favor ingrese imagen')
+    }  else if (input.description.trim() === ''||  input.description.search(/^[^$%&|<>#]*$/) ) {
+        return alert ('por favor ingrese descripcion o ingrese una descripcion adecuada')
+    } else if (input.state.trim() === '') {
+        return alert ('por favor ingrese el estado en el que se encuentra su mascota ')
+    }
     
     
     
@@ -117,6 +132,7 @@ const PetCreated = ()=> {
     useEffect(() => {
         dispatch(getTotalPets());
         dispatch(getTotalCategoryPets())
+        dispatch(getStatePet())
 
     },[dispatch])
 
@@ -236,8 +252,13 @@ const PetCreated = ()=> {
                            }
                    </div>
                    <div>
-                       <select >
+                       <select onChange={e => handleSelect2(e)}>
                            <option disabled > Seleccione su estado</option>
+                           {
+                               state?.map (e => (
+                                   <option > {e}</option>
+                               ))
+                           }
                        </select>
                    </div>
                    <button type='submit'>Crear Mascota</button>

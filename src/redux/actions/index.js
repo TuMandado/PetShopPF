@@ -13,6 +13,7 @@ import {
     getAllCategories,
     uploadPet,
     getPet,
+    getStatePets
 } from "../../firebase/Pets/index";
 import { async } from "@firebase/util";
 import { loginCart } from "../../firebase/Cart";
@@ -233,3 +234,14 @@ export function resetPetFilters() {
         type: "RESET_PET_FILTERS"
     }
 };
+
+export function getStatePet () {
+    return async function (dispatch) {
+        const jsonState = await getStatePets()
+        dispatch ({
+            type: 'GET_STATE_PETS',
+            payload: jsonState
+        })
+    }
+
+}
