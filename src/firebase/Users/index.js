@@ -1,11 +1,15 @@
 import { db} from '../credenciales'
-import { doc, setDoc, deleteDoc, getDoc, getDocs, collection } from "firebase/firestore";
+import { doc, setDoc, deleteDoc, getDoc,updateDoc, getDocs, collection } from "firebase/firestore";
 
 var collectionRef = "Users";
 
 export async function uploadUser(uid, data) {
     await setDoc(doc(db, collectionRef, uid), {...data, delete:false});
   }
+
+export async function editUser(uid, data) {
+    await updateDoc(doc(db, collectionRef, uid), {...data, delete:false});
+}
 
 export async function deleteUser(uid) {
     await deleteDoc(doc(db, collectionRef, uid));
