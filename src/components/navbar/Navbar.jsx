@@ -135,13 +135,11 @@ export const Navbar = () => {
                     <MenuItem>
                         <Link to={"/products"} style={linkStyle}>
                             <Img height='30px' border="8px" src={IcoProducts} alt="productos" />
-                            Tienda
                         </Link>
                     </MenuItem>
                     <MenuItem>
                         <Link to={"/pets"} style={linkStyle}>
                             <Img height='30px' margin='50px' src={IcoPets} alt="Mascotas" />
-                            Mascotas
                         </Link>
                     </MenuItem>
                 </Right>
@@ -415,15 +413,13 @@ const MenuItem = styled.div`
   margin: 2px;
   padding: 4px;
   transition: 0.25s ease;
-  &:hover {
-    transition: 0.25s ease;
-    font-weight: 600;
-    color: #0acf83;
-    transition: 0.3s ease;
-  }
   &:hover ${Img} {
+    transition: 0.25s ease;
+    filter: brightness(0) saturate(100%) invert(54%) sepia(63%) saturate(605%) hue-rotate(106deg) brightness(104%) contrast(92%);
     height: 34px;
     margin: 4px;
+    margin-right: 6px;
+    margin-left: 6px;
   }
 `
 
