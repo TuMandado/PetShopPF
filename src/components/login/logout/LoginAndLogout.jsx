@@ -83,13 +83,15 @@ const BtnIcon = styled.img`
 `;
 
 const ModalLogin = styled.div`
-  width: 250px;
+  width: 190px;
   height: auto;
   text-decoration: none;
   background-color: white;
   text-decoration: none;
-  border: 1px solid white;
+  border: 1px solid black;
   border-radius: 12px;
+  padding-top: 0.4em;
+  padding-bottom: 0.4em;
 `;
 
 const Option = styled.li`
@@ -100,6 +102,8 @@ const Option = styled.li`
   top: 4px;
   text-decoration: none;
   list-style: none;
+  margin-left: 1em;
+
 `;
 
 const Text = styled.p`
