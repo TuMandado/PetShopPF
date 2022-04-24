@@ -90,6 +90,9 @@ export const Navbar = () => {
     const goLogin = (e) => {
         navigate('/login')
     }
+    const goToStore= (e) => {
+        navigate('/products')
+    }
 
     return (
         <div>
@@ -213,10 +216,9 @@ const ContainerLoginOption = styled.div`
   position: absolute;
   right: 0;
   z-index: 2;
-  border: 1px solid white;
   border-radius: 12px;
-  margin-top: 250px;
-  margin-right: 40px;
+  margin-top: 268px;
+  margin-right: 70px;
 `
 
 const TextPetshop = styled.h1`

@@ -51,9 +51,6 @@ const Title = styled.h1`
   font-size: 30px;
   color: #151515;
   margin-top: 60px;
-  :hover {
-    color: #0acf83;
-  }
 `;
 
 const Description = styled.h5`
@@ -111,5 +108,6 @@ const BtnToPets = styled.button`
     color: #0acf83;
     background: #ffff;
     border: 3px solid #067a4d;
+    cursor: pointer;
   }
 `;
