@@ -14,7 +14,7 @@ import ProductList from "./page/productList/ProductList";
 import Product from "./page/product/Product";
 import Cart from "./page/cart/Cart";
 import PetsPage from "./page/pets/PetsPage";
-// import Pet from "./page/pet/Pet.jsx";
+import Pet from "./page/pet/Pet.jsx";
 import Register from "./page/register/Register";
 import UserSettings from "./page/userSettings/UserSettings";
 import ErrorPage from "./page/error/Error";
@@ -31,24 +31,19 @@ import NewProduct from "./admin/pages/newProduct/NewProduct";
 import Pyments from "./admin/pages/pyments/Pyments";
 import PublicPets from "./admin/pages/publicPets/PublicPets";
 import AdminSidebar from "./admin/components/adminSidebar/AdminSidebar";
-import { getTotalProducts } from './redux/actions';
+import { getTotalProducts } from "./redux/actions";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Navbar from "./components/navbar/Navbar";
 // import StateMercadoPago from "./page/StateMercadoPago/StateMercadoPago"
 
-
-
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
-
 
 import NewPublicPets from "./admin/pages/newPublicPets/NewPublicPets";
 
 import { getUser, uploadUser } from "./firebase/Users";
 import { cartLoginFront } from "./redux/actions/cartActions";
 
-
 const auth = getAuth(firebaseApp);
-
 
 function App() {
   // eslint-disable-next-line no-unused-vars
@@ -90,7 +85,7 @@ function App() {
       dispatch(setUser(null));
     }
   });
-  
+
   useEffect(() => {
     dispatch(getTotalProducts());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -112,7 +107,7 @@ function App() {
           <Route exact path="/admin" element={<AdminHome />} />
           <Route exact path="/usersettings" element={<UserSettings />} />
           <Route exact path="/pets" element={<PetsPage />} />
-          {/* <Route exact path="/pets/:id" element={<Pet />} /> */}
+          <Route exact path="/pets/:id" element={<Pet />} />
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/createdProduct" element={<CreatedProduct />} />
