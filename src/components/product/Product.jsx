@@ -291,6 +291,7 @@ const Product = ({ id, title, imagen, info, price, animalCategory, category, sub
 
     const navigate = useNavigate();
     const navigateToProductDetail = (e) => {
+        e.stopPropagation()
         navigate(`/product/${e.currentTarget.id}`)
     }
 
@@ -311,6 +312,7 @@ const Product = ({ id, title, imagen, info, price, animalCategory, category, sub
 
     function handleAdd(e) {
         e.preventDefault()
+        e.stopPropagation()
         dispatch(addItemCartFront(item));
     }
 
