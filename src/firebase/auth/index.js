@@ -30,6 +30,7 @@ export const signInUsuario = (email, password) => {
 export async function registrarUsuario(email, password, role) {
   createUserWithEmailAndPassword(auth, email, password)
     .then((user) => {
+      alert("Su usuario fue creado exitosamente! 👌😎👍")
       console.log("Usuario registrado: ", user);
       // uploadUser(user.user.uid, {
       //   email: user.user.email,

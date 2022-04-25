@@ -16,7 +16,8 @@ export const LoginLogout = () => {
   return (
     <ModalLogin>
       <Option>
-      {user && user.role.toLowerCase() === "admin" && (
+      {/* .toLowerCase() */}
+      {user && user.role === "admin" && (
           <Link to={"/admin"}>
             <BtnOption>
               <SupervisorAccountRounded className="sidebarIcon" />

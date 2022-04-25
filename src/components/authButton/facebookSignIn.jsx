@@ -18,6 +18,15 @@ const BtnForInput = styled.input`
   box-sizing: border-box;
   border-radius: 8px;
   margin-top: 11px;
+  &:hover {
+    cursor: pointer;
+    border-radius: 8px;
+    border: 1px solid #067A4D;
+    transition: 0.3s ease;
+    transition: 0.25s ease;
+  font-weight: 700;
+  color: #067A4D;
+}
 `;
 
 const FacebookSignIn = () => {
