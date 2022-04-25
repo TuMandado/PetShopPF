@@ -47,8 +47,10 @@ const PetDetails = () => {
     <div>
       <Navbar />
       <div>
-        <div>
+        <NameContainer>
           <Name>{pet.name}</Name>
+        </NameContainer>
+        <DivContainers>
           <div>
             <Image
               src={pet.photos || "https://imgur.com/lhLYKao"}
@@ -67,22 +69,20 @@ const PetDetails = () => {
                 <Sexo>Sexo: {pet.sexo}</Sexo>
               </div>
             </TagContainer>
-            <div>
-              <div>
-                <h5>Sobre {pet.name}:</h5>
-                <Description>{pet.description}</Description>
-              </div>
-              <div>
-                <button>Algo</button>
-              </div>
-            </div>
+            <InfoContainer>
+              <SobrePet>Sobre {pet.name}:</SobrePet>
+              <Description>{pet.description}</Description>
+            </InfoContainer>
           </div>
-        </div>
-        <div>
+        </DivContainers>
+        <MapContainer>
+          <span>Localidad/Mapa</span>
+        </MapContainer>
+        <BtnContainer>
           <Link to="/pets">
             <BtnToPets onClick={(e) => navigateToPets(e)}>Volver</BtnToPets>
           </Link>
-        </div>
+        </BtnContainer>
       </div>
 
       <Footer />
@@ -92,11 +92,19 @@ const PetDetails = () => {
 
 export default PetDetails;
 
+const NameContainer = styled.div`
+  height: 60px;
+  width: 100%;
+  text-align: center;
+`;
+
 const Name = styled.h1`
   font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
-  font-size: 30px;
+  font-size: 35px;
+  margin: 0px auto;
+  padding-top: 18px;
   color: #151515;
   flex-grow: 0;
   margin: 2px;
@@ -107,11 +115,12 @@ const Name = styled.h1`
 
 const Image = styled.img`
   object-fit: cover;
-  width: 400px;
-  height: 380px;
-  border-radius: 8px;
+  width: 380px;
+  height: 360px;
+  border-radius: 12px;
   align-items: center;
   margin-top: 8px;
+  left: 35px;
   position: relative;
 `;
 
@@ -124,7 +133,7 @@ const State = styled.h4`
   font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 18px;
   color: #0acf83;
   background: #f4f8ec;
@@ -136,7 +145,7 @@ const Category = styled.h4`
   font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 18px;
   color: #151515;
   background: #f5f5f5;
@@ -148,7 +157,7 @@ const Sexo = styled.h4`
   font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 18px;
   color: #eb8d70;
   background: #f5f5f5;
@@ -157,26 +166,67 @@ const Sexo = styled.h4`
 `;
 
 const Description = styled.p`
-  max-width: 600px;
-  max-height: 290px;
-  margin-top: 4px;
-  top: 11px;
+  max-width: 690px;
+  max-height: 320px;
+  padding-top: 42px;
+  padding-left: 35px;
+  position: absolute;
+  top: 15px;
   font-family: "Poppins";
   font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 18px;
+  font-weight: 300;
+  font-size: 21px;
+  line-height: 29px;
   position: static;
   margin-bottom: 6px;
-  margin-top: 9px;
-  line-height: 20px;
+  margin-top: 15px;
+
   color: #151515;
 `;
 
 const TagContainer = styled.div`
   display: flex;
+  position: relative;
   margin-bottom: 2px;
   margin-top: 8px;
+  left: 35px;
+`;
+
+const DivContainers = styled.div`
+  display: grid;
+  grid-gap: 6rem;
+  grid-template-columns: 331px 480px;
+  grid-template-rows: 160px 160px;
+`;
+
+const InfoContainer = styled.div`
+  display: flex;
+  position: absolute;
+`;
+
+const SobrePet = styled.h3`
+  max-width: 800px;
+  max-height: 80px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 25px;
+  position: absolute;
+  padding-top: 18px;
+  left: 35px;
+`;
+
+const MapContainer = styled.div`
+  height: 80px;
+  width: 100%;
+  text-align: center;
+`;
+
+const BtnContainer = styled.div`
+  height: 50px;
+  width: 100%;
+  text-align: center;
+  padding-top: 10px;
 `;
 
 const BtnToPets = styled.button`
@@ -185,11 +235,11 @@ const BtnToPets = styled.button`
   margin-top: 5px;
   position: relative;
   width: 105px;
-  height: 30px;
+  height: 35px;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 14px;
   color: #ffff;
   background: #0acf83;
   border: 2px solid #067a4d;
