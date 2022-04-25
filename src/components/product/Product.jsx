@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
 import { addItemCartFront } from "../../redux/actions/cartActions";
+const Swal = require("sweetalert2");
 
 const Container = styled.div`
   display: flex;
@@ -87,297 +88,298 @@ const Button = styled.button`
   position: absolute;
   bottom: 5%;
   right: 6%;
-    :hover {
+  :hover {
     background: #ffffff;
     cursor: pointer;
     color: #0acf83;
   }
 `;
 
-
 const ListContainer = styled.div`
-    display: flex;
-    position: relative;
-    padding: 16px;
-    width: 900px;
-    height: 280px;
-    border: 1px solid #d1d1d1;
-    box-sizing: border-box;
-    border-radius: 12px;
-    margin: 1em 0px;
+  display: flex;
+  position: relative;
+  padding: 16px;
+  width: 900px;
+  height: 280px;
+  border: 1px solid #d1d1d1;
+  box-sizing: border-box;
+  border-radius: 12px;
+  margin: 1em 0px;
 `;
 
-
 const ListImage = styled.img`
-    align-self: flex-start;
-    max-width: 268px;
-    max-height: 280px;
-    border-radius: 12px;
-    position: absolute;
-    left: 5%;
-    top: 20%;
+  align-self: flex-start;
+  max-width: 268px;
+  max-height: 280px;
+  border-radius: 12px;
+  position: absolute;
+  left: 5%;
+  top: 20%;
 `;
 
 const ListImageBackground = styled.div`
-    position: absolute;
-    content: "";
-    height: 100%;
-    width: 27%;
-    background: #F9F9F9;
-    //background: gray;
-    border-top-left-radius: 12px;
-    border-bottom-left-radius: 12px;
-    top:0;
-    left: 0;
-    z-index: -1;
-`
+  position: absolute;
+  content: "";
+  height: 100%;
+  width: 27%;
+  background: #f9f9f9;
+  //background: gray;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  top: 0;
+  left: 0;
+  z-index: -1;
+`;
 
 const ListTitle = styled.h3`
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 27px;
-    position: absolute;
-    left: 30%;
-    top: 12%;
-    width: 40%;
-
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27px;
+  position: absolute;
+  left: 30%;
+  top: 12%;
+  width: 40%;
 `;
 
 const ListInfo = styled.p`
-    font-family: "Open Sans";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 16px;
-    position: absolute;
-    
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  position: absolute;
 `;
 
 const ListPrice = styled.span`
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 25px;
-    line-height: 38px;
-    position: absolute;
-    top: 12%;
-    right: 10%;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 38px;
+  position: absolute;
+  top: 12%;
+  right: 10%;
 `;
 
 const ListButton = styled.button`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 12px;
-    background: #0acf83;
-    border: 2px solid #067a4d;
-    box-sizing: border-box;
-    border-radius: 12px;
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 15px;
-    line-height: 22px;
-    color: #ffffff;
-    height: 47px;
-    width: 136px;
-    position: absolute;
-    bottom: 30%;
-    right: 9%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+  background: #0acf83;
+  border: 2px solid #067a4d;
+  box-sizing: border-box;
+  border-radius: 12px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 22px;
+  color: #ffffff;
+  height: 47px;
+  width: 136px;
+  position: absolute;
+  bottom: 30%;
+  right: 9%;
 `;
 
 const ListDetailButton = styled.button`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 36px;
-    width: 136px;
-    border-radius: 12px;
-    margin: 12px 0px;
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 15px;
-    line-height: 22px;
-    margin: 0px 8px;
-    background:#Edeeee;
-    border: 1px solid #Edeeee;
-    box-sizing: border-box;
-    position: absolute;
-    bottom: 13%;
-    right: 8%;
-`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 36px;
+  width: 136px;
+  border-radius: 12px;
+  margin: 12px 0px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 22px;
+  margin: 0px 8px;
+  background: #edeeee;
+  border: 1px solid #edeeee;
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 13%;
+  right: 8%;
+`;
 
 const ListMainCategoriesContainer = styled.div`
-    position: absolute;
-    left: 30%;
-    top: 45%;
-
-`
+  position: absolute;
+  left: 30%;
+  top: 45%;
+`;
 
 const ListMainCategorySpan = styled.span`
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 19px;
-    color: #A9A9A9;
-    margin-right: 1.5em;
-`
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: #a9a9a9;
+  margin-right: 1.5em;
+`;
 
 const ListMainCategory = styled.span`
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 19px;
-    color: #0ACF83;
-    
-`
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: #0acf83;
+`;
 
 const ListSubCategoryContainer = styled.div`
-    position: absolute;
-    left: 30%;
-    top: 60%;
-`
+  position: absolute;
+  left: 30%;
+  top: 60%;
+`;
 
 const ListSubCategorySpan = styled.span`
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 19px;
-    color: #A9A9A9;
-    margin-right: 4em;
-`
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: #a9a9a9;
+  margin-right: 4em;
+`;
 
 const ListSubCategory = styled.span`
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 19px;
-    color: #A9A9A9;
-`
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: #a9a9a9;
+`;
 
 const ListAnimalCategoryContainer = styled.div`
-    position: absolute;
-    left: 30%;
-    top: 75%;
-`
+  position: absolute;
+  left: 30%;
+  top: 75%;
+`;
 
 const ListAnimalCategorySpan = styled.span`
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 19px;
-    color: #A9A9A9;
-    margin-right: 2.8em;
-`
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: #a9a9a9;
+  margin-right: 2.8em;
+`;
 
 const ListAnimalCategory = styled.span`
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 19px;
-    color: #A9A9A9;
-`
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: #a9a9a9;
+`;
 
-const Product = ({ id, title, imagen, info, price, animalCategory, category, subCategory, viewMode }) => {
+const Product = ({
+  id,
+  title,
+  imagen,
+  info,
+  price,
+  animalCategory,
+  category,
+  subCategory,
+  viewMode,
+}) => {
+  const navigate = useNavigate();
+  const navigateToProductDetail = (e) => {
+    e.stopPropagation();
+    navigate(`/product/${e.currentTarget.id}`);
+  };
 
-    const navigate = useNavigate();
-    const navigateToProductDetail = (e) => {
-        e.stopPropagation()
-        navigate(`/product/${e.currentTarget.id}`)
-    }
+  const user = useSelector((state) => state.clientReducer.user);
+  const dispatch = useDispatch();
 
-    const user = useSelector((state) => state.clientReducer.user)
-    const dispatch = useDispatch();
+  let item = {
+    user: user,
+    item: {
+      createdAt: Date(),
+      title,
+      quantity: 1,
+      price,
+      id,
+      imagen,
+    },
+  };
 
-    let item = {
-        user: user,
-        item: {
-            createdAt: Date(),
-            title,
-            quantity: 1,
-            price,
-            id,
-            imagen
-        }
-    }
+  function handleAdd(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(addItemCartFront(item));
+    return Swal.fire("Excelente!", "Prducto agregado al carrito!", "success");
+  }
 
-    function handleAdd(e) {
-        e.preventDefault()
-        e.stopPropagation()
-        dispatch(addItemCartFront(item));
-    }
-
-
-    if (viewMode === 'List') {
-        return (
-            <ListContainer>
-                <ListImage
-                    src={imagen || "https://imgur.com/lhLYKao"}
-                    alt="imagen not found"
-                />
-                <ListImageBackground />
-                <ListTitle> {title} </ListTitle>
-                <ListInfo>{info}</ListInfo>
-                <ListPrice>{price.split(",")[0]}</ListPrice>
-                <ListButton onClick={(e) => handleAdd(e)}> Agregar </ListButton>
-                <ListDetailButton id={id} onClick={e => navigateToProductDetail(e)}> Ver Detalles {">"} </ListDetailButton>
-                <ListMainCategoriesContainer>
-                    <ListMainCategorySpan> Categoria: </ListMainCategorySpan>
-                    <ListMainCategory> {category}</ListMainCategory>
-                </ListMainCategoriesContainer>
-                <ListSubCategoryContainer>
-                    <ListSubCategorySpan> Tipo: </ListSubCategorySpan>
-                    <ListSubCategory>
-                        {subCategory.length > 30
-                            ? subCategory.split('').slice(0, 35).join('') + '...'
-                            : subCategory
-                        }
-                    </ListSubCategory>
-                </ListSubCategoryContainer>
-                <ListAnimalCategoryContainer>
-                    <ListAnimalCategorySpan> Animal: </ListAnimalCategorySpan>
-                    <ListAnimalCategory> {animalCategory}</ListAnimalCategory>
-                </ListAnimalCategoryContainer>
-                {/* <div>
+  if (viewMode === "List") {
+    return (
+      <ListContainer>
+        <ListImage
+          src={imagen || "https://imgur.com/lhLYKao"}
+          alt="imagen not found"
+        />
+        <ListImageBackground />
+        <ListTitle> {title} </ListTitle>
+        <ListInfo>{info}</ListInfo>
+        <ListPrice>{price.split(",")[0]}</ListPrice>
+        <ListButton onClick={(e) => handleAdd(e)}> Agregar </ListButton>
+        <ListDetailButton id={id} onClick={(e) => navigateToProductDetail(e)}>
+          {" "}
+          Ver Detalles {">"}{" "}
+        </ListDetailButton>
+        <ListMainCategoriesContainer>
+          <ListMainCategorySpan> Categoria: </ListMainCategorySpan>
+          <ListMainCategory> {category}</ListMainCategory>
+        </ListMainCategoriesContainer>
+        <ListSubCategoryContainer>
+          <ListSubCategorySpan> Tipo: </ListSubCategorySpan>
+          <ListSubCategory>
+            {subCategory.length > 30
+              ? subCategory.split("").slice(0, 35).join("") + "..."
+              : subCategory}
+          </ListSubCategory>
+        </ListSubCategoryContainer>
+        <ListAnimalCategoryContainer>
+          <ListAnimalCategorySpan> Animal: </ListAnimalCategorySpan>
+          <ListAnimalCategory> {animalCategory}</ListAnimalCategory>
+        </ListAnimalCategoryContainer>
+        {/* <div>
                 <h3> Animal : {animalCategory && animalCategory?.map((t,i) => <div key={i}> {t} </div> )}</h3>
               </div>
               <div>
                 <h4> Categoria : {category && category?.map((t,i) => <div key={i}> {t}</div>)}</h4>
               </div> */}
-            </ListContainer>
-        );
-    }
-    else return (
-        <Container>
-            <Image
-                src={imagen || "https://imgur.com/lhLYKao"}
-                alt="imagen not found"
-            />
-            <Title> {title} </Title>
-            <Info>{info}</Info>
-            <Price>{price.split(",")[0]}</Price>
-            <Button onClick={(e) => handleAdd(e)}> Agregar </Button>
-            {/* <div>
+      </ListContainer>
+    );
+  } else
+    return (
+      <Container>
+        <Image
+          src={imagen || "https://imgur.com/lhLYKao"}
+          alt="imagen not found"
+        />
+        <Title> {title} </Title>
+        <Info>{info}</Info>
+        <Price>{price.split(",")[0]}</Price>
+        <Button onClick={(e) => handleAdd(e)}> Agregar </Button>
+        {/* <div>
             <h3> Animal : {animalCategory && animalCategory?.map((t,i) => <div key={i}> {t} </div> )}</h3>
           </div>
           <div>
             <h4> Categoria : {category && category?.map((t,i) => <div key={i}> {t}</div>)}</h4>
           </div> */}
-        </Container>
+      </Container>
     );
-
-
-
-
 };
 
 export default Product;
