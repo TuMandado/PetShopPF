@@ -34,7 +34,6 @@ const Sidebar = ({ changeCurrentPage }) => {
     const categoryToFilter = Object.keys(checkCategory)[0]
 
     useState(() => {
-        console.log("SE EJECUTAAAA", fromHomeAnimal)
         if (fromHomeAnimal) {
             setChecksAnimal({ ...checksAnimal, [fromHomeAnimal]: true })
             dispatch(filterAllProducts(backupProducts, categoryToFilter, [fromHomeAnimal], parseInt(minPrice), parseInt(maxPrice)))
