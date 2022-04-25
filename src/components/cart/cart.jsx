@@ -403,6 +403,7 @@ export function Cart() {
                     onClick={(e) => {
                       handleSupr(e, el.quantity, el.id);
                     }}
+                    disabled={el.quantity <= 1 ? true : false}
                   >
                     -
                   </BtnSup>
@@ -419,7 +420,7 @@ export function Cart() {
               <ButtonDelete onClick={(e) => handleDelete(e, el.id)}>
                 Eliminar
               </ButtonDelete>
-              <button onClick={handleSubmit}>MP</button>
+              {/* <button onClick={handleSubmit}>MP</button> */}
             </ContainerProduct>
           );
         })
