@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import axios from 'axios'
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -9,15 +9,18 @@ import {
 } from "../../redux/actions/cartActions";
 import CartEmpy from "../../assets/carrito_vacio.gif";
 import styled from "styled-components";
-import mercadopago from 'mercadopago'
+import mercadopago from "mercadopago";
 
-const REACT_APP_ACCESS_TOKEN = 'TEST-5909391637745101-041518-e07a43a5f92224ee501bc4d9feca4624-191706246'
-const url = window.location.href.split("//")[1].split("/")[0].replace (/^/,'https://');
+const REACT_APP_ACCESS_TOKEN =
+  "TEST-5909391637745101-041518-e07a43a5f92224ee501bc4d9feca4624-191706246";
+const url = window.location.href
+  .split("//")[1]
+  .split("/")[0]
+  .replace(/^/, "https://");
 
 const TitleContainer = styled.div`
   height: 80px;
 `;
-
 
 const TuCarritoText = styled.h1`
   height: 100px;
@@ -141,9 +144,7 @@ const CantidadContainer = styled.div`
   font-weight: 700;
   font-size: 15px;
   line-height: 22px;
-  background: #edeeee;
-  border: 1px solid #edeeee;
-  color: #ffffff;
+  color: #151515;
 `;
 
 const SumDelContainer = styled.div`
@@ -249,66 +250,66 @@ const ImageError = styled.img`
   height: 310px;
 `;
 const MercadoPagoConfiguration = async (carrito, id_order) => {
-      await mercadopago.configure({
-          access_token: REACT_APP_ACCESS_TOKEN
-      })
-      console.log(carrito, id_order)
-      // const id_orden=1
-      // const carrito =[
-      //     { title: 'prod1', quantity:2, price:10.5},
-      //     { title: 'prod2', quantity:5, price:10.5},
-      //     { title: 'prod3', quantity:3, price:10.5},
-      // ]
-      const items = carrito.map(i=>{ // mapeo elementos del carrito
-        let price= i.price.slice(1)
-        let price1= price.split('.')
-        let price2=price1.join('')
-        let pricefinally=price2.split(',')
+  await mercadopago.configure({
+    access_token: REACT_APP_ACCESS_TOKEN,
+  });
+  console.log(carrito, id_order);
+  // const id_orden=1
+  // const carrito =[
+  //     { title: 'prod1', quantity:2, price:10.5},
+  //     { title: 'prod2', quantity:5, price:10.5},
+  //     { title: 'prod3', quantity:3, price:10.5},
+  // ]
+  const items = carrito.map((i) => {
+    // mapeo elementos del carrito
+    let price = i.price.slice(1);
+    let price1 = price.split(".");
+    let price2 = price1.join("");
+    let pricefinally = price2.split(",");
 
-         console.log('price',pricefinally)
-          return {
-              title: i.title,
-              unit_price:Number(pricefinally[0]),
-              quantity: i.quantity
-          }
-      })
-      console.log('item',items,'id_order',id_order[0].uid)
-      let preference ={
-          items:items, // item para vender
-          external_reference:  `${id_order[0].uid}`,// id orden compra
-          parament_methods:{  // metodos de pago
-              excludeds_payment_types:[ // excluimos el pago por cajero automatico
-                  {
-                      id:'atm'
-                  }
-              ],
-              installments:3, // cant maxima de cuotas
-          },
-          back_Urls: {
-                      success:'http://localhost:3000/StateMercadoPago',
-                      failure:'http://localhost:3000/StateMercadoPago',
-                      pending:'http://localhost:3000/StateMercadoPago',
-          },
-      }
-  
+    console.log("price", pricefinally);
+    return {
+      title: i.title,
+      unit_price: Number(pricefinally[0]),
+      quantity: i.quantity,
+    };
+  });
+  console.log("item", items, "id_order", id_order[0].uid);
+  let preference = {
+    items: items, // item para vender
+    external_reference: `${id_order[0].uid}`, // id orden compra
+    parament_methods: {
+      // metodos de pago
+      excludeds_payment_types: [
+        // excluimos el pago por cajero automatico
+        {
+          id: "atm",
+        },
+      ],
+      installments: 3, // cant maxima de cuotas
+    },
+    back_Urls: {
+      success: "http://localhost:3000/StateMercadoPago",
+      failure: "http://localhost:3000/StateMercadoPago",
+      pending: "http://localhost:3000/StateMercadoPago",
+    },
+  };
 
-      axios({ /// anterior
-          method: 'POST',
-          url: 'https://api.mercadopago.com/checkout/preferences',
-          data: preference,
-          headers: {
-              'cache-control': 'no-cache',
-              'content-type': 'application/json',
-              Authorization: `Bearer ${REACT_APP_ACCESS_TOKEN}`,
-          },
-      })
-      .then((response) => {
-          console.log('esta es la respuesta de mp', response)
-          window.location.replace(response.data.sandbox_init_point)
-      })
-      
-
-  }
+  axios({
+    /// anterior
+    method: "POST",
+    url: "https://api.mercadopago.com/checkout/preferences",
+    data: preference,
+    headers: {
+      "cache-control": "no-cache",
+      "content-type": "application/json",
+      Authorization: `Bearer ${REACT_APP_ACCESS_TOKEN}`,
+    },
+  }).then((response) => {
+    console.log("esta es la respuesta de mp", response);
+    window.location.replace(response.data.sandbox_init_point);
+  });
+};
 
 export function Cart() {
   const user = useSelector((state) => state.clientReducer.user);
@@ -317,14 +318,11 @@ export function Cart() {
   useEffect(() => {
     dispatch(openCartFront(user));
   }, [dispatch, user]);
-      
-  
 
-    const handleSubmit = () => {
-        MercadoPagoConfiguration(items, openCart)
-    }
+  const handleSubmit = () => {
+    MercadoPagoConfiguration(items, openCart);
+  };
 
-    
   let items = [];
   let itemDelete = {};
   let itemQuantity = {};
@@ -348,7 +346,6 @@ export function Cart() {
     // console.log("-Item-Delete-Flag", itemDelete);
     dispatch(deleteItemsCartFront(itemDelete));
   };
-
 
   //Recibe un objeto con las propiedades{user,item,number},
   //siendo number el numero final que queda en la base de datos
@@ -401,11 +398,10 @@ export function Cart() {
               <PrecioProd>{el.price} </PrecioProd>
               <CantidadContainer>
                 <SumDelContainer>
-
-                  Cantidad:{" "}
+                  Cantidad:
                   <BtnSup
                     onClick={(e) => {
-                      handleSupr(e, el.cantidad, el.id);
+                      handleSupr(e, el.quantity, el.id);
                     }}
                   >
                     -
@@ -413,21 +409,18 @@ export function Cart() {
                   {el.quantity}
                   <BtnSum
                     onClick={(e) => {
-                      handleAdd(e, el.cantidad, el.id);
+                      handleAdd(e, el.quantity, el.id);
                     }}
                   >
                     +
                   </BtnSum>
-
                 </SumDelContainer>
               </CantidadContainer>
               <ButtonDelete onClick={(e) => handleDelete(e, el.id)}>
                 Eliminar
               </ButtonDelete>
-             <button onClick={handleSubmit}>MP</button>
+              <button onClick={handleSubmit}>MP</button>
             </ContainerProduct>
-            
-
           );
         })
       ) : (
