@@ -35,7 +35,7 @@ export const Navbar = () => {
     let user = useSelector((state) => state.clientReducer.user);
     const cartProducts = useSelector(state => state.cartReducer.openCart);
     const AllProducts = useSelector((state) => state.clientReducer.backup);
-    const [searchedProducts, setSearchedProducts] = useState(AllProducts.slice())
+    const [searchedProducts, setSearchedProducts] = useState(AllProducts)
     const [panel, setPanel] = useState(false);
     const loginContainer = useRef(null);
     const userButton = useRef(null);
@@ -52,12 +52,14 @@ export const Navbar = () => {
     function handleInputChange(e) {
         e.preventDefault();
         setName(e.target.value);
+
         if (name.length > e.target.value.length) setSearchedProducts(AllProducts.filter(el => el.data.name.toLowerCase().includes(e.target.value.toLowerCase())))
+        else if (!name.length) setSearchedProducts(AllProducts.filter(el => el.data.name.toLowerCase().includes(e.target.value.toLowerCase())))       
         else setSearchedProducts(searchedProducts.filter(el => el.data.name.toLowerCase().includes(e.target.value.toLowerCase())))
         if (name.length > 2 && searchedProducts.length >= 1) {
             document.addEventListener('click', (e) => {
                 if (inputContainer.current && !inputContainer.current.contains(e.target) && !popUpContainer.current.contains(e.target)) {
-                    setSearchedProducts([])
+                    setName("")
                 }
             })
         }
