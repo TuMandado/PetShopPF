@@ -39,6 +39,8 @@ export const Navbar = () => {
     const [panel, setPanel] = useState(false);
     const loginContainer = useRef(null);
     const userButton = useRef(null);
+    const popUpContainer = useRef(null);
+    const inputContainer = useRef(null);
 
 
     useEffect(() => {
@@ -52,6 +54,13 @@ export const Navbar = () => {
         setName(e.target.value);
         if (name.length > e.target.value.length) setSearchedProducts(AllProducts.filter(el => el.data.name.toLowerCase().includes(e.target.value.toLowerCase())))
         else setSearchedProducts(searchedProducts.filter(el => el.data.name.toLowerCase().includes(e.target.value.toLowerCase())))
+        if (name.length > 2 && searchedProducts.length >= 1) {
+            document.addEventListener('click', (e) => {
+                if (inputContainer.current && !inputContainer.current.contains(e.target) && !popUpContainer.current.contains(e.target)) {
+                    setSearchedProducts([])
+                }
+            })
+        }
     }
 
     function handleSubmit(e) {
@@ -101,23 +110,26 @@ export const Navbar = () => {
                     <TextPetshop>PetShop</TextPetshop>
                 </BrandNav>
                 <Center>
-                    <InputSearch
-                        value={name}
-                        onChange={(e) => handleInputChange(e)}
-                        type="text"
-                        placeholder={
-                            actualUrl === '/cart'
-                                ? "Buscar entre los productos..."
-                                : actualUrl === '/pets'
-                                    ? "¿A quien estas buscando?"
-                                    : "¿Que vas a llevar hoy?"
-                        }
-                        onKeyPress={e => handleEnterKeyPress(e)}
-                    />
-                    <BtnSearch onClick={(e) => handleSubmit(e)} type="submit">
-                        <BtnIconLupa src={icoLupa} alt="search" />
-                    </BtnSearch>
-                    <PopUpSearchProduct name={name} products={searchedProducts}>
+                    <div>
+                        <InputSearch
+                            value={name}
+                            onChange={(e) => handleInputChange(e)}
+                            type="text"
+                            placeholder={
+                                actualUrl === '/cart'
+                                    ? "Buscar entre los productos..."
+                                    : actualUrl === '/pets'
+                                        ? "¿A quien estas buscando?"
+                                        : "¿Que vas a llevar hoy?"
+                            }
+                            onKeyPress={e => handleEnterKeyPress(e)}
+                            ref={inputContainer}
+                        />
+                        <BtnSearch onClick={(e) => handleSubmit(e)} type="submit">
+                            <BtnIconLupa src={icoLupa} alt="search" />
+                        </BtnSearch>
+                    </div>
+                    <PopUpSearchProduct ref={popUpContainer} name={name} products={searchedProducts}>
                         {
                             name.length > 2 && searchedProducts.length >= 1 && searchedProducts.map(el => (
                                 <PopUpProductDiv key={el.uid} id={el.uid} onClick={e => goToProductDetail(e)}>
@@ -198,13 +210,15 @@ export const Navbar = () => {
 export default Navbar;
 
 const NavContainer = styled.div`
-background-color: #e7faf3;
+background: rgba(41, 217, 194, 0.2);
 font-family: "Poppins";
   font-style: normal;
 padding: 3px 10px;
 display: flex;
 align-items: center;
 justify-content: space-around;
+border-bottom-left-radius: 8px;
+border-bottom-right-radius: 16px;
 `
 
 const ContainerLoginOption = styled.div`
@@ -251,6 +265,7 @@ const Logo = styled.img`
   margin-right: 10px;
 `
 
+
 const InputSearch = styled.input`
   width: 320px;
   height: 42px;
@@ -260,14 +275,15 @@ const InputSearch = styled.input`
   font-style: normal;
   font-weight: 500;
   background: none;
-  border: 1px solid #a9a9a9;
+  border: 1px solid #919191;
   border-right: none;
   box-sizing: border-box;
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
   padding: 6px;
+  padding-left: 1.5em;
   &::-webkit-input-placeholder {
-    color: #a9a9a9;
+    color: #919191;
   }
 `
 
@@ -285,7 +301,7 @@ const BtnSearch = styled.button`
   height: 42px;
   padding: 7px 6px;
   background: none;
-  border: 1px solid #a9a9a9;
+  border: 1px solid #919191;
   border-left: none;
   box-sizing: border-box;
   border-top-right-radius: 8px;
@@ -293,14 +309,14 @@ const BtnSearch = styled.button`
   transition: 0.3s ease;
   &:hover {
     cursor: pointer;
-    background: #0ACF83;
+    background: #29d9c2;
     transition: 0.3s ease;
   }
   &:hover ${BtnIconLupa} {
-    width: 22px;
-    height: 22px;
-    left: 27%;
-    top: 23.12%;
+    width: 24px;
+    height: 24px;
+    left: 26%;
+    top: 21.12%;
   }
 `
 
@@ -330,8 +346,6 @@ const BtnUser = styled.button`
 const PopUpSearchProduct = styled.div`
     content: "";
     width: 320px;
-    position: absolute;
-    left: 41.4%;
     ${props => props.name.length > 2 && props.products.length >= 1
         ? ` border: 1px solid black;
             border-radius: 8px;
@@ -339,7 +353,9 @@ const PopUpSearchProduct = styled.div`
         : ``
     }
     z-index: 4; 
-    background-color: white;
+    background: white;
+    position: absolute;
+    top: 100%;
 `
 
 const PopUpProductDiv = styled.div`
@@ -347,12 +363,14 @@ const PopUpProductDiv = styled.div`
     align-items: center;
     position: relative;
     padding: 0.6em;
+    border-radius: 8px;
     transition: background-color 0.25s ease;
     &:hover {
         transition: background-color 0.25s ease;
         cursor: pointer;
-        background-color:  #0acf83;
+        background-color:  rgba(41, 217, 194, 1);
     }
+    
 `
 
 const PopUpSpan = styled.span`
@@ -374,8 +392,11 @@ const PopUpImage = styled.img`
 
 const Center = styled.div`
   flex: 1;
-  text-align: center;
-  margin-left: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-left: 8em;
 `;
 
 const Right = styled.div`
