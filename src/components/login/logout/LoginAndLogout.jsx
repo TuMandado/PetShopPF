@@ -10,7 +10,6 @@ import { SupervisorAccountRounded } from "@material-ui/icons";
 import { signOutUsuario } from "../../../firebase/auth";
 import { useSelector } from "react-redux";
 
-
 export const LoginLogout = () => {
   var user = useSelector((state) => state.clientReducer.user);
   return (
@@ -24,7 +23,7 @@ export const LoginLogout = () => {
               <Text>Opciones de administrador</Text>
             </BtnOption>
           </Link>
-      )}
+        )}
       </Option>
       <Option>
         <Link to={"/products"}>
@@ -51,19 +50,18 @@ export const LoginLogout = () => {
         </Link>
       </Option>
       <Option>
-        {user &&
+        {user && (
           <BtnOption onClick={() => signOutUsuario()}>
             <Link to={"/"}>
               <BtnIcon src={icoLogOut} alt="logout" />{" "}
               <Text>Cerrar Sesión</Text>
             </Link>
           </BtnOption>
-         }
+        )}
       </Option>
     </ModalLogin>
   );
 };
-
 
 const Text = styled.p`
   font-size: 14px;
@@ -121,5 +119,4 @@ const Option = styled.li`
   text-decoration: none;
   list-style: none;
   margin-left: 1em;
-
 `;
