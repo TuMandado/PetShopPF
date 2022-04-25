@@ -159,7 +159,6 @@ export function deleteFilters() {
 }
 
 export function filterAllProducts(array, category, animal, minPrice, maxPrice) {
-    console.log("Se DISPAROOOOOOOOOOOOOO", array, category, animal, minPrice, maxPrice)
     return async function (dispatch) {
         const response = await filterProducts(
             array,
