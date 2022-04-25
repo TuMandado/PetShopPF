@@ -19,7 +19,7 @@ const Container = styled.div`
 `;
 
 const Announcement = () => {
-  return <Container> Colabora con adopciones, mascotas perdidas o encontradas y obtene beneficios en nustra tienda  </Container>;
+  return <Container> Colabora con adopciones, mascotas perdidas o encontradas y obtene beneficios en nuestra tienda  </Container>;
 };
 
 export default Announcement;
