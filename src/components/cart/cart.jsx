@@ -328,6 +328,7 @@ export function Cart() {
   let items = [];
   let itemDelete = {};
   let itemQuantity = {};
+  let total = 0
 
   if (openCart) {
     if (user && openCart[0]) {
@@ -335,6 +336,17 @@ export function Cart() {
     } else {
       items = openCart.items;
     }
+  }
+
+  if(items.length){
+    items.map(el =>{
+      let delSim = el.price.slice(2)
+      let delDot = delSim.replace(".","")
+      let repCom = delDot.replace(",",".")
+      let price =Number(repCom)
+      let sum = price * el.quantity
+      total =  total + sum
+    })
   }
 
   const handleDelete = (e, id) => {
@@ -389,60 +401,68 @@ export function Cart() {
       {/* <TitleContainer>
         <TuCarritoText>¡Llevá todo lo que necesites!</TuCarritoText>
       </TitleContainer> */}
-      ;
-      {items && items.length ? (
-        items.map((el) => {
-          return (
-            <ContainerProduct>
-              <ImageBackground>
-                <ImageProduct src={el.imagen} alt="image" />
-              </ImageBackground>
-              <TitleCartProduct>{el.title}</TitleCartProduct>
-              <PrecioProd>{el.price} </PrecioProd>
-              <CantidadContainer>
-                <SumDelContainer>
-
-                  Cantidad:{" "}
-                  <BtnSup
-                    onClick={(e) => {
-                      handleSupr(e, el.cantidad, el.id);
-                    }}
-                  >
-                    -
-                  </BtnSup>
-                  {el.quantity}
-                  <BtnSum
-                    onClick={(e) => {
-                      handleAdd(e, el.cantidad, el.id);
-                    }}
-                  >
-                    +
-                  </BtnSum>
-
-                </SumDelContainer>
-              </CantidadContainer>
-              <ButtonDelete onClick={(e) => handleDelete(e, el.id)}>
-                Eliminar
-              </ButtonDelete>
-             <button onClick={handleSubmit}>MP</button>
-            </ContainerProduct>
+      
+      {items && items.length ? 
+      (
+        <div>
+          {items.map((el) => {
+            return (
+              <ContainerProduct>
+                <ImageBackground>
+                  <ImageProduct src={el.imagen} alt="image" />
+                </ImageBackground>
+                <TitleCartProduct>{el.title}</TitleCartProduct>
+                <PrecioProd>{el.price} </PrecioProd>
+                <CantidadContainer>
+                  <SumDelContainer>
+  
+                    Cantidad:{" "}
+                    <BtnSup
+                      onClick={(e) => {
+                        handleSupr(e, el.cantidad, el.id);
+                      }}
+                    >
+                      -
+                    </BtnSup>
+                    {el.quantity}
+                    <BtnSum
+                      onClick={(e) => {
+                        handleAdd(e, el.cantidad, el.id);
+                      }}
+                    >
+                      +
+                    </BtnSum>
+  
+                  </SumDelContainer>
+                </CantidadContainer>
+                <ButtonDelete onClick={(e) => handleDelete(e, el.id)}>
+                  Eliminar
+                </ButtonDelete>
+              </ContainerProduct>
+              
+              
+              );
+            }
             
+            )}
+            <button onClick={handleSubmit}>MP</button>
+            <p>precio total: $ {total}</p>
+        </div>
 
-          );
-        })
       ) : (
         <EmpyContainer>
           <ImageError src={CartEmpy} alt="carrito vacio" />
           <Error>¡Tu carrito está vacío!</Error>
           <Description>
             ¿Aún no te has decidido?.¡No hay problema! <br /> Podés seguir
-            recorriendo la tienda sin apuros :)
+            recorriendo la tienda sin apuros 
           </Description>
           <Link to={"/products"}>
             <BtnVolver>Ir a la tienda</BtnVolver>
           </Link>
         </EmpyContainer>
       )}
+      
     </div>
-  );
+);
 }
