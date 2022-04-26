@@ -1,8 +1,9 @@
-import { ADD_ITEM, CLOSE_CART, DELETE_ITEM, EDIT_ITEM, GET_CARTS, LOGIN_CART, OPEN_CART } from "../actions/cartActions";
+import { ADD_ITEM, CLOSE_CART, DELETE_ITEM, EDIT_ITEM, GET_CARTS, GET_QUANTITY, LOGIN_CART, OPEN_CART } from "../actions/cartActions";
 
 const initialState = {
-    alCarts: [],
-    openCart: {}
+    allCarts: [],
+    openCart: {},
+    quantity: 0
 }
   
   
@@ -22,6 +23,7 @@ function cartReducer(state = initialState, action) {
             return {
                 ...state,
                 openCart: action.payload,
+                quantity: state.quantity +1
              };
         case OPEN_CART:
             return {
@@ -42,6 +44,11 @@ function cartReducer(state = initialState, action) {
             return{
                 ...state,
                 openCart: action.payload,
+            }
+        case GET_QUANTITY:
+            return{
+                ...state,
+                quantity: action.payload,
             }
         default:
             return state;

@@ -289,7 +289,7 @@ export async function editCart(user,item,number){
         let allItems = {items: cart[0].data.items.map((el) =>{
             if(el.id === item.id){
                 return { ...el,
-                   cantidad : number,
+                    quantity : number,
                    updateAt: Date()}
             }else{return el}
         })}
@@ -303,7 +303,7 @@ export async function editCart(user,item,number){
                 items: data.items.map((el) =>{
                 if(el.id === item.id){
                     return { ...el,
-                       cantidad : number,
+                        quantity : number,
                        updateAt: Date()}
                 }else{return el}
             })}

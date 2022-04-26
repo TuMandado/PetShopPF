@@ -34,6 +34,7 @@ export const Navbar = () => {
 
     let user = useSelector((state) => state.clientReducer.user);
     const cartProducts = useSelector(state => state.cartReducer.openCart);
+    const quantity = useSelector(state => state.cartReducer.quantity);
     const AllProducts = useSelector((state) => state.clientReducer.backup);
     const [searchedProducts, setSearchedProducts] = useState(AllProducts)
     const [panel, setPanel] = useState(false);
@@ -192,7 +193,7 @@ export const Navbar = () => {
                 </IconsNav>
                 <MenuItem>
                     <Link to='/cart' style={linkStyle}>
-                        <Badge badgeContent={1} color='primary'>
+                        <Badge badgeContent={quantity} color='primary'>
                             <ShoppingCartOutlined />
                         </Badge>
                     </Link>

@@ -15,6 +15,7 @@ export const EDIT_ITEM = "EDIT_ITEM";
 export const DELETE_ITEM = "DELETE_ITEM";
 export const CLOSE_CART = "CLOSE_CART";
 export const LOGIN_CART = "LOGIN_CART";
+export const GET_QUANTITY = "GET_QUANTITY";
 
 export function getAllCarts() {
     return async function (dispatch) {
@@ -63,9 +64,9 @@ export function addItemCartFront(payload) {
 export function openCartFront(payload) {
     return async function (dispatch) {
         try {
-            //   console.log("payload", payload);
+              console.log("payload", payload);
             let jsonProduct = await cartOpenUs(payload);
-            //   console.log("OpenCart Flag-", jsonProduct);
+               console.log("OpenCart Flag-", jsonProduct);
             return dispatch({
                 type: OPEN_CART,
                 payload: jsonProduct,
@@ -143,4 +144,17 @@ export function cartLoginFront(payload) {
             console.log(error);
         }
     };
+}
+
+export function getQuantity(payload){
+    return async function (dispatch){
+        let total = 0
+        if(payload.length){
+            payload.map(el => total = total + el.quantity)
+        }
+        return dispatch({
+            type: GET_QUANTITY,
+            payload: total
+        })
+    }
 }
