@@ -328,6 +328,7 @@ export function Cart() {
   let items = [];
   let itemDelete = {};
   let itemQuantity = {};
+  let total = 0
 
   if (openCart) {
     if (user && openCart[0]) {
@@ -335,6 +336,17 @@ export function Cart() {
     } else {
       items = openCart.items;
     }
+  }
+
+  if(items.length){
+    items.map(el =>{
+      let delSim = el.price.slice(2)
+      let delDot = delSim.replace(".","")
+      let repCom = delDot.replace(",",".")
+      let price =Number(repCom)
+      let sum = price * el.quantity
+      total =  total + sum
+    })
   }
 
   const handleDelete = (e, id) => {
@@ -392,6 +404,7 @@ export function Cart() {
       ;
       {items && items.length ? (
         items.map((el) => {
+
           return (
             <ContainerProduct>
               <ImageBackground>
@@ -429,7 +442,9 @@ export function Cart() {
             
 
           );
-        })
+        }
+      
+        )
       ) : (
         <EmpyContainer>
           <ImageError src={CartEmpy} alt="carrito vacio" />
@@ -443,6 +458,7 @@ export function Cart() {
           </Link>
         </EmpyContainer>
       )}
+      <p>precio total: $ {total}</p>
     </div>
   );
 }
