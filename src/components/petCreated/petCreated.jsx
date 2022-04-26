@@ -92,6 +92,13 @@ const PetCreated = () => {
     });
   }
 
+  function handleSelect3 (e) {
+    setInput({
+      ...input,
+      sexo: e.target.value
+    })
+  }
+
   // function handleDelete (e) {
   //     setInput({
   //         ...input,
@@ -121,10 +128,7 @@ const PetCreated = () => {
     } else if (input.category.trim() === "") {
       return alert("selecciona una categoria de animal por favor");
     } else if (
-      input.photos.trim() === "" ||
-      input.photos.search(
-        /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|gif|png|svg)/gi
-      )
+      input.photos.trim() === "" 
     ) {
       return alert("Por favor, Carga una imagen");
     } else if (
@@ -206,7 +210,7 @@ const PetCreated = () => {
             <div>
               <Label>Sexo: </Label>
               <br />
-              <Select defaultValue="Elegir" onChange={(e) => handleSelect(e)}>
+              <Select defaultValue="Elegir" onChange={(e) => handleSelect3(e)}>
                 <Options disabled>Elegir</Options>
                 <Options value="male">Male</Options>
                 <Options value="female">Female</Options>
