@@ -195,7 +195,7 @@ const TagContainer = styled.div`
 const DivContainers = styled.div`
   display: grid;
   grid-gap: 6rem;
-  grid-template-columns: 331px 480px;
+  grid-template-columns: 341px 600px;
   grid-template-rows: 160px 160px;
 `;
 
@@ -205,12 +205,12 @@ const InfoContainer = styled.div`
 `;
 
 const SobrePet = styled.h3`
-  max-width: 800px;
+  width: 900px;
   max-height: 80px;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
-  font-size: 25px;
+  font-size: 24px;
   position: absolute;
   padding-top: 18px;
   left: 35px;
