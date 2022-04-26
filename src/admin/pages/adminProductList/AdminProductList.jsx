@@ -16,7 +16,6 @@ const ProductList = () => {
   const allProducts = useSelector(state => state.clientReducer.backup)
   const [totalProducts, setTotalProducts] = useState([]);
 
-
   useEffect(() => {
     setTotalProducts(allProducts.map(el=>{
       return({
@@ -40,7 +39,6 @@ const ProductList = () => {
     // },1500)
   };
 
-
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {
@@ -50,7 +48,7 @@ const ProductList = () => {
       renderCell: (params) => {
         return (
           <div className="productListItem">
-            <img className="productListImg" src={params.row.image} alt="" />
+            <img className="productListImg" src={params.row.image } alt="" />
             {params.row.name}
           </div>
         );
@@ -84,7 +82,6 @@ const ProductList = () => {
       },
     },
   ];
-
   
   return (
     <div >

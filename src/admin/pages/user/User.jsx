@@ -22,13 +22,14 @@ export default function User() {
   const uid = useParams().userId;
   const userDetail = useSelector((state) => state.adminReducer.user);
   const [input, setInput] = useState({
-    nickname: "",
-    name: "",
-    surname: "",
-    email: "",
-    phone: "",
-    shippingAddress: "",
-    image: "",
+    // nickname: "",
+    // name: "",
+    // surname: "",
+    // email: "",
+    // phone: "",
+    // shippingAddress: "",
+    // image: "",
+    // delete: false
   })
   const getBaseFile = files => {
     setInput(prevInput => ({ ...prevInput, image: files.base64 }))  
@@ -48,7 +49,8 @@ export default function User() {
             email: userDetail.email ? userDetail.email : '',
             shippingAddress: userDetail.shippingAddress ? userDetail.shippingAddress : '',
             phone: userDetail.phone ? userDetail.phone : '',
-            image: userDetail ? userDetail.image : '',
+            image: userDetail.image ? userDetail.image : '',
+            delete: userDetail.delete ? userDetail.delete : false
         })
   }, [userDetail])
 
@@ -56,9 +58,10 @@ export default function User() {
     e.preventDefault()
     setInput({
       ...input,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
+      delete: e.target.value== 1? true : false,
     })
-
+   
   }
 
   const handleSubmit = (e) => {
@@ -72,6 +75,7 @@ export default function User() {
       phone: "",
       shippingAddress: "",
       image: "",
+      delete: false
     })
     alert("Ha sido modificado con exito")
     navigate("/users")
@@ -204,8 +208,15 @@ export default function User() {
                       onDone={getBaseFile}
                   />
                 </div>
+                <div className="userUpdateItem">
+                  <label>Activo</label>
+                    <select name='delete' id='active' onChange={handleChange}>
+                        <option value= {0}  > Si </option>
+                        <option value={1}  > No </option>
+                    </select>
+                </div>
                 <div className="userUpdateUpload">
-                <input type="submit" className="userUpdateButton" value="modificar" />
+                  <input type="submit" className="userUpdateButton" value="modificar" />
                 </div>
               </div>
             </form>

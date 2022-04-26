@@ -13,6 +13,7 @@ import { getDetailProducts} from "../../../redux/actions";
 // import { getDetailProducts } from "../../../redux/actions/adminActions";
 import Navbar from '../../../components/navbar/Navbar';
 import AdminSidebar from '../../components/adminSidebar/AdminSidebar';
+import { putProduct } from '../../../redux/actions/adminActions';
 
 
   const AdminProduct = () => {
@@ -36,29 +37,28 @@ import AdminSidebar from '../../components/adminSidebar/AdminSidebar';
         subCategory: [],
         stock: 0,
         image: '',
+        delete: false,
+        description: ''
     })
 
     const getBaseFile = files => {
         setState(prevState => ({ ...prevState, image: files.base64 }))  
     }
 
-   
-
-
-    useEffect(() => {
-        if (!product.name) {   
+    useEffect(() => { 
             setState({
 
-                name: product ? product.name : '',
-                brand: product ? product.brand : '',
-                animalCategory: product ? product.animalCategory : '',
-                price: product ? product.price : '',
-                subCategory: product ? product.subCategory : '',
-                stock: product ? product.stock : '',
-                image: product ? product.image : '',
+                name: product.name ? product.name : '',
+                brand: product.brand ? product.brand : '',
+                animalCategory: product.animalCategory ? product.animalCategory : '',
+                price: product.price ? product.price : '',
+                subCategory: product.subCategory ? product.subCategory : '',
+                stock: product.stock ? product.stock : '',
+                image: product.image ? product.image : '',
+                image: product.delete ? product.delete: false,
+                description: product.description ? product.description : ''
 
             })
-        }
     }, [product])
 
 
@@ -78,7 +78,8 @@ import AdminSidebar from '../../components/adminSidebar/AdminSidebar';
     function hundleOnSubmit(e) {
       e.preventDefault()
       console.log(uid.id, state)
-      // dispatch(putProduct(id, state))
+      dispatch(putProduct(uid, state))
+      
       setState({
           name: '',
           animalCategory: '',
@@ -87,21 +88,12 @@ import AdminSidebar from '../../components/adminSidebar/AdminSidebar';
           subCategory:'',
           stock: '',
           image: '',
+          delete: false,
+          description: ''
       }) 
       alert("Ha sido modificado con exito")
       navigate("/adminProducts")
     }
-  
-    // function hundleOnCategory(e) {
-    //     setCategory(e.target.value)
-    //     setState({
-    //         ...state,
-    //         categories: [...state.categories, categories.slice(0, -1)]
-    //     });
-
-    //     setCategory('')
-    // }
-
 
     // function disabled() {
     //     return (
@@ -127,7 +119,7 @@ import AdminSidebar from '../../components/adminSidebar/AdminSidebar';
                         <img src={product && product.image} alt="https://imgur.com/lhLYKao" className="productInfoImg" />
                         <div className="productInfoBottom">
                             <span className="productName">{product && product.name}</span>
-                            <h3 className="productInfoValue">$ {product && product.price}</h3>
+                            <h3 className="productInfoValue">{product && product.price}</h3>
                             <span className="productInfoKey">tipo de animal: </span>
                             <h5 className="productInfoValue">{product && product.animalCategory}</h5>
                             <span className="productInfoKey">marca: </span>
@@ -165,9 +157,17 @@ import AdminSidebar from '../../components/adminSidebar/AdminSidebar';
                             value={state.name}
                             type="text"
                             name='name'
-                            placeholder="nombre"
+                            placeholder={state.name}
                             />
 
+                        <label>Descripción</label>
+                        <input
+                            onChange={(e) => hundleInputChange(e)}
+                            value={state.description}
+                            type="text"
+                            name='description'
+                            placeholder={state.description}
+                            />
 
                         <label>Imagen</label>
                         <div >
@@ -179,15 +179,14 @@ import AdminSidebar from '../../components/adminSidebar/AdminSidebar';
                             />
                         </div>
 
-
                         <label>Tipo de animal</label>
                         <div className="addProductItem">
                             <input
-                                value={state.description}
+                                value={state.animalCategory}
                                 onChange={(e) => hundleInputChange(e)}
                                 name='animalCategory'
                                 type="text"
-                                placeholder="tipo de animal"
+                                placeholder={state.animalCategory}
                             />       
                         </div>
                         <label>Marca</label>
@@ -197,7 +196,7 @@ import AdminSidebar from '../../components/adminSidebar/AdminSidebar';
                                 onChange={(e) => hundleInputChange(e)}
                                 name='brand'
                                 type="text"
-                                placeholder="marca"
+                                placeholder={state.brand}
                             />       
                         </div>
                         
@@ -206,12 +205,8 @@ import AdminSidebar from '../../components/adminSidebar/AdminSidebar';
                             onChange={(e) => hundleInputChange(e)}
                             value={state.subCategory}
                             type='text'
-                            name="subCategory"
-                            onKeyUp={event => {
-                                if (event.key === ',') {
-                                    hundleInputChange(event)
-                                }
-                            }}
+                            name={state.subCategory}
+                           
                         />
                         <div>
                             <label>{state.categories + ' '}</label>
@@ -223,7 +218,7 @@ import AdminSidebar from '../../components/adminSidebar/AdminSidebar';
                             value={state.price}
                             name='price'
                             type="text"
-                            placeholder="precio" />
+                            placeholder={state.price} />
 
                         <label>Stock</label>
                         <input
@@ -231,7 +226,15 @@ import AdminSidebar from '../../components/adminSidebar/AdminSidebar';
                             value={state.stock}
                             name='stock'
                             type="number"
-                            placeholder="stock" />
+                            placeholder={state.stock} />
+
+                        <div className="addProductItem">
+                           <label>Activo</label>
+                             <select name='delete' id='active'>
+                                 <option value={false}>Si</option>
+                                 <option value={true}>No</option>
+                             </select>
+                        </div>
                         
                             <button
                                 className="productAddButton"
