@@ -1,10 +1,18 @@
 import styled from 'styled-components';
 import star from './stars'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteFilters, filterAllProducts } from '../../redux/actions'
 
-const Sidebar = ({changeCurrentPage}) => {
+var fromHomeAnimal;
+
+export const homeFilter = (animal) => {
+    fromHomeAnimal = animal;
+    return;
+}
+
+
+const Sidebar = ({ changeCurrentPage }) => {
     const dispatch = useDispatch();
     const allProductsCategories = useSelector(state => state.clientReducer.productsCategories)
     const animalCategories = useSelector(state => state.clientReducer.productsAnimalCategories)
@@ -24,17 +32,26 @@ const Sidebar = ({changeCurrentPage}) => {
     const [checkCategory, setCheckCategory] = useState({});
     const categoryToFilter = Object.keys(checkCategory)[0]
 
+
+    useEffect(() => {
+        console.log("SE EJECUTAAAA", fromHomeAnimal)
+        if (fromHomeAnimal) {
+            setChecksAnimal({ ...checksAnimal, [fromHomeAnimal]: true })
+            dispatch(filterAllProducts(backupProducts, categoryToFilter, [fromHomeAnimal], parseInt(minPrice), parseInt(maxPrice)))
+        }
+    }, [])
+
     const handleChecks = (e) => {
         if (e.target.name === 'Animals' && !checksAnimal[e.target.value]) setChecksAnimal({ ...checksAnimal, [e.target.value]: true })
         if (e.target.name === 'Animals' && checksAnimal[e.target.value]) {
-            const state = {...checksAnimal}
+            const state = { ...checksAnimal }
             delete state[e.target.value]
             setChecksAnimal(state)
         }
         //setChecksCalification({ ...checksCalification, [e.target.value]: !checksCalification[e.target.value] })
     }
 
-     const selectCategory = (e) => {
+    const selectCategory = (e) => {
         if (!checkCategory[e.target.id]) setCheckCategory({ [e.target.id]: true })
         if (checkCategory[e.target.id]) setCheckCategory({})
     }
@@ -54,7 +71,7 @@ const Sidebar = ({changeCurrentPage}) => {
         dispatch(filterAllProducts(backupProducts, categoryToFilter, Object.keys(checksAnimal), parseInt(minPrice), parseInt(maxPrice)))
         changeCurrentPage(1)
         window.scrollTo(0, 0)
-    }  
+    }
 
 
     return (
@@ -81,7 +98,7 @@ const Sidebar = ({changeCurrentPage}) => {
                     animalCategories?.map(el => (
                         <Li key={el}>
                             <Checkbox
-                                checked={checksAnimal[el]}
+                                checked={checksAnimal[el] ? true : false}
                                 type='checkbox'
                                 id={el}
                                 value={el}

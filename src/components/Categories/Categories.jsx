@@ -5,15 +5,15 @@ import { categories } from '../../data'
 
 
 const Categories = () => {
-  return (
-   <Div>
-     <Container>
-       {categories.map((item) => (
-        <CategoryItem item={item} key={item.id} />
-      ))}
-     </Container>
-   </Div>
-  )
+    return (
+        <Div>
+            <Container>
+                {categories.map((item) => (
+                    <CategoryItem item={item} key={item.id} />
+                ))}
+            </Container>
+        </Div>
+    )
 }
 
 export default Categories
