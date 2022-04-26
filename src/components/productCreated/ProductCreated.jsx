@@ -3,6 +3,7 @@ import {Link, useNavigate} from 'react-router-dom'
 import { useDispatch, useSelector  } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { postProduct, getTotalProducts,getProductCategory, getProductAnimalCategory } from '../../redux/actions/adminActions';
+import FileBase from 'react-file-base64';
 
 function validadora (input) {
     let error = {}
@@ -45,10 +46,13 @@ const ProductCreated = () => {
         brand:'',
         animalCategory: '',
         category: '',
-        price: '',
+        price: '$ ',
         subCategory: '',
         delete: false
     })
+    const getBaseFile = files => {
+        setInput(prevInput => ({ ...prevInput, image: files.base64 }))
+    }
     function handleChange(e) {
         setInput({
             ...input,
@@ -61,6 +65,13 @@ const ProductCreated = () => {
             })
         )
         console.log(input)
+    }
+
+    function handleChange2(e) {
+        setInput({
+            ...input,
+            [e.target.name]: e.target.value
+        })
     }
 
     function handleSelect(e) {
@@ -105,11 +116,12 @@ const ProductCreated = () => {
             return alert('selecciona una categoria de animal por favor')
         }  else if (input.category.trim() === '') {
             return alert('selecciona una categoria por favor')
-        }   else if (input.price.trim() === '' || input.price < 1) {
+        }   else if (input.price.trim() === '' || input.price < 1 || input.price.search( /^[0-9,$]*$/)) {
             return alert('precio inadecuado ')
         } else if (input.subCategory.trim() === '' || input.subCategory.search(/^[^$%&|<>#]*$/)) {
             return alert('ingrese sub categoria')
         }
+        // /^[0-9,$]*$/
         
         
         
@@ -122,7 +134,7 @@ const ProductCreated = () => {
                 image: '',
                 animalCategory: '',
                 category: '',
-                price: '',
+                price: '$ ',
                 subCategory: '',
                 delete: false
             })
@@ -172,7 +184,7 @@ const ProductCreated = () => {
                    }
                 </div>
                 <div>
-                    <label> Agrege una imagen </label>
+                    <label> Agrege una imagen por url </label>
                     <br />
                     <input type="text"
                     value={input.image}
@@ -185,6 +197,16 @@ const ProductCreated = () => {
                            <p>{errors.image}</p>
                        )
                    }
+                </div>
+                <br />
+                <div className="userUpdateItem">
+                  <label>Agrege una imagen desde su escritorio</label>
+                  <FileBase
+                      name='file'
+                      type='file'
+                      multiple={false}
+                      onDone={getBaseFile}
+                  />
                 </div>
                 <div>
                     <label >Nombre de la marca : </label>
@@ -283,10 +305,10 @@ const ProductCreated = () => {
                 <div>
                     <label>Agrega Precio: $</label>
                     <br />
-                    <input type="number"
-                    value={input.price}
+                    <input type="text"
+                    value= {input.price}
                     name='price'
-                    onChange={(e) => handleChange(e) }
+                    onChange={(e) => handleChange2(e) }
                     placeholder='agrege precio'
                     
                     />
