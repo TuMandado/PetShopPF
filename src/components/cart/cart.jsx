@@ -6,6 +6,7 @@ import {
   openCartFront,
   deleteItemsCartFront,
   editItemsCartFront,
+  getQuantity,
 } from "../../redux/actions/cartActions";
 import CartEmpy from "../../assets/carrito_vacio.gif";
 import styled from "styled-components";
@@ -338,15 +339,18 @@ export function Cart() {
     }
   }
 
-  if(items.length){
-    items.map(el =>{
-      let delSim = el.price.slice(2)
-      let delDot = delSim.replace(".","")
-      let repCom = delDot.replace(",",".")
-      let price =Number(repCom)
-      let sum = price * el.quantity
-      total =  total + sum
-    })
+  if(items){
+    if(items.length){
+      items.map(el =>{
+        let delSim = el.price.slice(2)
+        let delDot = delSim.replace(".","")
+        let repCom = delDot.replace(",",".")
+        let price =Number(repCom)
+        let sum = price * el.quantity
+        total =  total + sum
+      })
+      dispatch(getQuantity(items))
+    }
   }
 
   const handleDelete = (e, id) => {
@@ -407,7 +411,7 @@ export function Cart() {
         <div>
           {items.map((el) => {
             return (
-              <ContainerProduct>
+              <ContainerProduct key={el.id}>
                 <ImageBackground>
                   <ImageProduct src={el.imagen} alt="image" />
                 </ImageBackground>
@@ -419,7 +423,7 @@ export function Cart() {
                     Cantidad:{" "}
                     <BtnSup
                       onClick={(e) => {
-                        handleSupr(e, el.cantidad, el.id);
+                        handleSupr(e, el.quantity, el.id);
                       }}
                     >
                       -
@@ -427,7 +431,7 @@ export function Cart() {
                     {el.quantity}
                     <BtnSum
                       onClick={(e) => {
-                        handleAdd(e, el.cantidad, el.id);
+                        handleAdd(e, el.quantity, el.id);
                       }}
                     >
                       +
