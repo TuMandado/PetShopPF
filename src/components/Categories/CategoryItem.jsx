@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useNavigate } from 'react-router-dom';
+import { homeFilter } from "../sidebar/Sidebar";
 
 
 const onClickButton = (e) => {
@@ -10,14 +11,15 @@ const onClickButton = (e) => {
 const CategoryItem = ({ item }) => {
     const navigate = useNavigate();
 
-    const goToStore = (e) => {
+    const goToStore = (animal) => {
+        homeFilter(animal)
         navigate('/products')
         window.scrollTo(0, 0)
     }
 
 
     return (
-        <Container onClick={e => goToStore(e)}>
+        <Container onClick={e => goToStore(item.title)}>
             <Image src={item.img} />
             <Info>
                 <Title> Ir a la Tienda </Title>
