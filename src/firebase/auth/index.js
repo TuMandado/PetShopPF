@@ -8,6 +8,7 @@ import {
   signInWithRedirect,
   getRedirectResult,
   FacebookAuthProvider,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { uploadUser } from "../Users";
 
@@ -98,6 +99,16 @@ export const signInWithFacebook = () => {
       const credential = FacebookAuthProvider.credentialFromError(error);
 
       // ...
+      errorAuth(error);
+    });
+};
+
+export const recoveryPassword = (email) => {
+  sendPasswordResetEmail(auth, email)
+    .then((user) => {
+      alert("Verifica tu correo electrónico para restablecer tu contraseña");
+    })
+    .catch((error) => {
       errorAuth(error);
     });
 };

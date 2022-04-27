@@ -20,6 +20,7 @@ import UserSettings from "./page/userSettings/UserSettings";
 import ErrorPage from "./page/error/Error";
 import CreatedProduct from "./page/createdProduct/CreatedProduct";
 import CreatedPets from "./page/createdPets/CreatedPets";
+import PasswordRecovery from "./page/passwordRecovery/PasswordRecovery";
 
 import AdminHome from "./admin/pages/adminHome/AdminHome";
 import UserList from "./admin/pages/userList/UserList";
@@ -125,6 +126,7 @@ function App() {
           <Route path="/ventas" element={<Pyments />} />
           <Route path="/publicPets" element={<PublicPets />} />
           <Route path="/newPublicPets" element={<NewPublicPets />} />
+          <Route path="/passwordRecovery" element={<PasswordRecovery />} />
         </Routes>
       </Router>
     </div>
