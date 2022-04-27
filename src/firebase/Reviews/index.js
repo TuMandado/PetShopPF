@@ -57,13 +57,13 @@ export async function getAllReviews() {
 
 export async function getReviewByUser(userUid){
     let allreviews = await getAllReviews();
-    let byUser = allreviews.filter(el => el.uid === userUid)
+    let byUser = allreviews.filter(el => el.data.userUid === userUid)
     return byUser
 }
 
 export async function getReviewByProduct(productUid){
     let allreviews = await getAllReviews();
-    let byProduct = allreviews.filter(el => el.uid === productUid)
+    let byProduct = allreviews.filter(el => el.data.productUid === productUid)
     return byProduct
 }
 

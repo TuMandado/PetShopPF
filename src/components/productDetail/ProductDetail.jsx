@@ -174,6 +174,16 @@ const ProductDetail = () => {
     },
   };
 
+  let newReview = {
+    userUid: user.uid,
+    productUid: uid.id ,
+    score: 1,
+    review: "",
+    createdAt: Date(),
+    delete:false,
+    userDelete:false,
+  }
+
   const handleAddCart = (e) => {
     e.preventDefault();
     dispatch(addItemCartFront(item));
