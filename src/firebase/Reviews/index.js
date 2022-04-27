@@ -25,7 +25,7 @@ const checkIfExists = async (id) => {
 }
 
 export async function uploadReview(data) {
-    let uid = createId();
+    let uid = await createId();
     await setDoc(doc(db, collectionRef, uid), data);
   }
 

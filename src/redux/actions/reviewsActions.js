@@ -1,4 +1,4 @@
-import { getAllReviews, getReviewByProduct, getReviewByUser } from "../../firebase/Reviews";
+import { getAllReviews, getReviewByProduct, getReviewByUser, uploadReview } from "../../firebase/Reviews";
 
 export const GET_ALL_REVIEWS = 'GET_ALL_REVIEWS';
 export const GET_PRODUCT_REVIEWS = 'GET_PRODUCT_REVIEWS';
@@ -49,5 +49,13 @@ export function getReviewsByUserFront(payload) {
         } catch (error) {
             console.log(error);
         }
+    };
+}
+
+export function postReview(payload) {
+    return async function (dispatch) {
+        const jsonReviewPost = await uploadReview(payload);
+        console.log("jsonReviewPost", jsonReviewPost);
+        return jsonReviewPost;
     };
 }

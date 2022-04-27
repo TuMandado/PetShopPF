@@ -8,6 +8,7 @@ import Footer from "../../components/footer/Footer";
 import { getDetailProducts, detailVacio } from "../../redux/actions";
 import { addItemCartFront } from "../../redux/actions/cartActions";
 import styled from "styled-components";
+import FormReview from "../formReview/FormReview";
 
 const DetailContainer = styled.div`
   position: relative;
@@ -174,16 +175,6 @@ const ProductDetail = () => {
     },
   };
 
-  let newReview = {
-    userUid: user.uid,
-    productUid: uid.id ,
-    score: 1,
-    review: "",
-    createdAt: Date(),
-    delete:false,
-    userDelete:false,
-  }
-
   const handleAddCart = (e) => {
     e.preventDefault();
     dispatch(addItemCartFront(item));
@@ -242,6 +233,9 @@ const ProductDetail = () => {
           </Link>
         </div>
       </DetailContainer>
+      {console.log("queesuser", user)}
+      {user ? (<FormReview user={user} id={uid.id} />): (<p>Regístrate para dejar tu comentario</p>)}
+      
 
       {/* <Footer /> */}
     </div>
