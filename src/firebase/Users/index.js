@@ -1,6 +1,5 @@
 import { db} from '../credenciales'
 import { doc, setDoc, deleteDoc, getDoc,updateDoc, getDocs, collection } from "firebase/firestore";
-import auth from '../auth';
 
 var collectionRef = "Users";
 
@@ -9,11 +8,6 @@ export async function uploadUser(uid, data) {
   }
 
 export async function editUser(uid, data) {
-  try {
-    await auth.updateUser(uid, data);
-  } catch (error) {
-    console.log("auth modification error :", error);
-  }
     await updateDoc(doc(db, collectionRef, uid), {...data, delete:false});
 }
 
