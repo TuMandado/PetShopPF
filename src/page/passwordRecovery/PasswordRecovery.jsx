@@ -8,6 +8,7 @@ import imgBackground from "../../assets/patrones_pet.png";
 import GoogleSignIn from "../../components/authButton/googleSignIn";
 import FacebookSignIn from "../../components/authButton/facebookSignIn";
 import auth from "../../firebase/auth";
+import { recoveryPassword } from "../../firebase/auth";
 
 const BodyLogin = styled.div`
   height: 90%;
@@ -200,10 +201,7 @@ const PasswordRecovery = () => {
   const [showPassword, setShowPasword] = useState(true);
   const [errors, setErrors] = useState({});
   const [input, setInput] = useState({
-    nickname: "",
     email: "",
-    password: "",
-    role: "Cliente",
   });
 
   const handleInputChange = (e) => {
@@ -220,9 +218,10 @@ const PasswordRecovery = () => {
     setErrors(objErrors);
   };
 
-  const handleSubmit = (e) => { 
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("recuperarPassword");
+    recoveryPassword(input.email);
+    window.location.href = "/";
   };
 
   return (
