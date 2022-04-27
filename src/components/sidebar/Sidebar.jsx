@@ -41,6 +41,18 @@ const Sidebar = ({ changeCurrentPage }) => {
         }
     }, [])
 
+    useEffect(() => {
+        return () => {
+            setCheckCategory({})
+            setMinPrice(1)
+            setMaxPrice(99999)
+            setChecksAnimal({})
+            changeCurrentPage(1)
+            fromHomeAnimal = "";
+        }
+    }, [])
+
+
     const handleChecks = (e) => {
         if (e.target.name === 'Animals' && !checksAnimal[e.target.value]) setChecksAnimal({ ...checksAnimal, [e.target.value]: true })
         if (e.target.name === 'Animals' && checksAnimal[e.target.value]) {
