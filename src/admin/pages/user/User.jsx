@@ -41,6 +41,7 @@ export default function User() {
             shippingAddress: userDetail.shippingAddress ? userDetail.shippingAddress : '',
             phoneNumber: userDetail.phoneNumber ? userDetail.phoneNumber : '',
             photoUrl: userDetail.photoUrl ? userDetail.photoUrl : '',
+            role: userDetail.role ? userDetail.role : 'Cliente',
             disabled: userDetail.disabled ? userDetail.disabled : false
         })
   }, [userDetail])
@@ -197,6 +198,13 @@ export default function User() {
                       multiple={false}
                       onDone={getBaseFile}
                   />
+                </div>
+                <div className="userUpdateItem">
+                  <label>Rol</label>
+                    <select name='role' id='active' onChange={handleChange}>
+                        <option value= "Cliente"  > Cliente </option>
+                        <option value="admin"  > Admin </option>
+                    </select>
                 </div>
                 <div className="userUpdateItem">
                   <label>Activo</label>
