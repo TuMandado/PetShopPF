@@ -5,25 +5,31 @@ import icoMarket from "../../../assets/market.png";
 import IcoProducts from "../../../assets/tienda_menu.png";
 import IcoPets from "../../../assets/patita_menu.png";
 import icoLogOut from "../../../assets/cerrar.png";
-import icoUser from "../../../assets/user.png";
 import { SupervisorAccountRounded } from "@material-ui/icons";
 import { signOutUsuario } from "../../../firebase/auth";
 import { useSelector } from "react-redux";
-
 
 export const LoginLogout = () => {
   var user = useSelector((state) => state.clientReducer.user);
   return (
     <ModalLogin>
       <Option>
-      {user && user.role.toLowerCase() === "admin" && (
+        {user && user.role.toLowerCase() === "admin" && (
           <Link to={"/admin"}>
             <BtnOption>
               <SupervisorAccountRounded className="sidebarIcon" />
-              <Text>Opciones de administrador</Text>
+              <Text>Administrador</Text>
             </BtnOption>
           </Link>
-      )}
+        )}
+        {user && user.role.toLowerCase() === "cliente" && (
+          <Link to={"/usersettings"}>
+            <BtnOption>
+              <SupervisorAccountRounded className="sidebarIcon" />
+              <Text>Mi cuenta</Text>
+            </BtnOption>
+          </Link>
+        )}
       </Option>
       <Option>
         <Link to={"/products"}>
@@ -50,19 +56,18 @@ export const LoginLogout = () => {
         </Link>
       </Option>
       <Option>
-        {user &&
+        {user && (
           <BtnOption onClick={() => signOutUsuario()}>
             <Link to={"/"}>
               <BtnIcon src={icoLogOut} alt="logout" />{" "}
               <Text>Cerrar Sesión</Text>
             </Link>
           </BtnOption>
-         }
+        )}
       </Option>
     </ModalLogin>
   );
 };
-
 
 const Text = styled.p`
   font-size: 14px;
@@ -120,5 +125,4 @@ const Option = styled.li`
   text-decoration: none;
   list-style: none;
   margin-left: 1em;
-
 `;
