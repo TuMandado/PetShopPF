@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-// import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { getProductName } from "../../redux/actions/index";
@@ -10,219 +9,244 @@ import IcoProducts from "../../assets/tienda_menu.png";
 import IcoPets from "../../assets/patita_menu.png";
 import logoTemp from "../../assets/logo_temporal.ico";
 
-
-import { Badge } from '@material-ui/core'
-import { ShoppingCartOutlined, ExpandMoreRounded } from "@material-ui/icons"
+import { Badge } from "@material-ui/core";
+import { ShoppingCartOutlined, ExpandMoreRounded } from "@material-ui/icons";
 
 import { LoginLogout } from "../login/logout/LoginAndLogout";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { cartLoginFront } from "../../redux/actions/cartActions";
 import { signOutUsuario } from "../../firebase/auth";
-import { Link } from 'react-router-dom';
-
-
-
-
-
+import { Link } from "react-router-dom";
 
 export const Navbar = () => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const [name, setName] = useState("");
-    const actualUrl = window.location.pathname;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const actualUrl = window.location.pathname;
 
-    let user = useSelector((state) => state.clientReducer.user);
-    const cartProducts = useSelector(state => state.cartReducer.openCart);
-    const quantity = useSelector(state => state.cartReducer.quantity);
-    const AllProducts = useSelector((state) => state.clientReducer.backup);
-    const [searchedProducts, setSearchedProducts] = useState(AllProducts)
-    const [panel, setPanel] = useState(false);
-    const loginContainer = useRef(null);
-    const userButton = useRef(null);
-    const popUpContainer = useRef(null);
-    const inputContainer = useRef(null);
+  let user = useSelector((state) => state.clientReducer.user);
+  const cartProducts = useSelector((state) => state.cartReducer.openCart);
+  const quantity = useSelector((state) => state.cartReducer.quantity);
+  const AllProducts = useSelector((state) => state.clientReducer.backup);
+  const [searchedProducts, setSearchedProducts] = useState(AllProducts);
+  const [panel, setPanel] = useState(false);
+  const loginContainer = useRef(null);
+  const userButton = useRef(null);
+  const popUpContainer = useRef(null);
+  const inputContainer = useRef(null);
 
+  useEffect(() => {
+    dispatch(cartLoginFront(user));
+  }, []);
 
-    useEffect(() => {
-        dispatch(cartLoginFront(user));
-    }, []);
+  //Handle del Input y Search
+  function handleInputChange(e) {
+    e.preventDefault();
+    setName(e.target.value);
 
-
-    //Handle del Input y Search
-    function handleInputChange(e) {
-        e.preventDefault();
-        setName(e.target.value);
-
-        if (name.length > e.target.value.length) setSearchedProducts(AllProducts.filter(el => el.data.name.toLowerCase().includes(e.target.value.toLowerCase())))
-        else if (!name.length) setSearchedProducts(AllProducts.filter(el => el.data.name.toLowerCase().includes(e.target.value.toLowerCase())))       
-        else setSearchedProducts(searchedProducts.filter(el => el.data.name.toLowerCase().includes(e.target.value.toLowerCase())))
-        if (name.length > 2 && searchedProducts.length >= 1) {
-            document.addEventListener('click', (e) => {
-                if (inputContainer.current && !inputContainer.current.contains(e.target) && !popUpContainer.current.contains(e.target)) {
-                    setName("")
-                }
-            })
+    if (name.length > e.target.value.length)
+      setSearchedProducts(
+        AllProducts.filter((el) =>
+          el.data.name.toLowerCase().includes(e.target.value.toLowerCase())
+        )
+      );
+    else if (!name.length)
+      setSearchedProducts(
+        AllProducts.filter((el) =>
+          el.data.name.toLowerCase().includes(e.target.value.toLowerCase())
+        )
+      );
+    else
+      setSearchedProducts(
+        searchedProducts.filter((el) =>
+          el.data.name.toLowerCase().includes(e.target.value.toLowerCase())
+        )
+      );
+    if (name.length > 2 && searchedProducts.length >= 1) {
+      document.addEventListener("click", (e) => {
+        if (
+          inputContainer.current &&
+          !inputContainer.current.contains(e.target) &&
+          !popUpContainer.current.contains(e.target)
+        ) {
+          setName("");
         }
+      });
     }
+  }
 
-    function handleSubmit(e) {
-        e.preventDefault();
-        navigate(`/products`);
-        dispatch(getProductName(name));
-        setName("");
+  function handleSubmit(e) {
+    e.preventDefault();
+    navigate(`/products`);
+    dispatch(getProductName(name));
+    setName("");
+  }
+
+  function handleEnterKeyPress(e) {
+    if (e.key === "Enter") {
+      navigate(`/products`);
+      dispatch(getProductName(name));
+      setName("");
     }
+  }
 
-    function handleEnterKeyPress(e) {
-        if (e.key === 'Enter') {
-            navigate(`/products`)
-            dispatch(getProductName(name));
-            setName("");
+  const handlePanel = () => {
+    if (!panel)
+      document.addEventListener("click", (e) => {
+        if (
+          loginContainer.current &&
+          !loginContainer.current.contains(e.target) &&
+          !userButton.current.contains(e.target)
+        ) {
+          setPanel(false);
         }
-    }
+      });
+    setPanel(!panel);
+  };
 
-    const handlePanel = () => {
-        if (!panel) document.addEventListener('click', (e) => {
-            if (loginContainer.current && !loginContainer.current.contains(e.target) && !userButton.current.contains(e.target)) {
-                setPanel(false)
-            }
-        })
-        setPanel(!panel)
-    };
+  const goToProductDetail = (e) => {
+    navigate(`/product/${e.currentTarget.id}`);
+  };
 
+  const goHome = (e) => {
+    navigate("/");
+  };
+  const goLogin = (e) => {
+    navigate("/login");
+  };
 
+  return (
+    <div>
+      <NavContainer>
+        {/* <Wrapper> */}
+        <style>#component-loginlogout( display: none; )</style>
+        <BrandNav onClick={(e) => goHome(e)}>
+          <Logo src={logoTemp} alt="logo-petshop" />
+          <TextPetshop>PetShop</TextPetshop>
+        </BrandNav>
+        <Center>
+          <div>
+            <InputSearch
+              value={name}
+              onChange={(e) => handleInputChange(e)}
+              type="text"
+              placeholder={
+                actualUrl === "/cart"
+                  ? "Buscar entre los productos..."
+                  : actualUrl === "/pets"
+                  ? "¿A quien estas buscando?"
+                  : "¿Que vas a llevar hoy?"
+              }
+              onKeyPress={(e) => handleEnterKeyPress(e)}
+              ref={inputContainer}
+            />
+            <BtnSearch onClick={(e) => handleSubmit(e)} type="submit">
+              <BtnIconLupa src={icoLupa} alt="search" />
+            </BtnSearch>
+          </div>
+          <PopUpSearchProduct
+            ref={popUpContainer}
+            name={name}
+            products={searchedProducts}
+          >
+            {name.length > 2 &&
+              searchedProducts.length >= 1 &&
+              searchedProducts.map((el) => (
+                <PopUpProductDiv
+                  key={el.uid}
+                  id={el.uid}
+                  onClick={(e) => goToProductDetail(e)}
+                >
+                  <PopUpSpan> {el.data.name} </PopUpSpan>
+                  <PopUpImage src={el.data.image} alt="Not Found" />
+                </PopUpProductDiv>
+              ))}
+          </PopUpSearchProduct>
+        </Center>
+        <Right>
+          <MenuItem>
+            <Link to={"/products"} style={linkStyle}>
+              <Img
+                height="30px"
+                border="8px"
+                src={IcoProducts}
+                alt="productos"
+              />
+            </Link>
+          </MenuItem>
+          <MenuItem>
+            <Link to={"/pets"} style={linkStyle}>
+              <Img height="30px" margin="50px" src={IcoPets} alt="Mascotas" />
+            </Link>
+          </MenuItem>
+        </Right>
+        {user ? (
+          <Right>
+            <MenuItem1>
+              {user.image ? (
+                <img src={user.image && user.image} style={profilePic} alt="" />
+              ) : (
+                <img src={icoUser} style={profilePic} alt="" />
+              )}
+              <span>{user.name ? user.name : user.email}</span>
 
-    const goToProductDetail = (e) => {
-        navigate(`/product/${e.currentTarget.id}`)
-    }
-
-    const goHome = (e) => {
-        navigate('/')
-    }
-    const goLogin = (e) => {
-        navigate('/login')
-    }
-
-    return (
-        <div>
-            <NavContainer>
-                {/* <Wrapper> */}
-                <style>#component-loginlogout( display: none; )</style>
-                <BrandNav onClick={e => goHome(e)}>
-                    <Logo src={logoTemp} alt="logo-petshop" />
-                    <TextPetshop>PetShop</TextPetshop>
-                </BrandNav>
-                <Center>
-                    <div>
-                        <InputSearch
-                            value={name}
-                            onChange={(e) => handleInputChange(e)}
-                            type="text"
-                            placeholder={
-                                actualUrl === '/cart'
-                                    ? "Buscar entre los productos..."
-                                    : actualUrl === '/pets'
-                                        ? "¿A quien estas buscando?"
-                                        : "¿Que vas a llevar hoy?"
-                            }
-                            onKeyPress={e => handleEnterKeyPress(e)}
-                            ref={inputContainer}
-                        />
-                        <BtnSearch onClick={(e) => handleSubmit(e)} type="submit">
-                            <BtnIconLupa src={icoLupa} alt="search" />
-                        </BtnSearch>
-                    </div>
-                    <PopUpSearchProduct ref={popUpContainer} name={name} products={searchedProducts}>
-                        {
-                            name.length > 2 && searchedProducts.length >= 1 && searchedProducts.map(el => (
-                                <PopUpProductDiv key={el.uid} id={el.uid} onClick={e => goToProductDetail(e)}>
-                                    <PopUpSpan>  {el.data.name} </PopUpSpan>
-                                    <PopUpImage src={el.data.image} alt='Not Found' />
-                                </PopUpProductDiv>
-                            ))
-                        }
-                    </PopUpSearchProduct>
-                </Center>
-                <Right>
-                    <MenuItem>
-                        <Link to={"/products"} style={linkStyle}>
-                            <Img height='30px' border="8px" src={IcoProducts} alt="productos" />
-                        </Link>
-                    </MenuItem>
-                    <MenuItem>
-                        <Link to={"/pets"} style={linkStyle}>
-                            <Img height='30px' margin='50px' src={IcoPets} alt="Mascotas" />
-                        </Link>
-                    </MenuItem>
-                </Right>
-                {user ? (
-                    <Right>
-                        <MenuItem1 >
-                            {user.image ?
-                                <img src={user.image && user.image} style={profilePic} alt="" />
-                                :
-                                <img src={icoUser} style={profilePic} alt="" />
-                            }
-                            <span>{user.name ? user.name : user.email}</span>
-
-                            {/* <Link to='/cart' style={linkStyle}>
+              {/* <Link to='/cart' style={linkStyle}>
                        <Badge badgeContent={5} color='primary'>
                          <ShoppingCartOutlined />
                        </Badge>
                       </Link> */}
-                        </MenuItem1>
-                    </Right>
-                ) : (
-                    <Right>
-                        <MenuItem onClick={goLogin}>
-                            Iniciar Sesion / Registrarse
-                        </MenuItem>
-                        {/* <MenuItem>
+            </MenuItem1>
+          </Right>
+        ) : (
+          <Right>
+            <MenuItem onClick={goLogin}>Iniciar Sesion / Registrarse</MenuItem>
+            {/* <MenuItem>
                      <Link to='/cart' style={linkStyle}>
                        <Badge badgeContent={1} color='primary'>
                          <ShoppingCartOutlined />
                        </Badge>
                      </Link>
                    </MenuItem> */}
-                    </Right>
-                )}
-                <IconsNav>
-                    <BtnUser ref={userButton} onClick={() => handlePanel()}>
-                        <ExpandMoreRounded />
-                    </BtnUser>
-                </IconsNav>
-                <MenuItem>
-                    <Link to='/cart' style={linkStyle}>
-                        <Badge badgeContent={quantity} color='primary'>
-                            <ShoppingCartOutlined />
-                        </Badge>
-                    </Link>
-                </MenuItem>
-                {
-                    panel
-                    &&
-                    <ContainerLoginOption ref={loginContainer}>
-                        <LoginLogout />
-                    </ContainerLoginOption>
-                }
-            </NavContainer>
-        </div>
-    );
+          </Right>
+        )}
+        <IconsNav>
+          <BtnUser ref={userButton} onClick={() => handlePanel()}>
+            <ExpandMoreRounded />
+          </BtnUser>
+        </IconsNav>
+        <MenuItem>
+          <Link to="/cart" style={linkStyle}>
+            <Badge badgeContent={quantity} color="primary">
+              <ShoppingCartOutlined />
+            </Badge>
+          </Link>
+        </MenuItem>
+        {panel && (
+          <ContainerLoginOption ref={loginContainer}>
+            <LoginLogout />
+          </ContainerLoginOption>
+        )}
+      </NavContainer>
+    </div>
+  );
 };
 
 export default Navbar;
 
 const NavContainer = styled.div`
-background: rgba(41, 217, 194, 0.2);
-font-family: "Poppins";
+  background: #ffff;
+  -webkit-box-shadow: 0px 4px 1px 1px rgba(0, 0, 0, 0.1); // rbg = "border shadow color!"
+  box-shadow: 0px 4px 1px 1px rgba(0, 0, 0, 0.1); // rbg = "border shadow color!"
+  font-family: "Poppins";
   font-style: normal;
-padding: 3px 10px;
-display: flex;
-align-items: center;
-justify-content: space-around;
-border-bottom-left-radius: 8px;
-border-bottom-right-radius: 16px;
-`
+  padding: 3px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 16px;
+`;
 
 const ContainerLoginOption = styled.div`
   background: #fff;
@@ -233,7 +257,7 @@ const ContainerLoginOption = styled.div`
   border-radius: 12px;
   margin-top: 268px;
   margin-right: 70px;
-`
+`;
 
 const TextPetshop = styled.h1`
   font-size: 30px;
@@ -242,12 +266,12 @@ const TextPetshop = styled.h1`
   font-weight: 600;
   background: none;
   margin-right: 15px;
-`
+`;
 
 const BrandNav = styled.div`
   // width: 120px;
   // height: 42px;
-  display:flex;
+  display: flex;
   justify-content: space-between;
   align-items: center;
   float: left;
@@ -257,17 +281,16 @@ const BrandNav = styled.div`
     cursor: pointer;
   }
   &:hover ${TextPetshop} {
-      transition: 0.25s ease;
+    transition: 0.25s ease;
     font-weight: 700;
     color: #0acf83;
   }
-`
+`;
 
 const Logo = styled.img`
   height: 40px;
   margin-right: 10px;
-`
-
+`;
 
 const InputSearch = styled.input`
   width: 320px;
@@ -288,7 +311,7 @@ const InputSearch = styled.input`
   &::-webkit-input-placeholder {
     color: #919191;
   }
-`
+`;
 
 const BtnIconLupa = styled.img`
   width: 20px;
@@ -296,7 +319,7 @@ const BtnIconLupa = styled.img`
   position: absolute;
   left: 28%;
   top: 25.12%;
-`
+`;
 
 const BtnSearch = styled.button`
   position: absolute;
@@ -321,13 +344,13 @@ const BtnSearch = styled.button`
     left: 26%;
     top: 21.12%;
   }
-`
+`;
 
 const IconsNav = styled.div`
   width: auto;
   height: 42px;
   float: right;
-`
+`;
 
 const BtnUser = styled.button`
   padding: 7px 4px;
@@ -341,40 +364,39 @@ const BtnUser = styled.button`
   &:hover {
     cursor: pointer;
     border-radius: 8px;
-    border: 1px solid #0ACF83;
+    border: 1px solid #0acf83;
     transition: 0.3s ease;
   }
-`
+`;
 
 const PopUpSearchProduct = styled.div`
-    content: "";
-    width: 320px;
-    ${props => props.name.length > 2 && props.products.length >= 1
-        ? ` border: 1px solid black;
+  content: "";
+  width: 320px;
+  ${(props) =>
+    props.name.length > 2 && props.products.length >= 1
+      ? ` border: 1px solid black;
             border-radius: 8px;
             border-top-right-radius: 0;`
-        : ``
-    }
-    z-index: 4; 
-    background: white;
-    position: absolute;
-    top: 100%;
-`
+      : ``}
+  z-index: 4;
+  background: white;
+  position: absolute;
+  top: 100%;
+`;
 
 const PopUpProductDiv = styled.div`
-    display: flex;
-    align-items: center;
-    position: relative;
-    padding: 0.6em;
-    border-radius: 8px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 0.6em;
+  border-radius: 8px;
+  transition: background-color 0.25s ease;
+  &:hover {
     transition: background-color 0.25s ease;
-    &:hover {
-        transition: background-color 0.25s ease;
-        cursor: pointer;
-        background-color:  rgba(41, 217, 194, 1);
-    }
-    
-`
+    cursor: pointer;
+    background-color: rgba(41, 217, 194, 1);
+  }
+`;
 
 const PopUpSpan = styled.span`
   font-size: 12px;
@@ -387,10 +409,10 @@ const PopUpSpan = styled.span`
 `;
 
 const PopUpImage = styled.img`
-    height: 35px;
-    width: 35px;
-    margin-left: auto;
-    margin-right: 1em;
+  height: 35px;
+  width: 35px;
+  margin-left: auto;
+  margin-right: 1em;
 `;
 
 const Center = styled.div`
@@ -407,27 +429,27 @@ const Right = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-`
+`;
 
 const MenuItem1 = styled.div`
-  display:flex;
+  display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 16px;
   text-decoration: none;
   margin: 2px;
   padding: 4px;
-`
+`;
 
 const Img = styled.img`
-height: 30px;
-padding: 4px;
-margin: 8px;
-border-radius: 8px;
-`
+  height: 30px;
+  padding: 4px;
+  margin: 8px;
+  border-radius: 8px;
+`;
 
 const MenuItem = styled.div`
-  display:flex;
+  display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 16px;
@@ -438,30 +460,30 @@ const MenuItem = styled.div`
   transition: 0.25s ease;
   &:hover ${Img} {
     transition: 0.25s ease;
-    filter: brightness(0) saturate(100%) invert(54%) sepia(63%) saturate(605%) hue-rotate(106deg) brightness(104%) contrast(92%);
+    filter: brightness(0) saturate(100%) invert(54%) sepia(63%) saturate(605%)
+      hue-rotate(106deg) brightness(104%) contrast(92%);
     height: 34px;
     margin: 4px;
     margin-right: 6px;
     margin-left: 6px;
   }
-`
-
+`;
 
 const linkStyle = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '3px 10px',
-    alignItems: 'center',
-    textDecoration: 'none',
-    color: 'inherit',
-    fontSize: '20px',
-}
+  display: "flex",
+  justifyContent: "space-between",
+  padding: "3px 10px",
+  alignItems: "center",
+  textDecoration: "none",
+  color: "inherit",
+  fontSize: "20px",
+};
 
 const profilePic = {
-    width: 'auto',
-    height: '30px',
-    padding: '4px',
-    margin: '8px',
-    borderRadius: '2rem',
-    border: '1px solid black'
-}
+  width: "auto",
+  height: "30px",
+  padding: "4px",
+  margin: "8px",
+  borderRadius: "2rem",
+  border: "1px solid black",
+};
