@@ -31,6 +31,7 @@ const TuCarritoText = styled.h1`
   font-weight: 600;
   font-size: 30px;
   color: #151515;
+  padding-top: 24px;
   margin: 2px;
   :hover {
     color: #0acf83;
@@ -67,13 +68,18 @@ const ImageBackground = styled.div`
 `;
 
 const ImageProduct = styled.img`
+  display: flex;
+  justify-content: center;
+  // text-align: center;
   max-width: 268px;
-  max-height: 280px;
-  left: 5%;
-  top: 20%;
+  max-height: 280px
+  margin-left: 16px;
+  top: 8%;
+  letf:5%;
   position: absolute;
-  align-self: flex-start;
+  // align-self: flex-start;
   border-radius: 12px;
+  
 `;
 
 const TitleCartProduct = styled.h3`
@@ -131,10 +137,10 @@ const ButtonDelete = styled.button`
 const CantidadContainer = styled.div`
   display: flex;
   position: absolute;
-  height: 40px;
-  width: 172px;
+  height: 35px;
+  width: 160px;
   bottom: 30%;
-  right: 4%;
+  right: 8%;
   padding: 10px;
   justify-content: center;
   align-items: center;
@@ -281,6 +287,18 @@ const ImageError = styled.img`
   width: 310px;
   height: 310px;
 `;
+
+const OrderContainer = styled.div`
+  text-align: center;
+  margin: auto;
+`;
+
+const AllCartContainer = styled.div`
+  display: flex;
+  text-align: center;
+  margin: auto;
+`;
+
 const MercadoPagoConfiguration = async (carrito, id_order) => {
   await mercadopago.configure({
     access_token: REACT_APP_ACCESS_TOKEN,
@@ -392,6 +410,7 @@ export function Cart() {
     };
     // console.log("-Item-Delete-Flag", itemDelete);
     dispatch(deleteItemsCartFront(itemDelete));
+    return alert("Producto borrado con éxito. ¡Continua comprando!");
   };
 
   //Recibe un objeto con las propiedades{user,item,number},
@@ -429,9 +448,9 @@ export function Cart() {
   };
 
   return (
-    <div>
+    <AllCartContainer>
       {items && items.length ? (
-        <div>
+        <OrderContainer>
           <TitleContainer>
             <TuCarritoText>Tus productos:</TuCarritoText>
           </TitleContainer>
@@ -472,7 +491,7 @@ export function Cart() {
           })}
           <BtnMercadoPago onClick={handleSubmit}>Pagar</BtnMercadoPago>
           <p>Precio Total: $ {total}</p>
-        </div>
+        </OrderContainer>
       ) : (
         <EmpyContainer>
           <ImageError src={CartEmpy} alt="carrito vacio" />
@@ -486,6 +505,6 @@ export function Cart() {
           </Link>
         </EmpyContainer>
       )}
-    </div>
+    </AllCartContainer>
   );
 }
