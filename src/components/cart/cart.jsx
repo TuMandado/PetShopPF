@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import axios from 'axios'
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,15 +10,18 @@ import {
 } from "../../redux/actions/cartActions";
 import CartEmpy from "../../assets/carrito_vacio.gif";
 import styled from "styled-components";
-import mercadopago from 'mercadopago'
+import mercadopago from "mercadopago";
 
-const REACT_APP_ACCESS_TOKEN = 'TEST-5909391637745101-041518-e07a43a5f92224ee501bc4d9feca4624-191706246'
-const url = window.location.href.split("//")[1].split("/")[0].replace (/^/,'https://');
+const REACT_APP_ACCESS_TOKEN =
+  "TEST-5909391637745101-041518-e07a43a5f92224ee501bc4d9feca4624-191706246";
+const url = window.location.href
+  .split("//")[1]
+  .split("/")[0]
+  .replace(/^/, "https://");
 
 const TitleContainer = styled.div`
   height: 80px;
 `;
-
 
 const TuCarritoText = styled.h1`
   height: 100px;
@@ -128,23 +131,23 @@ const ButtonDelete = styled.button`
 const CantidadContainer = styled.div`
   display: flex;
   position: absolute;
-  height: 38px;
-  width: 165px;
+  height: 40px;
+  width: 172px;
   bottom: 30%;
-  right: 6%;
-  padding: 12px;
+  right: 4%;
+  padding: 10px;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
   border-radius: 12px;
   font-family: "Poppins";
   font-style: normal;
-  font-weight: 700;
+  font-weight: 500;
   font-size: 15px;
   line-height: 22px;
   background: #edeeee;
   border: 1px solid #edeeee;
-  color: #ffffff;
+  color: #151515;
 `;
 
 const SumDelContainer = styled.div`
@@ -161,6 +164,9 @@ const BtnSum = styled.button`
   &:hover {
     color: #0acf83;
   }
+  &:active {
+    color: #067a4d;
+  }
 `;
 const BtnSup = styled.button`
   font-family: "Poppins";
@@ -169,6 +175,9 @@ const BtnSup = styled.button`
   border: none;
   &:hover {
     color: #e6704b;
+  }
+  &:active {
+    color: #067a4d;
   }
 `;
 
@@ -241,6 +250,29 @@ const BtnVolver = styled.button`
   }
 `;
 
+const BtnMercadoPago = styled.button`
+  width: 125px;
+  height: 47px;
+  position: relative;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  color: #ffff;
+  padding: 10px 10px;
+  background: #0acf83;
+  border: 2px solid #067a4d;
+  box-sizing: border-box;
+  border-radius: 8px;
+  left: 157px;
+  top: 2px;
+  :hover {
+    color: #0acf83;
+    background: #ffff;
+    border: 2px solid #067a4d;
+  }
+`;
+
 const ImageError = styled.img`
   display: relative;
   justify-content: center;
@@ -250,66 +282,66 @@ const ImageError = styled.img`
   height: 310px;
 `;
 const MercadoPagoConfiguration = async (carrito, id_order) => {
-      await mercadopago.configure({
-          access_token: REACT_APP_ACCESS_TOKEN
-      })
-      console.log(carrito, id_order)
-      // const id_orden=1
-      // const carrito =[
-      //     { title: 'prod1', quantity:2, price:10.5},
-      //     { title: 'prod2', quantity:5, price:10.5},
-      //     { title: 'prod3', quantity:3, price:10.5},
-      // ]
-      const items = carrito.map(i=>{ // mapeo elementos del carrito
-        let price= i.price.slice(1)
-        let price1= price.split('.')
-        let price2=price1.join('')
-        let pricefinally=price2.split(',')
+  await mercadopago.configure({
+    access_token: REACT_APP_ACCESS_TOKEN,
+  });
+  console.log(carrito, id_order);
+  // const id_orden=1
+  // const carrito =[
+  //     { title: 'prod1', quantity:2, price:10.5},
+  //     { title: 'prod2', quantity:5, price:10.5},
+  //     { title: 'prod3', quantity:3, price:10.5},
+  // ]
+  const items = carrito.map((i) => {
+    // mapeo elementos del carrito
+    let price = i.price.slice(1);
+    let price1 = price.split(".");
+    let price2 = price1.join("");
+    let pricefinally = price2.split(",");
 
-         console.log('price',pricefinally)
-          return {
-              title: i.title,
-              unit_price:Number(pricefinally[0]),
-              quantity: i.quantity
-          }
-      })
-      console.log('item',items,'id_order',id_order[0].uid)
-      let preference ={
-          items:items, // item para vender
-          external_reference:  `${id_order[0].uid}`,// id orden compra
-          parament_methods:{  // metodos de pago
-              excludeds_payment_types:[ // excluimos el pago por cajero automatico
-                  {
-                      id:'atm'
-                  }
-              ],
-              installments:3, // cant maxima de cuotas
-          },
-          back_Urls: {
-                      success:'http://localhost:3000/StateMercadoPago',
-                      failure:'http://localhost:3000/StateMercadoPago',
-                      pending:'http://localhost:3000/StateMercadoPago',
-          },
-      }
-  
+    console.log("price", pricefinally);
+    return {
+      title: i.title,
+      unit_price: Number(pricefinally[0]),
+      quantity: i.quantity,
+    };
+  });
+  console.log("item", items, "id_order", id_order[0].uid);
+  let preference = {
+    items: items, // item para vender
+    external_reference: `${id_order[0].uid}`, // id orden compra
+    parament_methods: {
+      // metodos de pago
+      excludeds_payment_types: [
+        // excluimos el pago por cajero automatico
+        {
+          id: "atm",
+        },
+      ],
+      installments: 3, // cant maxima de cuotas
+    },
+    back_Urls: {
+      success: "http://localhost:3000/StateMercadoPago",
+      failure: "http://localhost:3000/StateMercadoPago",
+      pending: "http://localhost:3000/StateMercadoPago",
+    },
+  };
 
-      axios({ /// anterior
-          method: 'POST',
-          url: 'https://api.mercadopago.com/checkout/preferences',
-          data: preference,
-          headers: {
-              'cache-control': 'no-cache',
-              'content-type': 'application/json',
-              Authorization: `Bearer ${REACT_APP_ACCESS_TOKEN}`,
-          },
-      })
-      .then((response) => {
-          console.log('esta es la respuesta de mp', response)
-          window.location.replace(response.data.sandbox_init_point)
-      })
-      
-
-  }
+  axios({
+    /// anterior
+    method: "POST",
+    url: "https://api.mercadopago.com/checkout/preferences",
+    data: preference,
+    headers: {
+      "cache-control": "no-cache",
+      "content-type": "application/json",
+      Authorization: `Bearer ${REACT_APP_ACCESS_TOKEN}`,
+    },
+  }).then((response) => {
+    console.log("esta es la respuesta de mp", response);
+    window.location.replace(response.data.sandbox_init_point);
+  });
+};
 
 export function Cart() {
   const user = useSelector((state) => state.clientReducer.user);
@@ -318,18 +350,15 @@ export function Cart() {
   useEffect(() => {
     dispatch(openCartFront(user));
   }, [dispatch, user]);
-      
-  
 
-    const handleSubmit = () => {
-        MercadoPagoConfiguration(items, openCart)
-    }
+  const handleSubmit = () => {
+    MercadoPagoConfiguration(items, openCart);
+  };
 
-    
   let items = [];
   let itemDelete = {};
   let itemQuantity = {};
-  let total = 0
+  let total = 0;
 
   if (openCart) {
     if (user && openCart[0]) {
@@ -339,17 +368,17 @@ export function Cart() {
     }
   }
 
-  if(items){
-    if(items.length){
-      items.map(el =>{
-        let delSim = el.price.slice(2)
-        let delDot = delSim.replace(".","")
-        let repCom = delDot.replace(",",".")
-        let price =Number(repCom)
-        let sum = price * el.quantity
-        total =  total + sum
-      })
-      dispatch(getQuantity(items))
+  if (items) {
+    if (items.length) {
+      items.map((el) => {
+        let delSim = el.price.slice(2);
+        let delDot = delSim.replace(".", "");
+        let repCom = delDot.replace(",", ".");
+        let price = Number(repCom);
+        let sum = price * el.quantity;
+        total = total + sum;
+      });
+      dispatch(getQuantity(items));
     }
   }
 
@@ -364,7 +393,6 @@ export function Cart() {
     // console.log("-Item-Delete-Flag", itemDelete);
     dispatch(deleteItemsCartFront(itemDelete));
   };
-
 
   //Recibe un objeto con las propiedades{user,item,number},
   //siendo number el numero final que queda en la base de datos
@@ -402,13 +430,11 @@ export function Cart() {
 
   return (
     <div>
-      {/* <TitleContainer>
-        <TuCarritoText>¡Llevá todo lo que necesites!</TuCarritoText>
-      </TitleContainer> */}
-      
-      {items && items.length ? 
-      (
+      {items && items.length ? (
         <div>
+          <TitleContainer>
+            <TuCarritoText>Tus productos:</TuCarritoText>
+          </TitleContainer>
           {items.map((el) => {
             return (
               <ContainerProduct key={el.id}>
@@ -419,9 +445,9 @@ export function Cart() {
                 <PrecioProd>{el.price} </PrecioProd>
                 <CantidadContainer>
                   <SumDelContainer>
-  
                     Cantidad:{" "}
                     <BtnSup
+                      disabled={el.quantity <= 1 ? true : false}
                       onClick={(e) => {
                         handleSupr(e, el.quantity, el.id);
                       }}
@@ -436,37 +462,30 @@ export function Cart() {
                     >
                       +
                     </BtnSum>
-  
                   </SumDelContainer>
                 </CantidadContainer>
                 <ButtonDelete onClick={(e) => handleDelete(e, el.id)}>
                   Eliminar
                 </ButtonDelete>
               </ContainerProduct>
-              
-              
-              );
-            }
-            
-            )}
-            <button onClick={handleSubmit}>MP</button>
-            <p>precio total: $ {total}</p>
+            );
+          })}
+          <BtnMercadoPago onClick={handleSubmit}>Pagar</BtnMercadoPago>
+          <p>Precio Total: $ {total}</p>
         </div>
-
       ) : (
         <EmpyContainer>
           <ImageError src={CartEmpy} alt="carrito vacio" />
           <Error>¡Tu carrito está vacío!</Error>
           <Description>
             ¿Aún no te has decidido?.¡No hay problema! <br /> Podés seguir
-            recorriendo la tienda sin apuros 
+            recorriendo la tienda sin apuros
           </Description>
           <Link to={"/products"}>
             <BtnVolver>Ir a la tienda</BtnVolver>
           </Link>
         </EmpyContainer>
       )}
-      
     </div>
-);
+  );
 }
