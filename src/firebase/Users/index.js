@@ -5,16 +5,13 @@ import auth from '../auth';
 var collectionRef = "Users";
 
 export async function uploadUser(uid, data) {
-    await setDoc(doc(db, collectionRef, uid), {...data, disabled:false});
+    data.disabled = data.disabled ?? false;
+    await setDoc(doc(db, collectionRef, uid), data);
   }
 
 export async function editUser(uid, data) {
-  try {
-    await auth.updateUser(uid, data);
-  } catch (error) {
-    console.log("auth modification error :", error);
-  }
-    await updateDoc(doc(db, collectionRef, uid), {...data, disabled:false});
+    data.disabled = data.disabled ?? false;
+    await updateDoc(doc(db, collectionRef, uid), data);
 }
 
 export async function deleteUser(uid) {
