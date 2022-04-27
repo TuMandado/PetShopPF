@@ -21,18 +21,9 @@ export default function User() {
   const dispatch = useDispatch();
   const uid = useParams().userId;
   const userDetail = useSelector((state) => state.adminReducer.user);
-  const [input, setInput] = useState({
-    // nickname: "",
-    // name: "",
-    // surname: "",
-    // email: "",
-    // phone: "",
-    // shippingAddress: "",
-    // image: "",
-    // delete: false
-  })
+  const [input, setInput] = useState({})
   const getBaseFile = files => {
-    setInput(prevInput => ({ ...prevInput, image: files.base64 }))  
+    setInput(prevInput => ({ ...prevInput, photoUrl: files.base64 }))  
 }
   useEffect(() => {
    if (!userDetail.length) {
@@ -43,14 +34,14 @@ export default function User() {
   useEffect(() => { 
     console.log("user 🍗:", userDetail); 
         setInput({
-            nickname: userDetail.nickname ? userDetail.nickname : '',
+            displayName: userDetail.displayName ? userDetail.displayName : '',
             name: userDetail.name ? userDetail.name : '',
             surname: userDetail.surname ? userDetail.surname : '',
             email: userDetail.email ? userDetail.email : '',
             shippingAddress: userDetail.shippingAddress ? userDetail.shippingAddress : '',
-            phone: userDetail.phone ? userDetail.phone : '',
-            image: userDetail.image ? userDetail.image : '',
-            delete: userDetail.delete ? userDetail.delete : false
+            phoneNumber: userDetail.phoneNumber ? userDetail.phoneNumber : '',
+            photoUrl: userDetail.photoUrl ? userDetail.photoUrl : '',
+            disabled: userDetail.disabled ? userDetail.disabled : false
         })
   }, [userDetail])
 
@@ -59,24 +50,23 @@ export default function User() {
     setInput({
       ...input,
       [e.target.name]: e.target.value,
-      delete: e.target.value== 1? true : false,
+      disabled: e.target.value== 1? true : false,
     })
-   
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(putUser(uid, input))
-    setInput({
-      nickname: "",
-      name: "",
-      surname: "",
-      email: "",
-      phone: "",
-      shippingAddress: "",
-      image: "",
-      delete: false
-    })
+    // setInput({
+    //   displayName: "",
+    //   name: "",
+    //   surname: "",
+    //   email: "",
+    //   phoneNumber: "",
+    //   shippingAddress: "",
+    //   photoUrl: "",
+    //   disabled: false
+    // })
     alert("Ha sido modificado con exito")
     navigate("/users")
   }
@@ -96,10 +86,10 @@ export default function User() {
         <div className="userContainer">
           <div className="userShow">
             <div className="userShowTop">
-              <img src={userDetail && userDetail.image} alt="" className="userShowImg" />
+              <img src={userDetail && userDetail.photoUrl} alt="" className="userShowImg" />
               <div className="userShowTopTitle">
                 <span className="userShowUserTitle">nombre de usuario</span>
-                <span className="userShowUsername">{userDetail.nickname? userDetail.nickname : userDetail.email}</span>
+                <span className="userShowUsername">{userDetail.displayName? userDetail.displayName : userDetail.email}</span>
               </div>
             </div>
             <div className="userShowBottom">
@@ -126,7 +116,7 @@ export default function User() {
               <span className="userShowTitle">Telefono</span>
               <div className="userShowInfo">
                 <PhoneAndroid className="userShowIcon" />
-                <span className="userShowInfoTitle">{userDetail && userDetail.phone}</span>
+                <span className="userShowInfoTitle">{userDetail && userDetail.phoneNumber}</span>
               </div>
               <span className="userShowTitle">Direccion</span>
               <div className="userShowInfo">
@@ -143,9 +133,9 @@ export default function User() {
                   <label>Nombre de Usuario</label>
                   <input
                     onChange={handleChange}
-                    name="nickname"
+                    name="displayName"
                     type="text"
-                    placeholder={userDetail.nickname ? userDetail.nickname : "nombre de usuario..." }
+                    placeholder={userDetail.displayName ? userDetail.displayName : "nombre de usuario..." }
                     className="userUpdateInput"
                   />
                 </div>
@@ -183,9 +173,9 @@ export default function User() {
                   <label>Telefono</label>
                   <input
                     onChange={handleChange}
-                    name="phone"
+                    name="phoneNumber"
                     type="text"
-                    placeholder={userDetail.phone? userDetail.phone : "telefono de contacto..." }
+                    placeholder={userDetail.phoneNumber? userDetail.phoneNumber : "telefono de contacto..." }
                     className="userUpdateInput"
                   />
                 </div>
@@ -210,7 +200,7 @@ export default function User() {
                 </div>
                 <div className="userUpdateItem">
                   <label>Activo</label>
-                    <select name='delete' id='active' onChange={handleChange}>
+                    <select name='disabled' id='active' onChange={handleChange}>
                         <option value= {0}  > Si </option>
                         <option value={1}  > No </option>
                     </select>

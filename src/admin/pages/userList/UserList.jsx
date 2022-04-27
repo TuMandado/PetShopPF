@@ -28,36 +28,35 @@ const UserList = () => {
   },[])
 
   useEffect(() => {
-    if (allUsers.length){
       setTotalUsers(allUsers.map(el=>{
          return({
           id: el.uid,
-          user: el.data.name,
+          user: el.data.displayName,
           email: el.data.email,
           createdAt: el.data.createdAt,
           updatedAt: el.data.updatedAt, 
-          image: el.data.image,
+          image: el.data.photoUrl,
           role: el.data.role,
+          activo: el.data.disabled? "no": "si"
          })
-      }))
-    }
-  },[dispatch]);
+    }))
+  },[allUsers]);
 
   if (!totalUsers.length) {
     setTimeout(() => {
          setTotalUsers(allUsers.map(el=>{
             return({
               id: el.uid,
-              user: el.data.nickname,
+              user: el.data.displayName,
               email: el.data.email,
               createdAt: el.data.createdAt,
               updatedAt: el.data.updatedAt, 
-              image: el.data.image,
+              image: el.data.photoUrl,
               role: el.data.role,
-              activo: el.data.delete? "no": "si"
+              activo: el.data.disabled? "no": "si"
              })
          }))
-    }, 2000)
+    }, 500)
   }
   
   const columns = [
