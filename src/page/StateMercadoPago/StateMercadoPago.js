@@ -79,38 +79,3 @@ return(
 }
 export default StateMercadoPago
 
-//?collection_id=1247694445
-//&
-//collection_status=approved
-//&payment_id=1247694445
-//&status=approved
-//&external_reference=1
-//&payment_type=credit_card
-//&merchant_order_id=4585814498
-//&preference_id=191706246-707db8cb-ff92-463e-a12f-1d3cec2c639b
-//&site_id=MLA
-//&processing_mode=aggregator
-//&merchant_account_id=null
-
-// collection_id=1247781387
-//&collection_status=in_process
-//&payment_id=1247781387
-//&status=in_process
-//&external_reference=acuupr14rd6wffy97nf6v//
-//&payment_type=credit_card
-//&merchant_order_id=4620911549//
-//&preference_id=191706246-ecfb65e7-f878-4794-9f4e-c34e8020cdd6
-//&site_id=MLA&processing_mode=aggregator&merchant_account_id=null
-
-
-//collection_id=1247781476
-//&collection_status=rejected
-//&payment_id=1247781476
-//&status=rejected
-//&external_reference=acuupr14rd6wffy97nf6v
-//&payment_type=credit_card
-//&merchant_order_id=4620979352
-//&preference_id=191706246-bf7d2b8f-95a0-40c4-8cf7-ebb67bd8534c
-//&site_id=MLA
-//&processing_mode=aggregator
-//&merchant_account_id=null
