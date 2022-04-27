@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Products from '../../components/products/Products'
 import Navbar from '../../components/navbar/Navbar'
 import Sidebar from '../../components/sidebar/Sidebar'
 import Footer from '../../components/footer/Footer'
 import { Loader } from '../../page/loader/Loader'
 import styled from 'styled-components'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { deleteFilters } from '../../redux/actions'
 
 
 const Div = styled.div`
@@ -97,6 +98,7 @@ const Label = styled.label`
 `
 
 const ProductList = () => {
+    const dispatch = useDispatch();
     const allProducts = useSelector(state => state.clientReducer.products)
     const [viewMode, setViewMode] = useState('Grid')
 
@@ -106,6 +108,14 @@ const ProductList = () => {
     const viewLastProducts = currentPage * productsPerPage;
     const viewFirstProducts = viewLastProducts - productsPerPage;
     const currentProducts = allProducts.slice(viewFirstProducts, viewLastProducts)
+
+
+    useEffect(() => {
+        return () => {
+            dispatch(deleteFilters())
+        }
+    }, [])
+
 
     const changeViewModeGrid = (e) => {
         setViewMode('Grid')
