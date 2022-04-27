@@ -1,4 +1,4 @@
-import { getProduct, getAllProducts, uploadProduct, deleteProduct, getAllProductsCategories, editProduct } from "../../firebase/Products/index";
+import { getProduct, getAllProducts, uploadProduct, deleteProduct, getAllProductsCategories, editProduct, getReallyAllProducts } from "../../firebase/Products/index";
 import { getAllUsers, deleteUser, getUser, uploadUser, editUser } from "../../firebase/Users";
 import {getAllAnimalCategory} from '../../firebase/AnimalCategory/index'
 export const GET_PRODUCTS = 'GET_PRODUCTS';
@@ -7,7 +7,7 @@ export const GET_PRODUCTS = 'GET_PRODUCTS';
 export function getTotalProducts() {
     return async function (dispatch) {
       try {
-        let jsonProduct = await getAllProducts();
+        let jsonProduct = await getReallyAllProducts();
         console.log("-Action Flag-", jsonProduct);
         return dispatch({
           type: `GET_PRODUCTS`,

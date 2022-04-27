@@ -8,13 +8,18 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import Navbar from "../../../components/navbar/Navbar";
 import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
-import { deleteThisProduct } from "../../../redux/actions/adminActions";
+import { deleteThisProduct, getTotalProducts } from "../../../redux/actions/adminActions";
 
 const ProductList = () => {
 
   const dispatch = useDispatch()
-  const allProducts = useSelector(state => state.clientReducer.backup)
+  const allProducts = useSelector(state => state.adminReducer.products)
   const [totalProducts, setTotalProducts] = useState([]);
+
+  useEffect(() => {
+    // dispatch(getReallyAllProducts())
+    dispatch(getTotalProducts())
+  }, [allProducts]);
 
   useEffect(() => {
     setTotalProducts(allProducts.map(el=>{
@@ -27,6 +32,8 @@ const ProductList = () => {
        name: el.data.name,
        price: el.data.price,
        subCategory: el.data.subCategory,
+       stock: el.data.stock,
+       activo: el.data.delete? "no": "si",
       })
     }))
   }, [allProducts, dispatch]);
@@ -54,13 +61,18 @@ const ProductList = () => {
         );
       },
     },
+    {
+      field: "price",
+      headerName: "$ Precio",
+      width: 160,
+    },
     { field: "stock",
        headerName: "Stock", 
        width: 120
     },
     {
-      field: "price",
-      headerName: "$ Precio",
+      field: "activo",
+      headerName: "Activo",
       width: 160,
     },
     {

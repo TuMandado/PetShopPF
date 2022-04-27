@@ -29,17 +29,7 @@ import { putProduct } from '../../../redux/actions/adminActions';
     
   }, [dispatch, uid]);
 
-  const [state, setState] = useState({
-        name: '',
-        animalCategory: '',
-        brand: '',
-        price: '',
-        subCategory: [],
-        stock: 0,
-        image: '',
-        delete: false,
-        description: ''
-    })
+  const [state, setState] = useState({})
 
     const getBaseFile = files => {
         setState(prevState => ({ ...prevState, image: files.base64 }))  
@@ -55,18 +45,17 @@ import { putProduct } from '../../../redux/actions/adminActions';
                 subCategory: product.subCategory ? product.subCategory : '',
                 stock: product.stock ? product.stock : '',
                 image: product.image ? product.image : '',
-                image: product.delete ? product.delete: false,
+                delete: product.delete ? product.delete: false,
                 description: product.description ? product.description : ''
-
             })
     }, [product])
-
 
     function hundleInputChange(e) {
         e.preventDefault()
         setState({
             ...state,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
+            delete: e.target.value== 1? true : false,
         });
     }
 
@@ -79,7 +68,6 @@ import { putProduct } from '../../../redux/actions/adminActions';
       e.preventDefault()
       console.log(uid.id, state)
       dispatch(putProduct(uid, state))
-      
       setState({
           name: '',
           animalCategory: '',
@@ -136,10 +124,13 @@ import { putProduct } from '../../../redux/actions/adminActions';
                             <span className="productInfoKey">id:</span>
                             <span className="productInfoValue">{product && product.id}</span>
                         </div>
-
                         <div className="productInfoItem">
                             <span className="productInfoKey">Stock:</span>
                             <span className="productInfoValue">{product && product.stock}</span>
+                        </div>
+                        <div className="productInfoItem">
+                            <span className="productInfoKey">Activo:</span>
+                            <span className="productInfoValue">{product && product.delete?"No":"Si"}</span>
                         </div>
                     </div>
                 </div>
@@ -230,9 +221,9 @@ import { putProduct } from '../../../redux/actions/adminActions';
 
                         <div className="addProductItem">
                            <label>Activo</label>
-                             <select name='delete' id='active'>
-                                 <option value={false}>Si</option>
-                                 <option value={true}>No</option>
+                             <select name='delete' id='active' onChange={(e) => hundleInputChange(e)}>
+                                <option value={0}> Si </option>
+                                <option value={1}> No </option>
                              </select>
                         </div>
                         
