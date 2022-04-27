@@ -66,11 +66,13 @@ function App() {
           uid: usuarioFirebase.uid,
           createdAt: Timestamp.now(),
           updatedAt: Timestamp.now(),
-          phone: "",
+          phoneNumber: usuarioFirebase.phoneNumber,
           shippingAddress: "",
           name: "",
           surname: "",
-          nickname: "",
+          displayName: usuarioFirebase.displayName,
+          photoURL: usuarioFirebase.phoneNumber,
+          disabled: false,
         };
         // Upload the user to the database
         await uploadUser(usuarioFirebase.uid, userData);
