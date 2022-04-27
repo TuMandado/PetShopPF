@@ -292,6 +292,9 @@ const Login = () => {
         <BtnLoggin onClick={() => setIsRegistrando(!isRegistrando)}>
           ¡Registrarme ahora!
         </BtnLoggin>
+        <BtnLoggin onClick={() => window.location.href = "/passwordRecovery"}>
+          Recuperar contraseña
+        </BtnLoggin>
         </> 
            )
            :
