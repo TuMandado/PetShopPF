@@ -63,13 +63,14 @@ export function addItemCartFront(payload) {
 export function openCartFront(payload) {
     return async function (dispatch) {
         try {
-            //   console.log("payload", payload);
             let jsonProduct = await cartOpenUs(payload);
-            //   console.log("OpenCart Flag-", jsonProduct);
-            return dispatch({
-                type: OPEN_CART,
-                payload: jsonProduct,
-            });
+            if(jsonProduct) {
+                console.log('opencartfront',jsonProduct)
+                return dispatch({
+                    type: OPEN_CART,
+                    payload: jsonProduct,
+                });
+            }else console.log('fallo')
         } catch (error) {
             console.log(error);
         }

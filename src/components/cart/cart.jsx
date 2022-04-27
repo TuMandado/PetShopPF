@@ -10,6 +10,8 @@ import {
 import CartEmpy from "../../assets/carrito_vacio.gif";
 import styled from "styled-components";
 import mercadopago from 'mercadopago'
+import { gridTabIndexColumnHeaderSelector } from "@material-ui/data-grid";
+import { NotListedLocation } from "@material-ui/icons";
 
 const REACT_APP_ACCESS_TOKEN = 'TEST-5909391637745101-041518-e07a43a5f92224ee501bc4d9feca4624-191706246'
 const url = window.location.href.split("//")[1].split("/")[0].replace (/^/,'https://');
@@ -252,13 +254,8 @@ const MercadoPagoConfiguration = async (carrito, id_order) => {
       await mercadopago.configure({
           access_token: REACT_APP_ACCESS_TOKEN
       })
-      console.log(carrito, id_order)
-      // const id_orden=1
-      // const carrito =[
-      //     { title: 'prod1', quantity:2, price:10.5},
-      //     { title: 'prod2', quantity:5, price:10.5},
-      //     { title: 'prod3', quantity:3, price:10.5},
-      // ]
+      
+      
       const items = carrito.map(i=>{ // mapeo elementos del carrito
         let price= i.price.slice(1)
         let price1= price.split('.')
@@ -284,11 +281,26 @@ const MercadoPagoConfiguration = async (carrito, id_order) => {
               ],
               installments:3, // cant maxima de cuotas
           },
-          back_Urls: {
-                      success:'http://localhost:3000/StateMercadoPago',
-                      failure:'http://localhost:3000/StateMercadoPago',
-                      pending:'http://localhost:3000/StateMercadoPago',
+          // back_Urls: {
+          //             success:'http://localhost:3000/StateMercadoPago',
+          //             failure:'http://localhost:3000/StateMercadoPago',
+          //             pending:'http://localhost:3000/StateMercadoPago',
+          // },
+          
+          payer:{
+            first_name:'nolis',
+            last_name:'maldonado',
+            name:'Nolis',
+            email:'nolis51maldonado@gmail.com'
           },
+          statement_description:'petshop',
+          capture:true,
+          redirect:'http://localhost:3000/',
+          binary_mode:true
+          
+          // notification_url:'http://localhost:3000/StateMercadoPago'
+           
+
       }
   
 
@@ -306,6 +318,27 @@ const MercadoPagoConfiguration = async (carrito, id_order) => {
           console.log('esta es la respuesta de mp', response)
           window.location.replace(response.data.sandbox_init_point)
       })
+      
+
+    //   axios({ /// anterior
+    //     method: 'POST',
+    //     url: 'https://api.mercadolibre.com/users/test_user',
+    //     data: {
+    //       site_id:"MLA"
+    //     },
+    //     headers: {
+    //         // 'cache-control': 'no-cache',
+    //         'content-type': 'application/json',
+    //         Authorization: `Bearer ${REACT_APP_ACCESS_TOKEN}`,
+    //     },
+    // })
+    // .then((response) => {
+    //     console.log('esta es la respuesta de USER', response)
+    //     // window.location.replace(response.data.sandbox_init_point)
+    // })
+    // .catch((error)=>{
+    //   console.log('eeror de user',error)
+    // })
       
 
   }
@@ -348,6 +381,7 @@ export function Cart() {
     // console.log("-Item-Delete-Flag", itemDelete);
     dispatch(deleteItemsCartFront(itemDelete));
   };
+ 
 
 
   //Recibe un objeto con las propiedades{user,item,number},
@@ -425,6 +459,7 @@ export function Cart() {
                 Eliminar
               </ButtonDelete>
              <button onClick={handleSubmit}>MP</button>
+             <a href="https://juego-2-d-js.vercel.app/"  data-glightbox="type: external" title="Portfolio Details"><i >x</i></a>
             </ContainerProduct>
             
 
@@ -446,3 +481,80 @@ export function Cart() {
     </div>
   );
 }
+
+// const  payer: {
+//   "first_name": "Test",
+//   "last_name": "Test",
+//   "phone": {
+//     "area_code": 11,
+//     "number": "987654321"
+//   },
+//   "address": {}
+// },
+// const shipments: {
+//   "receiver_address": {
+//     "zip_code": "12312-123",
+//     "state_name": "Rio de Janeiro",
+//     "city_name": "Buzios",
+//     "street_name": "Av das Nacoes Unidas",
+//     "street_number": 3003
+//   }
+// }
+
+// "additional_info": {
+//   "items": [
+//     {
+//       "id": "PR0001",
+//       "title": "Point Mini",
+//       "description": "Producto Point para cobros con tarjetas mediante bluetooth",
+//       "picture_url": "https://http2.mlstatic.com/resources/frontend/statics/growth-sellers-landings/device-mlb-point-i_medium@2x.png",
+//       "category_id": "electronics",
+//       "quantity": 1,
+//       "unit_price": 58.8
+//     }
+//   ],
+//   "payer": {
+//     "first_name": "Test",
+//     "last_name": "Test",
+//     "phone": {
+//       "area_code": 11,
+//       "number": "987654321"
+//     },
+//     "address": {}
+//   },
+//   "shipments": {
+//     "receiver_address": {
+//       "zip_code": "12312-123",
+//       "state_name": "Rio de Janeiro",
+//       "city_name": "Buzios",
+//       "street_name": "Av das Nacoes Unidas",
+//       "street_number": 3003
+//     }
+//   },
+//   "barcode": {}
+// },
+// "description": "Payment for product",
+// "external_reference": "MP0001",
+// "installments": 1,
+// "metadata": {},
+// "order": {
+//   "type": "mercadolibre"
+// },
+// "payer": {
+//   "entity_type": "individual",
+//   "type": "customer",
+//   "identification": {}
+// },
+// "payment_method_id": "visa",
+// "transaction_amount": 58.8
+// }'
+// Respuesta
+
+
+
+//USUARIO DE PRUEVA
+// email: "test_user_88271102@testuser.com"
+// id: 1113869923
+// nickname: "TETE2246998"
+// password: "qatest7218"
+// site_status: "active"
