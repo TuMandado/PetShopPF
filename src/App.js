@@ -1,6 +1,6 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 //Importamos la aplicación/credenciales
 import { firebaseApp } from "./firebase/credenciales";
 import { useDispatch, useSelector } from "react-redux";
@@ -42,7 +42,7 @@ import StateMercadoPago from "./page/StateMercadoPago/StateMercadoPago"
 import NewPublicPets from "./admin/pages/newPublicPets/NewPublicPets";
 
 import { getUser, uploadUser } from "./firebase/Users";
-import { cartLoginFront } from "./redux/actions/cartActions";
+import { cartLoginFront, getQuantity } from "./redux/actions/cartActions";
 
 // Imports for settings managment
 import { setSettings } from "./redux/actions";
@@ -55,6 +55,9 @@ function App() {
   var user = useSelector((state) => state.clientReducer.user);
   var settings = useSelector((state) => state.clientReducer.settings);
   const openCart = useSelector((state) => state.cartReducer.openCart);
+  //const [userLoading,setUserLoading] = useState(false)
+ // const [cartLoading,setCartLoading] = useState(false) 
+  //let cartLoading = false
   
   const dispatch = useDispatch();
 
@@ -76,50 +79,61 @@ function App() {
       }
     }, [settings]);
 
-  onAuthStateChanged(auth, async (usuarioFirebase) => {
-    if (usuarioFirebase) {
-      // If location is not "/" (home page), redirect to home page
-      if (window.location.pathname === "/login") {
-        window.location.href = "/";
+    useEffect(()=>{
+      const subscriber =  onAuthStateChanged(auth, async (usuarioFirebase) => {
+        if (usuarioFirebase) {
+          // If location is not "/" (home page), redirect to home page
+          if (window.location.pathname === "/login") {
+            window.location.href = "/";
+          }
+          // Checks if user exists in the database
+          let userData = await getUser(usuarioFirebase.uid);
+          // If the user does not exist, create it
+          if (!userData) {
+            userData = {
+              email: usuarioFirebase.email,
+              role: "Cliente",
+              uid: usuarioFirebase.uid,
+              createdAt: Timestamp.now(),
+              updatedAt: Timestamp.now(),
+              phoneNumber: usuarioFirebase.phoneNumber,
+              shippingAddress: "",
+              name: "",
+              surname: "",
+              displayName: usuarioFirebase.displayName,
+              photoURL: usuarioFirebase.phoneNumber,
+              disabled: false,
+            };
+            // Upload the user to the database
+            await uploadUser(usuarioFirebase.uid, userData);
+          }
+          // Set user in redux
+          if (!user) {
+            await dispatch(setUser(userData));
+          }
+          // Cart actions
+          try {
+         
+              //setCartLoading(true)
+              await dispatch(cartLoginFront(usuarioFirebase));
+        
+          } catch (error) {
+            console.log("Cart actions error: ", error);
+          }
+        } else {
+          dispatch(setUser(null));
+        }
+      });
+      return subscriber
+    },[])
+ 
+    useEffect(()=>{
+      if(openCart && Object.keys(openCart).length){
+        dispatch(getQuantity(openCart[0].data.items))
+        .then(console.log("quantity", openCart))
+       
       }
-      // Checks if user exists in the database
-      let userData = await getUser(usuarioFirebase.uid);
-      // If the user does not exist, create it
-      if (!userData) {
-        userData = {
-          email: usuarioFirebase.email,
-          role: "Cliente",
-          uid: usuarioFirebase.uid,
-          createdAt: Timestamp.now(),
-          updatedAt: Timestamp.now(),
-          phoneNumber: usuarioFirebase.phoneNumber,
-          shippingAddress: "",
-          name: "",
-          surname: "",
-          displayName: usuarioFirebase.displayName,
-          photoURL: usuarioFirebase.phoneNumber,
-          disabled: false,
-        };
-        // Upload the user to the database
-        await uploadUser(usuarioFirebase.uid, userData);
-      }
-      // Set user in redux
-      if (!user) {
-        await dispatch(setUser(userData));
-      }
-      // Cart actions
-      try {
-
-        if (!openCart && openCart.length == 0) {
-        await dispatch(cartLoginFront(usuarioFirebase));
-      }
-      } catch (error) {
-        console.log("Cart actions error: ", error);
-      }
-    } else {
-      dispatch(setUser(null));
-    }
-  });
+    },[openCart])
 
   useEffect(() => {
     dispatch(getTotalProducts());
