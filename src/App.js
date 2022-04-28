@@ -44,12 +44,35 @@ import NewPublicPets from "./admin/pages/newPublicPets/NewPublicPets";
 import { getUser, uploadUser } from "./firebase/Users";
 import { cartLoginFront } from "./redux/actions/cartActions";
 
+// Imports for settings managment
+import { setSettings } from "./redux/actions";
+import { getSettings, editSettingValues } from "./firebase/Settings";
+
 const auth = getAuth(firebaseApp);
 
 function App() {
   // eslint-disable-next-line no-unused-vars
   var user = useSelector((state) => state.clientReducer.user);
+  var settings = useSelector((state) => state.clientReducer.settings);
   const dispatch = useDispatch();
+
+    // Console app setings
+    useEffect(() => {
+      getSettings().then((set) => {
+        // console.log("Settings on firestore: ", set);
+        dispatch(setSettings(set));
+      });
+    }, []);
+  
+    // When settings are fullfilled, if we change the values, we update the firestore
+    useEffect(() => {
+      // Get array lenght of keys from settings
+      var keys = Object.keys(settings);
+      // If lenght is not 0, update firestore
+      if (keys.length > 0) {
+        editSettingValues(settings);
+      }
+    }, [settings]);
 
   onAuthStateChanged(auth, async (usuarioFirebase) => {
     if (usuarioFirebase) {
