@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Navbar from "../../../components/navbar/Navbar";
 import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
 import { deleteThisUser, getTotalUsers } from "../../../redux/actions/adminActions";
-
+import UserLog from "../../../assets/user.png"
 
 const UserList = () => {
 
@@ -28,35 +28,35 @@ const UserList = () => {
   },[])
 
   useEffect(() => {
-    if (allUsers.length){
       setTotalUsers(allUsers.map(el=>{
          return({
           id: el.uid,
-          user: el.data.name,
+          user: el.data.displayName,
           email: el.data.email,
           createdAt: el.data.createdAt,
           updatedAt: el.data.updatedAt, 
-          image: el.data.image,
+          image: el.data.photoUrl,
           role: el.data.role,
+          activo: el.data.disabled? "no": "si"
          })
-      }))
-    }
-  },[dispatch]);
+    }))
+  },[allUsers]);
 
   if (!totalUsers.length) {
     setTimeout(() => {
          setTotalUsers(allUsers.map(el=>{
             return({
               id: el.uid,
-              user: el.data.name,
+              user: el.data.displayName,
               email: el.data.email,
               createdAt: el.data.createdAt,
               updatedAt: el.data.updatedAt, 
-              image: el.data.image,
+              image: el.data.photoUrl,
               role: el.data.role,
+              activo: el.data.disabled? "no": "si"
              })
          }))
-    }, 2000)
+    }, 500)
   }
   
   const columns = [
@@ -68,8 +68,8 @@ const UserList = () => {
       renderCell: (params) => {
         return (
           <div className="userListUser">
-            <img className="userListImg" src={params.row.picture } alt="" />
-            {params.row.username}
+            <img className="userListImg" src={params.row.image || UserLog} alt="" />
+            {params.row.user}
           </div>
         );
       },
@@ -78,6 +78,11 @@ const UserList = () => {
     {
       field: "role",
       headerName: "Rol",
+      width: 120,
+    },
+    {
+      field: "activo",
+      headerName: "Activo",
       width: 120,
     },
     {

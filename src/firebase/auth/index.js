@@ -8,6 +8,7 @@ import {
   signInWithRedirect,
   getRedirectResult,
   FacebookAuthProvider,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { uploadUser } from "../Users";
 
@@ -30,6 +31,7 @@ export const signInUsuario = (email, password) => {
 export async function registrarUsuario(email, password, role) {
   createUserWithEmailAndPassword(auth, email, password)
     .then((user) => {
+      alert("Su usuario fue creado exitosamente! 👌😎👍")
       console.log("Usuario registrado: ", user);
       // uploadUser(user.user.uid, {
       //   email: user.user.email,
@@ -97,6 +99,16 @@ export const signInWithFacebook = () => {
       const credential = FacebookAuthProvider.credentialFromError(error);
 
       // ...
+      errorAuth(error);
+    });
+};
+
+export const recoveryPassword = (email) => {
+  sendPasswordResetEmail(auth, email)
+    .then((user) => {
+      alert("Verifica tu correo electrónico para restablecer tu contraseña");
+    })
+    .catch((error) => {
       errorAuth(error);
     });
 };

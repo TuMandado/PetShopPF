@@ -16,12 +16,10 @@ const Container = styled.div`
     line-height: 48px;
   padding-right: 20px;
   width: cover;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
 `;
 
 const Announcement = () => {
-  return <Container> Colabora con adopciones, mascotas perdidas o encontradas y obtene beneficios en nustra tienda  </Container>;
+  return <Container> Colabora con adopciones, mascotas perdidas o encontradas y obtene beneficios en nuestra tienda  </Container>;
 };
 
 export default Announcement;

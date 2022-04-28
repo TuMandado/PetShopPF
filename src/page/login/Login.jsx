@@ -59,11 +59,11 @@ const LabelEmail = styled.label`
   font-weight: 400;
   display: block;
 `;
+
 const LabelDiv = styled.div`
 display: flex;
 align-items: center;
-`
-
+`;
 
 const LabelPass = styled.label`
   display: block;
@@ -96,7 +96,7 @@ const Input = styled.input`
   }
 `;
 
-const BtnForInput = styled.input`
+const BtnForInput = styled.button`
   width: 120px;
   height: 35px;
   font-size: 12px;
@@ -110,6 +110,21 @@ const BtnForInput = styled.input`
   box-sizing: border-box;
   border-radius: 8px;
   margin-top: 11px;
+  &:hover {
+    cursor: pointer;
+    border-radius: 8px;
+    border: 1px solid #067A4D;
+    transition: 0.3s ease;
+    transition: 0.25s ease;
+  font-weight: 700;
+  color: #067A4D;
+  }
+  &:disabled {
+    background-color: gray;
+    color: black;
+    opacity: 0.7;
+    cursor: default;
+  }
 `;
 
 const BtnLoggin = styled.button`
@@ -125,11 +140,37 @@ const BtnLoggin = styled.button`
   background: none;
   border: none;
   margin-top: 5px;
+  cursor: pointer;
+  &:hover {
+    cursor: pointer;
+    transition: 0.3s ease;
+    transition: 0.25s ease;
+  font-weight: 700;
+  color: #067A4D;
+}
 `;
 
 const Form = styled.form`
   margin-top: 200px;
   
+`;
+
+const Paragraph = styled.p`
+  // width: 320px;
+  // height: 40px;
+  color: red;
+  // padding: 8px;
+  margin-top: 8px;
+  // margin-right: 4px;
+  font-size: 12px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  background: none;
+
+  &::-webkit-input-placeholder {
+    color: #a9a9a9;
+  }
 `;
 
 const containerStyle = {
@@ -138,55 +179,184 @@ const containerStyle = {
   height: "100%",
 };
 
+export function validate(input) {
+  let errors = {};
+
+  if (!input.nickname) {
+      errors.nickname = 'Nombre Es Requerido';
+  } else if (!/[a-zA-zá-ü]/.test(input.nickname)) {
+      errors.nickname = 'El nombre es Invalido';
+  }
+ 
+  if (!input.email) {
+    errors.mail = 'Correo Requerido'
+  } else if (!/\S+@\S+\.\S+/.test(input.email)) {
+    errors.mail = 'Correo Invalido'
+  }
+ 
+  if (!input.password) {
+      errors.password = 'Contraseña Requerida';
+  } else if (!/^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/.test(input.password)) {
+      errors.password = 'debe tener entre 8 y 16 caracteres, al menos un dígito, una minúscula y una mayúscula.';
+  }
+
+  if (!input.passwordb) {
+      errors.passwordb = 'vuelva a ingresar la Requerida';
+  } else if ((input.password !== input.passwordb)) {
+      errors.passwordb = 'Las contraseñas No Coinciden';
+  }
+
+  if (Object.keys(errors).length === 0) {
+      errors.disabled = true
+  }
+  else errors.disabled = false
+
+  return errors;
+};
+
 const Login = () => {
   const [isRegistrando, setIsRegistrando] = useState(false);
   // Handle auth changes
   const [showPassword, setShowPasword] = useState(true);
+  const [errors, setErrors] = useState({});
+  const [input, setInput] = useState({
+      nickname: "",
+      email: "",
+      password: "",
+      role: "Cliente"
+  });
 
+  const handleInputChange = (e) => {
+    e.preventDefault()
+    setInput({
+        ...input,
+        [e.target.name]: e.target.value
+    });
 
-  const submitHandler = (event) => {
-    event.preventDefault();
-    const email = event.target.email.value;
-    const password = event.target.password.value;
-    const role = "Cliente";
-  
+    let objErrors = validate({
+      ...input,
+      [e.target.name] : e.target.value
+  });
+  setErrors(objErrors);
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
     if (isRegistrando) {
-      registrarUsuario(email, password, role);
+      registrarUsuario(input.email, input.password, input.nickname, input.role);
     } else {
-      signInUsuario(email, password);
+      signInUsuario(input.email, input.password);
     }
+    // navigate("/");
   };
+
 
   return (
     <BodyLogin style={containerStyle}>
       <LoginContainer>
         <Brand src={imgLogin} alt="mascotas" />
-        <Title>{isRegistrando ? "Registrarse:" : "Iniciar sesión:"}</Title>
-        <Form onSubmit={submitHandler}>
+        { 
+        !isRegistrando?(
+        <>
+        <Title> Iniciar sesión: </Title>
+        <Form onSubmit={e => handleSubmit(e)}>
           <LabelEmail>
             Email:
-            <Input type="email" id="email" placeholder="Tu e-mail" />
+            <Input 
+              onChange={e => handleInputChange(e)}
+              type="email" 
+              name="email" 
+              placeholder="Tu e-mail..." 
+            />
+            {errors.mail && (<Paragraph>{errors.mail}</Paragraph>)}
           </LabelEmail>
-
           <LabelPass>
-            Password:
+            contraseña:
             <LabelDiv>
-            <Input type={showPassword ? 'password' : 'text'} id="password" placeholder="Contraseña" />
+            <Input 
+              onChange={e => handleInputChange(e)}
+              type={showPassword ? 'password' : 'text'} 
+              name="password" 
+              placeholder="Contraseña" 
+            />
             {showPassword ? < VisibilityIcon color="disabled" onClick={() => setShowPasword(!showPassword)}/> : <VisibilityIcon onClick={() => setShowPasword(!showPassword)}/> }
             </LabelDiv>
+            {errors.password && (<Paragraph>{errors.password}</Paragraph>)}
           </LabelPass>
-
-          <BtnForInput
-            type="submit"
-            value={isRegistrando ? "Registrar" : "Iniciar sesion"}
-          />
-      <GoogleSignIn/>
-      <FacebookSignIn/>
+          <BtnForInput type="submit" disabled={!errors.disabled} onClick= {(e)=>handleSubmit(e)}>
+            Iniciar sesion
+          </BtnForInput>
+          <GoogleSignIn/>
+          <FacebookSignIn/>
         </Form>
-
         <BtnLoggin onClick={() => setIsRegistrando(!isRegistrando)}>
-          {isRegistrando ? "Ya tengo cuenta" : "¡Registrarme ahora!"}
+          ¡Registrarme ahora!
         </BtnLoggin>
+        <BtnLoggin onClick={() => window.location.href = "/passwordRecovery"}>
+          Recuperar contraseña
+        </BtnLoggin>
+        </> 
+           )
+           :
+           (
+            <>
+           <Title> Registrarse: </Title>
+           <Form onSubmit={e => handleSubmit(e)}>
+             <LabelEmail>
+               Nombre de Usuario:
+               <Input
+              onChange={e => handleInputChange(e)}
+              type="text" 
+              name="nickname" 
+              placeholder="Tu nombre de usuario..." 
+            />
+            {errors.nickname && (<Paragraph>{errors.nickname}</Paragraph>)}
+          </LabelEmail>
+          <LabelEmail>
+            Email:
+            <Input 
+              onChange={e => handleInputChange(e)}
+              type="email" 
+              name="email" 
+              placeholder="Tu e-mail..." 
+            />
+            {errors.mail && (<Paragraph>{errors.mail}</Paragraph>)}
+          </LabelEmail>
+          <LabelPass>
+            contraseña:
+            <LabelDiv>
+            <Input 
+              onChange={e => handleInputChange(e)}
+              type={showPassword ? 'password' : 'text'} 
+              name="password" 
+              placeholder="Contraseña" 
+            />
+            {showPassword ? < VisibilityIcon color="disabled" onClick={() => setShowPasword(!showPassword)}/> : <VisibilityIcon onClick={() => setShowPasword(!showPassword)}/> }
+            </LabelDiv>
+            {errors.password && (<Paragraph>{errors.password}</Paragraph>)}
+          </LabelPass>
+          <LabelPass>
+             Repetir contraseña:
+            <Input 
+              onChange={e => handleInputChange(e)}
+              type={showPassword ? 'password' : 'text'} 
+              name="passwordb" 
+              placeholder="Confirmar Contraseña" 
+            />
+            {errors.passwordb && (<Paragraph>{errors.passwordb}</Paragraph>)}
+          </LabelPass>
+          <BtnForInput type="submit" disabled={!errors.disabled} onClick= {(e)=>handleSubmit(e)}>
+            Registrar
+          </BtnForInput>
+          <GoogleSignIn/>
+          <FacebookSignIn/>
+        </Form>
+        <BtnLoggin onClick={() => setIsRegistrando(!isRegistrando)}>
+          Ya tengo cuenta
+        </BtnLoggin>
+        </>
+        )
+      }
       </LoginContainer>
     </BodyLogin>
   );

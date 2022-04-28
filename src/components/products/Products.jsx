@@ -67,13 +67,15 @@ const Products = ({ viewMode, currentProducts, productsPerPage, paged, currentPa
             {
                 currentProducts?.length && !allProducts[0].msg ? (
                     currentProducts.map(e => {
-                        return (
-                            <div key={e.uid} id={e.uid} onClick={(e) => navigateToProduct(e)}>
+                        if (!e.delete) { // Si queremos que se muestre lo eliminado, cambiar este condicional
+                            return (
+                                <div key={e.uid} id={e.uid} onClick={(e) => navigateToProduct(e)}>
 
-                                <Product title={e.data.name} imagen={e.data.image} info={e.data.info} price={e.data.price} animalCategory={e.data.animalCategory} category={e.data.category} subCategory={e.data.subCategory} viewMode={viewMode} id={e.uid} />
+                                    <Product title={e.data.name} imagen={e.data.image} info={e.data.info} price={e.data.price} animalCategory={e.data.animalCategory} category={e.data.category} subCategory={e.data.subCategory} viewMode={viewMode} id={e.uid} />
 
-                            </div>
-                        )
+                                </div>
+                            )
+                        }
                     })
                 ) : <div style={{ position: "relative" }}>
                     <Error>Lo siento, no hemos encontrado nada :(</Error>

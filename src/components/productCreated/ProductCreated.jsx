@@ -2,7 +2,13 @@ import React from 'react';
 import {Link, useNavigate} from 'react-router-dom'
 import { useDispatch, useSelector  } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { postProduct, getTotalProducts,getProductCategory, getProductAnimalCategory } from '../../redux/actions/adminActions';
+import { postProduct, 
+    getTotalProducts,
+    getProductCategory,
+    getProductAnimalCategory } from '../../redux/actions/adminActions';
+import FileBase from 'react-file-base64';
+import imgBackground from "../../assets/patrones_pet.png";
+import styled from "styled-components";
 
 function validadora (input) {
     let error = {}
@@ -45,10 +51,13 @@ const ProductCreated = () => {
         brand:'',
         animalCategory: '',
         category: '',
-        price: '',
+        price: '$ ',
         subCategory: '',
         delete: false
     })
+    const getBaseFile = files => {
+        setInput(prevInput => ({ ...prevInput, image: files.base64 }))
+    }
     function handleChange(e) {
         setInput({
             ...input,
@@ -61,6 +70,13 @@ const ProductCreated = () => {
             })
         )
         console.log(input)
+    }
+
+    function handleChange2(e) {
+        setInput({
+            ...input,
+            [e.target.name]: e.target.value
+        })
     }
 
     function handleSelect(e) {
@@ -105,11 +121,12 @@ const ProductCreated = () => {
             return alert('selecciona una categoria de animal por favor')
         }  else if (input.category.trim() === '') {
             return alert('selecciona una categoria por favor')
-        }   else if (input.price.trim() === '' || input.price < 1) {
+        }   else if (input.price.trim() === '' || input.price < 1 || input.price.search( /^[0-9,$]*$/)) {
             return alert('precio inadecuado ')
         } else if (input.subCategory.trim() === '' || input.subCategory.search(/^[^$%&|<>#]*$/)) {
             return alert('ingrese sub categoria')
         }
+        // /^[0-9,$]*$/
         
         
         
@@ -122,7 +139,7 @@ const ProductCreated = () => {
                 image: '',
                 animalCategory: '',
                 category: '',
-                price: '',
+                price: '$ ',
                 subCategory: '',
                 delete: false
             })
@@ -148,17 +165,27 @@ const ProductCreated = () => {
         dispatch(getProductAnimalCategory())
     },[dispatch])
 
+    const containerStyle = {
+        backgroundImage: `url(${imgBackground})`,
+        width: "100%",
+        height: "100%",
+    }
+
 
 
     return (
-        <div>
-            <h1>Crea un nuevo Producto</h1>
+        <div style={containerStyle}>
+            <div>
+                <TitleContainer>
+                <Title>Publica un nuevo producto!</Title>
+                </TitleContainer>
             <br />
-            <form onSubmit={e => handleSubmit(e)}>
+            <InfoForm onSubmit={e => handleSubmit(e)}>
+                <FormContent>
                 <div>
-                    <label > Nombre del Producto</label>
+                    <Label > Nombre del Producto</Label>
                     <br />
-                    <input type="text"
+                    <Input type="text"
                      value={input.name}
                      name="name" 
                      placeholder='nombre del producto'
@@ -172,28 +199,37 @@ const ProductCreated = () => {
                    }
                 </div>
                 <div>
-                    <label> Agrege una imagen </label>
-                    <br />
-                    <input type="text"
+                    {/* <label> Agrege una imagen </label>
+                    <br /> */}
+                    {/* <input type="text"
                     value={input.image}
                     name= 'image'
                     onChange={(e) => handleChange(e) }
                     placeholder='agrege imagen'
-                    />
-                     {
-                       errors.image && (
-                           <p>{errors.image}</p>
-                       )
-                   }
+                    /> */}
+                <div >
+                  <Label>Agrege una foto del producto</Label>
+                  <br />
+                  <UploadImageContainer>
+                  <FileBase
+                      name='file'
+                      type='file'
+                      multiple={false}
+                      onDone={getBaseFile}
+                  />
+                  </UploadImageContainer>
                 </div>
+                     {errors.image && (<p>{errors.image}</p>)}
+                </div>
+                <br />
                 <div>
-                    <label >Nombre de la marca : </label>
+                    <Label >Nombre de la marca : </Label>
                     <br />
-                    <input type="text"
+                    <Input type="text"
                     value={input.brand}
                     name='brand'
                     onChange={(e)=> handleChange(e)}
-                    placeholder='agrege marca'
+                    placeholder='Agrege marca'
                     />
                     {
                        errors.brand && (
@@ -201,20 +237,18 @@ const ProductCreated = () => {
                        )
                    }
                 </div>
+                <br />
                 <div>
-                    <select onChange={e => handleSelect(e)}>
+                    <Label>Elija la categora de animal</Label>
+                    <Select onChange={e => handleSelect(e)}>
                        {
                            animalCategory?.map(e => (
-                               <option value={e.data.name}>{e.data.name + 's'}</option>
+                               <Option value={e.data.name}>{e.data.name + 's'}</Option>
                            ))
                        }
 
-                    </select>
-                    {
-                       errors.animalCategory && (
-                           <p>{errors.animalCategory}</p>
-                       )
-                   }
+                    </Select>
+                    {errors.animalCategory && (<p>{errors.animalCategory}</p>)}
                     <div>
                     {/* <ul>
                            <li>
@@ -234,14 +268,15 @@ const ProductCreated = () => {
                     
                 </div>
                 <div>
-                    <select onChange={e => handleSelect2(e)}>
-                        <option disabled>Seleccionar categorias: </option>
+                    <Label>Seleccione la categoria: </Label>
+                    <Select onChange={e => handleSelect2(e)}>
+                        <Option disabled>Seleccionar categorias: </Option>
                         {
                             category?.map((g) => (
-                                <option value={g}>{g}</option>
+                                <Option value={g}>{g}</Option>
                             ))
                         }
-                    </select>
+                    </Select>
                     <div>
 
                     {/* <ul>
@@ -256,19 +291,15 @@ const ProductCreated = () => {
                                ))}
                            </li>
                        </ul> */}
-                       {
-                       errors.category && (
-                           <p>{errors.category}</p>
-                       )
-                   }
+                       {errors.category && (<p>{errors.category}</p>)}
 
                     </div>
                     
                 </div>
                 <div>
-                    <label>Agrega una Sub categoria</label>
+                    <Label>Agrega una Sub categoria</Label>
                     <br />
-                    <input type="text"
+                    <Input type="text"
                     value={input.subCategory}
                     name='subCategory'
                     onChange={(e) => handleChange(e) }
@@ -281,12 +312,12 @@ const ProductCreated = () => {
                    }
                 </div>
                 <div>
-                    <label>Agrega Precio: $</label>
+                    <Label>Agrega Precio: $</Label>
                     <br />
-                    <input type="number"
-                    value={input.price}
+                    <Input type="text"
+                    value= {input.price}
                     name='price'
-                    onChange={(e) => handleChange(e) }
+                    onChange={(e) => handleChange2(e) }
                     placeholder='agrege precio'
                     
                     />
@@ -296,12 +327,149 @@ const ProductCreated = () => {
                        )
                    }
                 </div>
-                <button type='submit'>Crear producto</button>
-            </form>
-            <Link to='/admin'><button>volver al administrador</button></Link>
+                <br />
+                <BtnCreated type='submit'>Crear producto</BtnCreated>
+
+                </FormContent>
+            </InfoForm>
+            {/* <Link to='/admin'><button>volver al administrador</button></Link> */}
+            </div>
             
         </div>
     )
 }
 
 export default ProductCreated
+
+const TitleContainer = styled.div`
+height: 60px;
+width: 100%;
+text-align: center;
+
+`
+
+const Title = styled.h1`
+font-family: "Poppins";
+font-style: normal;
+font-weight: 600;
+font-size: 35px;
+margin: 0px auto;
+padding-top: 18px;
+color: #151515;
+flex-grow: 0;
+margin: 2px;
+&:hover {
+  color: #0acf83;
+}
+ `
+
+const InfoForm = styled.form`
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  margin-top: 2px;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+  grid-row-gap: 15px;
+  grid-column-gap: 2px;
+  background: rgba(255, 255, 255, 0.808);
+  max-width: 650px;
+  max-height: 700px;
+  margin-right: 30%;
+  margin-left: 30%;
+  padding-bottom: 100px;
+  border-radius: 12px;
+  padding: 15px;
+  
+`
+
+const FormContent = styled.div`
+  text-align: center;
+  margin: auto;
+
+`
+
+const Label = styled.label`
+margin-top: 5px;
+  margin-bottom: 5px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+`
+const Input = styled.input`
+width: 280px;
+height: 40px;
+color: black;
+padding: 12px;
+margin-top: 13px;
+margin-bottom: 13px;
+margin-right: 4px;
+font-size: 12px;
+font-family: "Poppins";
+font-style: normal;
+font-weight: 500;
+background: none;
+border: 1px solid #a9a9a9;
+box-sizing: border-box;
+border-radius: 8px;
+&::-webkit-input-placeholder {
+    color: #a9a9a9;
+  }
+`
+
+const UploadImageContainer =  styled.div`
+width: 280px;
+height: 20px;
+padding: 12px;
+margin-top: 8px;
+margin-bottom: 8px;
+
+`
+
+const Select = styled.select`
+margin-top: 13px;
+margin-bottom: 13px;
+width: 280px;
+height: 40px;
+color: #1b1b1b;
+font-size: 12px;
+font-family: "Poppins";
+font-style: normal;
+background: none;
+padding: 9px;
+border: solid 1px;
+border-color: #a9a9a9;
+border-radius: 5px;
+`
+
+const Option = styled.option`
+color: #1b1b1b;
+font-size: 15px;
+font-family: "Poppins";
+font-style: normal;
+text-align: center;
+width: 280px;
+height: 40px;
+`
+
+const BtnCreated = styled.button `
+display: absolute;
+  flex-direction: row;
+  margin-top: 5px;
+  position: relative;
+  width: 145px;
+  height: 35px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  color: #ffff;
+  background: #0acf83;
+  border: 2px solid #067a4d;
+  box-sizing: border-box;
+  border-radius: 8px;
+  &:hover {
+    color: #0acf83;
+    background: #ffff;
+    border: 3px solid #067a4d;
+  }
+`

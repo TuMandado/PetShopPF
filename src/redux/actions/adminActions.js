@@ -1,4 +1,4 @@
-import { getProduct, getAllProducts, uploadProduct, deleteProduct, getAllProductsCategories } from "../../firebase/Products/index";
+import { getProduct, getAllProducts, uploadProduct, deleteProduct, getAllProductsCategories, editProduct, getReallyAllProducts } from "../../firebase/Products/index";
 import { getAllUsers, deleteUser, getUser, uploadUser, editUser } from "../../firebase/Users";
 import {getAllAnimalCategory} from '../../firebase/AnimalCategory/index'
 export const GET_PRODUCTS = 'GET_PRODUCTS';
@@ -7,7 +7,7 @@ export const GET_PRODUCTS = 'GET_PRODUCTS';
 export function getTotalProducts() {
     return async function (dispatch) {
       try {
-        let jsonProduct = await getAllProducts();
+        let jsonProduct = await getReallyAllProducts();
         console.log("-Action Flag-", jsonProduct);
         return dispatch({
           type: `GET_PRODUCTS`,
@@ -79,6 +79,19 @@ export function deleteThisProduct(id) {
     
     }
   }
+  
+  export function putProduct(uid, data) {
+    return async function (dispatch) {
+      try {
+        let jsonputProduct = await editProduct(uid, data);
+        return dispatch({
+          type: 'PUT_PRODUCT',
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  }
 
   export function getTotalUsers() {
     return async function (dispatch) {
@@ -128,8 +141,8 @@ export function deleteThisProduct(id) {
   export function putUser(uid, data) {
     return async function (dispatch) {
       try {
-        let jsonUploadUser = await editUser(uid, data);
-        console.log("uploadUser 🍳", uid, data);
+        let jsonputUser = await editUser(uid, data);
+        console.log("putUser 🍳", uid, data);
         return dispatch({
           type: "PUT_USER",
           // payload: jsonUploadUser,
