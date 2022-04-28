@@ -43,6 +43,7 @@ import NewPublicPets from "./admin/pages/newPublicPets/NewPublicPets";
 
 import { getUser, uploadUser } from "./firebase/Users";
 import { cartLoginFront } from "./redux/actions/cartActions";
+import { openCartFront } from "./redux/actions/cartActions";
 
 // Imports for settings managment
 import { setSettings } from "./redux/actions";
@@ -57,6 +58,10 @@ function App() {
   const openCart = useSelector((state) => state.cartReducer.openCart);
   
   const dispatch = useDispatch();
+    // Cart managment
+    useEffect(() => {
+      dispatch(openCartFront(user));
+    }, [user]);
 
     // Console app setings
     useEffect(() => {

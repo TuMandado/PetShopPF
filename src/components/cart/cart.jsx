@@ -359,9 +359,9 @@ export function Cart() {
   const user = useSelector((state) => state.clientReducer.user);
   const openCart = useSelector((state) => state.cartReducer.openCart);
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(openCartFront(user));
-  }, [user]);
+  // useEffect(() => {
+  //   dispatch(openCartFront(user));
+  // }, [user]);
 
 
     const handleSubmit = () => {
