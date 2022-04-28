@@ -361,7 +361,7 @@ export function Cart() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(openCartFront(user));
-  }, [dispatch, user]);
+  }, [user]);
 
 
     const handleSubmit = () => {
