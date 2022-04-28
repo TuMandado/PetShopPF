@@ -135,7 +135,7 @@ export function cartLoginFront(payload) {
     return async function (dispatch) {
         try {
             let jsonProduct = await loginCart(payload);
-            console.log("-GetAllCarts Flag-", jsonProduct);
+            console.log("-openCart Flag-", jsonProduct);
             return dispatch({
                 type: LOGIN_CART,
                 payload: jsonProduct,

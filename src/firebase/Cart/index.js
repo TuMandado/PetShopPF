@@ -171,6 +171,8 @@ export async function loginCart(user){
                localStorage.clear()
            }
        }
+        let newCart = await cartOpenUs(user)
+        return newCart
     }
 }
 
