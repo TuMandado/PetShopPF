@@ -382,7 +382,7 @@ export function Cart() {
   }
 
   if (items) {
-    if (items.length) {
+    
       items.map((el) => {
         let delSim = el.price.slice(2);
         let delDot = delSim.replace(".", "");
@@ -392,7 +392,7 @@ export function Cart() {
         total = total + sum;
       });
       dispatch(getQuantity(items));
-    }
+    
   }
 
   const handleDelete = (e, id) => {
