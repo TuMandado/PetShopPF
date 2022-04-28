@@ -4,13 +4,13 @@ import { getFirestore} from "firebase/firestore";
 
 // Añade aquí tus credenciales
 const firebaseConfig = {
-  apiKey: "AIzaSyBD-gA0XYzZ8lVcZyKHBlEwnsnHcHARW5k",
-  authDomain: "petshop-30da4.firebaseapp.com",
-  projectId: "petshop-30da4",
-  storageBucket: "petshop-30da4.appspot.com",
-  messagingSenderId: "928191741660",
-  appId: "1:928191741660:web:68e215debb0b31a802be19",
-  measurementId: "G-63KVPQFE59"
+  apiKey: "AIzaSyAcHKVuiISpf0Lq0RtyJoB-B2wSy8LwrHE",
+  authDomain: "petshop-35b9a.firebaseapp.com",
+  projectId: "petshop-35b9a",
+  storageBucket: "petshop-35b9a.appspot.com",
+  messagingSenderId: "744953839990",
+  appId: "1:744953839990:web:08431cdfb31ee4a323fa57",
+  measurementId: "G-44018Q639M"
 };
 
 // Inicializamos la aplicación y la guardamos en firebaseApp

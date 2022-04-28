@@ -42,7 +42,6 @@ import StateMercadoPago from "./page/StateMercadoPago/StateMercadoPago"
 import NewPublicPets from "./admin/pages/newPublicPets/NewPublicPets";
 
 import { getUser, uploadUser } from "./firebase/Users";
-import { getSettings, editSettingValues } from "./firebase/Settings";
 import { cartLoginFront } from "./redux/actions/cartActions";
 
 const auth = getAuth(firebaseApp);
@@ -51,14 +50,6 @@ function App() {
   // eslint-disable-next-line no-unused-vars
   var user = useSelector((state) => state.clientReducer.user);
   const dispatch = useDispatch();
-
-  // Console log app settings
-  useEffect(() => {
-    getSettings().then((settings) => {
-      console.log("settings: ", settings);
-    });
-  }, []);
-  
 
   onAuthStateChanged(auth, async (usuarioFirebase) => {
     if (usuarioFirebase) {
