@@ -288,6 +288,17 @@ const ImageError = styled.img`
   width: 310px;
   height: 310px;
 `;
+const OrderContainer = styled.div`
+  text-align: center;
+  margin: auto;
+`;
+
+
+const AllCartContainer = styled.div`
+  display: flex;
+  text-align: center;
+  margin: auto;
+`;
 
 const MercadoPagoConfiguration = async (carrito, id_order,user) => {
       await mercadopago.configure({
@@ -340,18 +351,7 @@ const MercadoPagoConfiguration = async (carrito, id_order,user) => {
 
       }
  
- 
-const OrderContainer = styled.div`
-  text-align: center;
-  margin: auto;
-`;
-
-
-const AllCartContainer = styled.div`
-  display: flex;
-  text-align: center;
-  margin: auto;
-`;
+    }
 
 
 
@@ -366,7 +366,7 @@ export function Cart() {
 
     const handleSubmit = () => {
         MercadoPagoConfiguration(items, openCart,user)
- 
+    }
 
   let items = [];
   let itemDelete = {};
