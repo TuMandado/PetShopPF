@@ -54,6 +54,8 @@ function App() {
   // eslint-disable-next-line no-unused-vars
   var user = useSelector((state) => state.clientReducer.user);
   var settings = useSelector((state) => state.clientReducer.settings);
+  const openCart = useSelector((state) => state.cartReducer.openCart);
+  
   const dispatch = useDispatch();
 
     // Console app setings
@@ -106,7 +108,14 @@ function App() {
         await dispatch(setUser(userData));
       }
       // Cart actions
-      await dispatch(cartLoginFront(usuarioFirebase));
+      try {
+
+        if (!openCart && openCart.length == 0) {
+        await dispatch(cartLoginFront(usuarioFirebase));
+      }
+      } catch (error) {
+        console.log("Cart actions error: ", error);
+      }
     } else {
       dispatch(setUser(null));
     }
