@@ -149,8 +149,11 @@ export function cartLoginFront(payload) {
 export function getQuantity(payload){
     return async function (dispatch){
         let total = 0
-        if(payload.length){
+        if(payload && payload.length){
             payload.map(el => total = total + el.quantity)
+        }
+        if(payload=== undefined){
+            total = 0
         }
         return dispatch({
             type: GET_QUANTITY,

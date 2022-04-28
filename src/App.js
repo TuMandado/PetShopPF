@@ -136,11 +136,19 @@ function App() {
     },[])
  
     useEffect(()=>{
+      console.log("opencart quantity",openCart)
       if(openCart && Object.keys(openCart).length){
-        dispatch(getQuantity(openCart[0].data.items))
-        .then(console.log("quantity", openCart))
-       
-      }
+        if(user){
+            dispatch(getQuantity(openCart[0].data.items))
+            .then(console.log("quantity", openCart))
+          }else {
+            console.log("este open cart", openCart)
+            dispatch(getQuantity(openCart.items))
+            .then(console.log("quantity", openCart))
+          }
+        }else{
+          dispatch(getQuantity(openCart))
+        }
     },[openCart])
 
   useEffect(() => {

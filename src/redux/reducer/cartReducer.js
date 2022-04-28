@@ -23,7 +23,6 @@ function cartReducer(state = initialState, action) {
             return {
                 ...state,
                 openCart: action.payload,
-                quantity: state.quantity +1
              };
         case OPEN_CART:
             return {
