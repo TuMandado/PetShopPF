@@ -58,7 +58,7 @@ export async function getAllCartsFirebase() {
 }
 
 export async function editCartFirebase(uid,data){
-    console.log("dataaaaa",data)
+    console.log("dataaaaa",data,uid)
     await updateDoc(doc(db, collectionRef, uid), data);
 }
 

@@ -12,6 +12,7 @@ import CartEmpy from "../../assets/carrito_vacio.gif";
 import styled from "styled-components";
 import mercadopago from "mercadopago";
 
+
 const REACT_APP_ACCESS_TOKEN =
   "TEST-5909391637745101-041518-e07a43a5f92224ee501bc4d9feca4624-191706246";
 const url = window.location.href
@@ -288,10 +289,63 @@ const ImageError = styled.img`
   height: 310px;
 `;
 
+const MercadoPagoConfiguration = async (carrito, id_order,user) => {
+      await mercadopago.configure({
+          access_token: REACT_APP_ACCESS_TOKEN
+      })
+      
+      console.log(user)
+      
+      const items = carrito.map(i=>{ // mapeo elementos del carrito
+        let price= i.price.slice(1)
+        let price1= price.split('.')
+        let price2=price1.join('')
+        let pricefinally=price2.split(',')
+
+         console.log('price',pricefinally)
+          return {
+              title: i.title,
+              unit_price:Number(pricefinally[0]),
+              quantity: i.quantity
+          }
+      })
+      console.log('item',items,'id_order',id_order[0].uid)
+      let preference ={
+          items:items, // item para vender
+          external_reference:  `${id_order[0].uid}`,// id orden compra
+          parament_methods:{  // metodos de pago
+              excludeds_payment_types:[ // excluimos el pago por cajero automatico
+                  {
+                      id:'atm'
+                  }
+              ],
+              installments:3, // cant maxima de cuotas
+          },
+          back_Urls: {
+                      success:'http://localhost:3000/StateMercadoPago',
+                      failure:'http://localhost:3000/StateMercadoPago',
+                      pending:'http://localhost:3000/StateMercadoPago',
+          },
+          
+          payer:{
+            name:user.name,
+            email:user.email
+          },
+          statement_description:'petshop',
+          capture:true,
+          redirect:'http://localhost:3000/',
+          binary_mode:true
+          
+          
+
+      }
+ 
+ 
 const OrderContainer = styled.div`
   text-align: center;
   margin: auto;
 `;
+
 
 const AllCartContainer = styled.div`
   display: flex;
@@ -299,67 +353,7 @@ const AllCartContainer = styled.div`
   margin: auto;
 `;
 
-const MercadoPagoConfiguration = async (carrito, id_order) => {
-  await mercadopago.configure({
-    access_token: REACT_APP_ACCESS_TOKEN,
-  });
-  console.log(carrito, id_order);
-  // const id_orden=1
-  // const carrito =[
-  //     { title: 'prod1', quantity:2, price:10.5},
-  //     { title: 'prod2', quantity:5, price:10.5},
-  //     { title: 'prod3', quantity:3, price:10.5},
-  // ]
-  const items = carrito.map((i) => {
-    // mapeo elementos del carrito
-    let price = i.price.slice(1);
-    let price1 = price.split(".");
-    let price2 = price1.join("");
-    let pricefinally = price2.split(",");
 
-    console.log("price", pricefinally);
-    return {
-      title: i.title,
-      unit_price: Number(pricefinally[0]),
-      quantity: i.quantity,
-    };
-  });
-  console.log("item", items, "id_order", id_order[0].uid);
-  let preference = {
-    items: items, // item para vender
-    external_reference: `${id_order[0].uid}`, // id orden compra
-    parament_methods: {
-      // metodos de pago
-      excludeds_payment_types: [
-        // excluimos el pago por cajero automatico
-        {
-          id: "atm",
-        },
-      ],
-      installments: 3, // cant maxima de cuotas
-    },
-    back_Urls: {
-      success: "http://localhost:3000/StateMercadoPago",
-      failure: "http://localhost:3000/StateMercadoPago",
-      pending: "http://localhost:3000/StateMercadoPago",
-    },
-  };
-
-  axios({
-    /// anterior
-    method: "POST",
-    url: "https://api.mercadopago.com/checkout/preferences",
-    data: preference,
-    headers: {
-      "cache-control": "no-cache",
-      "content-type": "application/json",
-      Authorization: `Bearer ${REACT_APP_ACCESS_TOKEN}`,
-    },
-  }).then((response) => {
-    console.log("esta es la respuesta de mp", response);
-    window.location.replace(response.data.sandbox_init_point);
-  });
-};
 
 export function Cart() {
   const user = useSelector((state) => state.clientReducer.user);
@@ -369,9 +363,10 @@ export function Cart() {
     dispatch(openCartFront(user));
   }, [dispatch, user]);
 
-  const handleSubmit = () => {
-    MercadoPagoConfiguration(items, openCart);
-  };
+
+    const handleSubmit = () => {
+        MercadoPagoConfiguration(items, openCart,user)
+ 
 
   let items = [];
   let itemDelete = {};
@@ -412,6 +407,7 @@ export function Cart() {
     dispatch(deleteItemsCartFront(itemDelete));
     return alert("Producto borrado con éxito. ¡Continua comprando!");
   };
+ 
 
   //Recibe un objeto con las propiedades{user,item,number},
   //siendo number el numero final que queda en la base de datos
@@ -450,6 +446,7 @@ export function Cart() {
   return (
     <AllCartContainer>
       {items && items.length ? (
+
         <OrderContainer>
           <TitleContainer>
             <TuCarritoText>Tus productos:</TuCarritoText>
@@ -492,6 +489,7 @@ export function Cart() {
           <BtnMercadoPago onClick={handleSubmit}>Pagar</BtnMercadoPago>
           <p>Precio Total: $ {total}</p>
         </OrderContainer>
+
       ) : (
         <EmpyContainer>
           <ImageError src={CartEmpy} alt="carrito vacio" />
@@ -508,3 +506,5 @@ export function Cart() {
     </AllCartContainer>
   );
 }
+
+
