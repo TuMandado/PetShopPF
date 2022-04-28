@@ -14,6 +14,7 @@ const initialState = {
     petsCategory: [],
     statePets:[],
     user: null,
+    settings: {}
 };
 
 function clientReducer(state = initialState, action) {
@@ -130,6 +131,11 @@ function clientReducer(state = initialState, action) {
                  ...state,
                  statePets: action.payload
              }
+        case 'SET_SETTINGS':
+            return {
+                ...state,
+                settings: action.payload
+            }
         default:
             return state;
     }

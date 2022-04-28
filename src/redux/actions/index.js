@@ -245,3 +245,10 @@ export function getStatePet () {
     }
 
 }
+
+export function setSettings(payload) {
+    return {
+        type: 'SET_SETTINGS',
+        payload
+    }
+}
