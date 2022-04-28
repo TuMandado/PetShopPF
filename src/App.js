@@ -42,7 +42,11 @@ import StateMercadoPago from "./page/StateMercadoPago/StateMercadoPago"
 import NewPublicPets from "./admin/pages/newPublicPets/NewPublicPets";
 
 import { getUser, uploadUser } from "./firebase/Users";
+
 import { cartLoginFront, getQuantity } from "./redux/actions/cartActions";
+
+import { openCartFront } from "./redux/actions/cartActions";
+
 
 // Imports for settings managment
 import { setSettings } from "./redux/actions";
@@ -60,6 +64,10 @@ function App() {
   //let cartLoading = false
   
   const dispatch = useDispatch();
+    // Cart managment
+    // useEffect(() => {
+    //   dispatch(openCartFront(user));
+    // }, [user]);
 
     // Console app setings
     useEffect(() => {
