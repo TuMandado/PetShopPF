@@ -1,8 +1,10 @@
-import { getAllReviews, getReviewByProduct, getReviewByUser, uploadReview } from "../../firebase/Reviews";
+import { getAllReviews, getProductScore, getReviewByProduct, getReviewByUser, uploadReview } from "../../firebase/Reviews";
 
 export const GET_ALL_REVIEWS = 'GET_ALL_REVIEWS';
 export const GET_PRODUCT_REVIEWS = 'GET_PRODUCT_REVIEWS';
 export const GET_USER_REVIEWS = 'GET_USER_REVIEWS';
+export const POST_REVIEW = 'POST_REVIEW';
+export const REVIEW_SCORE= 'REVIEW_SCORE';
 
 export function getAllReviewsFront() {
     return async function (dispatch) {
@@ -54,8 +56,30 @@ export function getReviewsByUserFront(payload) {
 
 export function postReview(payload) {
     return async function (dispatch) {
-        const jsonReviewPost = await uploadReview(payload);
-        console.log("jsonReviewPost", jsonReviewPost);
-        return jsonReviewPost;
+        try {
+            const jsonReviewScore = await uploadReview(payload);
+            console.log("jsonReviewScore", jsonReviewScore);
+            return dispatch({
+                type: POST_REVIEW,
+                payload: jsonReviewScore,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+}
+  
+export function porductScore(payload){
+    return async function (dispatch) {
+        try {
+            const jsonReviewScore = await getProductScore(payload);
+            console.log("jsonReviewScore", jsonReviewScore);
+            return dispatch({
+                type: REVIEW_SCORE,
+                payload: jsonReviewScore,
+            });
+        } catch (error) {
+            console.log(error);
+        }
     };
 }

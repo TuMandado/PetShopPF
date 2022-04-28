@@ -9,6 +9,7 @@ import { getDetailProducts, detailVacio } from "../../redux/actions";
 import { addItemCartFront } from "../../redux/actions/cartActions";
 import styled from "styled-components";
 import FormReview from "../formReview/FormReview";
+import Reviews from "../reviews/Reviews";
 
 const DetailContainer = styled.div`
   position: relative;
@@ -235,6 +236,7 @@ const ProductDetail = () => {
       </DetailContainer>
       {console.log("queesuser", user)}
       {user ? (<FormReview user={user} id={uid.id} />): (<p>Regístrate para dejar tu comentario</p>)}
+      <Reviews id={uid.id}/>
       
 
       {/* <Footer /> */}
