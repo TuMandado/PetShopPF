@@ -59,9 +59,9 @@ function App() {
   
   const dispatch = useDispatch();
     // Cart managment
-    useEffect(() => {
-      dispatch(openCartFront(user));
-    }, [user]);
+    // useEffect(() => {
+    //   dispatch(openCartFront(user));
+    // }, [user]);
 
     // Console app setings
     useEffect(() => {
