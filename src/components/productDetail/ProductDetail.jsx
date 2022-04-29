@@ -10,52 +10,40 @@ import { addItemCartFront } from "../../redux/actions/cartActions";
 import styled from "styled-components";
 import FormReview from "../formReview/FormReview";
 import Reviews from "../reviews/Reviews";
+import { star } from '../../data'
+
 
 const DetailContainer = styled.div`
-  position: relative;
-  height: 90%;
+  height: 100vh;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 const DetailLeft = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  position: absolute;
-  width: 520px;
-  height: 659px;
-  left: 375px;
-  top: 140px;
-`;
-
-const ImageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0px;
-  position: absolute;
-  width: 310px;
-  height: 405px;
-  left: 976px;
-  top: 120px;
+  width: 90%;
+  height: 50%;
+  margin-right: auto;
+  margin-left: auto;
+  position: relative;
 `;
 
 const Image = styled.img`
+  width: 30%;
+  height: 100%;
   position: absolute;
-  width: 310px;
-  height: 310px;
-  left: 0px;
+  right: 10%;
+  top: 0;
+  border-radius: 12px;
 `;
 
 const ProductName = styled.h1`
-  position: static;
+  position: absolute;
+  left: 15%;
+  top: 10%;
   width: 464px;
   height: 40px;
-  left: 0px;
-  top: 0px;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
@@ -63,65 +51,57 @@ const ProductName = styled.h1`
   color: #151515;
   flex-grow: 0;
   margin: 2px;
-  :hover {
-    color: #0acf83;
-  }
 `;
 
 const InfoContainer = styled.div`
-  position: static;
   width: 470px;
   height: 51px;
-  left: 0px;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 500;
+  position: absolute;
+  left: 15%;
+  top: 55%;
 `;
 
-const PriceAddContainer = styled.div`
-  position: relative;
-  display: inline;
-  width: 530px;
-  height: 72px;
-  left: 10px;
-  align-self: center;
-  margin-top: 78px;
-`;
+
 
 const Precio = styled.p`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  position: absolute;
   width: 200px;
   height: 57px;
-  top: 30px;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
-  font-size: 22px;
+  font-size: 24px;
   color: #151515;
+  position: absolute;
+  right: 38%;
+  top: 11%;
+
 `;
 
 const BtnAdd = styled.button`
   display: flex;
-  flex-direction: row;
+  justify-content: center;
   align-items: center;
   padding: 14px;
-  position: absolute;
   width: 118px;
   height: 47px;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
-  left: 350px;
-  top: 21.5px;
   color: #ffff;
   background: #0acf83;
   border: 2px solid #067a4d;
   box-sizing: border-box;
   border-radius: 8px;
+  position: absolute;
+  right: 43.5%;
+  bottom: 20%;
 `;
 
 const InfoSpan = styled.p`
@@ -135,113 +115,107 @@ const InfoSpan = styled.p`
   margin: 8px 0px;
 `;
 
-const BtnHome = styled.button`
-  width: 122px;
-  height: 48px;
-  font-size: 18px;
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 600;
-  color: #ffff;
-  padding: 5px 5px;
-  background: #0acf83;
-  border: 2px solid #067a4d;
-  box-sizing: border-box;
-  border-radius: 8px;
-  margin-top: 11px;
-  position: relative;
-`;
+
+const StarsContainer = styled.div`
+    position: absolute;
+    transform: scale(1.5);
+    left: 16%;
+    top: 28%;
+`
+
+const ReviewsContainer = styled.div`
+    margin-left: 18.6%;
+    margin-top: 3em;
+    width: 60%;
+    position: relative;
+    margin-bottom: 2em;
+`
+
+
 
 const ProductDetail = () => {
-  const user = useSelector((state) => state.clientReducer.user);
-  const product = useSelector((state) => state.clientReducer.backupDetail);
-  const dispatch = useDispatch();
-  const uid = useParams();
-  console.log("uid", uid);
+    const dispatch = useDispatch();
+    const uid = useParams();
+    const user = useSelector((state) => state.clientReducer.user);
+    const product = useSelector((state) => state.clientReducer.backupDetail);
+    let productScore = useSelector(state => state.reviewsReducer.productScore);
+    productScore = Math.ceil(productScore);
+    const totalStars = [false, false, false, false, false];
+    for (let i = 0; i < productScore; i++) {
+        totalStars[i] = true;
+    }
 
-  useEffect(() => {
-    dispatch(getDetailProducts(uid.id));
-    return function () {
-      dispatch(detailVacio());
+      useEffect(() => {
+        dispatch(getDetailProducts(uid.id));
+        return function () {
+          dispatch(detailVacio());
+        };
+      }, []);
+
+    let item = {
+        user: user,
+        item: {
+            title: product.name,
+            quantity: 1,
+            price: product.price,
+            id: uid.id,
+        },
     };
-  }, [dispatch, uid]);
 
-  let item = {
-    user: user,
-    item: {
-      title: product.name,
-      quantity: 1,
-      price: product.price,
-      id: uid.id,
-    },
-  };
+    const handleAddCart = (e) => {
+        e.preventDefault();
+        dispatch(addItemCartFront(item));
+    };
 
-  const handleAddCart = (e) => {
-    e.preventDefault();
-    dispatch(addItemCartFront(item));
-  };
+    if (!product.name) {
+        return (
+            <div>
+                <div>
+                    <Navbar />
+                </div>
+                <div>
+                    <Loader />
+                </div>
+            </div>
+        );
+    }
 
-  if (!product.name) {
     return (
-      <div>
         <div>
-          <Navbar />
+            <Navbar />
+            <DetailContainer>
+                <DetailLeft>
+                    <div>
+                        <ProductName>{product.name}</ProductName>
+                    </div>
+                    <StarsContainer>
+                        {
+                            totalStars.map(el => {
+                                if (el) return star.full
+                                else return star.empty
+                            })
+                        }
+                    </StarsContainer>
+                    <InfoContainer>
+                        <InfoSpan>Animal: {product.animalCategory}</InfoSpan>
+                        <InfoSpan>Categoria: {product.subCategory}</InfoSpan>
+                        <InfoSpan>Marca: {product.brand}</InfoSpan>
+                    </InfoContainer>
+                    <Precio>{product.price}</Precio>
+                    <BtnAdd onClick={(e) => handleAddCart(e)}>Agregar</BtnAdd>
+                    <Image
+                        src={product.image || "https://imgur.com/lhLYKao"}
+                        alt="imagen"
+                    />
+                </DetailLeft>
+                <ReviewsContainer>
+                    <Reviews id={uid.id} />
+                    {user ? (<FormReview user={user} id={uid.id} />) : (<p>Regístrate para dejar tu comentario</p>)}
+                </ReviewsContainer>
+                <Footer />
+            </DetailContainer>
         </div>
-        <div>
-          <Loader />
-        </div>
-      </div>
     );
-  }
-
-  return (
-    <div>
-      <Navbar />
-      <DetailContainer>
-        <DetailLeft>
-          <div>
-            <ProductName>{product.name}</ProductName>
-          </div>
-          <InfoContainer>
-            <div>
-              <InfoSpan>Animal: {product.animalCategory}</InfoSpan>
-            </div>
-            <div>
-              <InfoSpan>Categoria: {product.subCategory}</InfoSpan>
-            </div>
-            <div>
-              <InfoSpan>Marca: {product.brand}</InfoSpan>
-            </div>
-          </InfoContainer>
-          <PriceAddContainer>
-            <div>
-              <Precio>{product.price}</Precio>
-            </div>
-            <div>
-              <BtnAdd onClick={(e) => handleAddCart(e)}>Agregar</BtnAdd>
-            </div>
-          </PriceAddContainer>
-        </DetailLeft>
-        <ImageContainer>
-          <Image
-            src={product.image || "https://imgur.com/lhLYKao"}
-            alt="imagen"
-          />
-        </ImageContainer>
-        <div>
-          <Link to="/products">
-            <BtnHome>Volver</BtnHome>
-          </Link>
-        </div>
-      </DetailContainer>
-      {console.log("queesuser", user)}
-      {user ? (<FormReview user={user} id={uid.id} />): (<p>Regístrate para dejar tu comentario</p>)}
-      <Reviews id={uid.id}/>
-      
-
-      {/* <Footer /> */}
-    </div>
-  );
 };
 
 export default ProductDetail;

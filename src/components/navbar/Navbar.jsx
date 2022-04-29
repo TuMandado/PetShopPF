@@ -246,6 +246,7 @@ const NavContainer = styled.div`
   justify-content: space-around;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 16px;
+  margin-bottom: 2em;
 `;
 
 const ContainerLoginOption = styled.div`

@@ -52,6 +52,14 @@ import { openCartFront } from "./redux/actions/cartActions";
 import { setSettings } from "./redux/actions";
 import { getSettings, editSettingValues } from "./firebase/Settings";
 
+// Import analytics functions
+import {
+  checkIfVisitAnalyticExists,
+  uploadVisitAnalytic,
+  updateVisitAnalytic,
+} from "./firebase/Analytics/visits";
+import { setVisitId } from "./redux/actions";
+
 const auth = getAuth(firebaseApp);
 
 function App() {
@@ -63,7 +71,45 @@ function App() {
   // const [cartLoading,setCartLoading] = useState(false)
   //let cartLoading = false
 
+  var [visitSent, setVisitSent] = useState(false);
+  var visitId = useSelector((state) => state.clientReducer.visitId);
   const dispatch = useDispatch();
+
+  // If settings.useVisitsAnalytics is true and visitSent is false, send a visit to the analytics. Then set visitSent to true.
+  useEffect(() => {
+    // Check if settings has been loaded
+    try {
+      if (Object.keys(settings).length) {
+        // Check if settings.useVisitsAnalytics is true
+        if (settings.useVisitsAnalytics) {
+          // Check if visitSent is false
+          if (!visitSent) {
+            // Send a visit to the analytics
+            checkIfVisitAnalyticExists(visitId).then((exists) => {
+              // If the visit does not exist, create it
+              if (!exists) {
+                uploadVisitAnalytic(user).then((visit) => {
+                  dispatch(setVisitId(visit.uid));
+                }).then(() => {
+                  setVisitSent(true);
+                });
+              } else {
+                // If the visit does exist, update it
+                if (user && visitId) {
+                  updateVisitAnalytic(visitId, user).then(() => {
+                    setVisitSent(true);
+                  });
+                }
+              }
+            });
+          }
+        }
+      }
+    } catch (error) {
+      console.log("Visit analytics error  :", error);
+    }
+  }, [settings, visitSent]);
+
   // Cart managment
   // useEffect(() => {
   //   dispatch(openCartFront(user));
@@ -126,6 +172,9 @@ function App() {
         } catch (error) {
           console.log("Cart actions error: ", error);
         }
+
+        // Visits analytics
+        setVisitSent(false);
       } else {
         dispatch(setUser(null));
       }

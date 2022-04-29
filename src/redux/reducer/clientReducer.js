@@ -14,7 +14,8 @@ const initialState = {
     petsCategory: [],
     statePets:[],
     user: null,
-    settings: {}
+    settings: {},
+    visitId: null,
 };
 
 function clientReducer(state = initialState, action) {
@@ -135,6 +136,11 @@ function clientReducer(state = initialState, action) {
             return {
                 ...state,
                 settings: action.payload
+            }
+        case 'SET_VISIT_ID':
+            return {
+                ...state,
+                visitId: action.payload
             }
         default:
             return state;
