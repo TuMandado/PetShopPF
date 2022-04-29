@@ -36,6 +36,7 @@ import { getTotalProducts } from "./redux/actions";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Navbar from "./components/navbar/Navbar";
 import StateMercadoPago from "./page/StateMercadoPago/StateMercadoPago";
+import  AboutTeam  from "./page/about/aboutTeam.jsx";
 
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
 
@@ -69,6 +70,7 @@ function App() {
   //const [userLoading,setUserLoading] = useState(false)
   // const [cartLoading,setCartLoading] = useState(false)
   //let cartLoading = false
+
   var [visitSent, setVisitSent] = useState(false);
   var visitId = useSelector((state) => state.clientReducer.visitId);
   const dispatch = useDispatch();
@@ -228,6 +230,7 @@ function App() {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/createdProduct" element={<CreatedProduct />} />
           <Route exact path="/createdPet" element={<CreatedPets />} />
+          <Route path="/about" element={<AboutTeam />} />
 
           <Route exact path="/admin" element={<AdminHome />} />
           <Route path="/users" element={<UserList />} />
