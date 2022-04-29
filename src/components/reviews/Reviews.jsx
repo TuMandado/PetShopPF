@@ -34,7 +34,7 @@ const Reviews = ({ id }) => {
     }
 
     return (
-        <MainContainer>
+        <MainContainer reviewsByTime={reviewsByTime}>
             <ReviewSectionTitle> Opiniones </ReviewSectionTitle>
             {reviewsByTime.length ? reviewsByTime.map(el => {
                 const stars = [false, false, false, false, false]
@@ -56,7 +56,10 @@ const Reviews = ({ id }) => {
 }
 
 const MainContainer = styled.div`
-    
+    ${props => props.reviewsByTime.length < 1
+        ? `margin-bottom: 15em`
+        : ``
+    }
 `
 const ReviewSectionTitle = styled.h1`
 font-family: 'Poppins';
@@ -106,7 +109,7 @@ const profilePic = {
     height: "1em",
     borderRadius: "2rem",
     border: "1px solid black",
-  };
+};
 
 
 export default Reviews
