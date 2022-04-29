@@ -35,7 +35,7 @@ import AdminSidebar from "./admin/components/adminSidebar/AdminSidebar";
 import { getTotalProducts } from "./redux/actions";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Navbar from "./components/navbar/Navbar";
-import StateMercadoPago from "./page/StateMercadoPago/StateMercadoPago"
+import StateMercadoPago from "./page/StateMercadoPago/StateMercadoPago";
 
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
 
@@ -47,10 +47,17 @@ import { cartLoginFront, getQuantity } from "./redux/actions/cartActions";
 
 import { openCartFront } from "./redux/actions/cartActions";
 
-
 // Imports for settings managment
 import { setSettings } from "./redux/actions";
 import { getSettings, editSettingValues } from "./firebase/Settings";
+
+// Import analytics functions
+import {
+  checkIfVisitAnalyticExists,
+  uploadVisitAnalytic,
+  updateVisitAnalytic,
+} from "./firebase/Analytics/visits";
+import { setVisitId } from "./redux/actions";
 
 const auth = getAuth(firebaseApp);
 
@@ -60,114 +67,136 @@ function App() {
   var settings = useSelector((state) => state.clientReducer.settings);
   const openCart = useSelector((state) => state.cartReducer.openCart);
   //const [userLoading,setUserLoading] = useState(false)
- // const [cartLoading,setCartLoading] = useState(false) 
+  // const [cartLoading,setCartLoading] = useState(false)
   //let cartLoading = false
   var [visitSent, setVisitSent] = useState(false);
+  var visitId = useSelector((state) => state.clientReducer.visitId);
+  const dispatch = useDispatch();
 
   // If settings.useVisitsAnalytics is true and visitSent is false, send a visit to the analytics. Then set visitSent to true.
   useEffect(() => {
     // Check if settings has been loaded
-    if (Object.keys(settings).length) {
-      // Check if settings.useVisitsAnalytics is true
-      if (settings.useVisitsAnalytics) {
-        // Check if visitSent is false
-        if (!visitSent) {
-          // Send a visit to the analytics
-          // ...
-          // Set visitSent to true
-          setVisitSent(true);
+    try {
+      if (Object.keys(settings).length) {
+        // Check if settings.useVisitsAnalytics is true
+        if (settings.useVisitsAnalytics) {
+          // Check if visitSent is false
+          if (!visitSent) {
+            // Send a visit to the analytics
+            checkIfVisitAnalyticExists(visitId).then((exists) => {
+              // If the visit does not exist, create it
+              if (!exists) {
+                uploadVisitAnalytic(user).then((visit) => {
+                  dispatch(setVisitId(visit.uid));
+                }).then(() => {
+                  setVisitSent(true);
+                });
+              } else {
+                // If the visit does exist, update it
+                if (user && visitId) {
+                  updateVisitAnalytic(visitId, user).then(() => {
+                    setVisitSent(true);
+                  });
+                }
+              }
+            });
+          }
         }
       }
+    } catch (error) {
+      console.log("Visit analytics error  :", error);
+    }
+  }, [settings, visitSent]);
+
+  // Cart managment
+  // useEffect(() => {
+  //   dispatch(openCartFront(user));
+  // }, [user]);
+
+  // Console app setings
+  useEffect(() => {
+    getSettings().then((set) => {
+      // console.log("Settings on firestore: ", set);
+      dispatch(setSettings(set));
+    });
+  }, []);
+
+  // When settings are fullfilled, if we change the values, we update the firestore
+  useEffect(() => {
+    // Get array lenght of keys from settings
+    var keys = Object.keys(settings);
+    // If lenght is not 0, update firestore
+    if (keys.length > 0) {
+      editSettingValues(settings);
     }
   }, [settings]);
-  
-  const dispatch = useDispatch();
-    // Cart managment
-    // useEffect(() => {
-    //   dispatch(openCartFront(user));
-    // }, [user]);
 
-    // Console app setings
-    useEffect(() => {
-      getSettings().then((set) => {
-        // console.log("Settings on firestore: ", set);
-        dispatch(setSettings(set));
-      });
-    }, []);
-  
-    // When settings are fullfilled, if we change the values, we update the firestore
-    useEffect(() => {
-      // Get array lenght of keys from settings
-      var keys = Object.keys(settings);
-      // If lenght is not 0, update firestore
-      if (keys.length > 0) {
-        editSettingValues(settings);
+  useEffect(() => {
+    const subscriber = onAuthStateChanged(auth, async (usuarioFirebase) => {
+      if (usuarioFirebase) {
+        // If location is not "/" (home page), redirect to home page
+        if (window.location.pathname === "/login") {
+          window.location.href = "/";
+        }
+        // Checks if user exists in the database
+        let userData = await getUser(usuarioFirebase.uid);
+        // If the user does not exist, create it
+        if (!userData) {
+          userData = {
+            email: usuarioFirebase.email,
+            role: "Cliente",
+            uid: usuarioFirebase.uid,
+            createdAt: Timestamp.now(),
+            updatedAt: Timestamp.now(),
+            phoneNumber: usuarioFirebase.phoneNumber,
+            shippingAddress: "",
+            name: "",
+            surname: "",
+            displayName: usuarioFirebase.displayName,
+            photoURL: usuarioFirebase.phoneNumber,
+            disabled: false,
+          };
+          // Upload the user to the database
+          await uploadUser(usuarioFirebase.uid, userData);
+        }
+        // Set user in redux
+        if (!user) {
+          await dispatch(setUser(userData));
+        }
+        // Cart actions
+        try {
+          //setCartLoading(true)
+          await dispatch(cartLoginFront(usuarioFirebase));
+        } catch (error) {
+          console.log("Cart actions error: ", error);
+        }
+
+        // Visits analytics
+        setVisitSent(false);
+      } else {
+        dispatch(setUser(null));
       }
-    }, [settings]);
+    });
+    return subscriber;
+  }, []);
 
-    useEffect(()=>{
-      const subscriber =  onAuthStateChanged(auth, async (usuarioFirebase) => {
-        if (usuarioFirebase) {
-          // If location is not "/" (home page), redirect to home page
-          if (window.location.pathname === "/login") {
-            window.location.href = "/";
-          }
-          // Checks if user exists in the database
-          let userData = await getUser(usuarioFirebase.uid);
-          // If the user does not exist, create it
-          if (!userData) {
-            userData = {
-              email: usuarioFirebase.email,
-              role: "Cliente",
-              uid: usuarioFirebase.uid,
-              createdAt: Timestamp.now(),
-              updatedAt: Timestamp.now(),
-              phoneNumber: usuarioFirebase.phoneNumber,
-              shippingAddress: "",
-              name: "",
-              surname: "",
-              displayName: usuarioFirebase.displayName,
-              photoURL: usuarioFirebase.phoneNumber,
-              disabled: false,
-            };
-            // Upload the user to the database
-            await uploadUser(usuarioFirebase.uid, userData);
-          }
-          // Set user in redux
-          if (!user) {
-            await dispatch(setUser(userData));
-          }
-          // Cart actions
-          try {
-         
-              //setCartLoading(true)
-              await dispatch(cartLoginFront(usuarioFirebase));
-        
-          } catch (error) {
-            console.log("Cart actions error: ", error);
-          }
-        } else {
-          dispatch(setUser(null));
-        }
-      });
-      return subscriber
-    },[])
- 
-    useEffect(()=>{
-      console.log("opencart quantity",openCart)
-      if(openCart && Object.keys(openCart).length){
-        if(user){
-            dispatch(getQuantity(openCart[0].data.items))
-            .then(console.log("quantity", openCart))
-          }else {
-            console.log("este open cart", openCart)
-            dispatch(getQuantity(openCart.items))
-            .then(console.log("quantity", openCart))
-          }
-        }else{
-          dispatch(getQuantity(openCart))
-        }
-    },[openCart])
+  useEffect(() => {
+    console.log("opencart quantity", openCart);
+    if (openCart && Object.keys(openCart).length) {
+      if (user) {
+        dispatch(getQuantity(openCart[0].data.items)).then(
+          console.log("quantity", openCart)
+        );
+      } else {
+        console.log("este open cart", openCart);
+        dispatch(getQuantity(openCart.items)).then(
+          console.log("quantity", openCart)
+        );
+      }
+    } else {
+      dispatch(getQuantity(openCart));
+    }
+  }, [openCart]);
 
   useEffect(() => {
     dispatch(getTotalProducts());
@@ -180,7 +209,11 @@ function App() {
     <div className={"App"}>
       <Router>
         <Routes>
-          <Route exact path="/StateMercadoPago" element={<StateMercadoPago />} />
+          <Route
+            exact
+            path="/StateMercadoPago"
+            element={<StateMercadoPago />}
+          />
           <Route exact path="*" element={<ErrorPage />} />
           <Route exact path="/" element={<Home />} />
           {/* <Route exact path="/" element={user ? <Home /> : <Login />} /> */}

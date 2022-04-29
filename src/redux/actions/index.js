@@ -252,3 +252,10 @@ export function setSettings(payload) {
         payload
     }
 }
+
+export function setVisitId(payload) {
+    return {
+        type: 'SET_VISIT_ID',
+        payload
+    }
+}
