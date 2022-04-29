@@ -23,7 +23,7 @@ export default function User() {
   const userDetail = useSelector((state) => state.adminReducer.user);
   const [input, setInput] = useState({})
   const getBaseFile = files => {
-    setInput(prevInput => ({ ...prevInput, photoUrl: files.base64 }))  
+    setInput(prevInput => ({ ...prevInput, photoURL: files.base64 }))  
 }
   useEffect(() => {
    if (!userDetail.length) {
@@ -40,7 +40,7 @@ export default function User() {
             email: userDetail.email ? userDetail.email : '',
             shippingAddress: userDetail.shippingAddress ? userDetail.shippingAddress : '',
             phoneNumber: userDetail.phoneNumber ? userDetail.phoneNumber : '',
-            photoUrl: userDetail.photoUrl ? userDetail.photoUrl : '',
+            photoURL: userDetail.photoURL ? userDetail.photoURL : '',
             role: userDetail.role ? userDetail.role : 'Cliente',
             disabled: userDetail.disabled ? userDetail.disabled : false
         })
@@ -65,7 +65,7 @@ export default function User() {
     //   email: "",
     //   phoneNumber: "",
     //   shippingAddress: "",
-    //   photoUrl: "",
+    //   photoURL: "",
     //   disabled: false
     // })
     alert("Ha sido modificado con exito")
@@ -87,7 +87,7 @@ export default function User() {
         <div className="userContainer">
           <div className="userShow">
             <div className="userShowTop">
-              <img src={userDetail && userDetail.photoUrl} alt="" className="userShowImg" />
+              <img src={userDetail && userDetail.photoURL} alt="" className="userShowImg" />
               <div className="userShowTopTitle">
                 <span className="userShowUserTitle">nombre de usuario</span>
                 <span className="userShowUsername">{userDetail.displayName? userDetail.displayName : userDetail.email}</span>

@@ -131,44 +131,25 @@ function App() {
     }
   }, [settings]);
 
-  useEffect(() => {
-    const subscriber = onAuthStateChanged(auth, async (usuarioFirebase) => {
-      if (usuarioFirebase) {
-        // If location is not "/" (home page), redirect to home page
-        if (window.location.pathname === "/login") {
-          window.location.href = "/";
-        }
-        // Checks if user exists in the database
-        let userData = await getUser(usuarioFirebase.uid);
-        // If the user does not exist, create it
-        if (!userData) {
-          userData = {
-            email: usuarioFirebase.email,
-            role: "Cliente",
-            uid: usuarioFirebase.uid,
-            createdAt: Timestamp.now(),
-            updatedAt: Timestamp.now(),
-            phoneNumber: usuarioFirebase.phoneNumber,
-            shippingAddress: "",
-            name: "",
-            surname: "",
-            displayName: usuarioFirebase.displayName,
-            photoURL: usuarioFirebase.phoneNumber,
-            disabled: false,
-          };
-          // Upload the user to the database
-          await uploadUser(usuarioFirebase.uid, userData);
-        }
-        // Set user in redux
-        if (!user) {
-          await dispatch(setUser(userData));
-        }
-        // Cart actions
-        try {
-          //setCartLoading(true)
-          await dispatch(cartLoginFront(usuarioFirebase));
-        } catch (error) {
-          console.log("Cart actions error: ", error);
+    useEffect(()=>{
+      console.log("opencart quantity",openCart)
+      if(openCart && Object.keys(openCart).length){
+        if(user){
+          console.log("openCart que rompe",openCart)
+          if(openCart[0]){
+            dispatch(getQuantity(openCart[0].data.items))
+            .then(console.log("quantity", openCart))
+          }else{
+            dispatch(getQuantity(openCart.items))
+          }
+          }else {
+            console.log("este open cart", openCart)
+            dispatch(getQuantity(openCart.items))
+            .then(console.log("quantity", openCart))
+          }
+        }else{
+          dispatch(getQuantity(openCart))
+
         }
 
         // Visits analytics
