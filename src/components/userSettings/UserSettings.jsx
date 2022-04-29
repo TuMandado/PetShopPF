@@ -11,7 +11,17 @@ export const UserSettings = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.clientReducer.user);
   console.log("User de Settings =>", user);
-  const [input, setInput] = useState({});
+  const [input, setInput] = useState({
+    displayName: "",
+    name:  "",
+    surname: "",
+    email: "",
+    shippingAddress:  "",
+    phoneNumber: "",
+    photoUrl: "",
+    role:  "Cliente",
+    disabled: false,
+  });
 
   /*  Estructura de la info:
     email: ``,
@@ -28,7 +38,7 @@ export const UserSettings = () => {
 
   useEffect(() => {
     setInput({
-      displayName: /* user.displayName ? user.displayName : */ "",
+      displayName:  user.displayName ? user.displayName : "",
       name: user.name ? user.name : "",
       surname: user.surname ? user.surname : "",
       email: user.email ? user.email : "",
@@ -55,6 +65,17 @@ export const UserSettings = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if(input.name.search(/^[^$%&|<>#]*$/)) {
+      return alert('Ingrese un nombre adecuado')
+    } else if (
+      user.find(e => e.displayName.toLowerCase().trim() === input.displayName.toLowerCase().trim())
+  )  {
+    return alert(`El Nombre de usuario ${input.displayName} ya existe` )
+  } else if (input.email.search(/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i)) {
+    return alert('Ingrese un email adecuado')
+  } else if ( input.phoneNumber < 1 || input.phoneNumber.search(/^[(]{0,1}[0-9]{3}[)]{0,1}[-\s.]{0,1}[0-9]{3}[-\s.]{0,1}[0-9]{4}$/)) {
+    return alert('numero de telefono incorrecto')
+} 
     dispatch(putUser(user.uid, input));
     alert("Tus datos se modificaron con exito");
     navigate("/usersettings");
@@ -71,17 +92,19 @@ export const UserSettings = () => {
           <div>
             <div>
               <label>Nombre de Usuario</label>
+              <br />
               <input
                 onChange={handleChange}
                 name="displayName"
                 type="text"
                 placeholder={
-                  /* user.displayName ? user.displayName :  */ "Nombre de usuario..."
+                   user.displayName ? user.displayName :  "Nombre de usuario..."
                 }
               />
             </div>
             <div>
               <label>Nombre</label>
+               <br />
               <input
                 onChange={handleChange}
                 name="name"
@@ -91,6 +114,7 @@ export const UserSettings = () => {
             </div>
             <div>
               <label>Apellido</label>
+              <br />
               <input
                 onChange={handleChange}
                 name="surname"
@@ -100,6 +124,7 @@ export const UserSettings = () => {
             </div>
             <div>
               <label>Email</label>
+              <br />
               <input
                 onChange={handleChange}
                 name="email"
@@ -111,6 +136,7 @@ export const UserSettings = () => {
             </div>
             <div>
               <label>Telefono</label>
+              <br />
               <input
                 onChange={handleChange}
                 name="phoneNumber"
@@ -120,6 +146,7 @@ export const UserSettings = () => {
             </div>
             <div>
               <label>Direccion</label>
+              <br />
               <input
                 onChange={handleChange}
                 name="shippingAddress"
@@ -133,6 +160,7 @@ export const UserSettings = () => {
             </div>
             <div>
               <label>Tu mejor foto:</label>
+              <br />
               <FileBase
                 name="file"
                 type="file"
