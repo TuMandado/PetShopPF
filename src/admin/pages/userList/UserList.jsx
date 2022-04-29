@@ -40,7 +40,7 @@ const UserList = () => {
           activo: el.data.disabled? "no": "si"
          })
     }))
-  },[allUsers]);
+  },[dispatch, allUsers]);
 
   if (!totalUsers.length) {
     setTimeout(() => {
