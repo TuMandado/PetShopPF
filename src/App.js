@@ -139,8 +139,13 @@ function App() {
       console.log("opencart quantity",openCart)
       if(openCart && Object.keys(openCart).length){
         if(user){
+          console.log("openCart que rompe",openCart)
+          if(openCart[0]){
             dispatch(getQuantity(openCart[0].data.items))
             .then(console.log("quantity", openCart))
+          }else{
+            dispatch(getQuantity(openCart.items))
+          }
           }else {
             console.log("este open cart", openCart)
             dispatch(getQuantity(openCart.items))

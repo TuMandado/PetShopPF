@@ -330,16 +330,20 @@ export async function addCartItem(user,item){
         let open = await cartOpen(user.uid)
         console.log("useeeer",open,"userUid",user.uid)
         if (open){
-            addItem(user,item)
+            await addItem(user,item)
         }else{
-            newCart(user,item)
+            await newCart(user,item)
         }
+        let cart = await cartOpen(user.uid)
+        return cart
     }else{
         if(localStorage.getItem('cart')){
-            addItem(user,item)
+            await addItem(user,item)
         }else{
-            newCart(user,item)
+            await newCart(user,item)
         }
+        let cart = JSON.parse(localStorage.getItem('cart'))
+        return cart
     }
 
 }
