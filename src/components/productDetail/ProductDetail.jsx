@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Navbar } from "../navbar/Navbar";
 import { Loader } from "../../page/loader/Loader";
@@ -102,6 +102,12 @@ const BtnAdd = styled.button`
   position: absolute;
   right: 43.5%;
   bottom: 20%;
+  cursor: pointer;
+  transition: 0.25s ease;
+  &:hover {
+    color: #0acf83;
+    background: #F9F9F9;
+  }
 `;
 
 const InfoSpan = styled.p`
@@ -131,11 +137,32 @@ const ReviewsContainer = styled.div`
     margin-bottom: 2em;
 `
 
+const GoBackButton = styled.div`
+background: #F9F9F9;
+border: 1px solid #D1D1D1;
+box-sizing: border-box;
+border-radius: 12px;
+padding: 14px 16px;
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 18px;
+margin-top: 3.2%;
+margin-left: 6%;
+cursor: pointer;
+transition: 0.25s ease;
+&:hover {
+    color: #0acf83;
+}
+`
+
 
 
 const ProductDetail = () => {
     const dispatch = useDispatch();
     const uid = useParams();
+    const navigate = useNavigate();
     const user = useSelector((state) => state.clientReducer.user);
     const product = useSelector((state) => state.clientReducer.backupDetail);
     let productScore = useSelector(state => state.reviewsReducer.productScore);
@@ -145,12 +172,12 @@ const ProductDetail = () => {
         totalStars[i] = true;
     }
 
-      useEffect(() => {
+    useEffect(() => {
         dispatch(getDetailProducts(uid.id));
         return function () {
-          dispatch(detailVacio());
+            dispatch(detailVacio());
         };
-      }, []);
+    }, []);
 
     let item = {
         user: user,
@@ -166,6 +193,10 @@ const ProductDetail = () => {
         e.preventDefault();
         dispatch(addItemCartFront(item));
     };
+
+    const goToStore = (e) => {
+        navigate('/products')
+    }
 
     if (!product.name) {
         return (
@@ -185,6 +216,7 @@ const ProductDetail = () => {
             <Navbar />
             <DetailContainer>
                 <DetailLeft>
+                    <GoBackButton onClick={e => goToStore(e)}> {"<"} Volver  </GoBackButton>
                     <div>
                         <ProductName>{product.name}</ProductName>
                     </div>
