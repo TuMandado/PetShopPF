@@ -35,7 +35,7 @@ const UserList = () => {
           email: el.data.email,
           createdAt: el.data.createdAt,
           updatedAt: el.data.updatedAt, 
-          image: el.data.photoUrl,
+          image: el.data.photoURL,
           role: el.data.role,
           activo: el.data.disabled? "no": "si"
          })
@@ -51,7 +51,7 @@ const UserList = () => {
               email: el.data.email,
               createdAt: el.data.createdAt,
               updatedAt: el.data.updatedAt, 
-              image: el.data.photoUrl,
+              image: el.data.photoURL,
               role: el.data.role,
               activo: el.data.disabled? "no": "si"
              })
