@@ -19,7 +19,7 @@ const ProductList = () => {
   useEffect(() => {
     // dispatch(getReallyAllProducts())
     dispatch(getTotalProducts())
-  }, []);
+  }, [allProducts]);
 
   useEffect(() => {
     setTotalProducts(allProducts.map(el=>{
