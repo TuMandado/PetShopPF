@@ -6,6 +6,7 @@ import {
     getAllProductsAnimal,
     filterProducts,
     uploadProduct,
+    editProduct,
 } from "../../firebase/Products/index";
 import {
     getAllPets,
@@ -258,4 +259,22 @@ export function setVisitId(payload) {
         type: 'SET_VISIT_ID',
         payload
     }
+
+}
+
+//payload es un objeto con uid del producto y un objeto {stock: cantidad final del stock}
+export async function editStock(payload){
+    return async function (dispatch) {
+        try {
+            let jsonStock = await editProduct(payload)
+            console.log("-stock Flag-", jsonStock);
+            return dispatch({
+                type: `EDIT_STOCK`,
+                payload: jsonStock,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
 }
