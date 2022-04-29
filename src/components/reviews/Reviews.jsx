@@ -56,9 +56,11 @@ const Reviews = ({ id }) => {
 }
 
 const MainContainer = styled.div`
-    ${props => props.reviewsByTime.length < 1
-        ? `margin-bottom: 15em`
-        : ``
+    ${props => props.reviewsByTime.length >= 2 && props.reviewsByTime.length < 3
+        ? `margin-bottom: 10em`
+        : props.reviewsByTime.length < 2 && props.reviewsByTime.length > 0
+            ? `margin-bottom: 16em`
+            : !props.reviewsByTime.length && `margin-bottom: 21em`
     }
 `
 const ReviewSectionTitle = styled.h1`
