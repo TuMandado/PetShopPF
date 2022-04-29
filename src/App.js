@@ -62,6 +62,24 @@ function App() {
   //const [userLoading,setUserLoading] = useState(false)
  // const [cartLoading,setCartLoading] = useState(false) 
   //let cartLoading = false
+  var [visitSent, setVisitSent] = useState(false);
+
+  // If settings.useVisitsAnalytics is true and visitSent is false, send a visit to the analytics. Then set visitSent to true.
+  useEffect(() => {
+    // Check if settings has been loaded
+    if (Object.keys(settings).length) {
+      // Check if settings.useVisitsAnalytics is true
+      if (settings.useVisitsAnalytics) {
+        // Check if visitSent is false
+        if (!visitSent) {
+          // Send a visit to the analytics
+          // ...
+          // Set visitSent to true
+          setVisitSent(true);
+        }
+      }
+    }
+  }, [settings]);
   
   const dispatch = useDispatch();
     // Cart managment
