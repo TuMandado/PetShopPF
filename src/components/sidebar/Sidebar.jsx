@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import star from './stars'
+import { star } from '../../data'
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteFilters, filterAllProducts } from '../../redux/actions'

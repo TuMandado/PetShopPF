@@ -1,31 +1,36 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { postReview } from '../../redux/actions/reviewsActions';
+import styled from "styled-components";
+import { star } from '../../data';
 
-const FormReview = ({user, id}) => {
+const FormReview = ({ user, id }) => {
     const dispatch = useDispatch()
 
-    const [input,setInput] = useState({
+    const [input, setInput] = useState({
         userUid: user.uid,
         email: user.email,
         displayName: user.displayName,
         productUid: id,
-        score: 1,
+        score: 0,
         review: "",
         createdAt: Date(),
-        delete:false,
-        userDelete:false,
+        delete: false,
+        userDelete: false,
     })
-   
 
-    function handleChange(e){
+    const [starClicked, setStarClicked] = useState([false, false, false, false, false])
+    let starId = 0;
+
+
+    function handleChange(e) {
         setInput({
             ...input,
             [e.target.name]: e.target.value,
         })
     }
 
-    function handleSubmit(e){
+    function handleSubmit(e) {
         e.preventDefault();
         dispatch(postReview(input))
         setInput({
@@ -33,42 +38,108 @@ const FormReview = ({user, id}) => {
             email: user.email,
             displayName: user.displayName,
             productUid: id,
-            score: 1,
+            score: 0,
             review: "",
             createdAt: Date(),
-            delete:false,
-            userDelete:false,
-    })
-    alert('Guau')
+            delete: false,
+            userDelete: false,
+        })
+        setStarClicked([false, false, false, false, false])
+        alert('Guau')
+    }
+
+    const handleStarSelect = (e) => {
+        const newStarClicked = [false, false, false, false, false]
+        for (let i = 0; i < e.currentTarget.id; i++) {
+            
+            newStarClicked[i] = true;
+        }
+        setStarClicked(newStarClicked)
     }
 
 
-  return (
-    <div>
-        <form onSubmit={(e)=>handleSubmit(e)}>
-            {console.log("input", input)}
-            <label>Score</label>
-            <div>
-                <input type="radio" id="1" value={1} name="score" onChange={(e)=>handleChange(e)}/>
-                <label for="1">1</label>
-                <input type="radio" id="2" value={2} name="score" onChange={(e)=>handleChange(e)}/>
-                <label for="2">2</label>
-                <input type="radio" id="3" value={3} name="score" onChange={(e)=>handleChange(e)}/>
-                <label for="3">3</label>
-                <input type="radio" id="4" value={4} name="score" onChange={(e)=>handleChange(e)}/>
-                <label for="4">4</label>
-                <input type="radio" id="5" value={5} name="score" onChange={(e)=>handleChange(e)}/>
-                <label for="5">5</label>
-            </div>
-            <label>Reseña</label>
-            <div>
-                <textarea type="text" name="review" value={input.review} placeholder='Mi mascota dice que...' cols="30" rows="10" onChange={(e)=>handleChange(e)}/>
-            </div>
-            <button type='submit'>Enviar</button>
 
-        </form>
-    </div>
-  )
+    return (
+        <MainContainer>
+            <form onSubmit={(e) => handleSubmit(e)}>
+                <ScoreLabel>Puntuación</ScoreLabel>
+                <div>
+                    {
+                        starClicked.map(el => {
+                            starId = starId + 1
+                            return <>
+                                <RadioInput type="radio" id={starId} value={starId} name="score" onChange={(e) => handleChange(e)} />
+                                <RadioInputsLabels onClick={e => handleStarSelect(e)} id={starId} for={starId}>{el ? star.full : star.empty}</RadioInputsLabels>
+                            </>
+
+                        })
+                    }
+                </div>
+                <ReviewLabel>Reseña</ReviewLabel>
+                <div>
+                    <TextAreaReview type="text" name="review" value={input.review} placeholder='Mi mascota dice que...' cols="30" rows="10" onChange={(e) => handleChange(e)} />
+                </div>
+                {
+                    input.score ? <SendButton type='submit'>Enviar</SendButton> : null
+                }
+            </form>
+        </MainContainer>
+    )
 }
 
-export default FormReview
+export default FormReview;
+
+const MainContainer = styled.div`
+    position: absolute;
+    right: 0;
+    top: 5%;
+    font-family: 'Poppins';
+    font-style: normal;
+    line-height: 27px;
+    margin-bottom: 2em;
+
+`
+const ScoreLabel = styled.label`
+    font-size: 16px;
+`
+const RadioInput = styled.input`
+    display: none;
+`
+const RadioInputsLabels = styled.label`
+    cursor: pointer;
+`
+const ReviewLabel = styled.label`
+    font-size: 16px;
+`
+const TextAreaReview = styled.textarea`
+    border: 2px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 1em;
+    resize: none;
+    font-family: 'Poppins';
+    font-style: normal;
+    width: 100%;
+
+`
+const SendButton = styled.button`
+display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  color: #ffff;
+  background: #0acf83;
+  padding: 0.4em;
+  border: 2px solid #067a4d;
+  box-sizing: border-box;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.25s ease;
+  &:hover {
+    color: #0acf83;
+    background: #F9F9F9;
+  }
+  
+`

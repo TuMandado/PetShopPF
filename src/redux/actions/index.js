@@ -252,8 +252,6 @@ export function setSettings(payload) {
         type: 'SET_SETTINGS',
         payload
     }
-<<<<<<< Updated upstream
-=======
 }
 
 export function setVisitId(payload) {
@@ -261,6 +259,7 @@ export function setVisitId(payload) {
         type: 'SET_VISIT_ID',
         payload
     }
+
 }
 
 //payload es un objeto con uid del producto y un objeto {stock: cantidad final del stock}
@@ -277,5 +276,5 @@ export async function editStock(payload){
             console.log(error);
         }
     };
->>>>>>> Stashed changes
+
 }
