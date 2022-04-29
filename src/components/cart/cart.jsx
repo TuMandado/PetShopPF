@@ -7,6 +7,7 @@ import {
   deleteItemsCartFront,
   editItemsCartFront,
   getQuantity,
+  clearCart,
 } from "../../redux/actions/cartActions";
 import CartEmpy from "../../assets/carrito_vacio.gif";
 import styled from "styled-components";
@@ -404,6 +405,12 @@ export function Cart() {
     dispatch(deleteItemsCartFront(itemDelete));
     return alert("Producto borrado con éxito. ¡Continua comprando!");
   };
+
+  const handleClear = (e,id) => {
+    e.preventDefault();
+    dispatch(clearCart({user,id:id}))
+    return alert("Carrito vacío");
+  }
  
 
   //Recibe un objeto con las propiedades{user,item,number},
@@ -485,6 +492,7 @@ export function Cart() {
           })}
           <BtnMercadoPago onClick={handleSubmit}>Pagar</BtnMercadoPago>
           <p>Precio Total: $ {total}</p>
+          <button onClick={(e) => handleClear(e, openCart[0] ? openCart[0].uid: openCart)}>Limpiar carrito </button>
         </OrderContainer>
 
       ) : (

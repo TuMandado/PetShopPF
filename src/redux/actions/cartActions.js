@@ -4,7 +4,9 @@ import {
     closeCartFirebase,
     deleteItem,
     editCart,
+    editCartFirebase,
     getAllCartsFirebase,
+    getCartFirebase,
     loginCart,
 } from "../../firebase/Cart";
 
@@ -16,6 +18,7 @@ export const DELETE_ITEM = "DELETE_ITEM";
 export const CLOSE_CART = "CLOSE_CART";
 export const LOGIN_CART = "LOGIN_CART";
 export const GET_QUANTITY = "GET_QUANTITY";
+export const CLEAR_CART = "CLEAR_CART";
 
 export function getAllCarts() {
     return async function (dispatch) {
@@ -161,3 +164,25 @@ export function getQuantity(payload){
         })
     }
 }
+
+export function clearCart(payload) {
+    return async function (dispatch) {
+        try {
+            let cart = []
+            if(payload.user){
+                await editCartFirebase(payload.id,{items:[]})
+                cart = getCartFirebase(payload.id)
+            }else {
+                localStorage.clear();
+            }
+            //console.log("-clearCart Flag-", cart);
+            return dispatch({
+                type: CLEAR_CART,
+                payload: cart,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+}
+
