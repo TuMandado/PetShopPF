@@ -20,7 +20,8 @@ const PetDetails = () => {
 
   const navigateToPets = (e) => {
     e.preventDefault();
-    navigate(`/pets`);
+    // navigate(`/pets`);
+    window.history.back()
   };
 
   useEffect(() => {
@@ -249,5 +250,6 @@ const BtnToPets = styled.button`
     color: #0acf83;
     background: #ffff;
     border: 3px solid #067a4d;
+    cursor:pointer;
   }
 `;

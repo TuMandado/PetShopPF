@@ -2,6 +2,7 @@ import "./newPublicPets.css";
 import Navbar from "../../../components/navbar/Navbar";
 import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
 import Pets from "../../../components/pets/Pets";
+import PetCreated from "../../../components/petCreated/petCreated";
 
 const NewPublicPets = () => {
   return (
@@ -10,7 +11,7 @@ const NewPublicPets = () => {
     <div className="container">
        <AdminSidebar /> 
        <div className="petList">
-          <Pets/>
+          <PetCreated/>
        </div>
     </div>
   </div>

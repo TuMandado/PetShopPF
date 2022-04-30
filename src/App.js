@@ -43,6 +43,7 @@ import NewPublicPets from "./admin/pages/newPublicPets/NewPublicPets";
 
 import { getUser, uploadUser } from "./firebase/Users";
 import { cartLoginFront } from "./redux/actions/cartActions";
+import AdminPet from "./admin/pages/adminPet/AdminPet";
 
 const auth = getAuth(firebaseApp);
 
@@ -122,6 +123,7 @@ function App() {
           <Route path="/newUser" element={<NewUser />} />
           <Route path="/adminProducts" element={<AdminProductList />} />
           <Route path="/adminProduct/:productId" element={<AdminProduct />} />
+          <Route path="/adminPet/:id" element={<AdminPet />} />
           <Route path="/newProduct" element={<NewProduct />} />
           <Route path="/ventas" element={<Pyments />} />
           <Route path="/publicPets" element={<PublicPets />} />

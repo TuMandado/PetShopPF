@@ -282,9 +282,7 @@ const PetCreated = () => {
           </FormContent>
         </InfoForm>
         <BtnContainer>
-          <Link to="/pets">
-            <BtnToPets> Volver</BtnToPets>
-          </Link>
+            <BtnToPets onClick={()=>window.history.back()}> Volver </BtnToPets>
         </BtnContainer>
       </div>
     </div>
@@ -445,6 +443,7 @@ const BtnToCreate = styled.button`
     color: #0acf83;
     background: #ffff;
     border: 3px solid #067a4d;
+    cursor:pointer
   }
 `;
 
@@ -468,6 +467,7 @@ const BtnToPets = styled.button`
     color: #0acf83;
     background: #ffff;
     border: 3px solid #067a4d;
+    cursor:pointer
   }
 `;
 
