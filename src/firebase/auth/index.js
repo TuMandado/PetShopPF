@@ -10,6 +10,7 @@ import {
   FacebookAuthProvider,
   sendPasswordResetEmail,
 } from "firebase/auth";
+import Swal from "sweetalert2";
 import { uploadUser } from "../Users";
 
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
@@ -31,8 +32,15 @@ export const signInUsuario = (email, password) => {
 export async function registrarUsuario(email, password, role) {
   createUserWithEmailAndPassword(auth, email, password)
     .then((user) => {
-      alert("Su usuario fue creado exitosamente! 👌😎👍")
       console.log("Usuario registrado: ", user);
+      return Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Fuiste registrado con éxito.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
       // uploadUser(user.user.uid, {
       //   email: user.user.email,
       //   role: role,
@@ -47,10 +55,9 @@ export async function registrarUsuario(email, password, role) {
 }
 
 export const signOutUsuario = () => {
-
-    signOut(auth).catch((error) => {
-      errorAuth(error);
-    });
+  signOut(auth).catch((error) => {
+    errorAuth(error);
+  });
 };
 
 export const signInWithGoogle = () => {
@@ -106,7 +113,14 @@ export const signInWithFacebook = () => {
 export const recoveryPassword = (email) => {
   sendPasswordResetEmail(auth, email)
     .then((user) => {
-      alert("Verifica tu correo electrónico para restablecer tu contraseña");
+      return Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Oops...",
+        text: "Verifica tu correo electrónico para restablecer tu contraseña.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     })
     .catch((error) => {
       errorAuth(error);
@@ -115,70 +129,223 @@ export const recoveryPassword = (email) => {
 
 export const errorAuth = (error) => {
   if (error.code === "auth/user-not-found") {
-    alert("Usuario no encontrado");
+    return Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Oops...",
+      text: "Usuario no encontrado.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
   if (error.code === "auth/wrong-password") {
-    alert("Contraseña incorrecta");
+    return Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Error",
+      text: "Contraseña incorrecta.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
   if (error.code === "auth/invalid-email") {
-    alert("Email incorrecto");
+    return Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Error",
+      text: "El e-mail ingresado es incorrecto.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
   if (error.code === "auth/too-many-requests") {
-    alert("Demasiados intentos");
+    return Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "¡Error faltal!",
+      text: "Superaste el limite de intentos. Regresa más tarde.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
   if (error.code === "auth/user-disabled") {
-    alert("Usuario deshabilitado");
+    return Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Oops...",
+      text: "El usuario esta deshabilitado.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
   if (error.code === "auth/operation-not-allowed") {
-    alert("Operacion no permitida");
+    return Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Oops...",
+      text: "Acción no permitida.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
   if (error.code === "auth/email-already-in-use") {
-    alert("Email ya en uso");
+    return Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Cuidado...",
+      text: "El e-mail ingresado ya esta en uso.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
   if (error.code === "auth/popup-blocked") {
-    alert("Popup bloqueado");
+    return Swal.fire({
+      position: "center",
+      icon: "error",
+      text: "Pop-up bloqueado.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
   if (error.code === "auth/popup-closed-by-user") {
-    alert("Popup cerrado por el usuario");
+    return Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Oops...",
+      text: "Cerraste el Pop-up. ¡Intenta de nuevo!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
   if (error.code === "auth/credential-already-in-use") {
-    alert("Credencial ya en uso");
+    return Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Oops...",
+      text: "Esta credencial ya esta en uso. ¡Intenta con otra!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
   if (error.code === "auth/network-request-failed") {
-    alert("Error de red");
+    return Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Oops...",
+      text: "Ocurrio un error de red. Verifica tu conexión.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
   if (error.code === "auth/invalid-credential") {
-    alert("Credencial invalida");
+    return Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Error",
+      text: "Credencial invalida.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
   if (error.code === "auth/operation-not-allowed") {
-    alert("Operacion no permitida");
+    return Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Oops...",
+      text: "Operacion no permitida por el administrador.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
   if (error.code === "auth/requires-recent-login") {
-    alert("Es necesario iniciar sesion");
+    return Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Oops...",
+      text: "Para continuar, debes iniciar sesión.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
   if (error.code === "auth/user-token-expired") {
-    alert("Token de usuario expirado");
+    return Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Oops...",
+      text: "Token de usuario expirado.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
   if (error.code === "auth/web-storage-unsupported") {
-    alert("Web storage no soportado");
+    return Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Oops...",
+      text: "Web storage no soportado",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
   if (error.code === "auth/invalid-api-key") {
-    alert("API key invalida");
+    return Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Oops...",
+      text: "La API KEY es invalida.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
   if (error.code === "auth/app-deleted") {
-    alert("App eliminada");
+    return Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Error fatal",
+      text: "La app fue eliminada.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
   if (error.code === "auth/invalid-user-token") {
-    alert("Token de usuario invalido");
+    return Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Oops...",
+      text: "El token de usuario es invalido.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
   if (error.code === "auth/invalid-tenant-id") {
-    alert("Tenant id invalido");
+    return Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Oops...",
+      text: "Tentant-id invalido.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
   if (error.code === "auth/invalid-custom-token") {
-    alert("Token personalizado invalido");
+    return Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Oops...",
+      text: "Token personalizado invalido.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
   if (error.code === "auth/invalid-auth-event") {
-    alert("Evento de autenticacion invalido");
+    return Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Oops...",
+      text: "Evento de autenticacion invalido. ¡Intenta de nuevo!",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
 };
 
