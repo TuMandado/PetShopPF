@@ -25,11 +25,10 @@ export const emails = async (user, cart) => {
     message: `¡Hola, ${user.name}! 👋
 
                📢 Te escribimos este mensaje para avisarte que tu compra por $${impor} pesos fue finalizada con éxito.  
-                    
+               
                Gracias por elegirnos para hacer feliz a tu mascota. 🐾🥰
 
                Recordá que cualquier consulta nos la podes hacer llegar escribiendonos un e-mail a elpetshop536@gmail.com 😉
-                    
                     `,
   };
 

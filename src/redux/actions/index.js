@@ -19,6 +19,7 @@ import {
 import { async } from "@firebase/util";
 import { loginCart } from "../../firebase/Cart";
 import { getAllAnimalCategory } from "../../firebase/AnimalCategory/index";
+import Axios from 'axios'
 
 
 
@@ -278,3 +279,4 @@ export async function editStock(payload){
     };
 
 }
+

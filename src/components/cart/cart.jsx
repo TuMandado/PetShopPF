@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -11,15 +10,12 @@ import {
 } from "../../redux/actions/cartActions";
 import CartEmpy from "../../assets/carrito_vacio.gif";
 import styled from "styled-components";
-import mercadopago from "mercadopago";
+import { MercadoPagoConfiguration } from "../../firebase/MercadoPago/MercadoPago";
 
 
-const REACT_APP_ACCESS_TOKEN =
-  "TEST-5909391637745101-041518-e07a43a5f92224ee501bc4d9feca4624-191706246";
-const url = window.location.href
-  .split("//")[1]
-  .split("/")[0]
-  .replace(/^/, "https://");
+
+
+
 
 const TitleContainer = styled.div`
   height: 80px;
@@ -295,59 +291,6 @@ const AllCartContainer = styled.div`
   margin: auto;
 `;
 
-const MercadoPagoConfiguration = async (carrito, id_order,user) => {
-      await mercadopago.configure({
-          access_token: REACT_APP_ACCESS_TOKEN
-      })
-      
-      console.log(user)
-      
-      const items = carrito.map(i=>{ // mapeo elementos del carrito
-        let price= i.price.slice(1)
-        let price1= price.split('.')
-        let price2=price1.join('')
-        let pricefinally=price2.split(',')
-
-         console.log('price',pricefinally)
-          return {
-              title: i.title,
-              unit_price:Number(pricefinally[0]),
-              quantity: i.quantity
-          }
-      })
-      console.log('item',items,'id_order',id_order[0].uid)
-      let preference ={
-          items:items, // item para vender
-          external_reference:  `${id_order[0].uid}`,// id orden compra
-          parament_methods:{  // metodos de pago
-              excludeds_payment_types:[ // excluimos el pago por cajero automatico
-                  {
-                      id:'atm'
-                  }
-              ],
-              installments:3, // cant maxima de cuotas
-          },
-          back_Urls: {
-                      success:'http://localhost:3000/StateMercadoPago',
-                      failure:'http://localhost:3000/StateMercadoPago',
-                      pending:'http://localhost:3000/StateMercadoPago',
-          },
-          
-          payer:{
-            name:user.name,
-            email:user.email
-          },
-          statement_description:'petshop',
-          capture:true,
-          redirect:'http://localhost:3000/',
-          binary_mode:true
-          
-          
-
-      }
- 
-    }
-
 
 
 export function Cart() {
@@ -362,7 +305,7 @@ export function Cart() {
     const handleSubmit = () => {
         MercadoPagoConfiguration(items, openCart,user)
     }
-
+    
   let items = [];
   let itemDelete = {};
   let itemQuantity = {};

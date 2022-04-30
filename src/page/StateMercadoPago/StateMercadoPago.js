@@ -1,24 +1,20 @@
-import React,{useEffect, useState} from "react";
+import React,{useEffect} from "react";
 import {editCartFirebase} from '../../firebase/Cart/index'
-import {cartLoginFront, openCartFront} from '../../redux/actions/cartActions'
-import { useDispatch, useSelector} from "react-redux";
+import {  useSelector} from "react-redux";
+import { getCart } from "../../redux/actions/cartActions";
+import { emails } from "../../firebase/emails.js";
+import styled from "styled-components";
+
 
 const StateMercadoPago =()=>{
-    const dispatch = useDispatch();
+    
     const querystring = window.location.search
     let info = querystring.slice(1)
     let arrayinfo= info.split('&')
     let infospliteada=[]
     let status
-   const user = useSelector((state) => state.clientReducer.user)
-    const idcarrito = useSelector((state)=> state.cartReducer.openCart)
-    const estado = useSelector((state)=> state)
-    console.log('este es el estado', estado)
+    const user = useSelector((state) => state.clientReducer.user)
 
-    
-    
-    console.log('user',user,idcarrito)
-    console.log('arrayinfo',arrayinfo)
     let infoMercadoPago ={}
     arrayinfo.map(i=>{
         
@@ -29,9 +25,17 @@ const StateMercadoPago =()=>{
         }
     }) 
     console.log('mercadopago',infoMercadoPago.status)
-    useEffect(()=>{
-       
+
+    const getData=async()=>{
+        const carrito = await getCart(infoMercadoPago.external_reference)
+        emails(user,carrito.items)
         
+        
+
+       
+    }
+    useEffect(()=>{
+        if(user){
 
             if  (infoMercadoPago.status=== 'approved'){
                 // llamo a la funcion guardar carrito en bd 
@@ -40,8 +44,9 @@ const StateMercadoPago =()=>{
                     close:true,
                     status:'approved'
                 }
-               
+
                 editCartFirebase(infoMercadoPago.external_reference, status)
+                getData()
         
             }else if(infoMercadoPago.status === 'rejected'){ // "status=rejected"
                 // llamo a la funcion de guardar carrito 
@@ -65,17 +70,86 @@ const StateMercadoPago =()=>{
                 }
                 
                 editCartFirebase(infoMercadoPago.external_reference, status)
-        
             }
-        
-    },[])
+        }
+    },[JSON.stringify(user)])
 
 
 return(
     <div>
-    StateMercadoPago
+        <SectionContainer>
+      <TextContainer>
+        <Title>Pet Shop</Title>
+        <Description>
+         Su compra fue realizada con exito!!!
+         en momentos le llegara por mail el comprobante de su compra....
+         Muchas Gracias!!!!!
+        </Description>
+        
+      </TextContainer>
+
+      <BtnToPets onClick={() => window.location.assign('/')}>Volver a Home</BtnToPets>
+    </SectionContainer>
     </div>
 )
 }
 export default StateMercadoPago
+
+const SectionContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%vh;
+  height: 390px;
+`;
+const TextContainer = styled.div`
+  height: 100px;
+`;
+
+const Title = styled.h1`
+  height: 100px;
+  text-align: center;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 800;
+  font-size: 30px;
+  color: #151515;
+  margin-top: 60px;
+`;
+
+const Description = styled.h5`
+  display: flex;
+  justify-content: center;
+  width: 100%vh;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 40px;
+  display: flex;
+  text-align: center;
+  color: #151515;
+`;
+const BtnToPets = styled.button`
+  display: absolute;
+  flex-direction: row;
+  margin-top: 290px;
+  position: absolute;
+  width: 160px;
+  height: 47px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  color: #ffff;
+  background: #0acf83;
+  border: 2px solid #067a4d;
+  box-sizing: border-box;
+  border-radius: 8px;
+  &:hover {
+    color: #0acf83;
+    background: #ffff;
+    border: 3px solid #067a4d;
+    cursor: pointer;
+  }
+`;
 
