@@ -71,14 +71,12 @@ const ImageBackground = styled.div`
 const ImageProduct = styled.img`
   display: flex;
   justify-content: center;
-  // text-align: center;
   max-width: 268px;
-  max-height: 280px
+  max-height: 280px;
   margin-left: 16px;
-  top: 8%;
-  letf:5%;
   position: absolute;
-  // align-self: flex-start;
+  top: 8%;
+  left: 5%;
   border-radius: 12px;
   
 `;
@@ -196,8 +194,8 @@ const EmpyContainer = styled.div`
   position: absolute;
   width: 800px;
   height: 364px;
-  left: calc(50% - 596px / 2 + 30px);
-  top: 15px;
+  left: 40%;
+  top: 9%;
 `;
 
 const Error = styled.h1`
@@ -215,11 +213,8 @@ const Error = styled.h1`
 `;
 
 const Description = styled.p`
-  position: static;
   width: 425px;
   height: 60px;
-  left: 0px;
-  top: 5px;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 400;
@@ -229,9 +224,8 @@ const Description = styled.p`
   align-items: center;
   text-align: center;
   color: #151515;
-  flex: none;
-  flex-grow: 0;
-  margin: 20px 0px;
+  margin: 1em;
+  margin-left: 2em;
 `;
 
 const BtnVolver = styled.button`

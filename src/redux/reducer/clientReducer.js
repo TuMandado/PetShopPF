@@ -12,7 +12,7 @@ const initialState = {
     backupDetail: {},
     categoryPets: [],
     petsCategory: [],
-    statePets:[],
+    statePets: [],
     user: null,
     settings: {},
     visitId: null,
@@ -77,9 +77,7 @@ function clientReducer(state = initialState, action) {
                 products: action.payload ? [] : state.products,
             };
         case "GET_PRODUCTS_CATEGORIES":
-            let totalCategories = new Set(
-                action.payload.categories.concat(action.payload.subcategories)
-            );
+            let totalCategories = new Set(action.payload.categories);
             totalCategories = Array.from(totalCategories);
             return {
                 ...state,
@@ -107,8 +105,8 @@ function clientReducer(state = initialState, action) {
             }
         case "GET_SPECIES_PETS":
             let fixedSpecies = action.payload.map(el => {
-                if(el === 'gato') return "Gato"
-                if(el === 'perro' || el === 'dog') return "Perro"
+                if (el === 'gato') return "Gato"
+                if (el === 'perro' || el === 'dog') return "Perro"
                 return el
             })
             fixedSpecies = new Set(fixedSpecies)
@@ -127,11 +125,11 @@ function clientReducer(state = initialState, action) {
                 ...state,
                 pets: state.backupPets
             }
-        case 'GET_STATE_PETS': 
-             return {
-                 ...state,
-                 statePets: action.payload
-             }
+        case 'GET_STATE_PETS':
+            return {
+                ...state,
+                statePets: action.payload
+            }
         case 'SET_SETTINGS':
             return {
                 ...state,
