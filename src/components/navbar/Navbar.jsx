@@ -30,6 +30,7 @@ export const Navbar = () => {
   const quantity = useSelector((state) => state.cartReducer.quantity);
   const AllProducts = useSelector((state) => state.clientReducer.backup);
   const [searchedProducts, setSearchedProducts] = useState(AllProducts);
+  const [isLoading, setIsLoading] = useState(true)
   const [panel, setPanel] = useState(false);
   const loginContainer = useRef(null);
   const userButton = useRef(null);
@@ -38,6 +39,9 @@ export const Navbar = () => {
 
   useEffect(() => {
     dispatch(cartLoginFront(user));
+    setTimeout(() => {
+        setIsLoading(false)
+    }, 2000 )
   }, []);
 
   //Handle del Input y Search
@@ -181,7 +185,19 @@ export const Navbar = () => {
             </Link>
           </MenuItem>
         </Right>
-        {user ? (
+        {
+            isLoading && !user
+            ? <Right>
+            <MenuItem>Cargando...</MenuItem>
+            {/* <MenuItem>
+                     <Link to='/cart' style={linkStyle}>
+                       <Badge badgeContent={1} color='primary'>
+                         <ShoppingCartOutlined />
+                       </Badge>
+                     </Link>
+                   </MenuItem> */}
+          </Right>
+           : user ? (
           <Right>
             <MenuItem1>
               {user.image ? (
