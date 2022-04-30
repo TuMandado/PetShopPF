@@ -373,7 +373,21 @@ export function Cart() {
   }, [dispatch, user]);
 
   const handleSubmit = () => {
-    MercadoPagoConfiguration(items, openCart, user);
+    if (!user) {
+      return Swal.fire({
+        title: "¡Logueate!",
+        text: "Para hacer un pago, debes estar logeado o registrado. ¿Deseas continuar?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#0acf83",
+        cancelButtonColor: "#e6704b",
+        confirmButtonText: "Ir al login!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate(`/login`);
+        }
+      });
+    } else MercadoPagoConfiguration(items, openCart, user);
   };
 
   const navigateToProduct = (e) => {
