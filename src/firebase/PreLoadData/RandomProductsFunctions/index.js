@@ -15,14 +15,15 @@
 //             timestamp: timestamp
 //                 }
 
-const randomPrice = () => {
-  return randomNumber(1, 100);
-};
+// esto hay que descomentar
+// const randomPrice = () => {
+//   return randomNumber(1, 100);
+// };
 
-const randomAnimalCategory = () => {
-  const categories = ["perro", "gato", "pez", "ave", "reptil"];
-  return categories[randomNumber(0, categories.length)];
-};
+// const randomAnimalCategory = () => {
+//   const categories = ["perro", "gato", "pez", "ave", "reptil"];
+//   return categories[randomNumber(0, categories.length)];
+// };
 
 
 // Perros -> animalCategory

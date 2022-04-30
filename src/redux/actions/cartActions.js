@@ -8,9 +8,11 @@ import {
     getAllCartsFirebase,
     getCartFirebase,
     loginCart,
+    getCartFirebase
 } from "../../firebase/Cart";
 
 export const GET_CARTS = "GET_CARTS";
+export const GET_CART ='GET_CART'
 export const ADD_ITEM = "ADD_ITEM";
 export const OPEN_CART = "OPEN_CART";
 export const EDIT_ITEM = "EDIT_ITEM";
@@ -33,6 +35,15 @@ export function getAllCarts() {
             console.log(error);
         }
     };
+}
+
+export async function getCart(uid) {
+    try {
+        let jsonProduct = await getCartFirebase(uid);
+        return jsonProduct
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 // Recibe el sig. objeto:

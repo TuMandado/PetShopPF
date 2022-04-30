@@ -281,14 +281,10 @@ export async function getCart(user,uid){
         let cart = await getCartFirebase(uid)
         return cart
     }else{
-        if(localStorage.getItem('cart')){
-            let cart = JSON.parse(localStorage.getItem('cart'))
-            return cart
-        }else{
             let msg = {msg:'no cart created'}
             return msg
         }
-    }
+    
 }
 
 
