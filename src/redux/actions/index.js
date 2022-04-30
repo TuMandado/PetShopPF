@@ -14,7 +14,8 @@ import {
     getAllCategories,
     uploadPet,
     getPet,
-    getStatePets
+    getStatePets,
+    searchPet,
 } from "../../firebase/Pets/index";
 import { async } from "@firebase/util";
 import { loginCart } from "../../firebase/Cart";
@@ -278,5 +279,20 @@ export async function editStock(payload){
         }
     };
 
+}
+
+export function filterPetByName(pets, name) {
+    return async function(dispatch) {
+        try {
+            const searchedPets = await searchPet(pets, name)
+            return dispatch({
+                type: 'SEARCH_PET',
+                payload: searchedPets
+            })
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
 }
 
