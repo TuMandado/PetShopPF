@@ -62,13 +62,13 @@ const Sidebar = () => {
                 <div className="sidebarMenu">
                     <h3 className="sidebarTitle">Mascotas</h3>
                     <ul className="sidebarList">
-                        <Link to="/NewPublicPets" className="link" >
+                        <Link to="/publicPets" className="link" >
                             <li className="sidebarListItem">
                                 <DynamicFeed className="sidebarIcon" />
                                 Publicaciones de Mascotas
                             </li>
                         </Link>
-                        <Link to="/publicPets" className="link" >
+                        <Link to="/newPublicPets" className="link" >
                             <li className="sidebarListItem">
                                 <DynamicFeed className="sidebarIcon" />
                                 Nueva Publicaciones de Mascotas

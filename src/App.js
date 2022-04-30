@@ -41,6 +41,7 @@ import  AboutTeam  from "./page/about/aboutTeam.jsx";
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
 
 import NewPublicPets from "./admin/pages/newPublicPets/NewPublicPets";
+import AdminPet from "./admin/pages/adminPet/AdminPet";
 
 import { getUser, uploadUser } from "./firebase/Users";
 
@@ -243,6 +244,7 @@ function App() {
           <Route path="/newUser" element={<NewUser />} />
           <Route path="/adminProducts" element={<AdminProductList />} />
           <Route path="/adminProduct/:productId" element={<AdminProduct />} />
+          <Route path="/adminPet/:id" element={<AdminPet />} />
           <Route path="/newProduct" element={<NewProduct />} />
           <Route path="/ventas" element={<Pyments />} />
           <Route path="/publicPets" element={<PublicPets />} />
