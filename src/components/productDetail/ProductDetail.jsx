@@ -10,8 +10,7 @@ import { addItemCartFront } from "../../redux/actions/cartActions";
 import styled from "styled-components";
 import FormReview from "../formReview/FormReview";
 import Reviews from "../reviews/Reviews";
-import { star } from '../../data'
-
+import { star } from "../../data";
 
 const DetailContainer = styled.div`
   height: 100vh;
@@ -53,10 +52,6 @@ const ProductName = styled.h1`
   margin: 2px;
 `;
 
-
-
-
-
 const Precio = styled.p`
   display: flex;
   flex-direction: column;
@@ -71,7 +66,6 @@ const Precio = styled.p`
   position: absolute;
   right: 38%;
   top: 11%;
-
 `;
 
 const BtnAdd = styled.button`
@@ -97,7 +91,7 @@ const BtnAdd = styled.button`
   transition: 0.25s ease;
   &:hover {
     color: #0acf83;
-    background: #F9F9F9;
+    background: #f9f9f9;
   }
 `;
 
@@ -114,158 +108,158 @@ const InfoContainer = styled.div`
 
 const IndividualInfoContainer = styled.div`
   margin: 1.1em;
-`
+`;
 
 const InfoSpanAnimal = styled.span`
-    color: #A9A9A9;
-    margin-right: 3em;
+  color: #a9a9a9;
+  margin-right: 3em;
 `;
 
 const InfoSpanCategory = styled.span`
-    color: #A9A9A9;
-    margin-right: 1.5em;
+  color: #a9a9a9;
+  margin-right: 1.5em;
 `;
 
 const InfoSpanBrand = styled.span`
-    color: #A9A9A9;
-    margin-right: 3.3em;
+  color: #a9a9a9;
+  margin-right: 3.3em;
 `;
 
 const StarsContainer = styled.div`
-    position: absolute;
-    transform: scale(1.5);
-    left: 16%;
-    top: 28%;
-`
+  position: absolute;
+  transform: scale(1.5);
+  left: 16%;
+  top: 28%;
+`;
 
 const ReviewsContainer = styled.div`
-    margin-left: 18.6%;
-    margin-top: 3em;
-    width: 60%;
-    position: relative;
-    margin-bottom: 2em;
-`
+  margin-left: 18.6%;
+  margin-top: 3em;
+  width: 60%;
+  position: relative;
+  margin-bottom: 2em;
+`;
 
 const GoBackButton = styled.div`
-background: #F9F9F9;
-border: 1px solid #D1D1D1;
-box-sizing: border-box;
-border-radius: 12px;
-padding: 14px 16px;
-font-family: 'Poppins';
-font-style: normal;
-font-weight: 600;
-font-size: 14px;
-line-height: 18px;
-margin-top: 3.2%;
-margin-left: 6%;
-cursor: pointer;
-transition: 0.25s ease;
-&:hover {
+  background: #f9f9f9;
+  border: 1px solid #d1d1d1;
+  box-sizing: border-box;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 18px;
+  margin-top: 3.2%;
+  margin-left: 6%;
+  cursor: pointer;
+  transition: 0.25s ease;
+  &:hover {
     color: #0acf83;
-}
-`
-
-
+  }
+`;
 
 const ProductDetail = () => {
-    const dispatch = useDispatch();
-    const uid = useParams();
-    const navigate = useNavigate();
-    const user = useSelector((state) => state.clientReducer.user);
-    const product = useSelector((state) => state.clientReducer.backupDetail);
-    let productScore = useSelector(state => state.reviewsReducer.productScore);
-    productScore = Math.ceil(productScore);
-    const totalStars = [false, false, false, false, false];
-    for (let i = 0; i < productScore; i++) {
-        totalStars[i] = true;
-    }
+  const dispatch = useDispatch();
+  const uid = useParams();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.clientReducer.user);
+  const product = useSelector((state) => state.clientReducer.backupDetail);
+  let productScore = useSelector((state) => state.reviewsReducer.productScore);
+  productScore = Math.ceil(productScore);
+  const totalStars = [false, false, false, false, false];
+  for (let i = 0; i < productScore; i++) {
+    totalStars[i] = true;
+  }
 
-    useEffect(() => {
-        dispatch(getDetailProducts(uid.id));
-        return function () {
-            dispatch(detailVacio());
-        };
-    }, []);
-
-    let item = {
-        user: user,
-        item: {
-            title: product.name,
-            quantity: 1,
-            price: product.price,
-            id: uid.id,
-        },
+  useEffect(() => {
+    dispatch(getDetailProducts(uid.id));
+    return function () {
+      dispatch(detailVacio());
     };
+  }, []);
 
-    const handleAddCart = (e) => {
-        e.preventDefault();
-        dispatch(addItemCartFront(item));
-    };
+  let item = {
+    user: user,
+    item: {
+      title: product.name,
+      quantity: 1,
+      price: product.price,
+      id: uid.id,
+    },
+  };
 
-    const goToStore = (e) => {
-        navigate('/products')
-    }
+  const handleAddCart = (e) => {
+    e.preventDefault();
+    dispatch(addItemCartFront(item));
+  };
 
-    if (!product.name) {
-        return (
-            <div>
-                <div>
-                    <Navbar />
-                </div>
-                <div>
-                    <Loader />
-                </div>
-            </div>
-        );
-    }
+  const goBack = (e) => {
+    window.history.go(-1);
+  };
 
+  if (!product.name) {
     return (
+      <div>
         <div>
-            <Navbar />
-            <DetailContainer>
-                <DetailLeft>
-                    <GoBackButton onClick={e => goToStore(e)}> {"<"} Volver  </GoBackButton>
-                    <div>
-                        <ProductName>{product.name}</ProductName>
-                    </div>
-                    <StarsContainer>
-                        {
-                            totalStars.map(el => {
-                                if (el) return star.full
-                                else return star.empty
-                            })
-                        }
-                    </StarsContainer>
-                    <InfoContainer>
-                        <IndividualInfoContainer>
-                            <InfoSpanAnimal>Animal: </InfoSpanAnimal>
-                            <span>{product.animalCategory}</span>
-                        </IndividualInfoContainer>
-                        <IndividualInfoContainer>
-                            <InfoSpanCategory>Categoria: </InfoSpanCategory>
-                            <span> {product.subCategory}</span>
-                        </IndividualInfoContainer>
-                        <IndividualInfoContainer>
-                            <InfoSpanBrand>Marca: </InfoSpanBrand>
-                            <span> {product.brand}</span>
-                        </IndividualInfoContainer>
-                    </InfoContainer>
-                    <Precio>{product.price}</Precio>
-                    <BtnAdd onClick={(e) => handleAddCart(e)}>Agregar</BtnAdd>
-                    <Image
-                        src={product.image || "https://imgur.com/lhLYKao"}
-                        alt="imagen"
-                    />
-                </DetailLeft>
-                <ReviewsContainer>
-                    <Reviews id={uid.id} />
-                    {user ? (<FormReview user={user} id={uid.id} />) : (<p>Regístrate para dejar tu comentario</p>)}
-                </ReviewsContainer>
-                <Footer />
-            </DetailContainer>
+          <Navbar />
         </div>
+        <div>
+          <Loader />
+        </div>
+      </div>
     );
+  }
+
+  return (
+    <div>
+      <Navbar />
+      <DetailContainer>
+        <DetailLeft>
+          <GoBackButton onClick={(e) => goBack(e)}> {"<"} Volver </GoBackButton>
+          <div>
+            <ProductName>{product.name}</ProductName>
+          </div>
+          <StarsContainer>
+            {totalStars.map((el) => {
+              if (el) return star.full;
+              else return star.empty;
+            })}
+          </StarsContainer>
+          <InfoContainer>
+            <IndividualInfoContainer>
+              <InfoSpanAnimal>Animal: </InfoSpanAnimal>
+              <span>{product.animalCategory}</span>
+            </IndividualInfoContainer>
+            <IndividualInfoContainer>
+              <InfoSpanCategory>Categoria: </InfoSpanCategory>
+              <span> {product.subCategory}</span>
+            </IndividualInfoContainer>
+            <IndividualInfoContainer>
+              <InfoSpanBrand>Marca: </InfoSpanBrand>
+              <span> {product.brand}</span>
+            </IndividualInfoContainer>
+          </InfoContainer>
+          <Precio>{product.price}</Precio>
+          <BtnAdd onClick={(e) => handleAddCart(e)}>Agregar</BtnAdd>
+          <Image
+            src={product.image || "https://imgur.com/lhLYKao"}
+            alt="imagen"
+          />
+        </DetailLeft>
+        <ReviewsContainer>
+          <Reviews id={uid.id} />
+          {user ? (
+            <FormReview user={user} id={uid.id} />
+          ) : (
+            <p>Regístrate para dejar tu comentario</p>
+          )}
+        </ReviewsContainer>
+        <Footer />
+      </DetailContainer>
+    </div>
+  );
 };
 
 export default ProductDetail;
