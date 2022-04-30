@@ -182,6 +182,12 @@ const ListButton = styled.button`
   position: absolute;
   bottom: 30%;
   right: 9%;
+  cursor: pointer;
+  transition: 0.2s ease;
+  &:hover {
+    color: #0acf83;
+    background: #F9F9F9;
+  }
 `;
 
 const ListDetailButton = styled.button`
@@ -204,6 +210,11 @@ const ListDetailButton = styled.button`
   position: absolute;
   bottom: 13%;
   right: 8%;
+  cursor: pointer;
+  transition: 0.2s ease;
+  &:hover{
+    color: #0acf83;
+  }
 `;
 
 const ListMainCategoriesContainer = styled.div`

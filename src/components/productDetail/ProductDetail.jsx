@@ -53,16 +53,7 @@ const ProductName = styled.h1`
   margin: 2px;
 `;
 
-const InfoContainer = styled.div`
-  width: 470px;
-  height: 51px;
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 500;
-  position: absolute;
-  left: 15%;
-  top: 55%;
-`;
+
 
 
 
@@ -110,17 +101,35 @@ const BtnAdd = styled.button`
   }
 `;
 
-const InfoSpan = styled.p`
-  position: relative;
-  display: inline-block;
-  width: 269px;
-  height: 19px;
-  left: 0px;
-  top: 22px;
-  flex-grow: 0;
-  margin: 8px 0px;
+const InfoContainer = styled.div`
+  width: 470px;
+  height: 25%;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  position: absolute;
+  left: 14%;
+  top: 59%;
 `;
 
+const IndividualInfoContainer = styled.div`
+  margin: 1.1em;
+`
+
+const InfoSpanAnimal = styled.span`
+    color: #A9A9A9;
+    margin-right: 3em;
+`;
+
+const InfoSpanCategory = styled.span`
+    color: #A9A9A9;
+    margin-right: 1.5em;
+`;
+
+const InfoSpanBrand = styled.span`
+    color: #A9A9A9;
+    margin-right: 3.3em;
+`;
 
 const StarsContainer = styled.div`
     position: absolute;
@@ -229,9 +238,18 @@ const ProductDetail = () => {
                         }
                     </StarsContainer>
                     <InfoContainer>
-                        <InfoSpan>Animal: {product.animalCategory}</InfoSpan>
-                        <InfoSpan>Categoria: {product.subCategory}</InfoSpan>
-                        <InfoSpan>Marca: {product.brand}</InfoSpan>
+                        <IndividualInfoContainer>
+                            <InfoSpanAnimal>Animal: </InfoSpanAnimal>
+                            <span>{product.animalCategory}</span>
+                        </IndividualInfoContainer>
+                        <IndividualInfoContainer>
+                            <InfoSpanCategory>Categoria: </InfoSpanCategory>
+                            <span> {product.subCategory}</span>
+                        </IndividualInfoContainer>
+                        <IndividualInfoContainer>
+                            <InfoSpanBrand>Marca: </InfoSpanBrand>
+                            <span> {product.brand}</span>
+                        </IndividualInfoContainer>
                     </InfoContainer>
                     <Precio>{product.price}</Precio>
                     <BtnAdd onClick={(e) => handleAddCart(e)}>Agregar</BtnAdd>
