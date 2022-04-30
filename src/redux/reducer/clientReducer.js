@@ -140,6 +140,11 @@ function clientReducer(state = initialState, action) {
                 ...state,
                 visitId: action.payload
             }
+        case "SEARCH_PET":
+            return {
+                ...state,
+                pets: action.payload
+            }
         default:
             return state;
     }
