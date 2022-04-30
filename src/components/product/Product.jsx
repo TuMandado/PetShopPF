@@ -1,4 +1,5 @@
 import React from "react";
+import Swal from "sweetalert2";
 
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -186,7 +187,7 @@ const ListButton = styled.button`
   transition: 0.2s ease;
   &:hover {
     color: #0acf83;
-    background: #F9F9F9;
+    background: #f9f9f9;
   }
 `;
 
@@ -212,7 +213,7 @@ const ListDetailButton = styled.button`
   right: 8%;
   cursor: pointer;
   transition: 0.2s ease;
-  &:hover{
+  &:hover {
     color: #0acf83;
   }
 `;
@@ -328,7 +329,13 @@ const Product = ({
     e.preventDefault();
     e.stopPropagation();
     dispatch(addItemCartFront(item));
-    return alert("Producto agregado con éxito. ¡Continua comprando!");
+    return Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Producto agregado con éxito.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
 
   if (viewMode === "List") {

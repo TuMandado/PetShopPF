@@ -31,12 +31,12 @@ import AdminProduct from "./admin/pages/adminProduct/AdminProduct";
 import NewProduct from "./admin/pages/newProduct/NewProduct";
 import Pyments from "./admin/pages/pyments/Pyments";
 import PublicPets from "./admin/pages/publicPets/PublicPets";
-import AdminSidebar from "./admin/components/adminSidebar/AdminSidebar";
+
 import { getTotalProducts } from "./redux/actions";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import Navbar from "./components/navbar/Navbar";
+
 import StateMercadoPago from "./page/StateMercadoPago/StateMercadoPago";
-import  AboutTeam  from "./page/about/aboutTeam.jsx";
+import AboutTeam from "./page/about/aboutTeam.jsx";
 
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
 
@@ -47,7 +47,7 @@ import { getUser, uploadUser } from "./firebase/Users";
 
 import { cartLoginFront, getQuantity } from "./redux/actions/cartActions";
 
-import { openCartFront } from "./redux/actions/cartActions";
+// import { openCartFront } from "./redux/actions/cartActions";
 
 // Imports for settings managment
 import { setSettings } from "./redux/actions";
@@ -89,11 +89,13 @@ function App() {
             checkIfVisitAnalyticExists(visitId).then((exists) => {
               // If the visit does not exist, create it
               if (!exists) {
-                uploadVisitAnalytic(user).then((visit) => {
-                  dispatch(setVisitId(visit.uid));
-                }).then(() => {
-                  setVisitSent(true);
-                });
+                uploadVisitAnalytic(user)
+                  .then((visit) => {
+                    dispatch(setVisitId(visit.uid));
+                  })
+                  .then(() => {
+                    setVisitSent(true);
+                  });
               } else {
                 // If the visit does exist, update it
                 if (user && visitId) {
@@ -109,7 +111,7 @@ function App() {
     } catch (error) {
       console.log("Visit analytics error  :", error);
     }
-  }, [settings, visitSent]);
+  }, [dispatch, settings, user, visitId, visitSent]);
 
   // Cart managment
   // useEffect(() => {
@@ -122,7 +124,7 @@ function App() {
       // console.log("Settings on firestore: ", set);
       dispatch(setSettings(set));
     });
-  }, []);
+  }, [dispatch]);
 
   // When settings are fullfilled, if we change the values, we update the firestore
   useEffect(() => {
@@ -181,19 +183,19 @@ function App() {
       }
     });
     return subscriber;
-  }, []);
+  }, [dispatch, user]);
 
   useEffect(() => {
     console.log("opencart quantity", openCart);
     if (openCart && Object.keys(openCart).length) {
       if (user) {
-        console.log("openCart que rompe",openCart)
-        if(openCart[0]){
-        dispatch(getQuantity(openCart[0].data.items)).then(
-          console.log("quantity", openCart)
-        ); 
-      }else{
-          dispatch(getQuantity(openCart.items))
+        console.log("openCart que rompe", openCart);
+        if (openCart[0]) {
+          dispatch(getQuantity(openCart[0].data.items)).then(
+            console.log("quantity", openCart)
+          );
+        } else {
+          dispatch(getQuantity(openCart.items));
         }
       } else {
         console.log("este open cart", openCart);
@@ -204,7 +206,7 @@ function App() {
     } else {
       dispatch(getQuantity(openCart));
     }
-  }, [openCart]);
+  }, [dispatch, openCart, user]);
 
   useEffect(() => {
     dispatch(getTotalProducts());
