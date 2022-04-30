@@ -4,7 +4,9 @@ import {
     closeCartFirebase,
     deleteItem,
     editCart,
+    editCartFirebase,
     getAllCartsFirebase,
+    getCartFirebase,
     loginCart,
     getCartFirebase
 } from "../../firebase/Cart";
@@ -18,6 +20,7 @@ export const DELETE_ITEM = "DELETE_ITEM";
 export const CLOSE_CART = "CLOSE_CART";
 export const LOGIN_CART = "LOGIN_CART";
 export const GET_QUANTITY = "GET_QUANTITY";
+export const CLEAR_CART = "CLEAR_CART";
 
 export function getAllCarts() {
     return async function (dispatch) {
@@ -146,7 +149,7 @@ export function cartLoginFront(payload) {
     return async function (dispatch) {
         try {
             let jsonProduct = await loginCart(payload);
-            console.log("-GetAllCarts Flag-", jsonProduct);
+            console.log("-Logincart Flag-", jsonProduct);
             return dispatch({
                 type: LOGIN_CART,
                 payload: jsonProduct,
@@ -160,8 +163,11 @@ export function cartLoginFront(payload) {
 export function getQuantity(payload){
     return async function (dispatch){
         let total = 0
-        if(payload.length){
+        if(payload && payload.length){
             payload.map(el => total = total + el.quantity)
+        }
+        if(payload=== undefined){
+            total = 0
         }
         return dispatch({
             type: GET_QUANTITY,
@@ -169,3 +175,25 @@ export function getQuantity(payload){
         })
     }
 }
+
+export function clearCart(payload) {
+    return async function (dispatch) {
+        try {
+            let cart = []
+            if(payload.user){
+                await editCartFirebase(payload.id,{items:[]})
+                cart = getCartFirebase(payload.id)
+            }else {
+                localStorage.clear();
+            }
+            //console.log("-clearCart Flag-", cart);
+            return dispatch({
+                type: CLEAR_CART,
+                payload: cart,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+}
+

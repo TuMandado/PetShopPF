@@ -1,4 +1,6 @@
-import { ADD_ITEM, CLOSE_CART, DELETE_ITEM, EDIT_ITEM, GET_CARTS,GET_CART, GET_QUANTITY, LOGIN_CART, OPEN_CART } from "../actions/cartActions";
+
+import { ADD_ITEM, CLEAR_CART, CLOSE_CART, DELETE_ITEM, EDIT_ITEM, GET_CARTS, GET_QUANTITY, LOGIN_CART, OPEN_CART, GET_CART } from "../actions/cartActions";
+
 
 const initialState = {
     cart:[],
@@ -29,7 +31,6 @@ function cartReducer(state = initialState, action) {
             return {
                 ...state,
                 openCart: action.payload,
-                quantity: state.quantity +1
              };
         case OPEN_CART:
             return {
@@ -55,6 +56,11 @@ function cartReducer(state = initialState, action) {
             return{
                 ...state,
                 quantity: action.payload,
+            }
+        case CLEAR_CART:
+            return{
+                ...state,
+                openCart:action.payload,
             }
         default:
             return state;

@@ -14,15 +14,13 @@ const BtnForInput = styled.input`
   color: #ffff;
   padding: 5px 5px;
   background: #0acf83;
-  border: 2px solid #067a4d;
+  border: none;
   box-sizing: border-box;
   border-radius: 8px;
   margin-top: 11px;
+  margin: 0.1em;
+  cursor: pointer;
   &:hover {
-    cursor: pointer;
-    border-radius: 8px;
-    border: 1px solid #067A4D;
-    transition: 0.3s ease;
     transition: 0.25s ease;
   font-weight: 700;
   color: #067A4D;

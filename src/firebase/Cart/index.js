@@ -171,6 +171,16 @@ export async function loginCart(user){
                localStorage.clear()
            }
        }
+        let newCart = await cartOpenUs(user)
+        return newCart
+    }else{
+        let localS = []
+        localS = JSON.parse(localStorage.getItem('cart'))
+        console.log('localS',localS)
+        if(localS=== null){
+            localS = []
+        }
+        return localS
     }
 }
 

@@ -6,6 +6,7 @@ import {
   deleteItemsCartFront,
   editItemsCartFront,
   getQuantity,
+  clearCart,
 } from "../../redux/actions/cartActions";
 import CartEmpy from "../../assets/carrito_vacio.gif";
 import styled from "styled-components";
@@ -67,14 +68,12 @@ const ImageBackground = styled.div`
 const ImageProduct = styled.img`
   display: flex;
   justify-content: center;
-  // text-align: center;
   max-width: 268px;
-  max-height: 280px
+  max-height: 280px;
   margin-left: 16px;
-  top: 8%;
-  letf:5%;
   position: absolute;
-  // align-self: flex-start;
+  top: 8%;
+  left: 5%;
   border-radius: 12px;
   
 `;
@@ -192,8 +191,8 @@ const EmpyContainer = styled.div`
   position: absolute;
   width: 800px;
   height: 364px;
-  left: calc(50% - 596px / 2 + 30px);
-  top: 15px;
+  left: 40%;
+  top: 9%;
 `;
 
 const Error = styled.h1`
@@ -211,11 +210,8 @@ const Error = styled.h1`
 `;
 
 const Description = styled.p`
-  position: static;
   width: 425px;
   height: 60px;
-  left: 0px;
-  top: 5px;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 400;
@@ -225,9 +221,8 @@ const Description = styled.p`
   align-items: center;
   text-align: center;
   color: #151515;
-  flex: none;
-  flex-grow: 0;
-  margin: 20px 0px;
+  margin: 1em;
+  margin-left: 2em;
 `;
 
 const BtnVolver = styled.button`
@@ -284,7 +279,6 @@ const ImageError = styled.img`
   width: 310px;
   height: 310px;
 `;
-
 const OrderContainer = styled.div`
   text-align: center;
   margin: auto;
@@ -299,20 +293,19 @@ const AllCartContainer = styled.div`
 
 
 
-
 export function Cart() {
   const user = useSelector((state) => state.clientReducer.user);
   const openCart = useSelector((state) => state.cartReducer.openCart);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(openCartFront(user));
-  }, [dispatch, user]);
+  }, [user]);
 
 
     const handleSubmit = () => {
         MercadoPagoConfiguration(items, openCart,user)
- 
     }
+    
   let items = [];
   let itemDelete = {};
   let itemQuantity = {};
@@ -327,7 +320,6 @@ export function Cart() {
   }
 
   if (items) {
-    if (items.length) {
       items.map((el) => {
         let delSim = el.price.slice(2);
         let delDot = delSim.replace(".", "");
@@ -336,8 +328,6 @@ export function Cart() {
         let sum = price * el.quantity;
         total = total + sum;
       });
-      dispatch(getQuantity(items));
-    }
   }
 
   const handleDelete = (e, id) => {
@@ -352,6 +342,12 @@ export function Cart() {
     dispatch(deleteItemsCartFront(itemDelete));
     return alert("Producto borrado con éxito. ¡Continua comprando!");
   };
+
+  const handleClear = (e,id) => {
+    e.preventDefault();
+    dispatch(clearCart({user,id:id}))
+    return alert("Carrito vacío");
+  }
  
 
   //Recibe un objeto con las propiedades{user,item,number},
@@ -433,6 +429,7 @@ export function Cart() {
           })}
           <BtnMercadoPago onClick={handleSubmit}>Pagar</BtnMercadoPago>
           <p>Precio Total: $ {total}</p>
+          <button onClick={(e) => handleClear(e, openCart[0] ? openCart[0].uid: openCart)}>Limpiar carrito </button>
         </OrderContainer>
 
       ) : (
