@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { getProductName, filterPetByName } from "../../redux/actions/index";
 import icoLupa from "../../assets/lupa.png";
-import icoUserOptions from "../../assets/options_user.png";
 import icoUser from "../../assets/user.png";
 import IcoProducts from "../../assets/tienda_menu.png";
 import IcoPets from "../../assets/patita_menu.png";
@@ -16,305 +15,307 @@ import { LoginLogout } from "../login/logout/LoginAndLogout";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { cartLoginFront } from "../../redux/actions/cartActions";
-import { signOutUsuario } from "../../firebase/auth";
+// import { signOutUsuario } from "../../firebase/auth";
 import { Link } from "react-router-dom";
 
 export const Navbar = () => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const [name, setName] = useState("");
-    const actualUrl = window.location.pathname;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const actualUrl = window.location.pathname;
 
-    let user = useSelector((state) => state.clientReducer.user);
-    const cartProducts = useSelector((state) => state.cartReducer.openCart);
-    const quantity = useSelector((state) => state.cartReducer.quantity);
-    const AllProducts = useSelector((state) => state.clientReducer.backup);
-    const AllPets = useSelector(state => state.clientReducer.backupPets)
-    const [searchedProducts, setSearchedProducts] = useState(AllProducts);
-    const [searchedPets, setSearchedPets] = useState(AllPets)
+  let user = useSelector((state) => state.clientReducer.user);
+  // const cartProducts = useSelector((state) => state.cartReducer.openCart);
+  const quantity = useSelector((state) => state.cartReducer.quantity);
+  const AllProducts = useSelector((state) => state.clientReducer.backup);
+  const AllPets = useSelector((state) => state.clientReducer.backupPets);
+  const [searchedProducts, setSearchedProducts] = useState(AllProducts);
+  const [searchedPets, setSearchedPets] = useState(AllPets);
 
-    const [isLoading, setIsLoading] = useState(true)
-    const [panel, setPanel] = useState(false);
-    const loginContainer = useRef(null);
-    const userButton = useRef(null);
-    const popUpContainer = useRef(null);
-    const inputContainer = useRef(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [panel, setPanel] = useState(false);
+  const loginContainer = useRef(null);
+  const userButton = useRef(null);
+  const popUpContainer = useRef(null);
+  const inputContainer = useRef(null);
 
-    useEffect(() => {
-        dispatch(cartLoginFront(user));
-        setTimeout(() => {
-            setIsLoading(false)
-        }, 2000)
-    }, []);
+  useEffect(() => {
+    dispatch(cartLoginFront(user));
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, [dispatch, user]);
 
-    //Handle del Input y Search
-    function handleInputChange(e) {
-        e.preventDefault();
-        setName(e.target.value);
-        if (actualUrl[1] === "p" && actualUrl[4] === 's') {
-            if (name.length > e.target.value.length)
-                setSearchedPets(
-                    AllPets.filter((el) =>
-                        el.data.name.toLowerCase().includes(e.target.value.toLowerCase())
-                    )
-                );
-            else if (!name.length)
-                setSearchedPets(
-                    AllPets.filter((el) =>
-                        el.data.name.toLowerCase().includes(e.target.value.toLowerCase())
-                    )
-                );
-            else
-                setSearchedPets(
-                    AllPets.filter((el) =>
-                        el.data.name.toLowerCase().includes(e.target.value.toLowerCase())
-                    )
-                );
-            if (name.length > 2 && AllPets.length >= 1) {
-                document.addEventListener("click", (e) => {
-                    if (
-                        inputContainer.current &&
-                        !inputContainer.current.contains(e.target) &&
-                        !popUpContainer.current.contains(e.target)
-                    ) {
-                        setName("");
-                    }
-                });
-            }
-        }
-        else {
-            if (name.length > e.target.value.length)
-                setSearchedProducts(
-                    AllProducts.filter((el) =>
-                        el.data.name.toLowerCase().includes(e.target.value.toLowerCase())
-                    )
-                );
-            else if (!name.length)
-                setSearchedProducts(
-                    AllProducts.filter((el) =>
-                        el.data.name.toLowerCase().includes(e.target.value.toLowerCase())
-                    )
-                );
-            else
-                setSearchedProducts(
-                    searchedProducts.filter((el) =>
-                        el.data.name.toLowerCase().includes(e.target.value.toLowerCase())
-                    )
-                );
-            if (name.length > 2 && searchedProducts.length >= 1) {
-                document.addEventListener("click", (e) => {
-                    if (
-                        inputContainer.current &&
-                        !inputContainer.current.contains(e.target) &&
-                        !popUpContainer.current.contains(e.target)
-                    ) {
-                        setName("");
-                    }
-                });
-            }
-        }
-    }
-
-    function handleSubmit(e) {
-        e.preventDefault();
-        if (actualUrl[1] === "p" && actualUrl[4] === 's') {
-            dispatch(filterPetByName(AllPets, name))
-        }
-        else {
-            navigate(`/products`);
-            dispatch(getProductName(name));
-        }
-        setName("");
-    }
-
-    function handleEnterKeyPress(e) {
-        if (e.key === "Enter") {
-            if (actualUrl[1] === "p" && actualUrl[4] === 's') {
-                dispatch(filterPetByName(AllPets, name))
-            }
-            else {
-                navigate(`/products`);
-                dispatch(getProductName(name));
-            }
+  //Handle del Input y Search
+  function handleInputChange(e) {
+    e.preventDefault();
+    setName(e.target.value);
+    if (actualUrl[1] === "p" && actualUrl[4] === "s") {
+      if (name.length > e.target.value.length)
+        setSearchedPets(
+          AllPets.filter((el) =>
+            el.data.name.toLowerCase().includes(e.target.value.toLowerCase())
+          )
+        );
+      else if (!name.length)
+        setSearchedPets(
+          AllPets.filter((el) =>
+            el.data.name.toLowerCase().includes(e.target.value.toLowerCase())
+          )
+        );
+      else
+        setSearchedPets(
+          AllPets.filter((el) =>
+            el.data.name.toLowerCase().includes(e.target.value.toLowerCase())
+          )
+        );
+      if (name.length > 2 && AllPets.length >= 1) {
+        document.addEventListener("click", (e) => {
+          if (
+            inputContainer.current &&
+            !inputContainer.current.contains(e.target) &&
+            !popUpContainer.current.contains(e.target)
+          ) {
             setName("");
+          }
+        });
+      }
+    } else {
+      if (name.length > e.target.value.length)
+        setSearchedProducts(
+          AllProducts.filter((el) =>
+            el.data.name.toLowerCase().includes(e.target.value.toLowerCase())
+          )
+        );
+      else if (!name.length)
+        setSearchedProducts(
+          AllProducts.filter((el) =>
+            el.data.name.toLowerCase().includes(e.target.value.toLowerCase())
+          )
+        );
+      else
+        setSearchedProducts(
+          searchedProducts.filter((el) =>
+            el.data.name.toLowerCase().includes(e.target.value.toLowerCase())
+          )
+        );
+      if (name.length > 2 && searchedProducts.length >= 1) {
+        document.addEventListener("click", (e) => {
+          if (
+            inputContainer.current &&
+            !inputContainer.current.contains(e.target) &&
+            !popUpContainer.current.contains(e.target)
+          ) {
+            setName("");
+          }
+        });
+      }
+    }
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (actualUrl[1] === "p" && actualUrl[4] === "s") {
+      dispatch(filterPetByName(AllPets, name));
+    } else {
+      navigate(`/products`);
+      dispatch(getProductName(name));
+    }
+    setName("");
+  }
+
+  function handleEnterKeyPress(e) {
+    if (e.key === "Enter") {
+      if (actualUrl[1] === "p" && actualUrl[4] === "s") {
+        dispatch(filterPetByName(AllPets, name));
+      } else {
+        navigate(`/products`);
+        dispatch(getProductName(name));
+      }
+      setName("");
+    }
+  }
+
+  const handlePanel = () => {
+    if (!panel)
+      document.addEventListener("click", (e) => {
+        if (
+          loginContainer.current &&
+          !loginContainer.current.contains(e.target) &&
+          !userButton.current.contains(e.target)
+        ) {
+          setPanel(false);
         }
-    }
+      });
+    setPanel(!panel);
+  };
 
-    const handlePanel = () => {
-        if (!panel)
-            document.addEventListener("click", (e) => {
-                if (
-                    loginContainer.current &&
-                    !loginContainer.current.contains(e.target) &&
-                    !userButton.current.contains(e.target)
-                ) {
-                    setPanel(false);
-                }
-            });
-        setPanel(!panel);
-    };
+  const goToProductDetail = (e) => {
+    navigate(`/product/${e.currentTarget.id}`);
+  };
 
-    const goToProductDetail = (e) => {
-        navigate(`/product/${e.currentTarget.id}`);
-    };
+  const goToPetDetail = (e) => {
+    navigate(`/pets/${e.currentTarget.id}`);
+  };
 
-    const goToPetDetail = (e) => {
-        navigate(`/pets/${e.currentTarget.id}`);
-    }
+  const goHome = (e) => {
+    navigate("/");
+  };
+  const goLogin = (e) => {
+    navigate("/login");
+  };
 
-    const goHome = (e) => {
-        navigate("/");
-    };
-    const goLogin = (e) => {
-        navigate("/login");
-    };
-
-
-    return (
-        <div>
-            <NavContainer>
-                {/* <Wrapper> */}
-                <style>#component-loginlogout( display: none; )</style>
-                <BrandNav onClick={(e) => goHome(e)}>
-                    <Logo src={logoTemp} alt="logo-petshop" />
-                    <TextPetshop>PetShop</TextPetshop>
-                </BrandNav>
-                <Center>
-                    <div>
-                        <InputSearch
-                            value={name}
-                            onChange={(e) => handleInputChange(e)}
-                            type="text"
-                            placeholder={
-                                actualUrl[1] === "p" && actualUrl[4] === 's'
-                                    ? "¿A quien estas buscando?"
-                                    : "¿Que vas a llevar hoy?"
-                            }
-                            onKeyPress={(e) => handleEnterKeyPress(e)}
-                            ref={inputContainer}
-                        />
-                        <BtnSearch onClick={(e) => handleSubmit(e)} type="submit">
-                            <BtnIconLupa src={icoLupa} alt="search" />
-                        </BtnSearch>
-                    </div>
-                    {
-                        actualUrl[1] === "p" && actualUrl[4] === 's'
-                            ? <PopUpSearchProduct
-                                ref={popUpContainer}
-                                name={name}
-                                products={searchedPets}
-                            >
-                                {name.length > 2 &&
-                                    searchedPets.length >= 1 &&
-                                    searchedPets.map((el) => (
-                                        <PopUpProductDiv
-                                            key={el.uid}
-                                            id={el.uid}
-                                            onClick={(e) => goToPetDetail(e)}
-                                        >
-                                            <PopUpSpan> {el.data.name} </PopUpSpan>
-                                            <PopUpImagePets src={Array.isArray(el.data.photos) ? el.data.photos[0] : el.data.photos} alt="Not Found" />
-                                        </PopUpProductDiv>
-                                    ))}
-                            </PopUpSearchProduct>
-                            : <PopUpSearchProduct
-                                ref={popUpContainer}
-                                name={name}
-                                products={searchedProducts}
-                            >
-                                {name.length > 2 &&
-                                    searchedProducts.length >= 1 &&
-                                    searchedProducts.map((el) => (
-                                        <PopUpProductDiv
-                                            key={el.uid}
-                                            id={el.uid}
-                                            onClick={(e) => goToProductDetail(e)}
-                                        >
-                                            <PopUpSpan> {el.data.name} </PopUpSpan>
-                                            <PopUpImage src={el.data.image} alt="Not Found" />
-                                        </PopUpProductDiv>
-                                    ))}
-                            </PopUpSearchProduct>
-                    }
-                </Center>
-                <Right>
-                    <MenuItem>
-                        <Link to={"/products"} style={linkStyle}>
-                            <Img
-                                height="30px"
-                                border="8px"
-                                src={IcoProducts}
-                                alt="productos"
-                            />
-                        </Link>
-                    </MenuItem>
-                    <MenuItem>
-                        <Link to={"/pets"} style={linkStyle}>
-                            <Img height="30px" margin="50px" src={IcoPets} alt="Mascotas" />
-                        </Link>
-                    </MenuItem>
-                </Right>
-                {
-                    isLoading && !user
-                        ? <Right>
-                            <MenuItem>Cargando...</MenuItem>
-                            {/* <MenuItem>
+  return (
+    <div>
+      <NavContainer>
+        {/* <Wrapper> */}
+        <style>#component-loginlogout( display: none; )</style>
+        <BrandNav onClick={(e) => goHome(e)}>
+          <Logo src={logoTemp} alt="logo-petshop" />
+          <TextPetshop>PetShop</TextPetshop>
+        </BrandNav>
+        <Center>
+          <div>
+            <InputSearch
+              value={name}
+              onChange={(e) => handleInputChange(e)}
+              type="text"
+              placeholder={
+                actualUrl[1] === "p" && actualUrl[4] === "s"
+                  ? "¿A quien estas buscando?"
+                  : "¿Que vas a llevar hoy?"
+              }
+              onKeyPress={(e) => handleEnterKeyPress(e)}
+              ref={inputContainer}
+            />
+            <BtnSearch onClick={(e) => handleSubmit(e)} type="submit">
+              <BtnIconLupa src={icoLupa} alt="search" />
+            </BtnSearch>
+          </div>
+          {actualUrl[1] === "p" && actualUrl[4] === "s" ? (
+            <PopUpSearchProduct
+              ref={popUpContainer}
+              name={name}
+              products={searchedPets}
+            >
+              {name.length > 2 &&
+                searchedPets.length >= 1 &&
+                searchedPets.map((el) => (
+                  <PopUpProductDiv
+                    key={el.uid}
+                    id={el.uid}
+                    onClick={(e) => goToPetDetail(e)}
+                  >
+                    <PopUpSpan> {el.data.name} </PopUpSpan>
+                    <PopUpImagePets
+                      src={
+                        Array.isArray(el.data.photos)
+                          ? el.data.photos[0]
+                          : el.data.photos
+                      }
+                      alt="Not Found"
+                    />
+                  </PopUpProductDiv>
+                ))}
+            </PopUpSearchProduct>
+          ) : (
+            <PopUpSearchProduct
+              ref={popUpContainer}
+              name={name}
+              products={searchedProducts}
+            >
+              {name.length > 2 &&
+                searchedProducts.length >= 1 &&
+                searchedProducts.map((el) => (
+                  <PopUpProductDiv
+                    key={el.uid}
+                    id={el.uid}
+                    onClick={(e) => goToProductDetail(e)}
+                  >
+                    <PopUpSpan> {el.data.name} </PopUpSpan>
+                    <PopUpImage src={el.data.image} alt="Not Found" />
+                  </PopUpProductDiv>
+                ))}
+            </PopUpSearchProduct>
+          )}
+        </Center>
+        <Right>
+          <MenuItem>
+            <Link to={"/products"} style={linkStyle}>
+              <Img
+                height="30px"
+                border="8px"
+                src={IcoProducts}
+                alt="productos"
+              />
+            </Link>
+          </MenuItem>
+          <MenuItem>
+            <Link to={"/pets"} style={linkStyle}>
+              <Img height="30px" margin="50px" src={IcoPets} alt="Mascotas" />
+            </Link>
+          </MenuItem>
+        </Right>
+        {isLoading && !user ? (
+          <Right>
+            <MenuItem>Cargando...</MenuItem>
+            {/* <MenuItem>
                      <Link to='/cart' style={linkStyle}>
                        <Badge badgeContent={1} color='primary'>
                          <ShoppingCartOutlined />
                        </Badge>
                      </Link>
                    </MenuItem> */}
-                        </Right>
-                        : user ? (
-                            <Right>
-                                <MenuItem1>
-                                    {user.image ? (
-                                        <img src={user.image && user.image} style={profilePic} alt="" />
-                                    ) : (
-                                        <img src={icoUser} style={profilePic} alt="" />
-                                    )}
-                                    <span>{user.name ? user.name : user.email}</span>
+          </Right>
+        ) : user ? (
+          <Right>
+            <MenuItem1>
+              {user.image ? (
+                <img src={user.image && user.image} style={profilePic} alt="" />
+              ) : (
+                <img src={icoUser} style={profilePic} alt="" />
+              )}
+              <span>{user.name ? user.name : user.email}</span>
 
-                                    {/* <Link to='/cart' style={linkStyle}>
+              {/* <Link to='/cart' style={linkStyle}>
                        <Badge badgeContent={5} color='primary'>
                          <ShoppingCartOutlined />
                        </Badge>
                       </Link> */}
-                                </MenuItem1>
-                            </Right>
-                        ) : (
-                            <Right>
-                                <MenuItem onClick={goLogin}>Iniciar Sesion / Registrarse</MenuItem>
-                                {/* <MenuItem>
+            </MenuItem1>
+          </Right>
+        ) : (
+          <Right>
+            <MenuItem onClick={goLogin}>Iniciar Sesion / Registrarse</MenuItem>
+            {/* <MenuItem>
                      <Link to='/cart' style={linkStyle}>
                        <Badge badgeContent={1} color='primary'>
                          <ShoppingCartOutlined />
                        </Badge>
                      </Link>
                    </MenuItem> */}
-                            </Right>
-                        )}
-                <IconsNav>
-                    <BtnUser ref={userButton} onClick={() => handlePanel()}>
-                        <ExpandMoreRounded />
-                    </BtnUser>
-                </IconsNav>
-                <MenuItem>
-                    <Link to="/cart" style={linkStyle}>
-                        <Badge badgeContent={quantity} color="primary">
-                            <ShoppingCartOutlined />
-                        </Badge>
-                    </Link>
-                </MenuItem>
-                {panel && (
-                    <ContainerLoginOption ref={loginContainer}>
-                        <LoginLogout />
-                    </ContainerLoginOption>
-                )}
-            </NavContainer>
-        </div>
-    );
+          </Right>
+        )}
+        <IconsNav>
+          <BtnUser ref={userButton} onClick={() => handlePanel()}>
+            <ExpandMoreRounded />
+          </BtnUser>
+        </IconsNav>
+        <MenuItem>
+          <Link to="/cart" style={linkStyle}>
+            <Badge badgeContent={quantity} color="primary">
+              <ShoppingCartOutlined />
+            </Badge>
+          </Link>
+        </MenuItem>
+        {panel && (
+          <ContainerLoginOption ref={loginContainer}>
+            <LoginLogout />
+          </ContainerLoginOption>
+        )}
+      </NavContainer>
+    </div>
+  );
 };
 
 export default Navbar;
@@ -459,11 +460,11 @@ const PopUpSearchProduct = styled.div`
   content: "";
   width: 320px;
   ${(props) =>
-        props.name.length > 2 && props.products.length >= 1
-            ? ` border: 1px solid black;
+    props.name.length > 2 && props.products.length >= 1
+      ? ` border: 1px solid black;
             border-radius: 8px;
             border-top-right-radius: 0;`
-            : ``}
+      : ``}
   z-index: 4;
   background: white;
   position: absolute;
@@ -503,11 +504,11 @@ const PopUpImage = styled.img`
 `;
 
 const PopUpImagePets = styled.img`
-    height: 70px;
-    margin-left: auto;
-    margin-right: 1em;
-    border-radius: 8px;
-`
+  height: 70px;
+  margin-left: auto;
+  margin-right: 1em;
+  border-radius: 8px;
+`;
 
 const Center = styled.div`
   flex: 1;
@@ -564,20 +565,20 @@ const MenuItem = styled.div`
 `;
 
 const linkStyle = {
-    display: "flex",
-    justifyContent: "space-between",
-    padding: "3px 10px",
-    alignItems: "center",
-    textDecoration: "none",
-    color: "inherit",
-    fontSize: "20px",
+  display: "flex",
+  justifyContent: "space-between",
+  padding: "3px 10px",
+  alignItems: "center",
+  textDecoration: "none",
+  color: "inherit",
+  fontSize: "20px",
 };
 
 const profilePic = {
-    width: "auto",
-    height: "30px",
-    padding: "4px",
-    margin: "8px",
-    borderRadius: "2rem",
-    border: "1px solid black",
+  width: "auto",
+  height: "30px",
+  padding: "4px",
+  margin: "8px",
+  borderRadius: "2rem",
+  border: "1px solid black",
 };

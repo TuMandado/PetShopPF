@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Navbar } from "../navbar/Navbar";
 import { Loader } from "../../page/loader/Loader";
@@ -11,6 +11,7 @@ import styled from "styled-components";
 import FormReview from "../formReview/FormReview";
 import Reviews from "../reviews/Reviews";
 import { star } from "../../data";
+import Swal from "sweetalert2";
 
 const DetailContainer = styled.div`
   height: 100vh;
@@ -31,6 +32,7 @@ const DetailLeft = styled.div`
 const Image = styled.img`
   width: 30%;
   height: 100%;
+  max-height: 280px;
   position: absolute;
   right: 10%;
   top: 0;
@@ -41,7 +43,7 @@ const ProductName = styled.h1`
   position: absolute;
   left: 15%;
   top: 10%;
-  width: 464px;
+  width: 470px;
   height: 40px;
   font-family: "Poppins";
   font-style: normal;
@@ -55,7 +57,7 @@ const ProductName = styled.h1`
 const Precio = styled.p`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-end;
   width: 200px;
   height: 57px;
   font-family: "Poppins";
@@ -64,7 +66,7 @@ const Precio = styled.p`
   font-size: 24px;
   color: #151515;
   position: absolute;
-  right: 38%;
+  right: 41%;
   top: 11%;
 `;
 
@@ -85,7 +87,7 @@ const BtnAdd = styled.button`
   box-sizing: border-box;
   border-radius: 8px;
   position: absolute;
-  right: 43.5%;
+  right: 41%;
   bottom: 20%;
   cursor: pointer;
   transition: 0.25s ease;
@@ -103,7 +105,7 @@ const InfoContainer = styled.div`
   font-weight: 400;
   position: absolute;
   left: 14%;
-  top: 59%;
+  top: 50%;
 `;
 
 const IndividualInfoContainer = styled.div`
@@ -129,7 +131,7 @@ const StarsContainer = styled.div`
   position: absolute;
   transform: scale(1.5);
   left: 16%;
-  top: 28%;
+  top: 33%;
 `;
 
 const ReviewsContainer = styled.div`
@@ -145,13 +147,13 @@ const GoBackButton = styled.div`
   border: 1px solid #d1d1d1;
   box-sizing: border-box;
   border-radius: 12px;
-  padding: 14px 16px;
+  padding: 10px 16px;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
   line-height: 18px;
-  margin-top: 3.2%;
+  margin-top: 3.1%;
   margin-left: 6%;
   cursor: pointer;
   transition: 0.25s ease;
@@ -163,7 +165,6 @@ const GoBackButton = styled.div`
 const ProductDetail = () => {
   const dispatch = useDispatch();
   const uid = useParams();
-  const navigate = useNavigate();
   const user = useSelector((state) => state.clientReducer.user);
   const product = useSelector((state) => state.clientReducer.backupDetail);
   let productScore = useSelector((state) => state.reviewsReducer.productScore);
@@ -178,7 +179,7 @@ const ProductDetail = () => {
     return function () {
       dispatch(detailVacio());
     };
-  }, []);
+  }, [dispatch, uid.id]);
 
   let item = {
     user: user,
@@ -193,6 +194,13 @@ const ProductDetail = () => {
   const handleAddCart = (e) => {
     e.preventDefault();
     dispatch(addItemCartFront(item));
+    return Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Producto agregado con éxito.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   };
 
   const goBack = (e) => {

@@ -10,6 +10,7 @@ import {
 } from "../../redux/actions/cartActions";
 import CartEmpy from "../../assets/carrito_vacio.gif";
 import Footer from "../../components/footer/Footer";
+import Swal from "sweetalert2";
 import styled from "styled-components";
 import { MercadoPagoConfiguration } from "../../firebase/MercadoPago/MercadoPago";
 
@@ -413,14 +414,39 @@ export function Cart() {
       },
     };
     // console.log("-Item-Delete-Flag", itemDelete);
-    dispatch(deleteItemsCartFront(itemDelete));
-    return alert("Producto borrado con éxito. ¡Continua comprando!");
+    return Swal.fire({
+      title: "¿Seguro?",
+      text: "¡Estás por quitar este producto!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#0acf83",
+      cancelButtonColor: "#e6704b",
+      confirmButtonText: "Si, quitalo!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteItemsCartFront(itemDelete));
+        Swal.fire("Borrado!", "El producto fue quitado.", "success");
+      }
+    });
   };
 
   const handleClear = (e, id) => {
     e.preventDefault();
-    dispatch(clearCart({ user, id: id }));
-    return alert("Carrito vacío");
+
+    return Swal.fire({
+      title: "¡Cuidado!",
+      text: "¡Estás por quitar todos los productos!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#0acf83",
+      cancelButtonColor: "#e6704b",
+      confirmButtonText: "Si, quitar todos!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(clearCart({ user, id: id }));
+        Swal.fire("Completado", "El carrito esta vacio.", "success");
+      }
+    });
   };
 
   //Recibe un objeto con las propiedades{user,item,number},

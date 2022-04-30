@@ -92,11 +92,11 @@ const PetCreated = () => {
     });
   }
 
-  function handleSelect3 (e) {
+  function handleSelect3(e) {
     setInput({
       ...input,
-      sexo: e.target.value
-    })
+      sexo: e.target.value,
+    });
   }
 
   // function handleDelete (e) {
@@ -127,9 +127,7 @@ const PetCreated = () => {
       return alert("por favor ingrese sexo adecuado");
     } else if (input.category.trim() === "") {
       return alert("selecciona una categoria de animal por favor");
-    } else if (
-      input.photos.trim() === "" 
-    ) {
+    } else if (input.photos.trim() === "") {
       return alert("Por favor, Carga una imagen");
     } else if (
       input.description.trim() === "" ||
@@ -171,6 +169,11 @@ const PetCreated = () => {
     backgroundImage: `url(${imgBackground})`,
     width: "100%",
     height: "100%",
+  };
+
+  const btnStyle = {
+    height: "36px",
+    width: "105px",
   };
 
   return (
@@ -282,7 +285,7 @@ const PetCreated = () => {
           </FormContent>
         </InfoForm>
         <BtnContainer>
-            <BtnToPets onClick={()=>window.history.back()}> Volver </BtnToPets>
+          <BtnToPets onClick={() => window.history.back()}> Volver </BtnToPets>
         </BtnContainer>
       </div>
     </div>
@@ -443,7 +446,7 @@ const BtnToCreate = styled.button`
     color: #0acf83;
     background: #ffff;
     border: 3px solid #067a4d;
-    cursor:pointer
+    cursor: pointer;
   }
 `;
 
@@ -467,7 +470,7 @@ const BtnToPets = styled.button`
     color: #0acf83;
     background: #ffff;
     border: 3px solid #067a4d;
-    cursor:pointer
+    cursor: pointer;
   }
 `;
 
