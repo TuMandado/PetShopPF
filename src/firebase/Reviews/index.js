@@ -25,8 +25,10 @@ const checkIfExists = async (id) => {
 }
 
 export async function uploadReview(data) {
-    let uid = createId();
+    let uid = await createId();
     await setDoc(doc(db, collectionRef, uid), data);
+    let newReview = await getReview(uid)
+    return {uid: uid, data:newReview};
   }
 
 export async function deleteReview(uid) {
@@ -57,20 +59,22 @@ export async function getAllReviews() {
 
 export async function getReviewByUser(userUid){
     let allreviews = await getAllReviews();
-    let byUser = allreviews.filter(el => el.uid === userUid)
+    let byUser = allreviews.filter(el => el.data.userUid === userUid)
     return byUser
 }
 
 export async function getReviewByProduct(productUid){
     let allreviews = await getAllReviews();
-    let byProduct = allreviews.filter(el => el.uid === productUid)
+    let byProduct = allreviews.filter(el => el.data.productUid === productUid)
     return byProduct
 }
 
 export async function getProductScore(productUid){
     let reviews = await getReviewByProduct(productUid)
-    let scores = reviews.map(el => el.data.score)
-    let addScore =  scores.reduce((prev,cur) => prev+cur)
+    let scores = reviews.map(el => Number(el.data.score))
+    console.log("scores",scores)
+    let addScore =  scores.reduce((prev,cur) => prev = prev+cur)
+    console.log("add score",addScore)
     let totalScore = addScore / scores.length
     return totalScore
 }

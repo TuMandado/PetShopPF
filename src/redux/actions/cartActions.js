@@ -4,11 +4,14 @@ import {
     closeCartFirebase,
     deleteItem,
     editCart,
+    editCartFirebase,
     getAllCartsFirebase,
+    getCartFirebase,
     loginCart,
 } from "../../firebase/Cart";
 
 export const GET_CARTS = "GET_CARTS";
+export const GET_CART ='GET_CART'
 export const ADD_ITEM = "ADD_ITEM";
 export const OPEN_CART = "OPEN_CART";
 export const EDIT_ITEM = "EDIT_ITEM";
@@ -16,6 +19,7 @@ export const DELETE_ITEM = "DELETE_ITEM";
 export const CLOSE_CART = "CLOSE_CART";
 export const LOGIN_CART = "LOGIN_CART";
 export const GET_QUANTITY = "GET_QUANTITY";
+export const CLEAR_CART = "CLEAR_CART";
 
 export function getAllCarts() {
     return async function (dispatch) {
@@ -30,6 +34,15 @@ export function getAllCarts() {
             console.log(error);
         }
     };
+}
+
+export async function getCart(uid) {
+    try {
+        let jsonProduct = await getCartFirebase(uid);
+        return jsonProduct
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 // Recibe el sig. objeto:
@@ -135,7 +148,7 @@ export function cartLoginFront(payload) {
     return async function (dispatch) {
         try {
             let jsonProduct = await loginCart(payload);
-            console.log("-GetAllCarts Flag-", jsonProduct);
+            console.log("-Logincart Flag-", jsonProduct);
             return dispatch({
                 type: LOGIN_CART,
                 payload: jsonProduct,
@@ -149,8 +162,11 @@ export function cartLoginFront(payload) {
 export function getQuantity(payload){
     return async function (dispatch){
         let total = 0
-        if(payload.length){
+        if(payload && payload.length){
             payload.map(el => total = total + el.quantity)
+        }
+        if(payload=== undefined){
+            total = 0
         }
         return dispatch({
             type: GET_QUANTITY,
@@ -158,3 +174,25 @@ export function getQuantity(payload){
         })
     }
 }
+
+export function clearCart(payload) {
+    return async function (dispatch) {
+        try {
+            let cart = []
+            if(payload.user){
+                await editCartFirebase(payload.id,{items:[]})
+                cart = getCartFirebase(payload.id)
+            }else {
+                localStorage.clear();
+            }
+            //console.log("-clearCart Flag-", cart);
+            return dispatch({
+                type: CLEAR_CART,
+                payload: cart,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+}
+

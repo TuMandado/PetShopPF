@@ -35,12 +35,12 @@ const UserList = () => {
           email: el.data.email,
           createdAt: el.data.createdAt,
           updatedAt: el.data.updatedAt, 
-          image: el.data.photoURL,
+          image: el.data.photoUrl,
           role: el.data.role,
           activo: el.data.disabled? "no": "si"
          })
     }))
-  },[dispatch, allUsers]);
+  },[allUsers]);
 
   if (!totalUsers.length) {
     setTimeout(() => {
@@ -51,7 +51,7 @@ const UserList = () => {
               email: el.data.email,
               createdAt: el.data.createdAt,
               updatedAt: el.data.updatedAt, 
-              image: el.data.photoURL,
+              image: el.data.photoUrl,
               role: el.data.role,
               activo: el.data.disabled? "no": "si"
              })

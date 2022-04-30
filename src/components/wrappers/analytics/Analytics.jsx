@@ -1,5 +1,5 @@
 import React from "react";
-import { uploadAnalytic } from "../../../firebase/Analytics";
+import { uploadAnalytic } from "../../../firebase/Analytics/hover";
 
 
 // React function component that wraps the component

@@ -6,6 +6,7 @@ import {
     getAllProductsAnimal,
     filterProducts,
     uploadProduct,
+    editProduct,
 } from "../../firebase/Products/index";
 import {
     getAllPets,
@@ -13,11 +14,13 @@ import {
     getAllCategories,
     uploadPet,
     getPet,
-    getStatePets
+    getStatePets,
+    searchPet,
 } from "../../firebase/Pets/index";
 import { async } from "@firebase/util";
 import { loginCart } from "../../firebase/Cart";
 import { getAllAnimalCategory } from "../../firebase/AnimalCategory/index";
+import Axios from 'axios'
 
 
 
@@ -245,3 +248,51 @@ export function getStatePet () {
     }
 
 }
+
+export function setSettings(payload) {
+    return {
+        type: 'SET_SETTINGS',
+        payload
+    }
+}
+
+export function setVisitId(payload) {
+    return {
+        type: 'SET_VISIT_ID',
+        payload
+    }
+
+}
+
+//payload es un objeto con uid del producto y un objeto {stock: cantidad final del stock}
+export async function editStock(payload){
+    return async function (dispatch) {
+        try {
+            let jsonStock = await editProduct(payload)
+            console.log("-stock Flag-", jsonStock);
+            return dispatch({
+                type: `EDIT_STOCK`,
+                payload: jsonStock,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+}
+
+export function filterPetByName(pets, name) {
+    return async function(dispatch) {
+        try {
+            const searchedPets = await searchPet(pets, name)
+            return dispatch({
+                type: 'SEARCH_PET',
+                payload: searchedPets
+            })
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
+}
+

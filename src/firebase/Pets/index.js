@@ -130,3 +130,10 @@ export async function filterPets(array, animal, gender, state, owner) {
     if(owner) array = filterByOwner(array, owner)
     return array;
 }
+
+
+export async function searchPet(array, name) {
+    const pets = array.filter(el => el.data.name.toLowerCase().includes(name.toLowerCase()))
+    if(pets.length) return pets;
+    else return "Not found"
+}
