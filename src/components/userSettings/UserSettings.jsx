@@ -4,11 +4,14 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { getDetailUser, putUser } from "../../redux/actions/adminActions";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import imgBackground from "../../assets/patrones_pet.png";
 
 export const UserSettings = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const {uid} = useParams()
   const user = useSelector((state) => state.clientReducer.user);
   console.log("User de Settings =>", user);
   const [input, setInput] = useState({
@@ -36,6 +39,12 @@ export const UserSettings = () => {
     photoURL: ``,
     disabled: false, */
 
+    useEffect(() => {
+      if (!user.length) {
+       dispatch(getDetailUser(uid));
+      }
+     },[])
+
   useEffect(() => {
     setInput({
       displayName:  user.displayName ? user.displayName : "",
@@ -49,6 +58,12 @@ export const UserSettings = () => {
       disabled: user.disabled ? user.disabled : false,
     });
   }, [user]);
+  const containerStyle = {
+    backgroundImage: `url(${imgBackground})`,
+    width: "100%",
+    height: "100%",
+}
+
 
   const uploadFile = (files) => {
     setInput((prevInput) => ({ ...prevInput, photoUrl: files.base64 }));
@@ -67,33 +82,30 @@ export const UserSettings = () => {
     e.preventDefault();
     if(input.name.search(/^[^$%&|<>#]*$/)) {
       return alert('Ingrese un nombre adecuado')
-    } else if (
-      user.find(e => e.displayName.toLowerCase().trim() === input.displayName.toLowerCase().trim())
-  )  {
-    return alert(`El Nombre de usuario ${input.displayName} ya existe` )
-  } else if (input.email.search(/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i)) {
+    }  else if (input.email.search(/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i)) {
     return alert('Ingrese un email adecuado')
   } else if ( input.phoneNumber < 1 || input.phoneNumber.search(/^[(]{0,1}[0-9]{3}[)]{0,1}[-\s.]{0,1}[0-9]{3}[-\s.]{0,1}[0-9]{4}$/)) {
     return alert('numero de telefono incorrecto')
 } 
     dispatch(putUser(user.uid, input));
     alert("Tus datos se modificaron con exito");
-    navigate("/usersettings");
+    navigate("/");
   };
 
   return (
-    <div>
+    <div style={containerStyle}>
+      <div>
       <TitleContainer>
         <Title>Configura tu cuenta:</Title>
       </TitleContainer>
       <div>
-        <span>Editar:</span>
-        <form onSubmit={(e) => handleSubmit(e)}>
-          <div>
+        {/* <Span>Editar:</Span> */}
+        <InfoForm onSubmit={(e) => handleSubmit(e)}>
+          <FormContent>
             <div>
-              <label>Nombre de Usuario</label>
+              <Label>Nombre de Usuario: </Label>
               <br />
-              <input
+              <Input
                 onChange={handleChange}
                 name="displayName"
                 type="text"
@@ -103,9 +115,9 @@ export const UserSettings = () => {
               />
             </div>
             <div>
-              <label>Nombre</label>
+              <Label>Nombre</Label>
                <br />
-              <input
+              <Input
                 onChange={handleChange}
                 name="name"
                 type="text"
@@ -113,9 +125,9 @@ export const UserSettings = () => {
               />
             </div>
             <div>
-              <label>Apellido</label>
+              <Label>Apellido</Label>
               <br />
-              <input
+              <Input
                 onChange={handleChange}
                 name="surname"
                 type="text"
@@ -123,9 +135,9 @@ export const UserSettings = () => {
               />
             </div>
             <div>
-              <label>Email</label>
+              <Label>Email</Label>
               <br />
-              <input
+              <Input
                 onChange={handleChange}
                 name="email"
                 type="email"
@@ -135,9 +147,9 @@ export const UserSettings = () => {
               />
             </div>
             <div>
-              <label>Telefono</label>
+              <Label>Telefono</Label>
               <br />
-              <input
+              <Input
                 onChange={handleChange}
                 name="phoneNumber"
                 type="text"
@@ -145,9 +157,9 @@ export const UserSettings = () => {
               />
             </div>
             <div>
-              <label>Direccion</label>
+              <Label>Direccion</Label>
               <br />
-              <input
+              <Input
                 onChange={handleChange}
                 name="shippingAddress"
                 type="text"
@@ -159,7 +171,7 @@ export const UserSettings = () => {
               />
             </div>
             <div>
-              <label>Tu mejor foto:</label>
+              <Label>Tu mejor foto:</Label>
               <br />
               <FileBase
                 name="file"
@@ -181,12 +193,15 @@ export const UserSettings = () => {
               </select>
             </div> */}
             <div>
-              <button type="submit">Modificar datos</button>
+              <br />
+              <Btnsubmit type="submit">Modificar datos</Btnsubmit>
             </div>
-          </div>
-        </form>
+          </FormContent>
+        </InfoForm>
       </div>
     </div>
+
+      </div>
   );
 };
 
@@ -210,3 +225,90 @@ const Title = styled.h1`
     color: #0acf83;
   }
 `;
+
+const Span = styled.span`
+margin-top: 5px;
+margin-bottom: 5px;
+font-family: "Poppins";
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+
+`
+
+const InfoForm = styled.form`
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  margin-top: 2px;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+  grid-row-gap: 15px;
+  grid-column-gap: 2px;
+  background: rgba(255, 255, 255, 0.808);
+  max-width: 650px;
+  max-height: 700px;
+  margin-right: 30%;
+  margin-left: 30%;
+  padding-bottom: 100px;
+  border-radius: 12px;
+  padding: 15px;
+  
+`
+
+const FormContent = styled.div`
+  text-align: center;
+  margin: auto;
+
+`
+
+const Label = styled.label`
+margin-top: 5px;
+  margin-bottom: 5px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+`
+
+const Input = styled.input`
+width: 280px;
+height: 40px;
+color: black;
+padding: 12px;
+margin-top: 13px;
+margin-bottom: 13px;
+margin-right: 4px;
+font-size: 12px;
+font-family: "Poppins";
+font-style: normal;
+font-weight: 500;
+background: none;
+border: 1px solid #a9a9a9;
+box-sizing: border-box;
+border-radius: 8px;
+&::-webkit-input-placeholder {
+    color: #a9a9a9;
+  }
+`
+
+const Btnsubmit = styled.button `
+display: absolute;
+  flex-direction: row;
+  margin-top: 5px;
+  position: relative;
+  width: 145px;
+  height: 35px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  color: #ffff;
+  background: #0acf83;
+  border: 2px solid #067a4d;
+  box-sizing: border-box;
+  border-radius: 8px;
+  &:hover {
+    color: #0acf83;
+    background: #ffff;
+    border: 3px solid #067a4d;
+  }
+`
