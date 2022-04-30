@@ -152,8 +152,9 @@ export async function loginCart(user){
            if(db[0] && localS){
                 let data = localS.items
                 if(db[0].data.items){
-                    for(let j = 0;j<= localS.items.length-1; j++){
-                        for(let i = 0; i<db[0].data.items.length-1; i++){
+                    for(let i = 0; i<=db[0].data.items.length-1; i++){
+                        for(let j = 0;j<= localS.items.length-1; j++){
+                            console.log("db",db[0].data.items[i].id, "local",localS.items[j].id)
                             if(localS.items[j].id===db[0].data.items[i].id){
                                 await editCartFirebase(db[0].uid,{items: arrayRemove(db[0].data.items[i])})
                             }
@@ -326,16 +327,20 @@ export async function addCartItem(user,item){
         let open = await cartOpen(user.uid)
         console.log("useeeer",open,"userUid",user.uid)
         if (open){
-            addItem(user,item)
+            await addItem(user,item)
         }else{
-            newCart(user,item)
+            await newCart(user,item)
         }
+        let cart = await cartOpen(user.uid)
+        return cart
     }else{
         if(localStorage.getItem('cart')){
-            addItem(user,item)
+            await addItem(user,item)
         }else{
-            newCart(user,item)
+            await newCart(user,item)
         }
+        let cart = JSON.parse(localStorage.getItem('cart'))
+        return cart
     }
 
 }
