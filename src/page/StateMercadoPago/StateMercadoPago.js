@@ -6,6 +6,8 @@ import { emails } from "../../firebase/emails.js";
 import DogImg from "../../assets/component_finalpagoperro.png";
 import styled from "styled-components";
 
+
+
 const StateMercadoPago = () => {
   const querystring = window.location.search;
   let info = querystring.slice(1);
@@ -22,11 +24,12 @@ const StateMercadoPago = () => {
       [infospliteada[0]]: infospliteada[1],
     };
   });
-  console.log("mercadopago", infoMercadoPago.status);
+  console.log("mercadopago", infoMercadoPago);
 
   const getData = async () => {
     const carrito = await getCart(infoMercadoPago.external_reference);
     emails(user, carrito.items);
+    
   };
   useEffect(() => {
     if (user) {
@@ -67,21 +70,45 @@ const StateMercadoPago = () => {
 
   return (
     <div>
-      <TitleContainer>
-        <Title>¡Tu compra se completo con éxito!</Title>
-      </TitleContainer>
+    {
+      infoMercadoPago.status === 'approved'?
+          <div>
+              <TitleContainer>
+                <Title>¡Tu compra se completo con éxito!</Title>
+              </TitleContainer>
 
-      <InfoPayd>
-        <Pe>
-          En unos minutos le llegara a tu e-mail un mensaje confirmando el pago
-          y sus detalles.
-        </Pe>
+              <InfoPayd>
+                <Pe>
+                  En unos minutos le llegara a tu e-mail un mensaje confirmando el pago
+                  y sus detalles.
+                </Pe>
 
-        <Image src={DogImg} />
-        <BtnToPets onClick={() => window.location.assign("/")}>
-          Volver a Home
-        </BtnToPets>
-      </InfoPayd>
+                <Image src={DogImg} />
+                <BtnToPets onClick={() => window.location.assign("/")}>
+                  Volver a Home
+                </BtnToPets>
+              </InfoPayd>
+          </div>
+      :
+          <div>
+              <TitleContainer>
+                <Title>¡Tu compra aun no se ha completado con éxito!</Title>
+              </TitleContainer>
+
+              <InfoPayd>
+                <Pe>
+                  puedes volver a la pagina y seguir comprando
+                </Pe>
+
+                <Image src={DogImg} />
+                <BtnToPets onClick={() => window.location.assign("/")}>
+                  Volver a Home
+                </BtnToPets>
+              </InfoPayd>
+          </div>
+      
+      
+    }
     </div>
   );
 };

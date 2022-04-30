@@ -57,6 +57,20 @@ export async function getAllCartsFirebase() {
     return array;
 }
 
+export async function getAllCartsclose() {
+    const querySnapshot = await getDocs(collection(db, collectionRef));
+    let array = [];
+    let arraylisto=[]
+    querySnapshot.forEach((doc) => {
+         array.push({
+            uid: doc.id,
+            data: doc.data()
+        });
+      });
+   arraylisto= array.filter((el)=> el.data.close===true)
+    return arraylisto
+}
+
 export async function editCartFirebase(uid,data){
     console.log("dataaaaa",data,uid)
     await updateDoc(doc(db, collectionRef, uid), data);

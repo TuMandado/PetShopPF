@@ -33,8 +33,21 @@ export const MercadoPagoConfiguration = async (carrito, id_order,user) => {
             excludeds_payment_types:[ // excluimos el pago por cajero automatico
                 {
                     id:'atm'
+                },
+                {
+                    id:'ticket'
                 }
             ],
+           
+            excluded_payment_methods: [
+                {
+                    id:"pagofacil"
+                },
+                {
+                    id:'rapipago'
+                }
+            ],
+            
             installments:3, // cant maxima de cuotas
         },
         back_Urls: {
@@ -73,71 +86,6 @@ export const MercadoPagoConfiguration = async (carrito, id_order,user) => {
 
 
 
-// consulta para el pago total  ( ultimos 12 meses)
-export const MercadoPagoTotalPayments=()=>{ 
-    
-    axios({ 
-        method: 'GET',
-        url: 'https://api.mercadopago.com/V1/payments/search',
-        headers: {
-            'cache-control': 'no-cache',
-            'content-type': 'application/json',
-            Authorization: `Bearer ${REACT_APP_ACCESS_TOKEN}`,
-        },
-    })
-    .then((response) => {
-        console.log('esta es la respuesta de mp', response)
-        response.results.map((r)=>{
-
-            let date={
-                id_car:r.external_reference,
-                items:[r.additional_info.title,r.additional_info.quantity,r.additional_info.unit_price],
-                status:r.status,
-                clientdata:[r.collector.first_name,r.collector.last_name,r.collector.email],
-                dateCreate:r.date_created
-            }
-            return date
-        })
-        
-    })
-    .catch((error)=>{
-        console.log(error)
-    })
-
-}
-//busqueda de pagos de un cliente en particular
-
-export const MercadoPagoIdPayments=(id_order)=>{ 
-    
-    axios({ 
-        method: 'GET',
-        url: `https://api.mercadopago.com/V1/payments/${id_order}`,
-        headers: {
-            'cache-control': 'no-cache',
-            'content-type': 'application/json',
-            Authorization: `Bearer ${REACT_APP_ACCESS_TOKEN}`,
-        },
-    })
-    .then((response) => {
-        console.log('esta es la respuesta de mp', response)
-        // response.results.map((r)=>{
-
-        //     let date={
-        //         id_car:r.external_reference,
-        //         items:[r.additional_info.title,r.additional_info.quantity,r.additional_info.unit_price],
-        //         status:r.status,
-        //         clientdata:[r.collector.first_name,r.collector.last_name,r.collector.email],
-        //         dateCreate:r.date_created
-        //     }
-        //     return date
-        // })
-        
-    })
-    .catch((error)=>{
-        console.log(error)
-    })
-
-}
 
 
 

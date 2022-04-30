@@ -5,7 +5,7 @@ export const emails = async (user, cart) => {
   let impor = 0;
   let product = "";
   console.log("entro a emails");
-  console.log(user);
+  console.log('usermails',user);
   console.log(cart);
   cart.map((e) => {
     let delSim = e.price.slice(2);
@@ -20,7 +20,7 @@ export const emails = async (user, cart) => {
   console.log("product", product);
 
   var templateParams = {
-    user_name: `${user.name}`,
+    user_name: `${user.displayName}`,
     user_email: `${user.email}`,
     message: `¡Hola, ${user.name}! 👋
 
