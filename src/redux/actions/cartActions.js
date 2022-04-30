@@ -8,7 +8,6 @@ import {
     getAllCartsFirebase,
     getCartFirebase,
     loginCart,
-    getCartFirebase
 } from "../../firebase/Cart";
 
 export const GET_CARTS = "GET_CARTS";
