@@ -20,6 +20,7 @@ import {
 // import { async } from "@firebase/util";
 import { loginCart } from "../../firebase/Cart";
 import { getAllAnimalCategory } from "../../firebase/AnimalCategory/index";
+import Swal from "sweetalert2";
 // import Axios from 'axios'
 
 // import { async } from "@firebase/util";
@@ -64,7 +65,11 @@ export function getProductName(name) {
   return async function (dispatch) {
     try {
       if (name.search(/^[a-zA-Zñáéíóúü]*$/)) {
-        return alert("El nombre solo debe contener letras. ¡Intenta de nuevo!");
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "El nombre solo debe contener letras. ¡Intenta de nuevo!",
+        });
       }
       let jsonProduct = await getAllProducts(name);
 
@@ -73,7 +78,11 @@ export function getProductName(name) {
         payload: jsonProduct,
       });
     } catch (error) {
-      return alert(`Ups! No existe un producto con ese nombre.`);
+      return Swal.fire({
+        icon: "error",
+        title: "Error...",
+        text: "No encontramos un producto con ese nombre.",
+      });
     }
   };
 }
