@@ -41,11 +41,11 @@ const PublicPets = () =>{
   };
 
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "id", headerName: "ID", width: 80 },
     {
       field: "pet",
       headerName: "Mascotas",
-      width: 400,
+      width: 300,
       renderCell: (params) => {
         return (
           <div className="productListItem">
@@ -58,7 +58,7 @@ const PublicPets = () =>{
     {
       field: "state",
       headerName: "Estado",
-      width: 160,
+      width: 130,
     },
     { field: "sexo",
        headerName: "Sexo", 
@@ -66,12 +66,14 @@ const PublicPets = () =>{
     },
     { field: "description",
        headerName: "Descripción", 
-       width: 120
+       type: 'date',
+       width: 160,
     },
     {
       field: "activo",
       headerName: "Activo",
-      width: 160,
+      alignItems: 'center',
+      width: 120,
     },
     {
       field: "action",
@@ -81,7 +83,7 @@ const PublicPets = () =>{
         return (
           <>
             <Link to={"/adminPet/" + params.row.id}>
-              <button className="productListEdit">ver publicación</button>
+              <button className="productListEdit">ver</button>
             </Link>
             <DeleteOutline
               className="productListDelete"
@@ -102,8 +104,10 @@ const PublicPets = () =>{
       {
          allPets && 
           <DataGrid
+             loading={!totalPets}
+             rowHeight={140}
              rows={totalPets}
-             disableSelectionOnClick
+             disableSelectionOnClick={false}
              columns={columns}
              pageSize={10}
              rowsPerPageOptions={[10]}

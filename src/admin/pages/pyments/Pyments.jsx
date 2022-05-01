@@ -11,7 +11,30 @@ import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
 
 const Pyments = () => {
 
-    const dispatch = useDispatch();
+  const dispatch = useDispatch()
+  const allPaying = useSelector((state) => state.clientReducer.pets);
+  const [totalPaying, setTotalPaying] = useState([]);
+  
+  useEffect(() => {
+    // dispatch(getReallyAllProducts())
+    dispatch(getTotalPets())
+  }, []);
+
+  useEffect(() => {
+    setTotalPaying(allPaying.map(el=>{
+      return({
+       id: el.uid,
+       category: el.data.category,
+       state: el.data.state,
+       category: el.data.category, 
+       sexo: el.data.sexo,
+       name: el.data.name,
+       description: el.data.description,
+       photos: el.data.photos,
+       activo: el.data.delete? "no": "si",
+      })
+    }))
+  }, [allPets, dispatch]);
 
     const columns = [
         { field: "id", headerName: "ID de Orden", width: 120 },
@@ -40,7 +63,7 @@ const Pyments = () => {
           <AdminSidebar /> 
           <div className="productList">
           <DataGrid
-            rows={userRows}
+            rows={totalPaying}
             disableSelectionOnClick
             columns={columns}
             pageSize={10}
