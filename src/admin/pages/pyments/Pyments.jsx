@@ -3,15 +3,28 @@ import "./pyments.css";
 import { DataGrid } from "@material-ui/data-grid";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import {userRows} from '../../dummyData';
 import Navbar from "../../../components/navbar/Navbar";
 import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
-
+import { getAllCartsData } from '../../../redux/actions/cartActions';
 
 
 const Pyments = () => {
 
-    const dispatch = useDispatch();
+  const dispatch = useDispatch()
+  const allPaying = useSelector((state) => state.cartReducer.allCartsData);
+  const [totalPaying, setTotalPaying] = useState([]);
+  
+  useEffect(() => {
+    dispatch(getAllCartsData())
+  }, []);
+
+  useEffect(() => {
+    setTotalPaying(allPaying.map(el=>{
+      return({
+     
+      })
+    }))
+  }, [allPaying, dispatch]);
 
     const columns = [
         { field: "id", headerName: "ID de Orden", width: 120 },
@@ -40,7 +53,7 @@ const Pyments = () => {
           <AdminSidebar /> 
           <div className="productList">
           <DataGrid
-            rows={userRows}
+            rows={totalPaying}
             disableSelectionOnClick
             columns={columns}
             pageSize={10}

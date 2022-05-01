@@ -6,6 +6,7 @@ import {
     editCart,
     editCartFirebase,
     getAllCartsFirebase,
+    getAllCartsclose,
     getCartFirebase,
     loginCart,
 } from "../../firebase/Cart";
@@ -20,6 +21,7 @@ export const CLOSE_CART = "CLOSE_CART";
 export const LOGIN_CART = "LOGIN_CART";
 export const GET_QUANTITY = "GET_QUANTITY";
 export const CLEAR_CART = "CLEAR_CART";
+export const ALL_CARTS_DATA = "ALL CARTS DATA";
 
 export function getAllCarts() {
     return async function (dispatch) {
@@ -112,6 +114,22 @@ export function editItemsCartFront(payload) {
 }
 
 //Recibe un objeto con {user,item} item es un objeto(impotante, la propiedad "id" dentro)
+
+export function getAllCartsData() {
+   return async function (dispatch) {
+        try {
+            let jsonAllCartsData = await getAllCartsclose()
+            console.log("=> jsonAllCartsData Flag =>", jsonAllCartsData);
+            return dispatch({
+                type: ALL_CARTS_DATA,
+                payload: jsonAllCartsData,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+}
+
 export function deleteItemsCartFront(payload) {
     console.log("payload-delete", payload);
     return async function (dispatch) {
