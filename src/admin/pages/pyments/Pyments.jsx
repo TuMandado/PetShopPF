@@ -3,38 +3,28 @@ import "./pyments.css";
 import { DataGrid } from "@material-ui/data-grid";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import {userRows} from '../../dummyData';
 import Navbar from "../../../components/navbar/Navbar";
 import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
-
+import { getAllCartsData } from '../../../redux/actions/cartActions';
 
 
 const Pyments = () => {
 
   const dispatch = useDispatch()
-  const allPaying = useSelector((state) => state.clientReducer.pets);
+  const allPaying = useSelector((state) => state.cartReducer.allCartsData);
   const [totalPaying, setTotalPaying] = useState([]);
   
   useEffect(() => {
-    // dispatch(getReallyAllProducts())
-    dispatch(getTotalPets())
+    dispatch(getAllCartsData())
   }, []);
 
   useEffect(() => {
     setTotalPaying(allPaying.map(el=>{
       return({
-       id: el.uid,
-       category: el.data.category,
-       state: el.data.state,
-       category: el.data.category, 
-       sexo: el.data.sexo,
-       name: el.data.name,
-       description: el.data.description,
-       photos: el.data.photos,
-       activo: el.data.delete? "no": "si",
+     
       })
     }))
-  }, [allPets, dispatch]);
+  }, [allPaying, dispatch]);
 
     const columns = [
         { field: "id", headerName: "ID de Orden", width: 120 },
