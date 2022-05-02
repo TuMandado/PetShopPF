@@ -71,7 +71,7 @@ const Products = ({ viewMode, currentProducts, productsPerPage, paged, currentPa
                             return (
                                 <div key={e.uid} id={e.uid} onClick={(e) => navigateToProduct(e)}>
 
-                                    <Product title={e.data.name} imagen={e.data.image} info={e.data.info} price={e.data.price} animalCategory={e.data.animalCategory} category={e.data.category} subCategory={e.data.subCategory} viewMode={viewMode} id={e.uid} />
+                                    <Product title={e.data.name} imagen={e.data.image} info={e.data.info} price={e.data.price} animalCategory={e.data.animalCategory} category={e.data.category} subCategory={e.data.subCategory} stock={e.data.stock} viewMode={viewMode} id={e.uid} />
 
                                 </div>
                             )

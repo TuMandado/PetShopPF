@@ -13,6 +13,7 @@ import Footer from "../../components/footer/Footer";
 import Swal from "sweetalert2";
 import styled from "styled-components";
 import { MercadoPagoConfiguration } from "../../firebase/MercadoPago/MercadoPago";
+import { getProduct } from "../../firebase/Products";
 
 const TitleContainer = styled.div`
   height: 80px;
@@ -484,7 +485,7 @@ export function Cart() {
     dispatch(editItemsCartFront(itemQuantity));
   };
 
-  const handleAdd = (e, ele, id) => {
+  const handleAdd = async (e, ele, id) => {
     e.preventDefault();
     itemQuantity = {
       user,
@@ -494,7 +495,45 @@ export function Cart() {
       number: ele + 1,
     };
     console.log("Number+Flag", itemQuantity);
+
+    let itemDb = await getProduct(id)
+    let quantity = 0
+    //console.log("uid =",uid.id,"product =",product)
+    console.log("itemDb",itemDb)
+    if (user){
+      if(openCart[0]){
+       let itm =  openCart[0].data.items.filter(el=> el.id===id)
+       if (itm.length){
+          quantity = itm[0].quantity
+       }
+      }
+    }else{
+      if( Object.keys(openCart).length){
+        let itm =  openCart.items.filter(el=> el.id===id)
+        if (itm.length){
+          quantity = itm[0].quantity
+       }
+      }
+    }
+    if (itemDb.stock >= quantity+1){
     dispatch(editItemsCartFront(itemQuantity));
+    return Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Producto agregado con éxito.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+    }else {
+      return Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Ya te di todo lo que tengo mi broh.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+    
   };
 
   return (
