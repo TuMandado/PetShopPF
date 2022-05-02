@@ -88,7 +88,7 @@ const BtnAdd = styled.button`
   border-radius: 8px;
   position: absolute;
   right: 41%;
-  bottom: 20%;
+  bottom: 11%;
   cursor: pointer;
   transition: 0.25s ease;
   &:hover {
@@ -194,39 +194,37 @@ const ProductDetail = () => {
 
   const handleAddCart = (e) => {
     e.preventDefault();
-    let quantity = 0
-    console.log("uid =",uid.id,"product =",product)
-    if (user){
-      if(openCart[0]){
-       let itm =  openCart[0].data.items.filter(el=> el.id===uid.id)
-       if (itm.length){
-          quantity = itm[0].quantity
-       }
+    let quantity = 0;
+    console.log("uid =", uid.id, "product =", product);
+    if (user) {
+      if (openCart[0]) {
+        let itm = openCart[0].data.items.filter((el) => el.id === uid.id);
+        if (itm.length) {
+          quantity = itm[0].quantity;
+        }
       }
-    }else{
-      if( Object.keys(openCart).length){
-        let itm =  openCart.items.filter(el=> el.id===uid.id)
-        if (itm.length){
-          quantity = itm[0].quantity
-       }
+    } else {
+      if (Object.keys(openCart).length) {
+        let itm = openCart.items.filter((el) => el.id === uid.id);
+        if (itm.length) {
+          quantity = itm[0].quantity;
+        }
       }
     }
-    if (product.stock >= quantity+1){
-    dispatch(addItemCartFront(item));
-    return Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "Producto agregado con éxito.",
-      showConfirmButton: false,
-      timer: 1500,
-    });
-    }else {
+    if (product.stock >= quantity + 1) {
+      dispatch(addItemCartFront(item));
       return Swal.fire({
         position: "center",
         icon: "success",
-        title: "Ya te di todo lo que tengo mi broh.",
+        title: "Producto agregado con éxito.",
         showConfirmButton: false,
         timer: 1500,
+      });
+    } else {
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Limite de stock alcanzado.",
       });
     }
   };
@@ -275,6 +273,10 @@ const ProductDetail = () => {
             <IndividualInfoContainer>
               <InfoSpanBrand>Marca: </InfoSpanBrand>
               <span> {product.brand}</span>
+            </IndividualInfoContainer>
+            <IndividualInfoContainer>
+              <InfoSpanBrand>Stock: </InfoSpanBrand>
+              <span> {product.stock}</span>
             </IndividualInfoContainer>
           </InfoContainer>
           <Precio>{product.price}</Precio>
