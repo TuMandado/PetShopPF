@@ -19,24 +19,29 @@ const About = () => {
       <TitleContainer>
         <TextPetshop>PetShop Team</TextPetshop>
       </TitleContainer>
-      <ContainerProfile style={containerStyle}>
-        <InfoProfile>
-          <Foto src="https://i.imgur.com/jfIhevT.jpg" alt="Francisco" />
-          <Name>Francisco Molina</Name>
-          <Position>Team: FrontEnd</Position>
-          <Pet>Adopto a: Filo</Pet>
-          <div>
-            <span>
-              <a href="https://www.linkedin.com/in/franciscomolina-dev/">
-                <img
-                  src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original-wordmark.svg"
-                  alt="linkedin"
-                  width="90"
-                  height="90"
-                />
-              </a>
-            </span>
-            {/* <span>
+      <AllProfile>
+        <ContainerProfile style={containerStyle}>
+          <InfoProfile>
+            <Foto src="https://i.imgur.com/jfIhevT.jpg" alt="Francisco" />
+            <Name>Francisco Molina</Name>
+            <Position>Team: Frontend</Position>
+            <Pet>Adopto a: Filo</Pet>
+            <div>
+              <span>
+                <a
+                  href="https://www.linkedin.com/in/franciscomolina-dev/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img
+                    src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original-wordmark.svg"
+                    alt="linkedin"
+                    width="90"
+                    height="90"
+                  />
+                </a>
+              </span>
+              {/* <span>
             //Si gustan, tambien el Github. 
             <a href="https://github.com/TheFranciscoMolina">
               <img
@@ -47,9 +52,220 @@ const About = () => {
               />
             </a>
           </span> */}
-          </div>
-        </InfoProfile>
-      </ContainerProfile>
+            </div>
+          </InfoProfile>
+        </ContainerProfile>
+        <ContainerProfile style={containerStyle}>
+          <InfoProfile>
+            <Foto src="https://i.imgur.com/9bULXjH.png" alt="Eugenio" />
+            <Name>Eugenio Quiroga</Name>
+            <Position>Team: Backend</Position>
+            <Pet>Adopto a: Sam</Pet>
+            <div>
+              <span>
+                <a
+                  href="https://www.linkedin.com/in/eugenioquiroga/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img
+                    src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original-wordmark.svg"
+                    alt="linkedin"
+                    width="90"
+                    height="90"
+                  />
+                </a>
+              </span>
+              {/* <span>
+            //Si gustan, tambien el Github. 
+            <a href="https://github.com/TheFranciscoMolina">
+              <img
+                src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original-wordmark.svg"
+                alt="github"
+                width="45"
+                height="45"
+              />
+            </a>
+          </span> */}
+            </div>
+          </InfoProfile>
+        </ContainerProfile>
+        <ContainerProfile style={containerStyle}>
+          <InfoProfile>
+            <Foto src="https://i.imgur.com/9bULXjH.png" alt="Nolis" />
+            <Name>Nolis Maldonado</Name>
+            <Position>Team: Backend</Position>
+            <Pet>Adopto a: ¿?</Pet>
+            <div>
+              <span>
+                <a
+                  href="https://www.linkedin.com/in/nolis-maldonado-675945236/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img
+                    src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original-wordmark.svg"
+                    alt="linkedin"
+                    width="90"
+                    height="90"
+                  />
+                </a>
+              </span>
+              {/* <span>
+            //Si gustan, tambien el Github. 
+            <a href="">
+              <img
+                src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original-wordmark.svg"
+                alt="github"
+                width="45"
+                height="45"
+              />
+            </a>
+          </span> */}
+            </div>
+          </InfoProfile>
+        </ContainerProfile>
+        <ContainerProfile style={containerStyle}>
+          <InfoProfile>
+            <Foto src="https://i.imgur.com/9bULXjH.png" alt="Franco" />
+            <Name>Franco Leyes</Name>
+            <Position>Team: Frontend</Position>
+            <Pet>Adopto a: Unos cuantos xD</Pet>
+            <div>
+              <span>
+                <a
+                  href="https://www.linkedin.com/in/francoleyesdev/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img
+                    src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original-wordmark.svg"
+                    alt="linkedin"
+                    width="90"
+                    height="90"
+                  />
+                </a>
+              </span>
+              {/* <span>
+            //Si gustan, tambien el Github. 
+            <a href="">
+              <img
+                src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original-wordmark.svg"
+                alt="github"
+                width="45"
+                height="45"
+              />
+            </a>
+          </span> */}
+            </div>
+          </InfoProfile>
+        </ContainerProfile>
+        <ContainerProfile style={containerStyle}>
+          <InfoProfile>
+            <Foto src="https://i.imgur.com/9bULXjH.png" alt="Franco" />
+            <Name>Ignacio Euclides</Name>
+            <Position>Team: Backend</Position>
+            <Pet>Adopto a: ¿?</Pet>
+            <div>
+              <span>
+                <a
+                  href="https://www.linkedin.com/in/euclidesingenieria/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img
+                    src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original-wordmark.svg"
+                    alt="linkedin"
+                    width="90"
+                    height="90"
+                  />
+                </a>
+              </span>
+              {/* <span>
+            //Si gustan, tambien el Github. 
+            <a href="">
+              <img
+                src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original-wordmark.svg"
+                alt="github"
+                width="45"
+                height="45"
+              />
+            </a>
+          </span> */}
+            </div>
+          </InfoProfile>
+        </ContainerProfile>
+        <ContainerProfile style={containerStyle}>
+          <InfoProfile>
+            <Foto src="https://i.imgur.com/9bULXjH.png" alt="Franco" />
+            <Name>Nicolás Moises</Name>
+            <Position>Team: Frontend</Position>
+            <Pet>Adopto a: ¿?</Pet>
+            <div>
+              <span>
+                <a
+                  href="https://www.linkedin.com/in/jorge-nicolas-moises-2a456721b/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img
+                    src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original-wordmark.svg"
+                    alt="linkedin"
+                    width="90"
+                    height="90"
+                  />
+                </a>
+              </span>
+              {/* <span>
+            //Si gustan, tambien el Github. 
+            <a href="">
+              <img
+                src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original-wordmark.svg"
+                alt="github"
+                width="45"
+                height="45"
+              />
+            </a>
+          </span> */}
+            </div>
+          </InfoProfile>
+        </ContainerProfile>
+        <ContainerProfile style={containerStyle}>
+          <InfoProfile>
+            <Foto src="https://i.imgur.com/9bULXjH.png" alt="Franco" />
+            <Name>Leonardo Fernandez</Name>
+            <Position>Team: Frontend</Position>
+            <Pet>Adopto a: unos cuantos</Pet>
+            <div>
+              <span>
+                <a
+                  href="https://www.linkedin.com/in/lion-fernandez/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img
+                    src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original-wordmark.svg"
+                    alt="linkedin"
+                    width="90"
+                    height="90"
+                  />
+                </a>
+              </span>
+              {/* <span>
+            //Si gustan, tambien el Github. 
+            <a href="">
+              <img
+                src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original-wordmark.svg"
+                alt="github"
+                width="45"
+                height="45"
+              />
+            </a>
+          </span> */}
+            </div>
+          </InfoProfile>
+        </ContainerProfile>
+      </AllProfile>
       <BtnContainer>
         <BtnToHome onClick={(e) => navigateToHome(e)}>Ir a home</BtnToHome>
       </BtnContainer>
@@ -76,6 +292,13 @@ const TextPetshop = styled.h1`
   &:hover {
     color: #0acf83;
   }
+`;
+
+const AllProfile = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 3fr);
+  grid-gap: 10px;
+  margin: auto;
 `;
 
 const ContainerProfile = styled.div`

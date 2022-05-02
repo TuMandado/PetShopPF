@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "../navbar/Navbar";
 import { Loader } from "../../page/loader/Loader";
+import Mapa from "../../components/map/Map";
 import Footer from "../../components/footer/Footer";
 import { petDetails, detailVacio } from "../../redux/actions";
 import styled from "styled-components";
@@ -21,7 +22,7 @@ const PetDetails = () => {
   const navigateToPets = (e) => {
     e.preventDefault();
     // navigate(`/pets`);
-    window.history.back()
+    window.history.back();
   };
 
   useEffect(() => {
@@ -78,6 +79,7 @@ const PetDetails = () => {
         </DivContainers>
         <MapContainer>
           <span>Localidad/Mapa</span>
+          <Mapa />
         </MapContainer>
         <BtnContainer>
           <Link to="/pets">
@@ -250,6 +252,6 @@ const BtnToPets = styled.button`
     color: #0acf83;
     background: #ffff;
     border: 3px solid #067a4d;
-    cursor:pointer;
+    cursor: pointer;
   }
 `;

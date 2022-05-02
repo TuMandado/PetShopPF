@@ -30,6 +30,7 @@ import AdminProductList from "./admin/pages/adminProductList/AdminProductList";
 import AdminProduct from "./admin/pages/adminProduct/AdminProduct";
 import NewProduct from "./admin/pages/newProduct/NewProduct";
 import Pyments from "./admin/pages/pyments/Pyments";
+import PaymentDetail from "./admin/pages/paymentDetail/PaymentDetail";
 import PublicPets from "./admin/pages/publicPets/PublicPets";
 
 import { getTotalProducts } from "./redux/actions";
@@ -249,6 +250,7 @@ function App() {
           <Route path="/adminPet/:id" element={<AdminPet />} />
           <Route path="/newProduct" element={<NewProduct />} />
           <Route path="/ventas" element={<Pyments />} />
+          <Route path="/ventas/:payId" element={<PaymentDetail />} />
           <Route path="/publicPets" element={<PublicPets />} />
           <Route path="/newPublicPets" element={<NewPublicPets />} />
           <Route path="/passwordRecovery" element={<PasswordRecovery />} />
