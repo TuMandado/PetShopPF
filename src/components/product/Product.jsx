@@ -330,6 +330,7 @@ const Product = ({
   function handleAdd(e) {
     e.preventDefault();
     e.stopPropagation();
+<<<<<<< Updated upstream
     
     let quantity = 0
     if (user){
@@ -338,6 +339,18 @@ const Product = ({
        if (itm.length){
           quantity = itm[0].quantity
        }
+=======
+
+    let quantity = 0;
+    if (user) {
+      if(openCart){
+        if (openCart[0]) {
+          let itm = openCart[0].data.items.filter((el) => el.id === id);
+          if (itm.length) {
+            quantity = itm[0].quantity;
+          }
+        }
+>>>>>>> Stashed changes
       }
     }else{
       if( Object.keys(openCart).length){

@@ -194,6 +194,7 @@ const ProductDetail = () => {
 
   const handleAddCart = (e) => {
     e.preventDefault();
+<<<<<<< Updated upstream
     let quantity = 0
     console.log("uid =",uid.id,"product =",product)
     if (user){
@@ -202,6 +203,18 @@ const ProductDetail = () => {
        if (itm.length){
           quantity = itm[0].quantity
        }
+=======
+    let quantity = 0;
+    console.log("uid =", uid.id, "product =", product);
+    if (user) {
+      if(openCart){
+        if (openCart[0]) {
+          let itm = openCart[0].data.items.filter((el) => el.id === uid.id);
+          if (itm.length) {
+            quantity = itm[0].quantity;
+          }
+        }
+>>>>>>> Stashed changes
       }
     }else{
       if( Object.keys(openCart).length){
