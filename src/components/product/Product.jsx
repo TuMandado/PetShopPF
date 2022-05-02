@@ -303,6 +303,7 @@ const Product = ({
   category,
   subCategory,
   viewMode,
+  stock,
 }) => {
   const navigate = useNavigate();
   const navigateToProductDetail = (e) => {
@@ -311,6 +312,7 @@ const Product = ({
   };
 
   const user = useSelector((state) => state.clientReducer.user);
+  const openCart = useSelector((state) => state.cartReducer.openCart);
   const dispatch = useDispatch();
 
   let item = {
@@ -328,7 +330,25 @@ const Product = ({
   function handleAdd(e) {
     e.preventDefault();
     e.stopPropagation();
-    dispatch(addItemCartFront(item));
+    
+    let quantity = 0
+    if (user){
+      if(openCart[0]){
+       let itm =  openCart[0].data.items.filter(el=> el.id===id)
+       if (itm.length){
+          quantity = itm[0].quantity
+       }
+      }
+    }else{
+      if( Object.keys(openCart).length){
+        let itm =  openCart.items.filter(el=> el.id===id)
+        if (itm.length){
+          quantity = itm[0].quantity
+       }
+      }
+    }
+    if (stock >= quantity+1){
+      dispatch(addItemCartFront(item));
     return Swal.fire({
       position: "center",
       icon: "success",
@@ -336,6 +356,15 @@ const Product = ({
       showConfirmButton: false,
       timer: 1500,
     });
+    }else {
+      return Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Ya te di todo lo que tengo mi broh.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   }
 
   if (viewMode === "List") {

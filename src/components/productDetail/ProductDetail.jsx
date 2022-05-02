@@ -167,6 +167,7 @@ const ProductDetail = () => {
   const uid = useParams();
   const user = useSelector((state) => state.clientReducer.user);
   const product = useSelector((state) => state.clientReducer.backupDetail);
+  const openCart = useSelector((state) => state.cartReducer.openCart);
   let productScore = useSelector((state) => state.reviewsReducer.productScore);
   productScore = Math.ceil(productScore);
   const totalStars = [false, false, false, false, false];
@@ -193,6 +194,24 @@ const ProductDetail = () => {
 
   const handleAddCart = (e) => {
     e.preventDefault();
+    let quantity = 0
+    console.log("uid =",uid.id,"product =",product)
+    if (user){
+      if(openCart[0]){
+       let itm =  openCart[0].data.items.filter(el=> el.id===uid.id)
+       if (itm.length){
+          quantity = itm[0].quantity
+       }
+      }
+    }else{
+      if( Object.keys(openCart).length){
+        let itm =  openCart.items.filter(el=> el.id===uid.id)
+        if (itm.length){
+          quantity = itm[0].quantity
+       }
+      }
+    }
+    if (product.stock >= quantity+1){
     dispatch(addItemCartFront(item));
     return Swal.fire({
       position: "center",
@@ -201,6 +220,15 @@ const ProductDetail = () => {
       showConfirmButton: false,
       timer: 1500,
     });
+    }else {
+      return Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Ya te di todo lo que tengo mi broh.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
 
   const goBack = (e) => {
