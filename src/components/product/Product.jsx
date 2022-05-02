@@ -366,10 +366,12 @@ const Product = ({
 
     let quantity = 0;
     if (user) {
-      if (openCart[0]) {
-        let itm = openCart[0].data.items.filter((el) => el.id === id);
-        if (itm.length) {
-          quantity = itm[0].quantity;
+      if(openCart){
+        if (openCart[0]) {
+          let itm = openCart[0].data.items.filter((el) => el.id === id);
+          if (itm.length) {
+            quantity = itm[0].quantity;
+          }
         }
       }
     } else {

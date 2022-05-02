@@ -194,14 +194,18 @@ const ProductDetail = () => {
 
   const handleAddCart = (e) => {
     e.preventDefault();
+
     let quantity = 0;
     console.log("uid =", uid.id, "product =", product);
     if (user) {
-      if (openCart[0]) {
-        let itm = openCart[0].data.items.filter((el) => el.id === uid.id);
-        if (itm.length) {
-          quantity = itm[0].quantity;
+      if(openCart){
+        if (openCart[0]) {
+          let itm = openCart[0].data.items.filter((el) => el.id === uid.id);
+          if (itm.length) {
+            quantity = itm[0].quantity;
+          }
         }
+
       }
     } else {
       if (Object.keys(openCart).length) {

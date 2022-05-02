@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { editCartFirebase } from "../../firebase/Cart/index";
 import { useSelector } from "react-redux";
 import { getCart } from "../../redux/actions/cartActions";
@@ -17,6 +17,7 @@ const StateMercadoPago = () => {
   let infospliteada = [];
   let status;
   const user = useSelector((state) => state.clientReducer.user);
+  const [load,setLoad]= useState(true)
 
   let infoMercadoPago = {};
   arrayinfo.map((i) => {
@@ -60,14 +61,14 @@ const StateMercadoPago = () => {
             stock = { stock : item.stock - el.quantity}
             await editProduct(el.id,stock)
           })
-          console.log("el mejor carrito",carrito)
           let total= getTotal(carrito)
           status = {
             close: true,
             status: "approved",
             total: total,
           };
-          editCartFirebase(infoMercadoPago.external_reference, status);
+          editCartFirebase(infoMercadoPago.external_reference, status)
+          .then(setLoad(false))
         })
       } else if (infoMercadoPago.status === "rejected") {
         // "status=rejected"
@@ -82,7 +83,8 @@ const StateMercadoPago = () => {
             total: total,
           };
           console.log("hola 2");
-          editCartFirebase(infoMercadoPago.external_reference, status);
+          editCartFirebase(infoMercadoPago.external_reference, status)
+          .then(setLoad(false))
         })
       } else if (infoMercadoPago.status === "in_process") {
         // funcion carrito
@@ -94,7 +96,8 @@ const StateMercadoPago = () => {
             status: "in_process",
             total: total,
           };
-          editCartFirebase(infoMercadoPago.external_reference, status);
+          editCartFirebase(infoMercadoPago.external_reference, status)
+          .then(setLoad(false))
         })
       }
     }
@@ -116,7 +119,7 @@ const StateMercadoPago = () => {
                 </Pe>
 
                 <Image src={DogImg} />
-                <BtnToPets onClick={() => window.location.assign("/")}>
+                <BtnToPets disabled={load} onClick={() => window.location.assign("/")}>
                   Volver a Home
                 </BtnToPets>
               </InfoPayd>
@@ -133,7 +136,7 @@ const StateMercadoPago = () => {
                 </Pe>
 
                 <Image src={DogImg} />
-                <BtnToPets onClick={() => window.location.assign("/")}>
+                <BtnToPets disabled={load} onClick={() => window.location.assign("/")}>
                   Volver a Home
                 </BtnToPets>
               </InfoPayd>
