@@ -71,6 +71,12 @@ export async function getAllCartsclose() {
     return arraylisto
 }
 
+export async function getOrderByUser(uid){
+    let allOrders = await getAllCartsclose()
+    allOrders.filter((el)=> el.data.userUid ===uid)
+    return allOrders
+}
+
 export async function editCartFirebase(uid,data){
     console.log("dataaaaa",data,uid)
     await updateDoc(doc(db, collectionRef, uid), data);
@@ -115,20 +121,6 @@ export async function cartOpenUs(user){
              return JSON.parse(localStorage.getItem('cart'))
         }
     }
-}
-
-// function sumarItems(db,localS){
-//     let finishdb = db[0]
-//     console.log("esto llega",finishdb)
-//     let keys = Object.keys(localS)
-//     keys.forEach((el)=> finishdb.data[el] ? finishdb.data[el].cantidad = finishdb.data[el].cantidad + localS[el].cantidad : finishdb.data[el]=localS[el]);
-//     return finishdb
-// }
-
-function sumarItems(db,localS){
-    let items= localS.items
-    console.log("local",items)
-
 }
 
 export async function newCart(user,data){
