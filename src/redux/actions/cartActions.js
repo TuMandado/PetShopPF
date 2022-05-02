@@ -119,7 +119,7 @@ export function getAllCartsData() {
    return async function (dispatch) {
         try {
             let jsonAllCartsData = await getAllCartsclose()
-            console.log("=> jsonAllCartsData Flag =>", jsonAllCartsData);
+            // console.log("=> jsonAllCartsData Flag =>", jsonAllCartsData);
             return dispatch({
                 type: ALL_CARTS_DATA,
                 payload: jsonAllCartsData,
