@@ -63,9 +63,24 @@ export async function getAllProducts(search) {
             products = [{ msg: 'product not found' }]
         }
     } else {
-        products = array.filter(el=> el.data.delete === false)
+       let productsDon = array.filter(el=> el.data.delete === false)
+       products = productsDon.filter(el=> el.data.stock >= 1)
     }
     return products;
+}
+
+export async function getStockAllProducts() {
+    const querySnapshot = await getDocs(collection(db, collectionRef));
+    let array = [];
+    querySnapshot.forEach((doc) => {
+        array.push({
+            uid: doc.id,
+            data: doc.data()
+        });
+      });
+      let products = []
+      products = array.filter(el=> el.data.delete === false)
+    return products
 }
 
 export async function getReallyAllProducts() {

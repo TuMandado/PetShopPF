@@ -274,6 +274,10 @@ export async function deleteItem(user,item){
         let items = cart[0].data.items.find(el => el.id=== item.id)
         await editCartFirebase(cart[0].uid,{items: arrayRemove(items)})
         let newCart = await getCartFirebase(cart[0].uid)  
+        newCart = [{
+            uid: cart[0].uid,
+            data: newCart
+        }]
         console.log("ahora sin", newCart)
         return newCart
     } else{
@@ -316,6 +320,10 @@ export async function editCart(user,item,number){
         })}
         await editCartFirebase(cart[0].uid,allItems)
         let newCart = await getCartFirebase(cart[0].uid)  
+        newCart = [{
+            uid: cart[0].uid,
+            data: newCart
+        }]
         return newCart
     }else{
         if(localStorage.getItem('cart')){
