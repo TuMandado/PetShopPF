@@ -72,7 +72,7 @@ const Products = ({
       {currentProducts?.length && !allProducts[0].msg ? (
         // eslint-disable-next-line array-callback-return
         currentProducts.map((e) => {
-          if (!e.delete) {
+          if (!e.delete && e.data.stock >= 1) {
             // Si queremos que se muestre lo eliminado, cambiar este condicional
             return (
               <div key={e.uid} id={e.uid} onClick={(e) => navigateToProduct(e)}>
