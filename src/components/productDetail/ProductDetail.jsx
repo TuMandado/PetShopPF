@@ -12,6 +12,7 @@ import FormReview from "../formReview/FormReview";
 import Reviews from "../reviews/Reviews";
 import { star } from "../../data";
 import Swal from "sweetalert2";
+import imgBackground from "../../assets/patrones_pet.png";
 
 const DetailContainer = styled.div`
   height: 100vh;
@@ -168,6 +169,20 @@ const GoBackButton = styled.div`
   }
 `;
 
+const ProductWasDeletedContainer = styled.div`
+    background-image: url(imgBackground);
+    width: 100%;
+    height: 100vh;
+`
+
+const ProductWasDeletedError = styled.p`
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 40%;
+    margin-left: auto;
+    margin-top: auto;
+`
 
 
 const ProductDetail = () => {
@@ -288,11 +303,13 @@ const ProductDetail = () => {
             </IndividualInfoContainer>
             <IndividualInfoContainer>
               <InfoSpanStock>Stock: </InfoSpanStock>
-              <span> {product.stock}</span>
+              <span> {product.stock >= 1 ? product.stock : "No disponible"}</span>
             </IndividualInfoContainer>
           </InfoContainer>
           <Precio>{product.price}</Precio>
-          <BtnAdd onClick={(e) => handleAddCart(e)}>Agregar</BtnAdd>
+          {
+              (product.stock >= 1 || product.delete) && <BtnAdd onClick={(e) => handleAddCart(e)}>Agregar</BtnAdd>
+          }
           <Image
             src={product.image || "https://imgur.com/lhLYKao"}
             alt="imagen"
