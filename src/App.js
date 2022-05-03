@@ -340,6 +340,7 @@ function App() {
           <Route exact path="/cart" element={<Cart />} />
           <Route exact path="/admin" element={<AdminHome />} />
           <Route exact path="/usersettings" element={<UserSettings />} />
+          <Route exact path="/usersettings/:id" element={<UserSettings />} />
           <Route exact path="/pets" element={<PetsPage />} />
           <Route exact path="/pets/:id" element={<Pet />} />
           <Route exact path="/register" element={<Register />} />

@@ -23,7 +23,7 @@ export const LoginLogout = () => {
           </Link>
         )}
         {user && user.role.toLowerCase() === "cliente" && (
-          <Link to={"/usersettings"}>
+          <Link to={`/usersettings/${user.uid}`}>
             <BtnOption>
               <SupervisorAccountRounded className="sidebarIcon" />
               <Text>Mi cuenta</Text>
