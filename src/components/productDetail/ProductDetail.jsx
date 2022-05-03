@@ -127,6 +127,12 @@ const InfoSpanBrand = styled.span`
   margin-right: 3.3em;
 `;
 
+const InfoSpanStock = styled.span`
+  color: #a9a9a9;
+  margin-right: 3.8em;
+`;
+
+
 const StarsContainer = styled.div`
   position: absolute;
   transform: scale(1.5);
@@ -162,6 +168,8 @@ const GoBackButton = styled.div`
   }
 `;
 
+
+
 const ProductDetail = () => {
   const dispatch = useDispatch();
   const uid = useParams();
@@ -194,14 +202,18 @@ const ProductDetail = () => {
 
   const handleAddCart = (e) => {
     e.preventDefault();
+
     let quantity = 0;
     console.log("uid =", uid.id, "product =", product);
     if (user) {
-      if (openCart[0]) {
-        let itm = openCart[0].data.items.filter((el) => el.id === uid.id);
-        if (itm.length) {
-          quantity = itm[0].quantity;
+      if(openCart){
+        if (openCart[0]) {
+          let itm = openCart[0].data.items.filter((el) => el.id === uid.id);
+          if (itm.length) {
+            quantity = itm[0].quantity;
+          }
         }
+
       }
     } else {
       if (Object.keys(openCart).length) {
@@ -275,7 +287,7 @@ const ProductDetail = () => {
               <span> {product.brand}</span>
             </IndividualInfoContainer>
             <IndividualInfoContainer>
-              <InfoSpanBrand>Stock: </InfoSpanBrand>
+              <InfoSpanStock>Stock: </InfoSpanStock>
               <span> {product.stock}</span>
             </IndividualInfoContainer>
           </InfoContainer>

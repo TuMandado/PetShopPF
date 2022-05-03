@@ -42,8 +42,8 @@ function Mapa({ showUserLocation = true, locations, height, width }) {
     lat: -34.9191692,
     lng: -57.9651613,
   });
-  const [mapHeight, setMapHeight] = useState(height ?? 300);
-  const [mapWidth, setMapWidth] = useState(width ?? 600);
+  const [mapHeight, setMapHeight] = useState(height ?? 350);
+  const [mapWidth, setMapWidth] = useState(width ?? 1000);
   const [maxDistanceBetweenPoints, setMaxDistanceBetweenPoints] = useState(0);
   // Get user location
   useEffect(() => {
@@ -132,8 +132,8 @@ function Mapa({ showUserLocation = true, locations, height, width }) {
     console.log(`Zoom: ${zoom}`);
   }, [zoom]);
 
-  const userColor = "#ff0000";
-  const locationsColor = "#0000ff";
+  const userColor = "#0acf83";
+  const locationsColor = "#eb8d70";
 
   return (
     <Map

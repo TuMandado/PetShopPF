@@ -1,10 +1,12 @@
-import { getAllReviews, getProductScore, getReviewByProduct, getReviewByUser, uploadReview } from "../../firebase/Reviews";
+import { getAllReviews, getProductScore, getReviewByProduct, getReviewByUser, uploadReview, editReview, deleteReview } from "../../firebase/Reviews";
 
 export const GET_ALL_REVIEWS = 'GET_ALL_REVIEWS';
 export const GET_PRODUCT_REVIEWS = 'GET_PRODUCT_REVIEWS';
 export const GET_USER_REVIEWS = 'GET_USER_REVIEWS';
 export const POST_REVIEW = 'POST_REVIEW';
-export const REVIEW_SCORE= 'REVIEW_SCORE';
+export const REVIEW_SCORE = 'REVIEW_SCORE';
+export const EDIT_REVIEW = 'EDIT_REVIEW';
+export const REMOVE_REVIEW = 'REMOVE_REVIEW';
 
 export function getAllReviewsFront() {
     return async function (dispatch) {
@@ -68,8 +70,8 @@ export function postReview(payload) {
         }
     };
 }
-  
-export function porductScore(payload){
+
+export function porductScore(payload) {
     return async function (dispatch) {
         try {
             const jsonReviewScore = await getProductScore(payload);
@@ -82,4 +84,34 @@ export function porductScore(payload){
             console.log(error);
         }
     };
+}
+
+export function editUserReview(uid, data) {
+    return async function (dispatch) {
+        try {
+            const response = await editReview(uid, data)
+            return dispatch({
+                type: EDIT_REVIEW,
+                payload: response
+            })
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+}
+
+export function removeReview(id) {
+    return async function (dispatch) {
+        try {
+            const response = await deleteReview(id)
+            return dispatch({
+                type: REMOVE_REVIEW,
+                payload: response
+            })
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
 }

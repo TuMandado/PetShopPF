@@ -26,10 +26,15 @@ const Pyments = () => {
         id: el.uid,
         estado: el.data.status,
         productos: el.data.items.map(e=> e.title),
-        valor: 0,
+        total: el.data.total,
       })
     }))
   }, [allPaying, dispatch]);
+
+  useEffect(() => {
+    console.log("allPaying ♦:", allPaying);
+    console.log("totalPaying 🚩:", totalPaying);
+  }, [totalPaying]);
 
     const columns = [
         { field: "id", headerName: "ID de Orden", width: 180 },
@@ -58,7 +63,7 @@ const Pyments = () => {
 
         { field: "productos", headerName: "Productos", width: 200 },
         { field: "estado", headerName: "Estado", width: 138 },
-        { field: "valor", headerName: "Importe $", width: 138 },
+        { field: "total", headerName: "Importe $", width: 138 },
         // { field: "nickname", headerName: "Nombre", width: 200 },  
     
         {
@@ -68,7 +73,7 @@ const Pyments = () => {
           renderCell: (params) => {
             return (
               <>
-                <Link to={"/pyments/" + params.row.id}>
+                <Link to={"/ventas/" + params.row.id}>
                   <button className="userListEdit">ver</button>
                 </Link>
               </>

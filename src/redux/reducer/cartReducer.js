@@ -56,7 +56,7 @@ function cartReducer(state = initialState, action) {
         case CLOSE_CART:
             return{
                 ...state,
-                openCart: action.payload,
+                openCart: {},
             }
         case GET_QUANTITY:
             return{

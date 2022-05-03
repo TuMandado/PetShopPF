@@ -32,8 +32,8 @@ const Container = styled.div`
 
 const Image = styled.img`
   align-self: center;
-  max-width: 236px;
-  max-height: 180px;
+  max-width: 80%;
+  max-height: 45%;
   border-radius: 12px;
 `;
 const Title = styled.h3`
@@ -109,8 +109,8 @@ const ListContainer = styled.div`
 
 const ListImage = styled.img`
   align-self: flex-start;
-  max-width: 268px;
-  max-height: 280px;
+  max-width: 70%;
+  max-height: 60%;
   border-radius: 12px;
   position: absolute;
   left: 5%;
@@ -366,10 +366,12 @@ const Product = ({
 
     let quantity = 0;
     if (user) {
-      if (openCart[0]) {
-        let itm = openCart[0].data.items.filter((el) => el.id === id);
-        if (itm.length) {
-          quantity = itm[0].quantity;
+      if(openCart){
+        if (openCart[0]) {
+          let itm = openCart[0].data.items.filter((el) => el.id === id);
+          if (itm.length) {
+            quantity = itm[0].quantity;
+          }
         }
       }
     } else {
