@@ -214,7 +214,7 @@ export const errorAuth = (error) => {
       title: "Oops...",
       text: "El usuario esta deshabilitado.",
       showConfirmButton: false,
-      timer: 1500,
+      timer: 3000,
     });
   }
   if (error.code === "auth/operation-not-allowed") {

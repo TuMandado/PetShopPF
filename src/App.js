@@ -145,9 +145,10 @@ function App() {
       
       if (usuarioFirebase) {
           let userData = await getUser(usuarioFirebase.uid);
-          console.log('userdata',userData)
+          console.log('userdata11',userData)
           if(userData){
             if( userData.disabled === true ){
+              console.log('entre a disable true')
               await signOutUsuario()
               return (Swal.fire({
                 position: "center",
@@ -156,8 +157,7 @@ function App() {
                 text: "El usuario esta deshabilitado.",
                 showConfirmButton: false,
                 timer: 3000,
-              }),
-              window.location.href = "/")
+              }))
             }
           }
           // If location is not "/" (home page), redirect to home page
