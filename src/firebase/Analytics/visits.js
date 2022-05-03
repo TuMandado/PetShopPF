@@ -18,6 +18,7 @@ var collectionName = "VisitsAnalytics";
 //     "userId": "",
 //     "date: "",
 //     "time": "",
+//     "duration": "",
 //     "location": {
 //         "lat": "",
 //         "lng": ""
@@ -48,41 +49,40 @@ export const checkIfVisitAnalyticExists = async (id) => {
   return exists;
 };
 
-export async function uploadVisitAnalytic(user) {
+export async function uploadVisitAnalytic(visitId, user, duration, location) {
   try {
-    // Get current location
-    let location = {
-      lat: "",
-      lng: "",
-    };
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        location.lat = position.coords.latitude;
-        location.lng = position.coords.longitude;
-      });
-    }
     let date = new Date();
-    let uid = await createId();
     let userId = user ? user.uid : "";
     let visit = {
-      uid: uid,
+      uid: visitId,
       userId: userId,
+      duration: duration ?? 0,
       date: Timestamp.fromDate(date),
       time: Timestamp.fromDate(date),
-      location: location,
+      location,
     };
-    await setDoc(doc(db, collectionName, uid), visit);
+    await setDoc(doc(db, collectionName, visitId), visit).catch((error) => {
+      console.log("uploadVisitAnalytic error: ", error);
+    });
     return visit;
   } catch (error) {
     console.log("uploadVisitAnalytic error: ", error);
   }
 }
 
-export async function updateVisitAnalytic(uid, user) {
+export async function updateVisitAnalytic(uid, user, duration, location) {
   var visit = {
-    userId: user.uid,
+    duration: duration,
+    location: location,
   };
-  await updateDoc(doc(db, collectionName, uid), visit)
+  if (user) {
+    visit = {
+      ...visit,
+      userId: user.uid,
+    };
+  }
+  console.log("visit: ", visit);
+  await updateDoc(doc(db, collectionName, uid), visit);
 }
 
 export async function getVisitAnalytic(uid) {
