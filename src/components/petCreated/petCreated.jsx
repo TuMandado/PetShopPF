@@ -11,7 +11,7 @@ import {
 } from "../../redux/actions/index";
 import imgBackground from "../../assets/patrones_pet.png";
 import styled from "styled-components";
-import { getDetailUser } from "../../redux/actions/adminActions"
+// import { getDetailUser } from "../../redux/actions/adminActions"
 
 function validadora(input) {
   let error = {};
@@ -64,10 +64,10 @@ const PetCreated = () => {
     delete: false,
   });
 
-  useEffect(() => {
-    dispatch(getDetailUser());
+  // useEffect(() => {
+  //   dispatch(getDetailUser());
    
-  },[])
+  // },[])
 
   const getBaseFile = (files) => {
     setInput((input) => ({ ...input, photos: files.base64 }));

@@ -16,6 +16,7 @@ import {
   getPet,
   getStatePets,
   searchPet,
+  deletePet,
 } from "../../firebase/Pets/index";
 // import { async } from "@firebase/util";
 import { loginCart } from "../../firebase/Cart";
@@ -290,6 +291,20 @@ export function filterPetByName(pets, name) {
       return dispatch({
         type: "SEARCH_PET",
         payload: searchedPets,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function deleteThisPet(uid) {
+  return async function (dispatch) {
+    try {
+      let jsonDelete = await deletePet(uid);
+      return dispatch({
+        type: `DELETE_PET`,
+        payload: uid,
       });
     } catch (error) {
       console.log(error);

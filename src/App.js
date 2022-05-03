@@ -33,6 +33,8 @@ import Pyments from "./admin/pages/pyments/Pyments";
 import PaymentDetail from "./admin/pages/paymentDetail/PaymentDetail";
 import PublicPets from "./admin/pages/publicPets/PublicPets";
 import Swal from "sweetalert2";
+import MyForm from "./page/myForm/MyForm";
+
 
 import { getTotalProducts } from "./redux/actions";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -375,6 +377,7 @@ function App() {
           <Route path="/publicPets" element={<PublicPets />} />
           <Route path="/newPublicPets" element={<NewPublicPets />} />
           <Route path="/passwordRecovery" element={<PasswordRecovery />} />
+          <Route path="/myform/:id" element={<MyForm/>} />
         </Routes>
       </Router>
     </div>

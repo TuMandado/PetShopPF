@@ -30,7 +30,20 @@ export const LoginLogout = () => {
             </BtnOption>
           </Link>
         )}
-      </Option>
+        </Option>
+        <Option>
+        {
+          
+          user && user.role.toLowerCase() === "cliente" && (
+            <Link to={`/myform/${user.uid}`}>
+              <BtnOption>
+                <SupervisorAccountRounded className="sidebarIcon" />
+                <Text>Mis formularios</Text>
+              </BtnOption>
+            </Link>
+          )
+        }
+        </Option>
       <Option>
         <Link to={"/products"}>
           <BtnOption>
