@@ -193,8 +193,8 @@ const GoBackButton = styled.div`
   cursor: pointer;
   transition: 0.25s ease;
   position: absolute;
-  left: 38.7%;
-  top: 16%;
+  left: 25%;
+  top: 11%;
   &:hover {
     background: white;
     color: #0acf83;
@@ -304,7 +304,6 @@ const Login = () => {
 
   return (
     <BodyLogin style={containerStyle}>
-      <GoBackButton onClick={(e) => goHome(e)}> {"<"} Volver </GoBackButton>
       <LoginContainer>
         <Brand src={imgLogin} alt="mascotas" />
         {!isRegistrando ? (
@@ -364,9 +363,9 @@ const Login = () => {
           </>
         ) : (
           <>
-            <GoBackButtonRegister onClick={(e) => goHome(e)}>
+            {/*       <GoBackButtonRegister onClick={(e) => goHome(e)}>
               {"<"} Volver{" "}
-            </GoBackButtonRegister>
+            </GoBackButtonRegister> */}
             <Title> Registrarse: </Title>
             <Form onSubmit={(e) => handleSubmit(e)}>
               <LabelEmail>
@@ -437,6 +436,7 @@ const Login = () => {
           </>
         )}
       </LoginContainer>
+      <GoBackButton onClick={(e) => goHome(e)}> {"<"} Volver </GoBackButton>
     </BodyLogin>
   );
 };
