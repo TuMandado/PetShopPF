@@ -11,6 +11,7 @@ import {
 } from "../../redux/actions/index";
 import imgBackground from "../../assets/patrones_pet.png";
 import styled from "styled-components";
+import { getDetailUser } from "../../redux/actions/adminActions"
 
 function validadora(input) {
   let error = {};
@@ -46,6 +47,8 @@ const PetCreated = () => {
   // console.log('esto es petsCategory', petsCategory)
   const state = useSelector((state) => state.clientReducer.statePets);
   console.log("esto es statePets", state);
+  const user = useSelector((state) => state.clientReducer.user);
+  console.log('user', user )
 
   const [errors, setErrors] = useState({});
   const [input, setInput] = useState({
@@ -57,8 +60,14 @@ const PetCreated = () => {
     ubicacion: "",
     state: "",
     category: "",
+    userId: "", 
     delete: false,
   });
+
+  useEffect(() => {
+    dispatch(getDetailUser());
+   
+  },[])
 
   const getBaseFile = (files) => {
     setInput((input) => ({ ...input, photos: files.base64 }));
@@ -68,6 +77,7 @@ const PetCreated = () => {
     setInput({
       ...input,
       [e.target.name]: e.target.value,
+      userId : user.uid
     });
     setErrors(
       validadora({
@@ -107,7 +117,7 @@ const PetCreated = () => {
 
   // }
 
-  function handleSubmit(e) {
+   const handleSubmit = (e) => {
     e.preventDefault();
     if (input.name.trim() === "" || input.name.search(/^[^$%&|<>#]*$/)) {
       return alert("Ingrese nombre adecuado");
@@ -144,7 +154,9 @@ const PetCreated = () => {
       console.log(input);
       dispatch(postPets(input));
       alert("Animal creado con exito!");
-      setInput({
+      if(user) 
+      {
+        setInput({
         name: "",
         owner: "",
         sexo: "",
@@ -153,8 +165,9 @@ const PetCreated = () => {
         ubicacion: "",
         state: "",
         category: "",
+        userId:"",
         delete: false,
-      });
+      });}
       navigate("/pets");
     }
   }
@@ -184,7 +197,7 @@ const PetCreated = () => {
         </TitleContainer>
 
         <br />
-        <InfoForm onSubmit={(e) => handleSubmit(e)}>
+        <InfoForm onSubmit={ handleSubmit}>
           <FormContent>
             <div>
               <Label> ¿Cómo se llama? </Label>

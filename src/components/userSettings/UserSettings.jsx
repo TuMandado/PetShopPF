@@ -7,24 +7,19 @@ import { getDetailUser, putUser } from "../../redux/actions/adminActions";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import imgBackground from "../../assets/patrones_pet.png";
+import { getTotalPets } from "../../redux/actions";
+
 
 export const UserSettings = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {uid} = useParams()
-  const user = useSelector((state) => state.clientReducer.user);
+  const uid = useParams().id;
+  console.log('esto es uid', uid)
+  const user = useSelector((state) => state.adminReducer.user);
   console.log("User de Settings =>", user);
-  const [input, setInput] = useState({
-    displayName: "",
-    name:  "",
-    surname: "",
-    email: "",
-    shippingAddress:  "",
-    phoneNumber: "",
-    photoUrl: "",
-    role:  "Cliente",
-    disabled: false,
-  });
+  const pets = useSelector((state) => state.clientReducer.backupPets)
+  console.log('esto es pets', pets)
+  const [input, setInput] = useState({});
 
   /*  Estructura de la info:
     email: ``,
@@ -40,23 +35,23 @@ export const UserSettings = () => {
     disabled: false, */
 
     useEffect(() => {
-      if (!user.length) {
        dispatch(getDetailUser(uid));
-      }
+       dispatch (getTotalPets())
+      
      },[])
 
   useEffect(() => {
-    setInput({
-      displayName:  user.displayName ? user.displayName : "",
-      name: user.name ? user.name : "",
-      surname: user.surname ? user.surname : "",
-      email: user.email ? user.email : "",
-      shippingAddress: user.shippingAddress ? user.shippingAddress : "",
-      phoneNumber: user.phoneNumber ? user.phoneNumber : "",
-      photoUrl: user.photoUrl ? user.photoUrl : "",
-      role: user.role ? user.role : "Cliente",
-      disabled: user.disabled ? user.disabled : false,
-    });
+      setInput({
+        displayName:  user.displayName ? user.displayName : "",
+        name: user.name ? user.name : "",
+        surname: user.surname ? user.surname : "",
+        email: user.email ? user.email : "",
+        shippingAddress: user.shippingAddress ? user.shippingAddress : "",
+        phoneNumber: user.phoneNumber ? user.phoneNumber : "",
+        photoUrl: user.photoUrl ? user.photoUrl : "",
+        role: user.role ? user.role : "Cliente",
+        disabled: user.disabled ? user.disabled : false,
+      });
   }, [user]);
   const containerStyle = {
     backgroundImage: `url(${imgBackground})`,
@@ -226,15 +221,15 @@ const Title = styled.h1`
   }
 `;
 
-const Span = styled.span`
-margin-top: 5px;
-margin-bottom: 5px;
-font-family: "Poppins";
-font-style: normal;
-font-weight: 400;
-font-size: 16px;
+// const Span = styled.span`
+// margin-top: 5px;
+// margin-bottom: 5px;
+// font-family: "Poppins";
+// font-style: normal;
+// font-weight: 400;
+// font-size: 16px;
 
-`
+// `
 
 const InfoForm = styled.form`
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;

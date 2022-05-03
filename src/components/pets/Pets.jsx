@@ -47,6 +47,7 @@ const Pets = () => {
     const navigate = useNavigate();
 
     const allPets = useSelector((state) => state.clientReducer.pets);
+    console.log('pets', allPets)
     const [loader, setLoader] = useState(true);
     // eslint-disable-next-line no-unused-vars
     const [error, setError] = useState(false);
