@@ -32,12 +32,14 @@ import NewProduct from "./admin/pages/newProduct/NewProduct";
 import Pyments from "./admin/pages/pyments/Pyments";
 import PaymentDetail from "./admin/pages/paymentDetail/PaymentDetail";
 import PublicPets from "./admin/pages/publicPets/PublicPets";
+import Swal from "sweetalert2";
 
 import { getTotalProducts } from "./redux/actions";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 import StateMercadoPago from "./page/StateMercadoPago/StateMercadoPago";
 import AboutTeam from "./page/about/aboutTeam.jsx";
+import {signOutUsuario} from '../src/firebase/auth/index'
 
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
 
@@ -139,49 +141,70 @@ function App() {
 
   useEffect(() => {
     const subscriber = onAuthStateChanged(auth, async (usuarioFirebase) => {
+      console.log('usuario firebase',usuarioFirebase)
+      
+      
       if (usuarioFirebase) {
-        // If location is not "/" (home page), redirect to home page
-        if (window.location.pathname === "/login") {
-          window.location.href = "/";
+          let userData = await getUser(usuarioFirebase.uid);
+          console.log('userdata',userData)
+          if(userData){
+            if( userData.disabled === true ){
+              await signOutUsuario()
+              return (Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Oops...",
+                text: "El usuario esta deshabilitado.",
+                showConfirmButton: false,
+                timer: 3000,
+              }),
+              window.location.href = "/")
+            }
+          }
+          // If location is not "/" (home page), redirect to home page
+          if (window.location.pathname === "/login") {
+            window.location.href = "/";
+          }
+          
+          // Checks if user exists in the database
+          // If the user does not exist, create it
+          console.log('userdata',userData)
+            if (!userData) {
+              userData = {
+                email: usuarioFirebase.email,
+                role: "Cliente",
+                uid: usuarioFirebase.uid,
+                createdAt: Timestamp.now(),
+                updatedAt: Timestamp.now(),
+                phoneNumber: usuarioFirebase.phoneNumber,
+                shippingAddress: "",
+                name: "",
+                surname: "",
+                displayName: usuarioFirebase.displayName,
+                photoURL: usuarioFirebase.phoneNumber,
+                disabled: false,
+              };
+              // Upload the user to the database
+              await uploadUser(usuarioFirebase.uid, userData);
+            }
+          
+          // Set user in redux
+          if (!user) {
+            await dispatch(setUser(userData));
+          }
+          // Cart actions
+          try {
+            //setCartLoading(true)
+            await dispatch(cartLoginFront(usuarioFirebase));
+          } catch (error) {
+            console.log("Cart actions error: ", error);
+          }
+  
+          // Visits analytics
+          setVisitSent(false);
+        }else {
+          dispatch(setUser(null));
         }
-        // Checks if user exists in the database
-        let userData = await getUser(usuarioFirebase.uid);
-        // If the user does not exist, create it
-        if (!userData) {
-          userData = {
-            email: usuarioFirebase.email,
-            role: "Cliente",
-            uid: usuarioFirebase.uid,
-            createdAt: Timestamp.now(),
-            updatedAt: Timestamp.now(),
-            phoneNumber: usuarioFirebase.phoneNumber,
-            shippingAddress: "",
-            name: "",
-            surname: "",
-            displayName: usuarioFirebase.displayName,
-            photoURL: usuarioFirebase.phoneNumber,
-            disabled: false,
-          };
-          // Upload the user to the database
-          await uploadUser(usuarioFirebase.uid, userData);
-        }
-        // Set user in redux
-        if (!user) {
-          await dispatch(setUser(userData));
-        }
-        // Cart actions
-        try {
-          //setCartLoading(true)
-          await dispatch(cartLoginFront(usuarioFirebase));
-        } catch (error) {
-          console.log("Cart actions error: ", error);
-        }
-
-        // Visits analytics
-        setVisitSent(false);
-      } else {
-        dispatch(setUser(null));
-      }
     });
     return subscriber;
   }, [dispatch, user]);

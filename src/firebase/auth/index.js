@@ -11,7 +11,7 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 import Swal from "sweetalert2";
-import { uploadUser } from "../Users";
+import { uploadUser,getUser,getAllUsers } from "../Users";
 
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
@@ -20,9 +20,23 @@ const provider = new GoogleAuthProvider();
 const providerFacebook = new FacebookAuthProvider();
 
 export const signInUsuario = (email, password) => {
+
+  // let userresult=userall.filter((r)=>r.email===email)
   signInWithEmailAndPassword(auth, email, password)
-    .then((user) => {
+    .then(async (user) => {
       console.log("Usuario iniciado sesion: ", user);
+     let resul= await verifidisable(user.uid)
+     if(resul){
+      return Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Oops...",
+        text: "El usuario esta deshabilitado.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+     }
+      // return userresult
     })
     .catch((error) => {
       errorAuth(error);
@@ -55,7 +69,7 @@ export async function registrarUsuario(email, password, role) {
 }
 
 export const signOutUsuario = () => {
-  signOut(auth).catch((error) => {
+   signOut(auth).catch((error) => {
     errorAuth(error);
   });
 };
@@ -69,7 +83,9 @@ export const signInWithGoogle = () => {
       // The signed-in user info.
       const user = result.user;
       // ...
-      console.log("Usuario iniciado sesion: ", user);
+      console.log("Usuario iniciado sesion: ", user.uid);
+      let userverificad=verifidisable(user.uid)
+      
     })
     .catch((error) => {
       // Handle Errors here.
@@ -93,7 +109,7 @@ export const signInWithFacebook = () => {
       // This gives you a Facebook Access Token. You can use it to access the Facebook API.
       const credential = FacebookAuthProvider.credentialFromResult(result);
       const accessToken = credential.accessToken;
-
+      verifidisable(user.uid)
       // ...
     })
     .catch((error) => {
@@ -109,6 +125,29 @@ export const signInWithFacebook = () => {
       errorAuth(error);
     });
 };
+
+export const verifidisable=(uid)=>{
+  getUser(uid)
+  .then((res)=>{
+     if (res.disabled === true){
+       console.log('pase x true')
+       let error={
+         code:"auth/user-disabled"
+       }
+      //  
+      errorAuth(error)
+      return true
+     }
+     else{
+       return
+     }
+  })
+  .catch((error)=>{
+    console.log('error de la verificacion del disabled')
+  })
+
+
+}
 
 export const recoveryPassword = (email) => {
   sendPasswordResetEmail(auth, email)
