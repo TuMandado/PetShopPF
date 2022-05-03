@@ -37,6 +37,7 @@ import Swal from "sweetalert2";
 import { getTotalProducts } from "./redux/actions";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {getAllUsers} from '../src/firebase/Users/index'
+import {emailSignIn} from '../src/firebase/emails'
 
 import StateMercadoPago from "./page/StateMercadoPago/StateMercadoPago";
 import AboutTeam from "./page/about/aboutTeam.jsx";
@@ -264,7 +265,7 @@ function App() {
           // If the user does not exist, create it
           // console.log('userdata',userData)
           if (!userData) { 
-            // filtrado pára saber si ya se registro anteriormente
+            console.log('usuarionuevo... ver mails')
             userData = {
                 email: usuarioFirebase.email,
                 role: "Cliente",
@@ -279,6 +280,8 @@ function App() {
                 photoURL: usuarioFirebase.phoneNumber,
                 disabled: false,
               };
+              // envio mails de bienvenida 
+              await emailSignIn(userData)
               // Upload the user to the database
               await uploadUser(usuarioFirebase.uid, userData);
             }
