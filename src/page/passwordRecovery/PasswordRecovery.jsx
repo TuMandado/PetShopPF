@@ -9,6 +9,7 @@ import GoogleSignIn from "../../components/authButton/googleSignIn";
 import FacebookSignIn from "../../components/authButton/facebookSignIn";
 import auth from "../../firebase/auth";
 import { recoveryPassword } from "../../firebase/auth";
+import Swal from "sweetalert2";
 
 const BodyLogin = styled.div`
   height: 90%;
@@ -220,8 +221,19 @@ const PasswordRecovery = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    recoveryPassword(input.email);
-    window.location.href = "/";
+    recoveryPassword(input.email).then((res) => {
+            return Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Se ha enviado un correo a su cuenta de correo",
+        text: "Verifica tu correo electrónico para restablecer tu contraseña.",
+        // Add a button to go back to the home page
+      }).then(() => {
+        window.location.href = "/";
+        });
+    }
+    );
+    // window.location.href = "/";
   };
 
   return (

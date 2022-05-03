@@ -149,17 +149,17 @@ export const verifidisable=(uid)=>{
 
 }
 
-export const recoveryPassword = (email) => {
+export const recoveryPassword = async (email) => {
   sendPasswordResetEmail(auth, email)
     .then((user) => {
-      return Swal.fire({
-        position: "center",
-        icon: "error",
-        title: "Oops...",
-        text: "Verifica tu correo electrónico para restablecer tu contraseña.",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      // return Swal.fire({
+      //   position: "center",
+      //   icon: "error",
+      //   title: "Oops...",
+      //   text: "Verifica tu correo electrónico para restablecer tu contraseña.",
+      //   showConfirmButton: false,
+      //   timer: 1500,
+      // });
     })
     .catch((error) => {
       errorAuth(error);
