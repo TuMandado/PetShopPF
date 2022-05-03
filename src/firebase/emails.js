@@ -24,18 +24,55 @@ export const emails = async (user, cart) => {
     user_email: `${user.email}`,
     message: `¡Hola, ${user.name}! 👋
 
-               📢 Te escribimos este mensaje para avisarte que tu compra por $${impor} pesos fue finalizada con éxito.  
-               
-               Gracias por elegirnos para hacer feliz a tu mascota. 🐾🥰
+              📢 Te escribimos este mensaje para avisarte que tu compra por $${impor} pesos fue finalizada con éxito.  
+              
+              Gracias por elegirnos para hacer feliz a tu mascota. 🐾🥰
 
-               Recordá que cualquier consulta nos la podes hacer llegar escribiendonos un e-mail a elpetshop536@gmail.com 😉
+              Recordá que cualquier consulta nos la podes hacer llegar escribiendonos un e-mail a elpetshop536@gmail.com 😉
                     `,
   };
 
   emailjs
     .send(
       emailkeys.service_id,
-      emailkeys.template_id,
+      emailkeys.templateMp_id,
+      templateParams,
+      emailkeys.public_key
+    )
+    .then(
+      function (response) {
+        console.log("SUCCESS!", response.status, response.text);
+      },
+      function (error) {
+        console.log("FAILED...", error);
+      }
+    );
+};
+
+
+
+export const emailSignIn = async (user) => {
+ 
+  console.log("entro a emails");
+  console.log('usermails',user);
+
+  var templateParams = {
+    user_name: `${user.displayName}`,
+    user_email: `${user.email}`,
+    message: `¡Hola, ${user.displayName}! 👋
+
+              📢 Te escribimos este mensaje para darte la bienvenida a nuestra Page.  
+              
+              Gracias por elegirnos para hacer feliz a tu mascota. 🐾🥰
+
+              Recordá que cualquier consulta nos la podes hacer llegar escribiendonos un e-mail a elpetshop536@gmail.com 😉
+                    `,
+  };
+
+  emailjs
+    .send(
+      emailkeys.service_id,
+      emailkeys.templateSingIn_id,
       templateParams,
       emailkeys.public_key
     )
