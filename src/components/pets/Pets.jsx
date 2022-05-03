@@ -11,6 +11,7 @@ import { AsidePets } from "../../components/aside/Aside Pets";
 import styled from "styled-components";
 
 
+
 const MainAllCards = styled.div`
   box-sizing: border-box;
   display: grid;
@@ -47,7 +48,7 @@ const Pets = () => {
     const navigate = useNavigate();
 
     const allPets = useSelector((state) => state.clientReducer.pets);
-    console.log('pets', allPets)
+    // console.log('pets', allPets)
     const [loader, setLoader] = useState(true);
     // eslint-disable-next-line no-unused-vars
     const [error, setError] = useState(false);
@@ -55,6 +56,9 @@ const Pets = () => {
     const navigatePet = (e) => {
         navigate(`/pets/${e.currentTarget.id}`);
     };
+    useEffect(() => {
+        console.log('esto es all pets', allPets)
+    }, [allPets])
 
     useEffect(() => {
         dispatch(getSpeciesPets())

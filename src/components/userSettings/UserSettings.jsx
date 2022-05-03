@@ -14,12 +14,14 @@ export const UserSettings = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const uid = useParams().id;
-  console.log('esto es uid', uid)
+  // console.log('esto es uid', uid)
   const user = useSelector((state) => state.adminReducer.user);
-  console.log("User de Settings =>", user);
+  // console.log("User de Settings =>", user);
   const pets = useSelector((state) => state.clientReducer.backupPets)
-  console.log('esto es pets', pets)
+  // console.log('esto es pets', pets)
   const [input, setInput] = useState({});
+  const [myPets, setMyPets] = useState([]);
+  
 
   /*  Estructura de la info:
     email: ``,
@@ -38,7 +40,19 @@ export const UserSettings = () => {
        dispatch(getDetailUser(uid));
        dispatch (getTotalPets())
       
-     },[])
+     },[dispatch,uid])
+
+     useEffect(() => {
+      setMyPets(pets.filter(e => e.data.userId === user.uid))
+    }, [pets])
+
+    useEffect(() => {
+      console.log('esto es myPets', myPets)
+      console.log('user : ', user)
+      console.log('🐱‍🐉', pets)
+  
+    }, [myPets, user, pets])
+
 
   useEffect(() => {
       setInput({
@@ -190,6 +204,9 @@ export const UserSettings = () => {
             <div>
               <br />
               <Btnsubmit type="submit">Modificar datos</Btnsubmit>
+            </div>
+            <div>
+              
             </div>
           </FormContent>
         </InfoForm>
