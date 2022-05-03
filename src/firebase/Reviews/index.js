@@ -31,9 +31,13 @@ export async function uploadReview(data) {
     return {uid: uid, data:newReview};
   }
 
+// export async function deleteReview(uid) {
+//     await deleteDoc(doc(db, collectionRef, uid));
+//   }
+
 export async function deleteReview(uid) {
-    await deleteDoc(doc(db, collectionRef, uid));
-  }
+    editReview(uid,{delete:true})
+}
 
 export async function getReview(uid) {
     try {
@@ -46,6 +50,21 @@ export async function getReview(uid) {
   }
 
 export async function getAllReviews() {
+    const querySnapshot = await getDocs(collection(db, collectionRef));
+    let array = [];
+    querySnapshot.forEach((doc) => {
+        array.push({
+            uid: doc.id,
+            data: doc.data()
+        });
+      });
+
+      let reviewsDon = array.filter(el=> el.data.delete === false)
+      let userDon = reviewsDon.filter(el=> el.data.userDelete === false)
+   return userDon;
+}
+
+export async function getReallyAllReviews() {
     const querySnapshot = await getDocs(collection(db, collectionRef));
     let array = [];
     querySnapshot.forEach((doc) => {
@@ -80,5 +99,6 @@ export async function getProductScore(productUid){
 }
 
 export async function editReview(uid,data){
+    console.log("SI LLEGO AAA", uid, data)
     await updateDoc(doc(db, collectionRef, uid), data);
   }

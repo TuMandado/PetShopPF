@@ -71,6 +71,12 @@ export async function getAllCartsclose() {
     return arraylisto
 }
 
+export async function getOrderByUser(uid){
+    let allOrders = await getAllCartsclose()
+    allOrders.filter((el)=> el.data.userUid ===uid)
+    return allOrders
+}
+
 export async function editCartFirebase(uid,data){
     console.log("dataaaaa",data,uid)
     await updateDoc(doc(db, collectionRef, uid), data);
@@ -115,20 +121,6 @@ export async function cartOpenUs(user){
              return JSON.parse(localStorage.getItem('cart'))
         }
     }
-}
-
-// function sumarItems(db,localS){
-//     let finishdb = db[0]
-//     console.log("esto llega",finishdb)
-//     let keys = Object.keys(localS)
-//     keys.forEach((el)=> finishdb.data[el] ? finishdb.data[el].cantidad = finishdb.data[el].cantidad + localS[el].cantidad : finishdb.data[el]=localS[el]);
-//     return finishdb
-// }
-
-function sumarItems(db,localS){
-    let items= localS.items
-    console.log("local",items)
-
 }
 
 export async function newCart(user,data){
@@ -274,6 +266,10 @@ export async function deleteItem(user,item){
         let items = cart[0].data.items.find(el => el.id=== item.id)
         await editCartFirebase(cart[0].uid,{items: arrayRemove(items)})
         let newCart = await getCartFirebase(cart[0].uid)  
+        newCart = [{
+            uid: cart[0].uid,
+            data: newCart
+        }]
         console.log("ahora sin", newCart)
         return newCart
     } else{
@@ -316,6 +312,10 @@ export async function editCart(user,item,number){
         })}
         await editCartFirebase(cart[0].uid,allItems)
         let newCart = await getCartFirebase(cart[0].uid)  
+        newCart = [{
+            uid: cart[0].uid,
+            data: newCart
+        }]
         return newCart
     }else{
         if(localStorage.getItem('cart')){

@@ -5,12 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "../navbar/Navbar";
 import { Loader } from "../../page/loader/Loader";
+import Mapa from "../../components/map/Map";
 import Footer from "../../components/footer/Footer";
 import { petDetails, detailVacio } from "../../redux/actions";
 import styled from "styled-components";
 
 const PetDetails = () => {
-  // const user = useSelector((state) => state.clientReducer.user);
+  const user = useSelector((state) => state.clientReducer.user);
+  console.log("User en PETS =>", user);
   const pet = useSelector((state) => state.clientReducer.backupDetail);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,10 +20,10 @@ const PetDetails = () => {
   /*   console.log("Uid flag =>", uid);
   console.log("PETS =>", pet); */
 
-  const navigateToPets = (e) => {
+  const navigateToBack = (e) => {
     e.preventDefault();
     // navigate(`/pets`);
-    window.history.back()
+    window.history.back(-1);
   };
 
   useEffect(() => {
@@ -76,12 +78,38 @@ const PetDetails = () => {
             </InfoContainer>
           </div>
         </DivContainers>
-        <MapContainer>
-          <span>Localidad/Mapa</span>
-        </MapContainer>
+        <InferiorDivContainer>
+          <HelpMap>
+            <Referencias>Referencias:</Referencias>
+            <LocalUbication>Tu ubicacion</LocalUbication>
+            <PetsUbication>Mascotas de la zona</PetsUbication>
+            {pet.state === "perdido" && (
+              <Aviso>
+                Si estas seguro de haber encontrado o visto a {pet.name}, podés
+                contactar a su dueño......
+              </Aviso>
+            )}
+            {pet.state === "en adopcion" && (
+              <Aviso>
+                Si estas interesado en adoptar a {pet.name} y darle mucho amor,
+                podés contactar a quien lo haya publidado escribiendole a......
+              </Aviso>
+            )}
+            {pet.state === "encontrado" && (
+              <Aviso>
+                ¿Sos el dueño de {pet.name}? Si estás seguro que es tu mascota,
+                podes coordinar para verla y traerla de nuevo a tu hogar
+                escribiendole a......
+              </Aviso>
+            )}
+          </HelpMap>
+          <MapContainer>
+            <Mapa />{" "}
+          </MapContainer>
+        </InferiorDivContainer>
         <BtnContainer>
           <Link to="/pets">
-            <BtnToPets onClick={(e) => navigateToPets(e)}>Volver</BtnToPets>
+            <BtnToPets onClick={(e) => navigateToBack(e)}>Volver</BtnToPets>
           </Link>
         </BtnContainer>
       </div>
@@ -200,6 +228,64 @@ const DivContainers = styled.div`
   grid-template-rows: 160px 160px;
 `;
 
+const HelpMap = styled.div`
+  width: 450px;
+  height: 360px;
+  text-aligne: center;
+  left: 35px;
+  position: relative;
+`;
+
+const Referencias = styled.h2`
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 25px;
+  margin: 0px auto;
+  padding-top: 18px;
+  color: #151515;
+  flex-grow: 0;
+  margin: 2px;
+`;
+
+const LocalUbication = styled.h4`
+  position: static;
+  left: 20%;
+  right: 20%;
+  bottom: 0%;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 18px;
+  color: #0acf83;
+  margin: 2px;
+  margin-top: 15px;
+`;
+
+const PetsUbication = styled.h4`
+  position: static;
+  color: #eb8d70;
+  left: 20%;
+  right: 20%;
+  bottom: 0%;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 18px;
+  border-radius: 10px;
+  margin: 2px;
+  margin-top: 15px;
+`;
+
+const InferiorDivContainer = styled.div`
+  display: grid;
+  grid-gap: 6rem;
+  grid-template-columns: 350px 150px;
+  grid-template-rows: 5px 5px;
+`;
+
 const InfoContainer = styled.div`
   display: flex;
   position: absolute;
@@ -218,16 +304,34 @@ const SobrePet = styled.h3`
 `;
 
 const MapContainer = styled.div`
-  height: 80px;
   width: 100%;
-  text-align: center;
+  display: static;
+  position: relative;
+  left: 35px;
+`;
+
+const Aviso = styled.p`
+  max-width: 328px;
+  max-height: 320px;
+  padding-top: 35px;
+  position: absolute;
+  top: 15px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 29px;
+  position: static;
+  margin-bottom: 6px;
+  margin-top: 15px;
+  color: #151515;
 `;
 
 const BtnContainer = styled.div`
-  height: 50px;
+  height: 60px;
   width: 100%;
   text-align: center;
-  padding-top: 10px;
+  padding-top: 21%;
 `;
 
 const BtnToPets = styled.button`
@@ -250,6 +354,6 @@ const BtnToPets = styled.button`
     color: #0acf83;
     background: #ffff;
     border: 3px solid #067a4d;
-    cursor:pointer;
+    cursor: pointer;
   }
 `;

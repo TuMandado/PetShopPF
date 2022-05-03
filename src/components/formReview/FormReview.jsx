@@ -32,7 +32,6 @@ const FormReview = ({ user, id }) => {
 
     function handleSubmit(e) {
         e.preventDefault();
-        dispatch(postReview(input))
         setInput({
             userUid: user.uid,
             email: user.email,
@@ -45,7 +44,8 @@ const FormReview = ({ user, id }) => {
             userDelete: false,
         })
         setStarClicked([false, false, false, false, false])
-        alert('Guau')
+        dispatch(postReview(input))
+        .then(el => window.location.reload(true))
     }
 
     const handleStarSelect = (e) => {

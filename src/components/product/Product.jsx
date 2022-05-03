@@ -32,14 +32,14 @@ const Container = styled.div`
 
 const Image = styled.img`
   align-self: center;
-  max-width: 236px;
-  max-height: 180px;
+  max-width: 80%;
+  max-height: 45%;
   border-radius: 12px;
 `;
 const Title = styled.h3`
   font-family: "Poppins";
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 15px;
   line-height: 22px;
   position: absolute;
@@ -48,7 +48,7 @@ const Title = styled.h3`
 `;
 
 const Info = styled.p`
-  font-family: "Open Sans";
+  font-family: "Poppins";
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -79,7 +79,7 @@ const Button = styled.button`
   border-radius: 12px;
   font-family: "Poppins";
   font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 15px;
   line-height: 22px;
   color: #ffffff;
@@ -109,8 +109,8 @@ const ListContainer = styled.div`
 
 const ListImage = styled.img`
   align-self: flex-start;
-  max-width: 268px;
-  max-height: 280px;
+  max-width: 70%;
+  max-height: 60%;
   border-radius: 12px;
   position: absolute;
   left: 5%;
@@ -144,7 +144,7 @@ const ListTitle = styled.h3`
 `;
 
 const ListInfo = styled.p`
-  font-family: "Open Sans";
+  font-family: "Poppins";
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -225,7 +225,7 @@ const ListMainCategoriesContainer = styled.div`
 `;
 
 const ListMainCategorySpan = styled.span`
-  font-family: "Open Sans";
+  font-family: "Poppins";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -235,7 +235,7 @@ const ListMainCategorySpan = styled.span`
 `;
 
 const ListMainCategory = styled.span`
-  font-family: "Open Sans";
+  font-family: "Poppins";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -250,7 +250,7 @@ const ListSubCategoryContainer = styled.div`
 `;
 
 const ListSubCategorySpan = styled.span`
-  font-family: "Open Sans";
+  font-family: "Poppins";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -260,7 +260,7 @@ const ListSubCategorySpan = styled.span`
 `;
 
 const ListSubCategory = styled.span`
-  font-family: "Open Sans";
+  font-family: "Poppins";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -275,7 +275,7 @@ const ListAnimalCategoryContainer = styled.div`
 `;
 
 const ListAnimalCategorySpan = styled.span`
-  font-family: "Open Sans";
+  font-family: "Poppins";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -285,12 +285,45 @@ const ListAnimalCategorySpan = styled.span`
 `;
 
 const ListAnimalCategory = styled.span`
-  font-family: "Open Sans";
+  font-family: "Poppins";
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 19px;
   color: #a9a9a9;
+`;
+
+const ListStockContainer = styled.div`
+  position: absolute;
+  left: 30%;
+  top: 90%;
+`;
+
+const ListStock = styled.span`
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: #a9a9a9;
+  margin-right: 2.8em;
+`;
+
+const ListStockNumber = styled.span`
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: #a9a9a9;
+`;
+
+const Stock = styled.p`
+  font-family: "Poppins";
+  font-style: normal;
+  color: #151515;
+  position: absolute;
+  bottom: 20%;
 `;
 
 const Product = ({
@@ -303,6 +336,7 @@ const Product = ({
   category,
   subCategory,
   viewMode,
+  stock,
 }) => {
   const navigate = useNavigate();
   const navigateToProductDetail = (e) => {
@@ -311,6 +345,7 @@ const Product = ({
   };
 
   const user = useSelector((state) => state.clientReducer.user);
+  const openCart = useSelector((state) => state.cartReducer.openCart);
   const dispatch = useDispatch();
 
   let item = {
@@ -328,14 +363,41 @@ const Product = ({
   function handleAdd(e) {
     e.preventDefault();
     e.stopPropagation();
-    dispatch(addItemCartFront(item));
-    return Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "Producto agregado con éxito.",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+
+    let quantity = 0;
+    if (user) {
+      if(openCart){
+        if (openCart[0]) {
+          let itm = openCart[0].data.items.filter((el) => el.id === id);
+          if (itm.length) {
+            quantity = itm[0].quantity;
+          }
+        }
+      }
+    } else {
+      if (Object.keys(openCart).length) {
+        let itm = openCart.items.filter((el) => el.id === id);
+        if (itm.length) {
+          quantity = itm[0].quantity;
+        }
+      }
+    }
+    if (stock >= quantity + 1) {
+      dispatch(addItemCartFront(item));
+      return Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Producto agregado con éxito.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Limite de stock alcanzado.",
+      });
+    }
   }
 
   if (viewMode === "List") {
@@ -370,6 +432,10 @@ const Product = ({
           <ListAnimalCategorySpan> Animal: </ListAnimalCategorySpan>
           <ListAnimalCategory> {animalCategory}</ListAnimalCategory>
         </ListAnimalCategoryContainer>
+        <ListStockContainer>
+          <ListStock> Stock: </ListStock>
+          <ListStockNumber> {stock} uds.</ListStockNumber>
+        </ListStockContainer>
         {/* <div>
                 <h3> Animal : {animalCategory && animalCategory?.map((t,i) => <div key={i}> {t} </div> )}</h3>
               </div>
@@ -388,6 +454,7 @@ const Product = ({
         <Title> {title} </Title>
         <Info>{info}</Info>
         <Price>{price.split(",")[0]}</Price>
+        <Stock>Stock: {stock} uds.</Stock>
         <Button onClick={(e) => handleAdd(e)}> Agregar </Button>
         {/* <div>
             <h3> Animal : {animalCategory && animalCategory?.map((t,i) => <div key={i}> {t} </div> )}</h3>

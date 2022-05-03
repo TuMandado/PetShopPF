@@ -386,6 +386,17 @@ export const errorAuth = (error) => {
       timer: 1500,
     });
   }
+  // auth/account-exists-with-different-credential
+  if (error.code === "auth/account-exists-with-different-credential") {
+    return Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Oops...",
+      text: "Ya existe una cuenta con esta credencial.",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  }
 };
 
 export default auth;

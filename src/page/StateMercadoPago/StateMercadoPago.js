@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { editCartFirebase } from "../../firebase/Cart/index";
 import { useSelector } from "react-redux";
 import { getCart } from "../../redux/actions/cartActions";
 import { emails } from "../../firebase/emails.js";
 import DogImg from "../../assets/component_finalpagoperro.png";
 import styled from "styled-components";
+import { getDetailProducts } from "../../redux/actions";
+import { editProduct, getProduct } from "../../firebase/Products";
 
 
 
@@ -15,6 +17,7 @@ const StateMercadoPago = () => {
   let infospliteada = [];
   let status;
   const user = useSelector((state) => state.clientReducer.user);
+  const [load,setLoad]= useState(true)
 
   let infoMercadoPago = {};
   arrayinfo.map((i) => {
@@ -29,41 +32,73 @@ const StateMercadoPago = () => {
   const getData = async () => {
     const carrito = await getCart(infoMercadoPago.external_reference);
     emails(user, carrito.items);
-    
+    return carrito.items
   };
+
+  const getTotal = (items) => {
+    let total = 0;
+    items.map((el) => {
+      let delSim = el.price.slice(2);
+      let delDot = delSim.replace(".", "");
+      let repCom = delDot.replace(",", ".");
+      let price = Number(repCom);
+      let sum = price * el.quantity;
+      total = total + sum;
+    });
+    return total
+  };
+
+
   useEffect(() => {
     if (user) {
       if (infoMercadoPago.status === "approved") {
         // llamo a la funcion guardar carrito en bd
         // poner en estado aproved
-        status = {
-          close: true,
-          status: "approved",
-        };
-
-        editCartFirebase(infoMercadoPago.external_reference, status);
-        getData();
+        getData().then(carrito=>{
+          carrito.map(async (el) =>{
+            let stock = {stock:0}
+            let item = await getProduct(el.id)
+            stock = { stock : item.stock - el.quantity}
+            await editProduct(el.id,stock)
+          })
+          let total= getTotal(carrito)
+          status = {
+            close: true,
+            status: "approved",
+            total: total,
+          };
+          editCartFirebase(infoMercadoPago.external_reference, status)
+          .then(setLoad(false))
+        })
       } else if (infoMercadoPago.status === "rejected") {
         // "status=rejected"
         // llamo a la funcion de guardar carrito
         // status rejected
         // status_detail=> va el porque se rechazo
-        status = {
-          close: true,
-          status: "rejected",
-        };
-
-        console.log("hola 2");
-        editCartFirebase(infoMercadoPago.external_reference, status);
+        getData().then(carrito=>{
+          let total= getTotal(carrito)
+          status = {
+            close: true,
+            status: "rejected",
+            total: total,
+          };
+          console.log("hola 2");
+          editCartFirebase(infoMercadoPago.external_reference, status)
+          .then(setLoad(false))
+        })
       } else if (infoMercadoPago.status === "in_process") {
         // funcion carrito
         // status pending
-        status = {
-          close: true,
-          status: "in_process",
-        };
-
-        editCartFirebase(infoMercadoPago.external_reference, status);
+        getData().then(carrito=>{
+          let total= getTotal(carrito)
+          status = {
+            close: true,
+            status: "in_process",
+            total: total,
+          };
+          editCartFirebase(infoMercadoPago.external_reference, status)
+          .then(setLoad(false))
+        })
       }
     }
   }, [JSON.stringify(user)]);
@@ -84,7 +119,7 @@ const StateMercadoPago = () => {
                 </Pe>
 
                 <Image src={DogImg} />
-                <BtnToPets onClick={() => window.location.assign("/")}>
+                <BtnToPets disabled={load} onClick={() => window.location.assign("/")}>
                   Volver a Home
                 </BtnToPets>
               </InfoPayd>
@@ -101,7 +136,7 @@ const StateMercadoPago = () => {
                 </Pe>
 
                 <Image src={DogImg} />
-                <BtnToPets onClick={() => window.location.assign("/")}>
+                <BtnToPets disabled={load} onClick={() => window.location.assign("/")}>
                   Volver a Home
                 </BtnToPets>
               </InfoPayd>

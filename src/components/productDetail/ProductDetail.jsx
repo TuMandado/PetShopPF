@@ -88,7 +88,7 @@ const BtnAdd = styled.button`
   border-radius: 8px;
   position: absolute;
   right: 41%;
-  bottom: 20%;
+  bottom: 11%;
   cursor: pointer;
   transition: 0.25s ease;
   &:hover {
@@ -127,6 +127,12 @@ const InfoSpanBrand = styled.span`
   margin-right: 3.3em;
 `;
 
+const InfoSpanStock = styled.span`
+  color: #a9a9a9;
+  margin-right: 3.8em;
+`;
+
+
 const StarsContainer = styled.div`
   position: absolute;
   transform: scale(1.5);
@@ -162,11 +168,14 @@ const GoBackButton = styled.div`
   }
 `;
 
+
+
 const ProductDetail = () => {
   const dispatch = useDispatch();
   const uid = useParams();
   const user = useSelector((state) => state.clientReducer.user);
   const product = useSelector((state) => state.clientReducer.backupDetail);
+  const openCart = useSelector((state) => state.cartReducer.openCart);
   let productScore = useSelector((state) => state.reviewsReducer.productScore);
   productScore = Math.ceil(productScore);
   const totalStars = [false, false, false, false, false];
@@ -193,14 +202,43 @@ const ProductDetail = () => {
 
   const handleAddCart = (e) => {
     e.preventDefault();
-    dispatch(addItemCartFront(item));
-    return Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "Producto agregado con éxito.",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+
+    let quantity = 0;
+    console.log("uid =", uid.id, "product =", product);
+    if (user) {
+      if(openCart){
+        if (openCart[0]) {
+          let itm = openCart[0].data.items.filter((el) => el.id === uid.id);
+          if (itm.length) {
+            quantity = itm[0].quantity;
+          }
+        }
+
+      }
+    } else {
+      if (Object.keys(openCart).length) {
+        let itm = openCart.items.filter((el) => el.id === uid.id);
+        if (itm.length) {
+          quantity = itm[0].quantity;
+        }
+      }
+    }
+    if (product.stock >= quantity + 1) {
+      dispatch(addItemCartFront(item));
+      return Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Producto agregado con éxito.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Limite de stock alcanzado.",
+      });
+    }
   };
 
   const goBack = (e) => {
@@ -247,6 +285,10 @@ const ProductDetail = () => {
             <IndividualInfoContainer>
               <InfoSpanBrand>Marca: </InfoSpanBrand>
               <span> {product.brand}</span>
+            </IndividualInfoContainer>
+            <IndividualInfoContainer>
+              <InfoSpanStock>Stock: </InfoSpanStock>
+              <span> {product.stock}</span>
             </IndividualInfoContainer>
           </InfoContainer>
           <Precio>{product.price}</Precio>

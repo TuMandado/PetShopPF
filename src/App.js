@@ -30,6 +30,7 @@ import AdminProductList from "./admin/pages/adminProductList/AdminProductList";
 import AdminProduct from "./admin/pages/adminProduct/AdminProduct";
 import NewProduct from "./admin/pages/newProduct/NewProduct";
 import Pyments from "./admin/pages/pyments/Pyments";
+import PaymentDetail from "./admin/pages/paymentDetail/PaymentDetail";
 import PublicPets from "./admin/pages/publicPets/PublicPets";
 import Swal from "sweetalert2";
 
@@ -57,9 +58,9 @@ import { getSettings, editSettingValues } from "./firebase/Settings";
 
 // Import analytics functions
 import {
-  checkIfVisitAnalyticExists,
   uploadVisitAnalytic,
   updateVisitAnalytic,
+  createId,
 } from "./firebase/Analytics/visits";
 import { setVisitId } from "./redux/actions";
 
@@ -69,56 +70,142 @@ function App() {
   // eslint-disable-next-line no-unused-vars
   var user = useSelector((state) => state.clientReducer.user);
   var settings = useSelector((state) => state.clientReducer.settings);
+  var [appSettings, setAppSettings] = useState(null);
   const openCart = useSelector((state) => state.cartReducer.openCart);
-  //const [userLoading,setUserLoading] = useState(false)
-  // const [cartLoading,setCartLoading] = useState(false)
-  //let cartLoading = false
-
-  var [visitSent, setVisitSent] = useState(false);
+  // var [visitSent, setVisitSent] = useState(false);
   var visitId = useSelector((state) => state.clientReducer.visitId);
+  let [duration, setDuration] = useState(0);
   const dispatch = useDispatch();
+  var [visitSent, setVisitSent] = useState(false);
+  var [location, setLocation] = useState({
+    lat: '',
+    lng: '',
+  });
 
-  // If settings.useVisitsAnalytics is true and visitSent is false, send a visit to the analytics. Then set visitSent to true.
+  // When app is mounted and navigation.locations is granted, set location
+  //     "location": {
+  //         "lat": "",
+  //         "lng": ""
+  //     },
   useEffect(() => {
-    // Check if settings has been loaded
-    try {
-      if (Object.keys(settings).length) {
-        // Check if settings.useVisitsAnalytics is true
-        if (settings.useVisitsAnalytics) {
-          // Check if visitSent is false
-          if (!visitSent) {
-            // Send a visit to the analytics
-            checkIfVisitAnalyticExists(visitId).then((exists) => {
-              // If the visit does not exist, create it
-              if (!exists) {
-                uploadVisitAnalytic(user)
-                  .then((visit) => {
-                    dispatch(setVisitId(visit.uid));
-                  })
-                  .then(() => {
-                    setVisitSent(true);
-                  });
-              } else {
-                // If the visit does exist, update it
-                if (user && visitId) {
-                  updateVisitAnalytic(visitId, user).then(() => {
-                    setVisitSent(true);
-                  });
-                }
-              }
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        (error) => {
+          console.log("Location error: ", error);
+        }
+      );
+    }
+  }, []);
+
+  // Console log location
+  // useEffect(() => {
+  //   console.log("Location: ", location);
+  // }, [location]);
+
+  // // Console.log visitId
+  // useEffect(() => {
+  //   console.log("visitId: ", visitId);
+  // }, [visitId]);
+
+  // // Console.log settings
+  // useEffect(() => {
+  //   console.log("Settings: ", settings);
+  // }, [settings]);
+
+  // // Console.log appSettings
+  // useEffect(() => {
+  //   console.log("AppSettings: ", appSettings);
+  // }, [appSettings]);
+
+  // When app is mounted a visiId with a random string is created and delete if when the app is unmounted
+  useEffect(() => {
+    if (visitId === null) {
+      createId().then((id) => {
+        dispatch(setVisitId(id));
+      });
+    }
+  }, []);
+
+  // When settings are loaded, update the appSettings, and then upload the visit analytic.
+  useEffect(() => {
+    if (
+      settings !== null &&
+      appSettings === null &&
+      Object.keys(settings).length > 0
+    ) {
+      setAppSettings(settings);
+      uploadVisitAnalytic(visitId, user, duration, location).then(() => {
+        // console.log("Visit analytic uploaded");
+        setVisitSent(true);
+      });
+    }
+  }, [settings]);
+
+  // When user is loaded, update the visit analytic.
+  useEffect(() => {
+    if (user !== null) {
+      if (settings !== null && Object.keys(settings).length > 0) {
+        // console.log("settings: ", settings);
+        if (settings.useVisitsAnalytics === true) {
+          if (visitId !== null) {
+            if (visitSent) {
+              updateVisitAnalytic(visitId, user, duration, location).then(() => {
+                // console.log("Visit analytic updated with user");
+              });
+            }
+          }
+        }
+      }
+    }
+  }, [user, appSettings, visitSent]);
+
+  // When settings are loaded and useVisitDurationAnalytics is true, start the timer.
+  useEffect(() => {
+    if (settings !== null && Object.keys(settings).length > 0) {
+      // console.log(
+      //   "settings.useVisitDurationAnalytics",
+      //   settings.useVisitDurationAnalytics
+      // );
+      if (settings.useVisitDurationAnalytics === true) {
+        setDuration(0);
+        //console.log("Visit analytic timer started");
+        var interval = setInterval(() => {
+          duration++;
+          setDuration(duration);
+          // console.log("Visit analytic timer: ", duration);
+        }, 1000);
+        return () => clearInterval(interval);
+      }
+    }
+  }, [appSettings]);
+
+  // // Console duration
+  // useEffect(() => {
+  //   console.log(duration);
+  // }, [duration]);
+
+  // If the timer is runing, update the visit analytic each 20 seconds.
+  useEffect(() => {
+    if (settings !== null && Object.keys(settings).length > 0) {
+      if (settings.useVisitDurationAnalytics === true) {
+        if (duration % 20 === 0) {
+          if (visitId !== null) {
+            updateVisitAnalytic(visitId, user, duration, location).then(() => {
+              // console.log(
+              //   "Visit analytic updated with duration of " + duration
+              // );
             });
           }
         }
       }
-    } catch (error) {
-      console.log("Visit analytics error  :", error);
     }
-  }, [dispatch, settings, user, visitId, visitSent]);
-
-  // Cart managment
-  // useEffect(() => {
-  //   dispatch(openCartFront(user));
-  // }, [user]);
+  }, [duration]);
 
   // Console app setings
   useEffect(() => {
@@ -136,16 +223,15 @@ function App() {
     if (keys.length > 0) {
       editSettingValues(settings);
     }
-  }, [settings]);
+  }, [appSettings]);
 
   useEffect(() => {
     const subscriber = onAuthStateChanged(auth, async (usuarioFirebase) => {
-      console.log('usuario firebase',usuarioFirebase)
+      // console.log('usuario firebase',usuarioFirebase)
       
       
       if (usuarioFirebase) {
           let userData = await getUser(usuarioFirebase.uid);
-          console.log('userdata11',userData)
           if(userData){
             if( userData.disabled === true ){
               console.log('entre a disable true')
@@ -167,7 +253,7 @@ function App() {
           
           // Checks if user exists in the database
           // If the user does not exist, create it
-          console.log('userdata',userData)
+          // console.log('userdata',userData)
             if (!userData) {
               userData = {
                 email: usuarioFirebase.email,
@@ -198,12 +284,11 @@ function App() {
           } catch (error) {
             console.log("Cart actions error: ", error);
           }
-  
-          // Visits analytics
-          setVisitSent(false);
-        }else {
-          dispatch(setUser(null));
-        }
+        // // Visits analytics
+        // setVisitSent(false);
+      } else {
+        dispatch(setUser(null));
+      }
     });
     return subscriber;
   }, [dispatch, user]);
@@ -272,6 +357,7 @@ function App() {
           <Route path="/adminPet/:id" element={<AdminPet />} />
           <Route path="/newProduct" element={<NewProduct />} />
           <Route path="/ventas" element={<Pyments />} />
+          <Route path="/ventas/:payId" element={<PaymentDetail />} />
           <Route path="/publicPets" element={<PublicPets />} />
           <Route path="/newPublicPets" element={<NewPublicPets />} />
           <Route path="/passwordRecovery" element={<PasswordRecovery />} />
