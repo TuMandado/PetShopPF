@@ -9,6 +9,7 @@ import {
   getAnimalCategories,
 } from "../../redux/actions";
 import Pagination from "../../components/pagination/Pagination";
+import { Analytics } from "../wrappers/analytics/Analytics";
 
 const Container = styled.div`
   padding: 20px;
@@ -56,6 +57,9 @@ const Products = ({
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const allProducts = useSelector((state) => state.clientReducer.products);
+  const visitId = useSelector((state) => state.clientReducer.visitId);
+  const user = useSelector((state) => state.clientReducer.user);
+  const settings = useSelector((state) => state.clientReducer.settings);
 
   useEffect(() => {
     dispatch(getProductsCategories());
@@ -75,20 +79,32 @@ const Products = ({
           if (!e.delete && e.data.stock >= 1) {
             // Si queremos que se muestre lo eliminado, cambiar este condicional
             return (
-              <div key={e.uid} id={e.uid} onClick={(e) => navigateToProduct(e)}>
-                <Product
-                  title={e.data.name}
-                  imagen={e.data.image}
-                  info={e.data.info}
-                  price={e.data.price}
-                  animalCategory={e.data.animalCategory}
-                  category={e.data.category}
-                  subCategory={e.data.subCategory}
-                  stock={e.data.stock}
-                  viewMode={viewMode}
+              <Analytics
+                user={user}
+                visitId={visitId}
+                type="card"
+                productId={e.uid}
+                avaliable={settings.useProductsHoverAnalytics ? true : false}
+              >
+                <div
+                  key={e.uid}
                   id={e.uid}
-                />
-              </div>
+                  onClick={(e) => navigateToProduct(e)}
+                >
+                  <Product
+                    title={e.data.name}
+                    imagen={e.data.image}
+                    info={e.data.info}
+                    price={e.data.price}
+                    animalCategory={e.data.animalCategory}
+                    category={e.data.category}
+                    subCategory={e.data.subCategory}
+                    stock={e.data.stock}
+                    viewMode={viewMode}
+                    id={e.uid}
+                  />
+                </div>
+              </Analytics>
             );
           }
         })
