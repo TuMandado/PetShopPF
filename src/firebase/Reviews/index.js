@@ -99,5 +99,6 @@ export async function getProductScore(productUid){
 }
 
 export async function editReview(uid,data){
+    console.log("SI LLEGO AAA", uid, data)
     await updateDoc(doc(db, collectionRef, uid), data);
   }
