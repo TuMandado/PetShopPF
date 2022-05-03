@@ -345,7 +345,7 @@ const Login = () => {
               </LabelPass>
               <BtnForInput
                 type="submit"
-                disabled={!errors.disabled}
+                // disabled={!errors.disabled}
                 onClick={(e) => handleSubmit(e)}
               >
                 Iniciar sesion
