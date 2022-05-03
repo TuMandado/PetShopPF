@@ -104,9 +104,9 @@ function App() {
   }, []);
 
   // Console log location
-  useEffect(() => {
-    console.log("Location: ", location);
-  }, [location]);
+  // useEffect(() => {
+  //   console.log("Location: ", location);
+  // }, [location]);
 
   // // Console.log visitId
   // useEffect(() => {
@@ -141,7 +141,7 @@ function App() {
     ) {
       setAppSettings(settings);
       uploadVisitAnalytic(visitId, user, duration, location).then(() => {
-        console.log("Visit analytic uploaded");
+        // console.log("Visit analytic uploaded");
         setVisitSent(true);
       });
     }
@@ -151,12 +151,12 @@ function App() {
   useEffect(() => {
     if (user !== null) {
       if (settings !== null && Object.keys(settings).length > 0) {
-        console.log("settings: ", settings);
+        // console.log("settings: ", settings);
         if (settings.useVisitsAnalytics === true) {
           if (visitId !== null) {
             if (visitSent) {
               updateVisitAnalytic(visitId, user, duration, location).then(() => {
-                console.log("Visit analytic updated with user");
+                // console.log("Visit analytic updated with user");
               });
             }
           }
@@ -168,17 +168,17 @@ function App() {
   // When settings are loaded and useVisitDurationAnalytics is true, start the timer.
   useEffect(() => {
     if (settings !== null && Object.keys(settings).length > 0) {
-      console.log(
-        "settings.useVisitDurationAnalytics",
-        settings.useVisitDurationAnalytics
-      );
+      // console.log(
+      //   "settings.useVisitDurationAnalytics",
+      //   settings.useVisitDurationAnalytics
+      // );
       if (settings.useVisitDurationAnalytics === true) {
         setDuration(0);
-        console.log("Visit analytic timer started");
+        //console.log("Visit analytic timer started");
         var interval = setInterval(() => {
           duration++;
           setDuration(duration);
-          console.log("Visit analytic timer: ", duration);
+          // console.log("Visit analytic timer: ", duration);
         }, 1000);
         return () => clearInterval(interval);
       }
@@ -197,9 +197,9 @@ function App() {
         if (duration % 20 === 0) {
           if (visitId !== null) {
             updateVisitAnalytic(visitId, user, duration, location).then(() => {
-              console.log(
-                "Visit analytic updated with duration of " + duration
-              );
+              // console.log(
+              //   "Visit analytic updated with duration of " + duration
+              // );
             });
           }
         }
@@ -227,12 +227,12 @@ function App() {
 
   useEffect(() => {
     const subscriber = onAuthStateChanged(auth, async (usuarioFirebase) => {
-      console.log('usuario firebase',usuarioFirebase)
+      // console.log('usuario firebase',usuarioFirebase)
       
       
       if (usuarioFirebase) {
           let userData = await getUser(usuarioFirebase.uid);
-          console.log('userdata',userData)
+          // console.log('userdata',userData)
           if(userData){
             if( userData.disabled === true ){
               await signOutUsuario()
@@ -254,7 +254,7 @@ function App() {
           
           // Checks if user exists in the database
           // If the user does not exist, create it
-          console.log('userdata',userData)
+          // console.log('userdata',userData)
             if (!userData) {
               userData = {
                 email: usuarioFirebase.email,
