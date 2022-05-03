@@ -75,6 +75,7 @@ const Text = styled.p`
   font-style: normal;
   font-weight: 500;
   text-decoration: none;
+  color: #151515;
   left: 49px;
   top: 10px;
   position: absolute;
@@ -110,7 +111,7 @@ const ModalLogin = styled.div`
   text-decoration: none;
   background-color: white;
   text-decoration: none;
-  border: 1px solid black;
+  border: 1px solid #919191;
   border-radius: 12px;
   padding-top: 0.4em;
   padding-bottom: 0.4em;
