@@ -303,7 +303,7 @@ const ProductDetail = () => {
             </IndividualInfoContainer>
             <IndividualInfoContainer>
               <InfoSpanStock>Stock: </InfoSpanStock>
-              <span> {product.stock >= 1 ? product.stock : "No disponible"}</span>
+              <span> {product.stock >= 1 && !product.delete ? product.stock : "No Disponible"}</span>
             </IndividualInfoContainer>
           </InfoContainer>
           <Precio>{product.price}</Precio>
