@@ -182,21 +182,6 @@ export function getDetailUser(uid) {
     }
   };
 }
-
-  export function getDetailUser(uid) {
-    return async function (dispatch) {
-      try {
-        let jsonUser = await getUser(uid);
-        console.log("jsonUser", jsonUser);
-        return dispatch({
-          type: "GET_DETAIL_USER",
-          payload: jsonUser,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  }
   
   export function putUser(uid, data) {
     return async function (dispatch) {

@@ -94,6 +94,7 @@ const initialState = {
           ...state,
           allVisits: action.payload,
         };
+      }
       case "GET_ALL_TOTAL_PETS": {
         return {
             ...state,
