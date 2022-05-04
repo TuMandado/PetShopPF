@@ -23,7 +23,7 @@ export function getTotalAnalytics() {
   return async function (dispatch) {
     try {
       let jsonAnalytics = await getAllAnalytics();
-      console.log("jsonAnalytics: ", jsonAnalytics);
+      // console.log("jsonAnalytics: ", jsonAnalytics);
       return dispatch({
         type: "GET_ANALYTICS",
         payload: jsonAnalytics,
@@ -38,7 +38,7 @@ export function getTotalVisits() {
   return async function (dispatch) {
     try {
       let jsonVisits = await getAllVisits();
-      console.log("jsonVisits: ", jsonVisits);
+      // console.log("jsonVisits: ", jsonVisits);
       return dispatch({
         type: "GET_VISITS",
         payload: jsonVisits,
