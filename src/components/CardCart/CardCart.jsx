@@ -72,8 +72,8 @@ const ImageProduct = styled.img`
   display: flex;
   justify-content: center;
   max-width: 268px;
-  max-height: 250px;
-  margin-left: 16px;
+  max-height: 80%;
+  margin-left: 20%;
   position: absolute;
   object-fit: cover;
   top: 8%;
