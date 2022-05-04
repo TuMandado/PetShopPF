@@ -34,6 +34,11 @@
     cursor: pointer;
 }
 
+.productListNo{
+    color: gray;
+    cursor: pointer;
+}
+
 .userUpdateItem{
     display: flex;
     flex-direction: column;
