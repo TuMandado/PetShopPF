@@ -129,21 +129,19 @@ const PublicPets = () =>{
               <button className="productListEdit">ver</button>
             </Link>
             {params.row.activo==="si"?
-            
-            <div>
+            <>
             <HighlightOffOutlinedIcon
               className="productListDelete"
               onClick={() => handleDelete(params.row.id)}
             />
-            </div>
+            </>
             :
-            <div>
+            <>
             < CheckCircleOutlineOutlinedIcon
               className="productListOk"
-              // disabled={params.row.activo=="si"?false:true}
               onClick={() => handleOk(params.row.id)}
             />
-            </div>
+            </>
 
       }
           </>
