@@ -3,6 +3,8 @@ import Navbar from "../../../components/navbar/Navbar";
 import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline, Publish } from "@material-ui/icons";
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
@@ -126,14 +128,24 @@ const PublicPets = () =>{
             <Link to={"/adminPet/" + params.row.id}>
               <button className="productListEdit">ver</button>
             </Link>
-            <DeleteOutline
+            {params.row.activo==="si"?
+            
+            <div>
+            <HighlightOffOutlinedIcon
               className="productListDelete"
               onClick={() => handleDelete(params.row.id)}
             />
-            < Publish
+            </div>
+            :
+            <div>
+            < CheckCircleOutlineOutlinedIcon
               className="productListOk"
+              // disabled={params.row.activo=="si"?false:true}
               onClick={() => handleOk(params.row.id)}
             />
+            </div>
+
+      }
           </>
         );
       },
@@ -152,11 +164,11 @@ const PublicPets = () =>{
              loading={!totalPets}
              rowHeight={140}
              rows={totalPets}
-             disableSelectionOnClick={false}
+             disableSelectionOnClick={true}
              columns={columns}
              pageSize={10}
              rowsPerPageOptions={[10]}
-             checkboxSelection
+             
            /> 
       }
     </div>
