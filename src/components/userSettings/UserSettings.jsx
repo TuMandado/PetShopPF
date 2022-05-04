@@ -14,11 +14,8 @@ export const UserSettings = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const uid = useParams().id;
-  console.log('esto es uid', uid)
   const user = useSelector((state) => state.adminReducer.user);
-  console.log("User de Settings =>", user);
   const pets = useSelector((state) => state.clientReducer.backupPets)
-  console.log('esto es pets', pets)
   const [input, setInput] = useState({});
 
   /*  Estructura de la info:
@@ -53,11 +50,7 @@ export const UserSettings = () => {
         disabled: user.disabled ? user.disabled : false,
       });
   }, [user]);
-  const containerStyle = {
-    backgroundImage: `url(${imgBackground})`,
-    width: "100%",
-    height: "100%",
-}
+
 
 
   const uploadFile = (files) => {
@@ -88,12 +81,12 @@ export const UserSettings = () => {
   };
 
   return (
-    <div style={containerStyle}>
+    <div >
       <div>
       <TitleContainer>
         <Title>Configura tu cuenta:</Title>
       </TitleContainer>
-      <div>
+      <FormContainer>
         {/* <Span>Editar:</Span> */}
         <InfoForm onSubmit={(e) => handleSubmit(e)}>
           <FormContent>
@@ -193,7 +186,7 @@ export const UserSettings = () => {
             </div>
           </FormContent>
         </InfoForm>
-      </div>
+      </FormContainer>
     </div>
 
       </div>
@@ -202,8 +195,9 @@ export const UserSettings = () => {
 
 const TitleContainer = styled.div`
   height: 60px;
-  width: 100%;
   text-align: center;
+  margin-right: auto;
+  margin-left: auto;
 `;
 
 const Title = styled.h1`
@@ -216,11 +210,13 @@ const Title = styled.h1`
   color: #151515;
   flex-grow: 0;
   margin: 2px;
-  &:hover {
-    color: #0acf83;
-  }
 `;
 
+
+const FormContainer = styled.div`
+    margin-left: auto;
+    margin-right: auto;
+`
 // const Span = styled.span`
 // margin-top: 5px;
 // margin-bottom: 5px;
@@ -239,19 +235,18 @@ const InfoForm = styled.form`
   grid-row-gap: 15px;
   grid-column-gap: 2px;
   background: rgba(255, 255, 255, 0.808);
-  max-width: 650px;
+  width: 30%;
   max-height: 700px;
-  margin-right: 30%;
-  margin-left: 30%;
   padding-bottom: 100px;
   border-radius: 12px;
   padding: 15px;
+  margin-left: 41%;
+  margin-right: auto;
   
 `
 
 const FormContent = styled.div`
   text-align: center;
-  margin: auto;
 
 `
 

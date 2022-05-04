@@ -16,6 +16,7 @@ const initialState = {
     user: null,
     settings: {},
     visitId: null,
+    userOrders: [],
 };
 
 function clientReducer(state = initialState, action) {
@@ -144,6 +145,11 @@ function clientReducer(state = initialState, action) {
             return {
                 ...state,
                 pets: action.payload
+            }
+        case "GET_MY_ORDERS":
+            return {
+                ...state,
+                userOrders: action.payload
             }
         default:
             return state;

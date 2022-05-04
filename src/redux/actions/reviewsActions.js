@@ -8,6 +8,7 @@ export const REVIEW_SCORE = 'REVIEW_SCORE';
 export const EDIT_REVIEW = 'EDIT_REVIEW';
 export const REMOVE_REVIEW = 'REMOVE_REVIEW';
 
+
 export function getAllReviewsFront() {
     return async function (dispatch) {
         try {
@@ -41,10 +42,10 @@ export function getReviewsByProductFront(payload) {
 }
 
 // payload === uid del user
-export function getReviewsByUserFront(payload) {
+export function getReviewsByUserFront(uid) {
     return async function (dispatch) {
         try {
-            let jsonReviews = await getReviewByUser(payload);
+            let jsonReviews = await getReviewByUser(uid);
             //console.log("-GetProductReviews Flag-", jsonReviews);
             return dispatch({
                 type: GET_USER_REVIEWS,

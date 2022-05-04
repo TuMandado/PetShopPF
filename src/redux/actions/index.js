@@ -18,7 +18,7 @@ import {
   searchPet,
 } from "../../firebase/Pets/index";
 // import { async } from "@firebase/util";
-import { loginCart } from "../../firebase/Cart";
+import { loginCart, getOrderByUser } from "../../firebase/Cart";
 import { getAllAnimalCategory } from "../../firebase/AnimalCategory/index";
 import Swal from "sweetalert2";
 // import Axios from 'axios'
@@ -295,4 +295,20 @@ export function filterPetByName(pets, name) {
       console.log(error);
     }
   };
+}
+
+
+export function getMyOrders(uid) {
+    return async function(dispatch) {
+        try {
+            const allOrders = await getOrderByUser(uid)
+            dispatch({
+                type: "GET_MY_ORDERS",
+                payload: allOrders
+            })
+        }
+        catch(error) {
+            console.log(error)
+        }
+    }
 }
