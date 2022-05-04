@@ -30,9 +30,7 @@ const initialState = {
       }
       case 'PUT_PRODUCT': {
         return state;
-        }
-
-      
+      }
       case "GET_DETAIL_PRODUCTS": {
         return {
           ...state,
@@ -64,6 +62,12 @@ const initialState = {
       case 'GET_USERS':
         return {
           ...state, users: action.payload,
+      }
+      case "USER_ON": {
+        return state;
+      }
+      case "USER_OFF": {
+        return state;
       }
       case 'DELETE_USER':
         return {
