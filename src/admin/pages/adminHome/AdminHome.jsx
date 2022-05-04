@@ -185,9 +185,9 @@ const AdminHome = () => {
   }, [users]);
 
   // Console users registered per day
-  useEffect(() => {
-    console.log("usersRegisteredPerDay : ", userRegisteredPerDay);
-  }, [userRegisteredPerDay]);
+  // useEffect(() => {
+  //   console.log("usersRegisteredPerDay : ", userRegisteredPerDay);
+  // }, [userRegisteredPerDay]);
 
   // ------------------------------------------------------------
   // The allPaying structure is like this :
@@ -259,19 +259,38 @@ const AdminHome = () => {
   }, [allAnalytics]);
 
 
-  // Console all hover time per product
-  useEffect(() => {
-    console.log("hoverTimeVsProducts : ", hoverTimeVsProducts);
-  }, [hoverTimeVsProducts]);
+  // // Console all hover time per product
+  // useEffect(() => {
+  //   console.log("hoverTimeVsProducts : ", hoverTimeVsProducts);
+  // }, [hoverTimeVsProducts]);
   
 
 
 
-  useEffect(() => {
-    if (allAnalytics && allAnalytics.length > 0) {
-      console.log("allAnalytics : ", allAnalytics);
+  // useEffect(() => {
+  //   if (allAnalytics && allAnalytics.length > 0) {
+  //     console.log("allAnalytics : ", allAnalytics);
+  //   }
+  // }, [allAnalytics]);
+
+  // Chart uses data with the following structure :
+  // {
+  //   "name": value,
+  //   "tag(give the name of the tag)": key
+  // }
+  // The following function is used to adapt the data to the chart
+  const adaptDataToChart = (data, tag) => {
+    let adaptedData = [];
+    Object.keys(data).forEach((key) => {
+      adaptedData.push({
+        name: key,
+        [tag]: data[key],
+      });
     }
-  }, [allAnalytics]);
+    );
+    return adaptedData;
+  }
+  // ------------------------------------------------------------
 
   return (
     <div>
@@ -281,11 +300,30 @@ const AdminHome = () => {
         <div className="home">
           <FeaturedInfo />
           <Chart
-            data={userData}
-            title="Analisis de Mercado"
+            data={adaptDataToChart(visitsVsDays, "Visita por día")}
+            title="Visitas por día"
             grid
-            dataKey="Active User"
+            dataKey="Visita por día"
           />
+          <Chart
+            data={adaptDataToChart(visitDurationAverage, "Duración promedio")}
+            title="Duración promedio en la pagina"
+            grid
+            dataKey="Duración promedio"
+          />
+          <Chart
+            data={adaptDataToChart(userRegisteredPerDay, "Usuarios registrados")}
+            title="Usuarios registrados"
+            grid
+            dataKey="Usuarios registrados"
+          />
+          <Chart
+            data={adaptDataToChart(payingPerDay, "Cobros por día")}
+            title="Cobros por día"
+            grid
+            dataKey="Cobros por día"
+          />
+          
           <div className="homeWidgets">
             {/* <WidgetLg/> */}
             {/* <WidgetSm /> */}
