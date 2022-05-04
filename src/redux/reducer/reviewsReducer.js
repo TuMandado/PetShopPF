@@ -1,4 +1,4 @@
-import { CLEAR_REVIEWS, GET_ALL_REVIEWS, GET_PRODUCT_REVIEWS, GET_USER_REVIEWS, POST_REVIEW, REVIEW_SCORE } from "../actions/reviewsActions";
+import { CLEAR_PRODUCT_SCORE, CLEAR_REVIEWS, GET_ALL_REVIEWS, GET_PRODUCT_REVIEWS, GET_USER_REVIEWS, POST_REVIEW, REVIEW_SCORE } from "../actions/reviewsActions";
 
 const initialState = {
     allReviews: [],
@@ -10,28 +10,28 @@ const initialState = {
 function reviewsReducer(state = initialState, action) {
     switch (action.type) {
         case GET_ALL_REVIEWS:
-            return{
+            return {
                 ...state,
                 allReviews: action.payload,
             }
         case GET_PRODUCT_REVIEWS:
-            return{
+            return {
                 ...state,
                 productReviews: action.payload,
             }
         case GET_USER_REVIEWS:
-            return{
+            return {
                 ...state,
                 userReviews: action.payload,
             }
         case POST_REVIEW:
-            return{
+            return {
                 ...state,
-                productReviews: [...state.productReviews,action.payload]
-                
+                productReviews: [...state.productReviews, action.payload]
+
             }
         case REVIEW_SCORE:
-            return{
+            return {
                 ...state,
                 productScore: action.payload,
             }
@@ -40,10 +40,16 @@ function reviewsReducer(state = initialState, action) {
                 ...state,
                 productReviews: [],
             }
+        case CLEAR_PRODUCT_SCORE:
+            return {
+                ...state,
+                productScore : 0 
+
+            }
         default:
             return state;
     }
-     
+
 }
-  
+
 export default reviewsReducer;

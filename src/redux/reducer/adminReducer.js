@@ -14,6 +14,7 @@ const initialState = {
     animalCategory:[],
     allVisits:[],
     allAnalytics:[],
+    pets:[],
 }
 
 
@@ -93,6 +94,20 @@ const initialState = {
           ...state,
           allVisits: action.payload,
         };
+      case "GET_ALL_TOTAL_PETS": {
+        return {
+            ...state,
+            pets: action.payload,
+        };
+      }
+      case 'PUT_PET': {
+        return state;
+      }  
+      case "DELETE_PET": {
+        return state;
+      }
+      case "OK_PET": {
+        return state;
       }
       default:
           return state;

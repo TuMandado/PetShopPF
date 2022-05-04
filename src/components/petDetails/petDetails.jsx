@@ -9,16 +9,21 @@ import Mapa from "../../components/map/Map";
 import Footer from "../../components/footer/Footer";
 import { petDetails, detailVacio } from "../../redux/actions";
 import styled from "styled-components";
+import Swal from "sweetalert2";
 
 const PetDetails = () => {
   const user = useSelector((state) => state.clientReducer.user);
   console.log("User en PETS =>", user);
   const pet = useSelector((state) => state.clientReducer.backupDetail);
+  const allPetsGeo = useSelector((state) => state.clientReducer.backupPets);
+  console.log("PET DETAIL =>", pet);
+  console.log("ALL PET EN DETAIL =>", allPetsGeo);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const uid = useParams();
   /*   console.log("Uid flag =>", uid);
-  console.log("PETS =>", pet); */
+   */
 
   const navigateToBack = (e) => {
     e.preventDefault();
@@ -28,21 +33,49 @@ const PetDetails = () => {
 
   const navigateToWhats = (e) => {
     e.preventDefault();
-    if (pet.state === "perdido")
-      window.open(
-        `https://api.whatsapp.com/send?phone=549${user.phoneNumber}&text=Hola!, ${user.name}. ¡Tengo información sobre ${pet.name}!`,
-        "_blank"
-      );
-    if (pet.state === "en adopcion")
-      window.open(
-        `https://api.whatsapp.com/send?phone=549${user.phoneNumber}&text=Hola!, ${user.name}. ¡Quiero adoptar a ${pet.name}!`,
-        "_blank"
-      );
-    if (pet.state === "encontrado")
-      window.open(
-        `https://api.whatsapp.com/send?phone=549${user.phoneNumber}&text=Hola!, ${user.name}. ¡Soy el dueño/a de ${pet.name}!`,
-        "_blank"
-      );
+    if (!user) {
+      return Swal.fire({
+        title: "¡Logueate!",
+        text: " Debes estar logeado o registrado para hacer esta acción. ¿Deseas continuar?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#0acf83",
+        cancelButtonColor: "#e6704b",
+        confirmButtonText: "Ir al login!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate(`/login`);
+        }
+      });
+    } else {
+      if (pet.state === "perdido")
+        window.open(
+          `https://api.whatsapp.com/send?phone=549${pet.userPhone}&text=Hola, ${
+            pet.userOwnName
+          }! soy ${
+            user.name ? user.name : "vengo de la web El Petshop."
+          }. ¡Tengo información sobre ${pet.name}!`,
+          "_blank"
+        );
+      if (pet.state === "en adopcion")
+        window.open(
+          `https://api.whatsapp.com/send?phone=549${pet.userPhone}&text=Hola, ${
+            pet.userOwnName
+          }! soy ${
+            user.name ? user.name : "vengo de la web El Petshop."
+          }. ¡Quiero adoptar a ${pet.name}!`,
+          "_blank"
+        );
+      if (pet.state === "encontrado")
+        window.open(
+          `https://api.whatsapp.com/send?phone=549${pet.userPhone}&text=Hola, ${
+            pet.userOwnName
+          }! soy ${
+            user.name ? user.name : "vengo de la web El Petshop."
+          }. ¡Soy el dueño/a de ${pet.name}!`,
+          "_blank"
+        );
+    }
   };
 
   useEffect(() => {
@@ -50,8 +83,13 @@ const PetDetails = () => {
     return function () {
       dispatch(detailVacio());
     };
+  }, [dispatch, uid.id]);
+
+  /* useEffect(() => {
+    getLocation(pet.number, pet.street, pet.city);
+    console.log("EUGE=>", pet.number, pet.street, pet.city);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [pet]); */
 
   if (!pet.name) {
     return (
@@ -102,7 +140,7 @@ const PetDetails = () => {
           <HelpMap>
             <Referencias>Referencias:</Referencias>
             <LocalUbication>Tu ubicacion</LocalUbication>
-            <PetsUbication>Mascotas de la zona</PetsUbication>
+            <PetsUbication>La mascota</PetsUbication>
             {pet.state === "perdido" && (
               <Aviso>
                 Si estas seguro de haber encontrado o visto a {pet.name}, podés
@@ -133,7 +171,15 @@ const PetDetails = () => {
             )}
           </HelpMap>
           <MapContainer>
-            <Mapa />{" "}
+            <Mapa
+              showUserLocation={true}
+              locations={[
+                {
+                  lat: pet.lat,
+                  lng: pet.lng,
+                },
+              ]}
+            />
           </MapContainer>
         </InferiorDivContainer>
         <BtnContainer>

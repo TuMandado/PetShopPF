@@ -17,7 +17,9 @@ import {
 import { getAllAnimalCategory } from "../../firebase/AnimalCategory/index";
 import { getAllVisits } from "../../firebase/Analytics/visits";
 import { getAllAnalytics } from "../../firebase/Analytics/hover";
+import { deletePet, editPet, getFullPets, okPet } from "../../firebase/Pets";
 export const GET_PRODUCTS = "GET_PRODUCTS";
+
 
 export function getTotalAnalytics() {
   return async function (dispatch) {
@@ -181,17 +183,94 @@ export function getDetailUser(uid) {
   };
 }
 
-export function putUser(uid, data) {
+  export function getDetailUser(uid) {
+    return async function (dispatch) {
+      try {
+        let jsonUser = await getUser(uid);
+        console.log("jsonUser", jsonUser);
+        return dispatch({
+          type: "GET_DETAIL_USER",
+          payload: jsonUser,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  }
+  
+  export function putUser(uid, data) {
+    return async function (dispatch) {
+      try {
+        let jsonputUser = await editUser(uid, data);
+        // console.log("putUser 🍳", uid, data);
+        return dispatch({
+          type: "PUT_USER",
+          // payload: jsonUploadUser,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  }
+
+  export function getAllTotalPets() {
+    return async function (dispatch) {
+        try {
+            let jsonPets = await getFullPets();
+            // console.log("esto es jsonPets", jsonPets);
+            return dispatch({
+                type: "GET_ALL_TOTAL_PETS",
+                payload: jsonPets,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+}
+
+export function putPet(uid, data) {
   return async function (dispatch) {
     try {
-      let jsonputUser = await editUser(uid, data);
-      console.log("putUser 🍳", uid, data);
+      let jsonputPet = await editPet(uid, data);
+      // console.log("putPet 🍳", uid, data);
       return dispatch({
-        type: "PUT_USER",
-        // payload: jsonUploadUser,
+        type: "PUT_PET",
+        // payload: jsonputPet,
       });
     } catch (error) {
       console.log(error);
     }
   };
 }
+
+  export function deleteThisPet(uid) {
+    return async function (dispatch) {
+        try {
+            let jsonDelete = await deletePet(uid);
+            // console.log('esto es jsonDele', jsonDelete, 'esto es uid', uid)
+            return dispatch({
+                type: `DELETE_PET`,
+                payload: uid,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+}
+
+  export function okThisPet(uid) {
+    return async function (dispatch) {
+        try {
+            let jsonOkPet = await okPet(uid);
+            // console.log('esto es jsonDele', jsonOkPet, 'esto es uid', uid)
+            return dispatch({
+                type: `OK_PET`,
+                payload: uid,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+}
+  
+

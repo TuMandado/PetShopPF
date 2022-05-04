@@ -47,8 +47,11 @@ export async function editPet(data, uid) {
 }
 
 export async function deletePet(uid) {
-  await editPet({ delete: true }, uid);
-  
+  await editPet({ delete: true }, uid); 
+}
+
+export async function okPet(uid) {
+  await editPet({ delete: false }, uid);
 }
 
 export async function getPet(uid) {
@@ -71,6 +74,17 @@ export async function getAllPets() {
     });
   });
   let pets = array.filter((el) => el.data.delete === false);
+  return pets;
+}
+export async function getFullPets() {
+  const querySnapshot = await getDocs(collection(db, collectionRef));
+  let pets = [];
+  querySnapshot.forEach((doc) => {
+    pets.push({
+      uid: doc.id,
+      data: doc.data(),
+    });
+  });
   return pets;
 }
 
