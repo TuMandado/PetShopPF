@@ -8,6 +8,7 @@ export const REVIEW_SCORE = 'REVIEW_SCORE';
 export const EDIT_REVIEW = 'EDIT_REVIEW';
 export const REMOVE_REVIEW = 'REMOVE_REVIEW';
 export const CLEAR_REVIEWS = 'CLEAR_REVIEWS';
+export const CLEAR_PRODUCT_SCORE = 'CLEAR_PRODUCT_SCORE';
 
 
 export function getAllReviewsFront() {
@@ -121,5 +122,11 @@ export function removeReview(id) {
 export function clearReviews() {
     return {
         type: CLEAR_REVIEWS
+    }
+}
+
+export function clearProductScore() {
+    return {
+        type: CLEAR_PRODUCT_SCORE
     }
 }
