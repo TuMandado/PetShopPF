@@ -11,6 +11,17 @@ import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
 import { deleteThisProduct, getTotalProducts } from "../../../redux/actions/adminActions";
 
 const ProductList = () => {
+  const user = useSelector((state) => state.clientReducer.user);
+  // If user role is not Admin, redirect to the home page
+  useEffect(() => {
+    console.log("user :",user);
+    if (user && Object.keys(user).length > 0 && user.role !== "Admin") {
+      window.location.href = "/";
+    }
+    if (!user) {
+      window.location.href = "/";
+    }
+  }, [user]);
 
   const dispatch = useDispatch()
   const allProducts = useSelector(state => state.adminReducer.products)
