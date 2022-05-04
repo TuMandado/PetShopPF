@@ -70,6 +70,8 @@ const PetCreated = () => {
     lat: "",
     lng: "",
     userId: "",
+    userPhone: "",
+    userOwnName: "",
     delete: false,
   });
 
@@ -87,6 +89,8 @@ const PetCreated = () => {
       ...input,
       [e.target.name]: e.target.value,
       userId: user.uid,
+      userPhone: user.phoneNumber,
+      userOwnName: user.name,
     });
     setErrors(
       validadora({
@@ -199,6 +203,8 @@ const PetCreated = () => {
           country: "Argentina",
           number: "",
           delete: false,
+          userPhone: "",
+          userOwnName: "",
         });
       }
       navigate("/pets");
