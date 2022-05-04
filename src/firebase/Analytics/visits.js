@@ -96,7 +96,11 @@ export async function getVisitAnalytic(uid) {
 
 // Function that returns an array of all visits.
 export async function getAllVisits(user) {
-  const querySnapshot = await getDocs(collection(db, collectionName));
+  const querySnapshot = await getDocs(collection(db, collectionName)).catch(
+    (error) => {
+      console.log("getAllVisits error: ", error);
+    }
+  );
   let array = [];
   querySnapshot.forEach((doc) => {
     array.push({

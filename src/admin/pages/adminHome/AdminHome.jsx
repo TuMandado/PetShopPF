@@ -28,6 +28,7 @@ const AdminHome = () => {
   var [userRegisteredPerDay, setUserRegisteredPerDay] = useState([]);
   var [payingPerDay, setPayingPerDay] = useState([]);
   var [hoverTimeVsProducts, setHoverTimeVsProducts] = useState([]);
+  var products = useSelector((state) => state.clientReducer.products);
   // const [hoverTimeVsProduct, setHoverTimeVsProduct] = useState([]);
 
   // If user role is not Admin, redirect to the home page
@@ -217,6 +218,60 @@ const AdminHome = () => {
       setPayingPerDay(payingPerDay);
     }
   }, [allPaying]);
+  // ------------------------------------------------------------
+
+  // The analytics structure is like this :
+  // {
+    //   "id": "5e8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8",
+  //   "data": {
+    //     "date": {
+  //       "seconds": 1599098983,
+  //       "nanoseconds": 52352000
+  //     },
+  //     "productId": "5645646546456456456456456456456",
+  //     "time": "10",
+  //     "type": "detail"// "cart"
+  //   }
+  // Whean all analytics are fetched, count the total of all analytics per product, the product name is get from the productId
+  useEffect(() => {
+    if (allAnalytics && allAnalytics.length > 0 && products && products.length > 0) {
+      hoverTimeVsProducts = [];
+      // Group all analytics by productId and get the total
+      allAnalytics.forEach((analytic) => {
+        let productId = analytic.data.productId;
+        let productName = products.find((product) => {
+          return product.uid == productId;
+        }
+        ).data.name;
+        if (hoverTimeVsProducts[productName]) {
+          hoverTimeVsProducts[productName] += analytic.data.time
+            ? analytic.data.time
+            : 0;
+        } else {
+          hoverTimeVsProducts[productName] = analytic.data.time
+            ? analytic.data.time
+            : 0;
+        }
+      });
+      // Order the products by time
+      setHoverTimeVsProducts(hoverTimeVsProducts);
+    }
+  }, [allAnalytics]);
+
+
+  // Console all hover time per product
+  useEffect(() => {
+    console.log("hoverTimeVsProducts : ", hoverTimeVsProducts);
+  }, [hoverTimeVsProducts]);
+  
+
+
+
+  useEffect(() => {
+    if (allAnalytics && allAnalytics.length > 0) {
+      console.log("allAnalytics : ", allAnalytics);
+    }
+  }, [allAnalytics]);
 
   return (
     <div>
