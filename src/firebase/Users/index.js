@@ -10,8 +10,17 @@ export async function uploadUser(uid, data) {
   }
 
 export async function editUser(uid, data) {
-    data.disabled = data.disabled ?? false;
+    // data.disabled = data.disabled ?? false;
     await updateDoc(doc(db, collectionRef, uid), data);
+}
+
+export async function userOff(uid) {
+  await updateDoc(doc(db, collectionRef, uid),{disabled:true})
+}
+
+export async function userOn(uid) {
+  await updateDoc(doc(db, collectionRef, uid),{disabled:false})
+  console.log("llegue al onuser 🎎", uid);
 }
 
 export async function deleteUser(uid) {

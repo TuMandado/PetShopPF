@@ -1,20 +1,7 @@
-import {
-  getProduct,
-  getAllProducts,
-  uploadProduct,
-  deleteProduct,
-  getAllProductsCategories,
-  editProduct,
-  getReallyAllProducts,
-} from "../../firebase/Products/index";
-import {
-  getAllUsers,
-  deleteUser,
-  getUser,
-  uploadUser,
-  editUser,
-} from "../../firebase/Users";
-import { getAllAnimalCategory } from "../../firebase/AnimalCategory/index";
+
+import { getProduct, getAllProducts, uploadProduct, deleteProduct, getAllProductsCategories, editProduct, getReallyAllProducts } from "../../firebase/Products/index";
+import { getAllUsers, deleteUser, getUser, uploadUser, editUser, userOn, userOff } from "../../firebase/Users";
+import {getAllAnimalCategory} from '../../firebase/AnimalCategory/index'
 import { getAllVisits } from "../../firebase/Analytics/visits";
 import { getAllAnalytics } from "../../firebase/Analytics/hover";
 import { deletePet, editPet, getFullPets, okPet } from "../../firebase/Pets";
@@ -153,20 +140,49 @@ export function getTotalUsers() {
   };
 }
 
-export function deleteThisUser(id) {
-  return async function (dispatch) {
-    try {
-      let jsonDelete = await deleteUser(id);
-      console.log("jsonDelete:👉🏾", jsonDelete);
-      return dispatch({
-        type: `DELETE_USER`,
-        payload: id,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-}
+  export function onUser(uid) {
+    return async function (dispatch) {
+        try {
+            let jsonokUser = await userOn(uid);
+            console.log("llegue al onuser 🍳", uid);
+            return dispatch({
+                type: `USER_ON`,
+                payload: uid,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+  }
+
+  export function offUser(uid) {
+    return async function (dispatch) {
+        try {
+            let jsonoffUser = await userOff(uid);
+            return dispatch({
+                type: `USER_OFF`,
+                payload: uid,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+  }
+
+  export function deleteThisUser(id) {
+    return async function (dispatch) {
+      try {
+        let jsonDelete = await deleteUser(id);
+        console.log("jsonDelete:👉🏾", jsonDelete);
+        return dispatch({
+          type: `DELETE_USER`,
+          payload: id,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  }
 
 export function getDetailUser(uid) {
   return async function (dispatch) {
