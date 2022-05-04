@@ -142,12 +142,12 @@ const PetDetails = () => {
           </HelpMap>
           <MapContainer>
             <Mapa
-            /* locations={[
+            locations={[
                 {
-                  lat: -34.8889696,
-                  lng: -57.9567196,
+                  lat: pet.lat,
+                  lng: pet.lng,
                 },
-              ]} */
+              ]} 
             />
           </MapContainer>
         </InferiorDivContainer>
