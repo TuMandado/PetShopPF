@@ -21,6 +21,8 @@ const AdminHome = () => {
   const users = useSelector((state) => state.adminReducer.users);
   const allVisits = useSelector((state) => state.adminReducer.allVisits);
   const allAnalytics = useSelector((state) => state.adminReducer.allAnalytics);
+  const allPaying = useSelector((state) => state.cartReducer.allCartsData);
+  const [visitsVsDays, setVisitsVsDays] = useState([]);
 
   // If user role is not Admin, redirect to the home page
   useEffect(() => {
@@ -33,9 +35,6 @@ const AdminHome = () => {
     }
   }, [user]);
 
-  const allPaying = useSelector((state) => state.cartReducer.allCartsData);
-  const [totalPaying, setTotalPaying] = useState([]);
-
   useEffect(() => {
     dispatch(getAllCartsData())
     dispatch(getTotalAnalytics())
@@ -43,42 +42,60 @@ const AdminHome = () => {
     dispatch(getTotalUsers())
   }, []);
 
-  // useEffect(() => {
-  //   setTotalPaying(allPaying.map(el=>{
-  //     return({
-  //       fecha: el.data.createdAt,
-  //       usuarioId: el.data.userUid,
-  //       id: el.uid,
-  //       estado: el.data.status,
-  //       productos: el.data.items.map(e=> e.title),
-  //       total: el.data.total,
-  //     })
-  //   }))
-  // }, [allPaying, dispatch]);
+  // Console all visits
+  useEffect(() => {
+    if (allVisits && allVisits.length > 0) {
+      console.log("allVisits :", allVisits);
+    }
+  }, [allVisits]);
 
-  // // Cosole allPaying
-  // useEffect(() => {
-  //   console.log("admin allPaying ♦:", allPaying);
-  // }, [allPaying]);
+  // When all visits are fetched, count the number of visits per day
+  // The visit structure is like this :
+  // {
+  //   "uid": "5e8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8",
+  //   "data": {
+  //     "date": {
+  //       "seconds": 1599098983,
+  //       "nanoseconds": 52352000
+  //     },
+  //   }
+  useEffect(() => {
+    if (allVisits && allVisits.length > 0) {
+      let days = [];
+      // Get all the days from all visits
+      allVisits.forEach((visit) => {
+        let date = new Date(visit.data.date.seconds * 1000);
+        let day = date.getDate();
+        let month = date.getMonth();
+        let year = date.getFullYear();
+        days.push(`${day}/${month}/${year}`);
+      }
+      );
+      // Count the number of visits per day
+      let visitsPerDay = {};
+      days.forEach((day) => {
+        if (visitsPerDay[day]) {
+          visitsPerDay[day]++;
+        }
+        else {
+          visitsPerDay[day] = 1;
+        }
+      }
+      );
+      setVisitsVsDays(visitsPerDay);
+    }
+  }, [allVisits]);
 
-  // // Console allAnalytics
-  // useEffect(() => {
-  //   console.log("admin allAnalytics ♦:", allAnalytics);
-  // }, [allAnalytics]);
+  // Console visitsVsDays
+  useEffect(() => {
+    if (visitsVsDays && Object.keys(visitsVsDays).length > 0) {
+      console.log("visitsVsDays :", visitsVsDays);
+    }
+  }, [visitsVsDays]);
 
-  // // Console allVisits
-  // useEffect(() => {
-  //   console.log("admin allVisits ♦:", allVisits);
-  // }, [allVisits]);
 
-  // // Console users
-  // useEffect(() => {
-  //   console.log("admin users ♦:", users);
-  // }, [users]);
 
-  // useEffect(() => {
-  //   console.log("admin totalPaying 🚩:", totalPaying);
-  // }, [totalPaying]);
+
 
   return (
      <div >
