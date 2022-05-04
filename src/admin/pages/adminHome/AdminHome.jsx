@@ -20,14 +20,14 @@ const AdminHome = () => {
   var user = useSelector((state) => state.clientReducer.user);
   var users = useSelector((state) => state.adminReducer.users);
   var allVisits = useSelector((state) => state.adminReducer.allVisits);
-  var allAnalytics = useSelector((state) => state.adminReducer.allAnalytics);
+  // var allAnalytics = useSelector((state) => state.adminReducer.allAnalytics);
   var allPaying = useSelector((state) => state.cartReducer.allCartsData);
   var [visitsVsDays, setVisitsVsDays] = useState([]);
   var [visitDurationAverage, setVisitDurationAverage] = useState([]);
   var [visitDurationTotal, setVisitDurationTotal] = useState([]);
   var [userRegisteredPerDay, setUserRegisteredPerDay] = useState([]);
   var [payingPerDay, setPayingPerDay] = useState([]);
-  var [hoverTimeVsProducts, setHoverTimeVsProducts] = useState([]);
+  // var [hoverTimeVsProducts, setHoverTimeVsProducts] = useState([]);
   var products = useSelector((state) => state.clientReducer.products);
   // const [hoverTimeVsProduct, setHoverTimeVsProduct] = useState([]);
 
@@ -47,7 +47,7 @@ const AdminHome = () => {
 
   useEffect(() => {
     dispatch(getAllCartsData());
-    dispatch(getTotalAnalytics());
+    // dispatch(getTotalAnalytics());
     dispatch(getTotalVisits());
     dispatch(getTotalUsers());
   }, []);
@@ -232,31 +232,31 @@ const AdminHome = () => {
   //     "time": "10",
   //     "type": "detail"// "cart"
   //   }
-  // Whean all analytics are fetched, count the total of all analytics per product, the product name is get from the productId
-  useEffect(() => {
-    if (allAnalytics && allAnalytics.length > 0 && products && products.length > 0) {
-      hoverTimeVsProducts = [];
-      // Group all analytics by productId and get the total
-      allAnalytics.forEach((analytic) => {
-        let productId = analytic.data.productId;
-        let productName = products.find((product) => {
-          return product.uid == productId;
-        }
-        ).data.name;
-        if (hoverTimeVsProducts[productName]) {
-          hoverTimeVsProducts[productName] += analytic.data.time
-            ? analytic.data.time
-            : 0;
-        } else {
-          hoverTimeVsProducts[productName] = analytic.data.time
-            ? analytic.data.time
-            : 0;
-        }
-      });
-      // Order the products by time
-      setHoverTimeVsProducts(hoverTimeVsProducts);
-    }
-  }, [allAnalytics]);
+  // // Whean all analytics are fetched, count the total of all analytics per product, the product name is get from the productId
+  // useEffect(() => {
+  //   if (allAnalytics && allAnalytics.length > 0 && products && products.length > 0) {
+  //     hoverTimeVsProducts = [];
+  //     // Group all analytics by productId and get the total
+  //     allAnalytics.forEach((analytic) => {
+  //       let productId = analytic.data.productId;
+  //       let productName = products.find((product) => {
+  //         return product.uid == productId;
+  //       }
+  //       ).data.name;
+  //       if (hoverTimeVsProducts[productName]) {
+  //         hoverTimeVsProducts[productName] += analytic.data.time
+  //           ? analytic.data.time
+  //           : 0;
+  //       } else {
+  //         hoverTimeVsProducts[productName] = analytic.data.time
+  //           ? analytic.data.time
+  //           : 0;
+  //       }
+  //     });
+  //     // Order the products by time
+  //     setHoverTimeVsProducts(hoverTimeVsProducts);
+  //   }
+  // }, [allAnalytics]);
 
 
   // // Console all hover time per product
