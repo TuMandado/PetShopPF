@@ -6,8 +6,8 @@ import {
   getDoc,
   getDocs,
   updateDoc,
-  collection,
   Timestamp,
+  collection,
 } from "firebase/firestore";
 
 var collectionName = "VisitsAnalytics";
@@ -93,3 +93,22 @@ export async function getVisitAnalytic(uid) {
     console.log("getAnalytic error: ", error);
   }
 }
+
+// Function that returns an array of all visits.
+export async function getAllVisits(user) {
+  const querySnapshot = await getDocs(collection(db, collectionName)).catch(
+    (error) => {
+      console.log("getAllVisits error: ", error);
+    }
+  );
+  let array = [];
+  querySnapshot.forEach((doc) => {
+    array.push({
+      id: doc.id,
+      data: doc.data(),
+    });
+  }
+  );
+  return array;
+}
+
