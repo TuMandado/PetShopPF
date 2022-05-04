@@ -47,7 +47,8 @@ export async function editPet(data, uid) {
 }
 
 export async function deletePet(uid) {
-  editPet(uid, { delete: true });
+  await editPet({ delete: true }, uid);
+  
 }
 
 export async function getPet(uid) {
