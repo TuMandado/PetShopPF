@@ -7,6 +7,7 @@ export const POST_REVIEW = 'POST_REVIEW';
 export const REVIEW_SCORE = 'REVIEW_SCORE';
 export const EDIT_REVIEW = 'EDIT_REVIEW';
 export const REMOVE_REVIEW = 'REMOVE_REVIEW';
+export const CLEAR_REVIEWS = 'CLEAR_REVIEWS';
 
 
 export function getAllReviewsFront() {
@@ -114,5 +115,11 @@ export function removeReview(id) {
         catch (err) {
             console.log(err)
         }
+    }
+}
+
+export function clearReviews() {
+    return {
+        type: CLEAR_REVIEWS
     }
 }

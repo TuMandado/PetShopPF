@@ -9,6 +9,7 @@ import {
 import styled from "styled-components";
 import { star } from "../../data";
 import icoUser from "../../assets/user.png";
+import { clearReviews } from "../../redux/actions/reviewsActions";
 
 const Reviews = ({ id }) => {
   const dispatch = useDispatch();
@@ -31,6 +32,12 @@ const Reviews = ({ id }) => {
   }, [dispatch, id]);
 
   let reviewsByTime = [];
+
+  useEffect(() => {
+      return () => {
+        dispatch(clearReviews())
+      }
+  }, [])
 
 
   const editReview = (e, id, prevData) => {

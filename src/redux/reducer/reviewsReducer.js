@@ -1,4 +1,4 @@
-import { GET_ALL_REVIEWS, GET_PRODUCT_REVIEWS, GET_USER_REVIEWS, POST_REVIEW, REVIEW_SCORE } from "../actions/reviewsActions";
+import { CLEAR_REVIEWS, GET_ALL_REVIEWS, GET_PRODUCT_REVIEWS, GET_USER_REVIEWS, POST_REVIEW, REVIEW_SCORE } from "../actions/reviewsActions";
 
 const initialState = {
     allReviews: [],
@@ -34,6 +34,11 @@ function reviewsReducer(state = initialState, action) {
             return{
                 ...state,
                 productScore: action.payload,
+            }
+        case CLEAR_REVIEWS:
+            return {
+                ...state,
+                productReviews: [],
             }
         default:
             return state;
