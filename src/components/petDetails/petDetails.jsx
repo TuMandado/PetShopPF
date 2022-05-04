@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -14,11 +14,14 @@ const PetDetails = () => {
   const user = useSelector((state) => state.clientReducer.user);
   console.log("User en PETS =>", user);
   const pet = useSelector((state) => state.clientReducer.backupDetail);
+  const allPetsGeo = useSelector((state) => state.clientReducer.backupPets);
+  console.log("PET DETAIL =>", pet);
+  console.log("ALL PET EN DETAIL =>", allPetsGeo);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+
   const uid = useParams();
   /*   console.log("Uid flag =>", uid);
-  console.log("PETS =>", pet); */
+   */
 
   const navigateToBack = (e) => {
     e.preventDefault();
@@ -50,8 +53,13 @@ const PetDetails = () => {
     return function () {
       dispatch(detailVacio());
     };
+  }, [dispatch, uid.id]);
+
+  /* useEffect(() => {
+    getLocation(pet.number, pet.street, pet.city);
+    console.log("EUGE=>", pet.number, pet.street, pet.city);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [pet]); */
 
   if (!pet.name) {
     return (
@@ -133,7 +141,14 @@ const PetDetails = () => {
             )}
           </HelpMap>
           <MapContainer>
-            <Mapa />{" "}
+            <Mapa
+            /* locations={[
+                {
+                  lat: -34.8889696,
+                  lng: -57.9567196,
+                },
+              ]} */
+            />
           </MapContainer>
         </InferiorDivContainer>
         <BtnContainer>

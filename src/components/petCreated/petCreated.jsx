@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FileBase from "react-file-base64";
+import postMap from "../../firebase/Map/index";
 import {
   getTotalPets,
   getTotalCategoryPets,
@@ -11,6 +12,7 @@ import {
 } from "../../redux/actions/index";
 import imgBackground from "../../assets/patrones_pet.png";
 import styled from "styled-components";
+
 // import { getDetailUser } from "../../redux/actions/adminActions"
 
 function validadora(input) {
@@ -48,9 +50,10 @@ const PetCreated = () => {
   const state = useSelector((state) => state.clientReducer.statePets);
   console.log("esto es statePets", state);
   const user = useSelector((state) => state.clientReducer.user);
-  console.log('user', user )
+  console.log("user", user);
 
   const [errors, setErrors] = useState({});
+
   const [input, setInput] = useState({
     name: "",
     owner: "",
@@ -60,13 +63,19 @@ const PetCreated = () => {
     ubicacion: "",
     state: "",
     category: "",
-    userId: "", 
+    city: "",
+    street: "",
+    country: "Argentina",
+    number: "",
+    lat: "",
+    lng: "",
+    userId: "",
     delete: false,
   });
 
   // useEffect(() => {
   //   dispatch(getDetailUser());
-   
+
   // },[])
 
   const getBaseFile = (files) => {
@@ -77,7 +86,7 @@ const PetCreated = () => {
     setInput({
       ...input,
       [e.target.name]: e.target.value,
-      userId : user.uid
+      userId: user.uid,
     });
     setErrors(
       validadora({
@@ -85,6 +94,7 @@ const PetCreated = () => {
         [e.target.name]: e.target.value,
       })
     );
+
     console.log(input);
   }
 
@@ -117,7 +127,22 @@ const PetCreated = () => {
 
   // }
 
-   const handleSubmit = (e) => {
+  const getLocation = async (number, street, city) => {
+    if (number && street && city) {
+      console.log("INGRESO =>", number, street, city);
+      return await postMap(number, street, city, "Argentina");
+      /*  console.log("RESPONSE MAP BTN=>", dataResponse);
+      const lat = dataResponse[0].latitude;
+      const lng = dataResponse[0].longitude; */
+      /*  console.log("LAT =>", lat);
+      console.log("LONG =>", lng);
+      return { lat, lng }; */
+    } else {
+      console.log("ERROR");
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (input.name.trim() === "" || input.name.search(/^[^$%&|<>#]*$/)) {
       return alert("Ingrese nombre adecuado");
@@ -151,26 +176,47 @@ const PetCreated = () => {
         "por favor ingrese el estado en el que se encuentra su mascota "
       );
     } else {
-      console.log(input);
-      dispatch(postPets(input));
+      console.log(
+        "INPUTS PARA GEOLOC=>",
+        input.number,
+        input.street,
+        input.city
+      );
+      const geo = await getLocation(input.number, input.street, input.city);
+      console.log("ES GEO : o =>", geo);
+      /*  setInput({
+        ...input,
+        lat: geo[0].latitude,
+        lng: geo[0].longitude,
+      }); */
+      dispatch(
+        postPets({ ...input, lat: geo[0].latitude, lng: geo[0].longitude })
+      );
       alert("Animal creado con exito!");
-      if(user) 
-      {
-        setInput({
-        name: "",
-        owner: "",
-        sexo: "",
-        description: "",
-        photos: "",
-        ubicacion: "",
-        state: "",
-        category: "",
-        userId:"",
-        delete: false,
-      });}
-      navigate("/pets");
+      // if (user) {
+      //   setInput({
+      //     name: "",
+      //     owner: "",
+      //     sexo: "",
+      //     description: "",
+      //     photos: "",
+      //     ubicacion: "",
+      //     state: "",
+      //     category: "",
+      //     userId: "",
+      //     city: "",
+      //     street: "",
+      //     lat: "",
+      //     lng: "",
+      //     country: "Argentina",
+      //     number: "",
+      //     delete: false,
+      //   });
+      // }
+      // navigate("/pets");
     }
-  }
+  };
+  console.log("ES INPUT=>", input);
 
   useEffect(() => {
     dispatch(getTotalPets());
@@ -197,7 +243,7 @@ const PetCreated = () => {
         </TitleContainer>
 
         <br />
-        <InfoForm onSubmit={ handleSubmit}>
+        <InfoForm onSubmit={handleSubmit}>
           <FormContent>
             <div>
               <Label> ¿Cómo se llama? </Label>
@@ -222,6 +268,42 @@ const PetCreated = () => {
                 onChange={(e) => handleChange(e)}
               />
               {errors.owner && <p>{errors.owner}</p>}
+            </div>
+            <div>
+              <Label>Ciudad: </Label>
+              <br />
+              <Input
+                type="text"
+                value={input.city}
+                name="city"
+                placeholder="Tu ciudad"
+                onChange={(e) => handleChange(e)}
+              />
+              {/* {errors.owner && <p>{errors.owner}</p>} */}
+            </div>
+            <div>
+              <Label>Calle: </Label>
+              <br />
+              <Input
+                type="text"
+                value={input.street}
+                name="street"
+                placeholder="Tu calle"
+                onChange={(e) => handleChange(e)}
+              />
+              {/* {errors.owner && <p>{errors.owner}</p>} */}
+            </div>
+            <div>
+              <Label>Numero de calle: </Label>
+              <br />
+              <Input
+                type="number"
+                value={input.number}
+                name="number"
+                placeholder="Altura de la calle"
+                onChange={(e) => handleChange(e)}
+              />
+              {/* {errors.owner && <p>{errors.owner}</p>} */}
             </div>
             <div>
               <Label>Sexo: </Label>

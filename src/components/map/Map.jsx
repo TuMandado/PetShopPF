@@ -5,7 +5,8 @@ import { Map, Marker } from "pigeon-maps";
 {
   /* <Mapa
 showUserLocation={true}
-locations={[
+locations={
+  [
   {
     lat: -34.9197759,
     lng: -57.9155082,
@@ -59,6 +60,7 @@ function Mapa({ showUserLocation = true, locations, height, width }) {
 
   // Get locations to show, baser on locations variable. locations can be either an array of locations or a single location object
   useEffect(() => {
+    console.log("LOCATIONS EFECTS MAP=>", locations);
     if (locations) {
       if (Array.isArray(locations)) {
         setLocationsToShow(locations);
