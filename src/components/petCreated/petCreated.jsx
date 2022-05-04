@@ -131,12 +131,6 @@ const PetCreated = () => {
     if (number && street && city) {
       console.log("INGRESO =>", number, street, city);
       return await postMap(number, street, city, "Argentina");
-      /*  console.log("RESPONSE MAP BTN=>", dataResponse);
-      const lat = dataResponse[0].latitude;
-      const lng = dataResponse[0].longitude; */
-      /*  console.log("LAT =>", lat);
-      console.log("LONG =>", lng);
-      return { lat, lng }; */
     } else {
       console.log("ERROR");
     }
@@ -183,37 +177,31 @@ const PetCreated = () => {
         input.city
       );
       const geo = await getLocation(input.number, input.street, input.city);
-      console.log("ES GEO : o =>", geo);
-      /*  setInput({
-        ...input,
-        lat: geo[0].latitude,
-        lng: geo[0].longitude,
-      }); */
       dispatch(
         postPets({ ...input, lat: geo[0].latitude, lng: geo[0].longitude })
       );
       alert("Animal creado con exito!");
-      // if (user) {
-      //   setInput({
-      //     name: "",
-      //     owner: "",
-      //     sexo: "",
-      //     description: "",
-      //     photos: "",
-      //     ubicacion: "",
-      //     state: "",
-      //     category: "",
-      //     userId: "",
-      //     city: "",
-      //     street: "",
-      //     lat: "",
-      //     lng: "",
-      //     country: "Argentina",
-      //     number: "",
-      //     delete: false,
-      //   });
-      // }
-      // navigate("/pets");
+      if (user) {
+        setInput({
+          name: "",
+          owner: "",
+          sexo: "",
+          description: "",
+          photos: "",
+          ubicacion: "",
+          state: "",
+          category: "",
+          userId: "",
+          city: "",
+          street: "",
+          lat: "",
+          lng: "",
+          country: "Argentina",
+          number: "",
+          delete: false,
+        });
+      }
+      navigate("/pets");
     }
   };
   console.log("ES INPUT=>", input);
