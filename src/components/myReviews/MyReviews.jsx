@@ -210,8 +210,10 @@ const NoReviewMsg = styled.p`
   font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 2em;
   line-height: 27px;
+  padding: 1em;
+  text-align: center;
 `;
 
 const EditButton = styled.img`
