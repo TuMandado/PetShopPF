@@ -18,6 +18,7 @@ const initialState = {
     user: null,
     settings: {},
     visitId: null,
+    userOrders: [],
 };
 
 function clientReducer(state = initialState, action) {
@@ -147,6 +148,12 @@ function clientReducer(state = initialState, action) {
                 ...state,
                 pets: action.payload
             }
+
+        case "GET_MY_ORDERS":
+            return {
+                ...state,
+                userOrders: action.payload
+
         case "DELETE_PET": {
                 return {  
                   ...state,
@@ -156,8 +163,6 @@ function clientReducer(state = initialState, action) {
                   pets: state.pets.filter(
                     (pets) => pets.uid !== action.payload
                   )
-                  
-                  
                 };
             }
         default:
