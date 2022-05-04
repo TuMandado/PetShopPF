@@ -78,13 +78,7 @@ const Reviews = ({ id }) => {
 
   if (productReviews) {
     reviewsByTime = productReviews.sort(function (a, b) {
-      if (a.data.createdAt > b.data.createdAt) {
-        return 1;
-      }
-      if (a.data.createdAt < b.data.createdAt) {
-        return -1;
-      }
-      return 0;
+      return new Date(a.data.createdAt) - new Date(b.data.createdAt);
     });
   }
 
