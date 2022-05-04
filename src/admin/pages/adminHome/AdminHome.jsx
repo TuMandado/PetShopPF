@@ -23,6 +23,8 @@ const AdminHome = () => {
   const allAnalytics = useSelector((state) => state.adminReducer.allAnalytics);
   const allPaying = useSelector((state) => state.cartReducer.allCartsData);
   const [visitsVsDays, setVisitsVsDays] = useState([]);
+  const [visitDurationAverage, setVisitDurationAverage] = useState([]);
+  // const [hoverTimeVsProduct, setHoverTimeVsProduct] = useState([]);
 
   // If user role is not Admin, redirect to the home page
   useEffect(() => {
@@ -42,12 +44,12 @@ const AdminHome = () => {
     dispatch(getTotalUsers())
   }, []);
 
-  // Console all visits
-  useEffect(() => {
-    if (allVisits && allVisits.length > 0) {
-      console.log("allVisits :", allVisits);
-    }
-  }, [allVisits]);
+  // // Console all visits
+  // useEffect(() => {
+  //   if (allVisits && allVisits.length > 0) {
+  //     console.log("allVisits :", allVisits);
+  //   }
+  // }, [allVisits]);
 
   // When all visits are fetched, count the number of visits per day
   // The visit structure is like this :
@@ -58,6 +60,8 @@ const AdminHome = () => {
   //       "seconds": 1599098983,
   //       "nanoseconds": 52352000
   //     },
+  //     "duration": 0,
+  //     "userId": "354345345345345345345345345345345",
   //   }
   useEffect(() => {
     if (allVisits && allVisits.length > 0) {
@@ -86,12 +90,64 @@ const AdminHome = () => {
     }
   }, [allVisits]);
 
-  // Console visitsVsDays
+  // // Console visitsVsDays
+  // useEffect(() => {
+  //   if (visitsVsDays && Object.keys(visitsVsDays).length > 0) {
+  //     console.log("visitsVsDays :", visitsVsDays);
+  //   }
+  // }, [visitsVsDays]);
+
+  // Console allAnalytics
+  // useEffect(() => {
+  //   if (allAnalytics && allAnalytics.length > 0) {
+  //     console.log("allAnalytics :", allAnalytics);
+  //   }
+  // }, [allAnalytics]);
+
+  // When all visits are fetched, count the visit duration average per day
   useEffect(() => {
-    if (visitsVsDays && Object.keys(visitsVsDays).length > 0) {
-      console.log("visitsVsDays :", visitsVsDays);
+    if (allVisits && allVisits.length > 0) {
+      let visitsDuration = [];
+      // Group all visits by day and get the duration average
+      allVisits.forEach((visit) => {
+        let date = new Date(visit.data.date.seconds * 1000);
+        let day = date.getDate();
+        let month = date.getMonth();
+        let year = date.getFullYear();
+        let dayKey = `${day}/${month}/${year}`;
+        if (visitsDuration[dayKey]) {
+          if (visitsDuration[dayKey].duration) {
+            visitsDuration[dayKey].duration += visit.data.duration;
+          }
+        }
+        else {
+          if (visitsDuration[dayKey]) {
+            visitsDuration[dayKey].duration = visit.data.duration;
+          }
+        }
+      }
+      );
+      // Get the average duration per day
+      let visitsDurationAverage = {};
+      Object.keys(visitsDuration).forEach((day) => {
+        visitsDurationAverage[day] = visitsDuration[day] / Object.keys(visitsDuration).length;
+      }
+      );
+      setVisitDurationAverage(visitsDurationAverage);
     }
-  }, [visitsVsDays]);
+  }, [allVisits]);
+
+  
+
+  // Console visitDurationAverage
+  useEffect(() => {
+    if (visitDurationAverage && Object.keys(visitDurationAverage).length > 0) {
+      console.log("visitDurationAverage :", visitDurationAverage);
+    }
+  }, [visitDurationAverage]);
+
+
+
 
 
 
