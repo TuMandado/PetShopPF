@@ -9,6 +9,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getTotalPets } from "../../../redux/actions";
 
 const PublicPets = () =>{
+  const user = useSelector((state) => state.clientReducer.user);
+  // If user role is not Admin, redirect to the home page
+  useEffect(() => {
+    console.log("user :",user);
+    if (user && Object.keys(user).length > 0 && user.role !== "Admin") {
+      window.location.href = "/";
+    }
+    if (!user) {
+      window.location.href = "/";
+    }
+  }, [user]);
   
   const dispatch = useDispatch()
   const allPets = useSelector((state) => state.clientReducer.pets);
