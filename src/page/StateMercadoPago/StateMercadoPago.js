@@ -136,7 +136,7 @@ const StateMercadoPago = () => {
                 </Pe>
 
                 <Image src={DogImg} />
-                <BtnToPets disabled={load} onClick={() => window.location.assign("/")}>
+                <BtnToPets onClick={() => window.location.assign("/")}>
                   Volver a Home
                 </BtnToPets>
               </InfoPayd>
