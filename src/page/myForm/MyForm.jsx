@@ -189,36 +189,25 @@ const MyForm = () => {
     // eslint-disable-next-line no-unused-vars
     const [error, setError] = useState(false);
     const [myPets, setMyPets] = useState([])
-    // const userId =   'syOSZUVKvxO6hYb623Bna8LE2f82"'
-    
-
-    // const navigatePet = (e) => {
-    //     navigate(`/pets/${e.currentTarget.id}`);
-    // };
      
     function handleDelete (uid) {
-        dispatch(deleteThisPet(uid))
-
+        dispatch(deleteThisPet(uid)) 
     }
-
+        
     useEffect(() => {
-        setMyPets(allPets.filter(e => e.data.userId === user.uid))
-      }, [user])
-    
-    useEffect(() => {
-        console.log('esto es user', user)
-        console.log('esto es allPets', allPets)
-        console.log('esto es myPets', myPets)
-    },[user, allPets, myPets])
-
-    useEffect(() => {
-        // dispatch(getSpeciesPets())
-        dispatch(getTotalPets())
+            dispatch(getTotalPets())
             .then((response) => {
                 setLoader(false);
             })
             .catch((error) => setError(error.message));
-    }, [dispatch]);
+        }, [dispatch]);
+        
+    useEffect(() => {
+            if(allPets.length && user) {
+                setMyPets(allPets.filter(e => e.data.userId === user.uid))
+            }
+          }, [user, allPets])
+
 
     if (loader) {
         return (
@@ -237,19 +226,10 @@ const MyForm = () => {
                     myPets.map((e) => {
                         return (
                             <div key={e.uid} id={e.uid}>
-                                {console.log('esto es e', e)}
-                                {/* <Pet
-                                    state={e.data.state}
-                                    category={e.data.category}
-                                    sexo={e.data.sexo}
-                                    name={e.data.name}
-                                    description={e.data.description}
-                                    photos={e.data.photos}
-                                /> */}
-                                <ContainerPets>
-                                    <div>
-                                    <button onChange={() => handleDelete(e.uid)}>X</button>
-                                    </div>
+             <ContainerPets>
+                    <div>
+                     <button onClick={() => handleDelete(e.uid)}>X</button>
+                     </div>
             <div>
                 <Image src={e.data.photos} alt="Photo not found" />
             </div>

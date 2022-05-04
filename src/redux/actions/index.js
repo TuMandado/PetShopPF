@@ -302,6 +302,7 @@ export function deleteThisPet(uid) {
   return async function (dispatch) {
     try {
       let jsonDelete = await deletePet(uid);
+      console.log('esto es jsonDele', jsonDelete, 'esto es uid', uid)
       return dispatch({
         type: `DELETE_PET`,
         payload: uid,
