@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FileBase from "react-file-base64";
 import postMap from "../../firebase/Map/index";
+import Swal from "sweetalert2";
 import {
   getTotalPets,
   getTotalCategoryPets,
@@ -22,19 +23,19 @@ function validadora(input) {
     input.name.length < 3 ||
     input.name.search(/^[^$%&|<>#]*$/)
   ) {
-    error.name = "ingrese un nombre por favor";
+    error.name = "Debes ingresar un nombre. ¡Solo debe contener letras!";
   } else if (!input.owner) {
-    error.owner = "ingrese el nombre del dueño";
+    error.owner = "Por favor, ingresa el nombre del dueño.";
   } else if (input.sexo === "masculino" || input.sexo === "femenino") {
-    error.sexo = "se ingreso el sexo correcto?";
+    error.sexo = "¿Se ingreso el sexo correcto?";
   } else if (input.category.length === 0) {
-    error.category = "ingrese una categoria porfitas";
+    // error.category = "Por favor, Ingresa una categoria.";
   } else if (!input.photos) {
-    error.sexo = "ingrese una imagen porfitas";
+    error.sexo = "Falta ingresar una imagen";
   } else if (!input.description) {
-    error.description = "ingrese una descripcion por favor";
+    error.description = "Ingrese una descripcion por favor.";
   } else if (!input.state || input.state.search(/^[^$%&|<>#]*$/)) {
-    error.state = "ingrese un estado";
+    error.state = "¿En qué estado se encuentra la mascota?";
   }
 
   return error;
@@ -143,36 +144,72 @@ const PetCreated = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (input.name.trim() === "" || input.name.search(/^[^$%&|<>#]*$/)) {
-      return alert("Ingrese nombre adecuado");
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Por favor, ingresa un nombre.¡Recordá que solo debe contener letras!",
+        showConfirmButton: true,
+      });
     } else if (
       pets.find(
         (e) =>
           e.data.name.toLowerCase().trim() === input.name.toLowerCase().trim()
       )
     ) {
-      return alert(`El Producto ${input.name} ya existe`);
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `La mascota ${input.name} ya existe. ¡Intenta uno parecido!`,
+        showConfirmButton: true,
+      });
     } else if (
       input.owner.trim() === "" ||
       input.owner.search(/^[^$%&|<>#]*$/)
     ) {
-      return alert("por favor ingrese dueño");
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Por favor, ingrese el nombre del dueño.",
+        showConfirmButton: true,
+      });
     } else if (input.sexo.trim() === "" || input.sexo.search(/^[^$%&|<>#]*$/)) {
-      return alert("por favor ingrese sexo adecuado");
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Ingresa el sexo adecuado.",
+        showConfirmButton: true,
+      });
     } else if (input.category.trim() === "") {
-      return alert("selecciona una categoria de animal por favor");
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Por favor, selecciona una categoria de animal.",
+        showConfirmButton: true,
+      });
     } else if (input.photos.trim() === "") {
-      return alert("Por favor, Carga una imagen");
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Falta una iamgen. ¡Intenta cargarla!.",
+        showConfirmButton: true,
+      });
     } else if (
       input.description.trim() === "" ||
       input.description.search(/^[^$%&|<>#]*$/)
     ) {
-      return alert(
-        "por favor ingrese descripcion o ingrese una descripcion adecuada"
-      );
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Por favor, ingrese una descripcion adecuada.",
+        showConfirmButton: true,
+      });
     } else if (input.state.trim() === "") {
-      return alert(
-        "por favor ingrese el estado en el que se encuentra su mascota "
-      );
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Por favor, ingrese el estado de su mascota.",
+        showConfirmButton: true,
+      });
     } else {
       console.log(
         "INPUTS PARA GEOLOC=>",
@@ -184,7 +221,13 @@ const PetCreated = () => {
       dispatch(
         postPets({ ...input, lat: geo[0].latitude, lng: geo[0].longitude })
       );
-      alert("Animal creado con exito!");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "¡Excelente!",
+        text: "Mascota creada con éxito.",
+        showConfirmButton: true,
+      });
       if (user) {
         setInput({
           name: "",
