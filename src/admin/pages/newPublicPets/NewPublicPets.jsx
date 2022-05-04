@@ -11,7 +11,7 @@ const NewPublicPets = () => {
   // If user role is not Admin, redirect to the home page
   useEffect(() => {
     console.log("user :",user);
-    if (user && Object.keys(user).length > 0 && user.role !== "Admin") {
+    if (user && Object.keys(user).length > 0 && user.role.toLowerCase() !== "admin") {
       window.location.href = "/";
     }
     if (!user) {
