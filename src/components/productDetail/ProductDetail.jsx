@@ -292,7 +292,7 @@ const ProductDetail = () => {
         user={user}
         visitId={visitId}
         type="detail"
-        productId={uid}
+        productId={uid.id}
         avaliable={avaliable}
       >
         <DetailContainer>
