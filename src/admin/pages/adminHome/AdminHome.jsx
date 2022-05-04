@@ -24,11 +24,11 @@ const AdminHome = () => {
   const allPaying = useSelector((state) => state.cartReducer.allCartsData);
   const [visitsVsDays, setVisitsVsDays] = useState([]);
   const [visitDurationAverage, setVisitDurationAverage] = useState([]);
+  const [visitDurationTotal, setVisitDurationTotal] = useState([]);
   // const [hoverTimeVsProduct, setHoverTimeVsProduct] = useState([]);
 
   // If user role is not Admin, redirect to the home page
   useEffect(() => {
-    console.log("user :",user);
     if (user && Object.keys(user).length > 0 && user.role.toLowerCase() !== "admin") {
       window.location.href = "/";
     }
@@ -116,14 +116,10 @@ const AdminHome = () => {
         let year = date.getFullYear();
         let dayKey = `${day}/${month}/${year}`;
         if (visitsDuration[dayKey]) {
-          if (visitsDuration[dayKey].duration) {
-            visitsDuration[dayKey].duration += visit.data.duration;
-          }
+          visitsDuration[dayKey] += visit.data.duration ? visit.data.duration : 0;
         }
         else {
-          if (visitsDuration[dayKey]) {
-            visitsDuration[dayKey].duration = visit.data.duration;
-          }
+          visitsDuration[dayKey] = visit.data.duration ? visit.data.duration : 0;
         }
       }
       );
@@ -137,14 +133,48 @@ const AdminHome = () => {
     }
   }, [allVisits]);
 
-  
-
-  // Console visitDurationAverage
+  // When all visits are fetched, count the visit duration total per day
   useEffect(() => {
-    if (visitDurationAverage && Object.keys(visitDurationAverage).length > 0) {
-      console.log("visitDurationAverage :", visitDurationAverage);
+    if (allVisits && allVisits.length > 0) {
+      let visitsDuration = [];
+      // Group all visits by day and get the duration total
+      allVisits.forEach((visit) => {
+        let date = new Date(visit.data.date.seconds * 1000);
+        let day = date.getDate();
+        let month = date.getMonth();
+        let year = date.getFullYear();
+        let dayKey = `${day}/${month}/${year}`;
+        if (visitsDuration[dayKey]) {
+          visitsDuration[dayKey] += visit.data.duration ? visit.data.duration : 0;
+        }
+        else {
+          visitsDuration[dayKey] = visit.data.duration ? visit.data.duration : 0;
+        }
+      }
+      );
+      // Get the total duration per day
+      let visitsDurationTotal = {};
+      Object.keys(visitsDuration).forEach((day) => {
+        visitsDurationTotal[day] = visitsDuration[day];
+      }
+      );
+      setVisitDurationTotal(visitsDurationTotal);
     }
-  }, [visitDurationAverage]);
+  }, [allVisits]);
+
+  // // Console visitDurationTotal
+  // useEffect(() => {
+  //   if (visitDurationTotal && Object.keys(visitDurationTotal).length > 0) {
+  //     console.log("visitDurationTotal :", visitDurationTotal);
+  //   }
+  // }, [visitDurationTotal]);
+
+  // // Console visitDurationAverage
+  // useEffect(() => {
+  //   if (visitDurationAverage && Object.keys(visitDurationAverage).length > 0) {
+  //     console.log("visitDurationAverage :", visitDurationAverage);
+  //   }
+  // }, [visitDurationAverage]);
 
 
 
