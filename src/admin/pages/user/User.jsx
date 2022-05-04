@@ -214,7 +214,7 @@ export default function User() {
                   <label>Rol</label>
                     <select name='role' id='active' onChange={handleChange}>
                         <option value= "Cliente"  > Cliente </option>
-                        <option value="admin"  > Admin </option>
+                        <option value="Admin"  > Admin </option>
                     </select>
                 </div>
                 <div className="userUpdateItem">
