@@ -11,7 +11,8 @@ const initialState = {
     user:[],
     orders:[],
     form:[],
-    animalCategory:[]
+    animalCategory:[],
+    pets:[],
 }
 
 
@@ -80,6 +81,21 @@ const initialState = {
       case 'PUT_USER': {
         return state;
       }  
+      case "GET_ALL_TOTAL_PETS": {
+        return {
+            ...state,
+            pets: action.payload,
+        };
+      }
+      case 'PUT_PET': {
+        return state;
+      }  
+      case "DELETE_PET": {
+        return state;
+      }
+      case "OK_PET": {
+        return state;
+      }
       default:
           return state;
 

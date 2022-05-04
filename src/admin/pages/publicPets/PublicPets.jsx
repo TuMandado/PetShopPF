@@ -2,13 +2,14 @@ import "./publicPets.css";
 import Navbar from "../../../components/navbar/Navbar";
 import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
 import { DataGrid } from "@material-ui/data-grid";
-import { DeleteOutline } from "@material-ui/icons";
+import { DeleteOutline, Publish } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { getTotalPets } from "../../../redux/actions";
+import { getAllTotalPets, deleteThisPet, okThisPet} from "../../../redux/actions/adminActions";
 
 const PublicPets = () =>{
+  
   const user = useSelector((state) => state.clientReducer.user);
   // If user role is not Admin, redirect to the home page
   useEffect(() => {
@@ -22,13 +23,13 @@ const PublicPets = () =>{
   }, [user]);
   
   const dispatch = useDispatch()
-  const allPets = useSelector((state) => state.clientReducer.pets);
+  const allPets = useSelector((state) => state.adminReducer.pets);
   const [totalPets, setTotalPets] = useState([]);
   
   useEffect(() => {
     // dispatch(getReallyAllProducts())
-    dispatch(getTotalPets())
-  }, []);
+    dispatch(getAllTotalPets())
+  }, [allPets]);
 
   useEffect(() => {
     setTotalPets(allPets.map(el=>{
@@ -46,10 +47,22 @@ const PublicPets = () =>{
     }))
   }, [allPets, dispatch]);
 
-  const handleDelete = (id)=> {
+  const handleDelete = (uid)=> {
     // dispatch(deleteThisProduct(id));
-    setTotalPets(totalPets.filter((item) => item.id !== id));
+    dispatch(deleteThisPet(uid)) 
+    // setTotalPets(totalPets.filter((item) => item.id !== id));
   };
+  const handleOk = (uid)=> {
+    // dispatch(deleteThisProduct(id));
+    dispatch(okThisPet(uid)) 
+    // setTotalPets(totalPets.filter((item) => item.id !== id));
+  };
+
+  // const handleChange = (e) => {
+  //   e.preventDefault();
+  //   console.log("🎋:", e)
+  //   // e.target.value == 1? dispatch(deleteThisPet(e.id)) :  dispatch(okThisPet(e.id))
+  // }
 
   const columns = [
     { field: "id", headerName: "ID", width: 80 },
@@ -86,6 +99,23 @@ const PublicPets = () =>{
       alignItems: 'center',
       width: 120,
     },
+    // {
+    //   field: "activo",
+    //   headerName: "Activ",
+    //   alignItems: 'center',
+    //   width: 120,
+    //   renderCell: (params) => {
+    //     return (
+    //        <div className="userUpdateItem">
+    //               <label>Activo</label>
+    //                 <select name='disabled' id='active' onChange={handleChange}>
+    //                     <option value= {0}  > Si </option>
+    //                     <option value={1}  > No </option>
+    //                 </select>
+    //             </div>
+    //     );
+    //   }
+    // },
     {
       field: "action",
       headerName: "Accion",
@@ -99,6 +129,10 @@ const PublicPets = () =>{
             <DeleteOutline
               className="productListDelete"
               onClick={() => handleDelete(params.row.id)}
+            />
+            < Publish
+              className="productListOk"
+              onClick={() => handleOk(params.row.id)}
             />
           </>
         );

@@ -28,3 +28,14 @@
     color: red;
     cursor: pointer;
 }
+
+.productListOk{
+    color: green;
+    cursor: pointer;
+}
+
+.userUpdateItem{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
