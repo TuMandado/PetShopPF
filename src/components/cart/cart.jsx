@@ -16,7 +16,6 @@ import { MercadoPagoConfiguration } from "../../firebase/MercadoPago/MercadoPago
 import { getProduct } from "../../firebase/Products";
 import CardCart from "../CardCart/CardCart";
 
-
 const TitleContainer = styled.div`
   height: 80px;
 `;
@@ -40,12 +39,14 @@ const ButtonDeleteAll = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 36px;
-  width: 136px;
+  height: 35px;
+  width: 111px;
+  border-radius: 8px;
+  margin: 12px 0px;
   border-radius: 8px;
   font-family: "Poppins";
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 15px;
   line-height: 22px;
   box-sizing: border-box;
@@ -58,7 +59,6 @@ const ButtonDeleteAll = styled.button`
     border: 2px solid #c7522d;
   }
 `;
-
 
 const EmpyContainer = styled.div`
   display: flex;
@@ -172,12 +172,11 @@ const AllCartContainer = styled.div`
 
 const ListProduct = styled.div`
   float: left;
-  margin: auto 15px;
+  margin: auto 14px;
 `;
 
 const AsideOrden = styled.aside`
-  width: 360px;
-
+  width: 340px;
   max-height: 80%;
   text-align: center;
   float: right;
@@ -190,7 +189,7 @@ const AsideOrden = styled.aside`
 `;
 
 const TextAside = styled.p`
-  width: 425px;
+  width: 340px;
   height: 60px;
   font-family: "Poppins";
   font-style: normal;
@@ -217,16 +216,15 @@ const Resumen = styled.h3`
 
 const DataContainer = styled.div`
   aligne-items: center;
-  `;
-  
-  export function Cart() {
-    const user = useSelector((state) => state.clientReducer.user);
-    const openCart = useSelector((state) => state.cartReducer.openCart);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    
- 
-    useEffect(() => {
+`;
+
+export function Cart() {
+  const user = useSelector((state) => state.clientReducer.user);
+  const openCart = useSelector((state) => state.cartReducer.openCart);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
     dispatch(openCartFront(user));
   }, [dispatch, user]);
 
@@ -247,7 +245,6 @@ const DataContainer = styled.div`
       });
     } else MercadoPagoConfiguration(items, openCart, user);
   };
-
 
   let items = [];
   let total = 0;
@@ -272,7 +269,6 @@ const DataContainer = styled.div`
     });
   }
 
-
   const handleClear = (e, id) => {
     e.preventDefault();
 
@@ -292,7 +288,6 @@ const DataContainer = styled.div`
     });
   };
 
-  
   return (
     <div>
       <AllCartContainer>
@@ -304,13 +299,13 @@ const DataContainer = styled.div`
             <ListProduct>
               {items.map((el) => {
                 return (
-                    <CardCart
+                  <CardCart
                     id={el.id}
                     imagen={el.imagen}
                     title={el.title}
                     price={el.price}
                     quantity={el.quantity}
-                    />
+                  />
                 );
               })}
             </ListProduct>
