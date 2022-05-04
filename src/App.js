@@ -35,15 +35,14 @@ import PublicPets from "./admin/pages/publicPets/PublicPets";
 import Swal from "sweetalert2";
 import MyForm from "./page/myForm/MyForm";
 
-
 import { getTotalProducts } from "./redux/actions";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import {getAllUsers} from '../src/firebase/Users/index'
-import {emailSignIn} from '../src/firebase/emails'
+import { getAllUsers } from "../src/firebase/Users/index";
+import { emailSignIn } from "../src/firebase/emails";
 
 import StateMercadoPago from "./page/StateMercadoPago/StateMercadoPago";
 import AboutTeam from "./page/about/aboutTeam.jsx";
-import {signOutUsuario} from '../src/firebase/auth/index'
+import { signOutUsuario } from "../src/firebase/auth/index";
 
 // Conforme se necesite, importar los demás servicios y funciones. Por ejemplo:
 
@@ -82,8 +81,8 @@ function App() {
   const dispatch = useDispatch();
   var [visitSent, setVisitSent] = useState(false);
   var [location, setLocation] = useState({
-    lat: '',
-    lng: '',
+    lat: "",
+    lng: "",
   });
 
   // When app is mounted and navigation.locations is granted, set location
@@ -144,10 +143,12 @@ function App() {
       Object.keys(settings).length > 0
     ) {
       setAppSettings(settings);
-      uploadVisitAnalytic(visitId, user, duration, location).then(() => {
-        // console.log("Visit analytic uploaded");
-        setVisitSent(true);
-      });
+      if (settings.useVisitsAnalytics === true) {
+        uploadVisitAnalytic(visitId, user, duration, location).then(() => {
+          console.log("Visit analytic uploaded");
+          setVisitSent(true);
+        });
+      }
     }
   }, [settings]);
 
@@ -159,9 +160,11 @@ function App() {
         if (settings.useVisitsAnalytics === true) {
           if (visitId !== null) {
             if (visitSent) {
-              updateVisitAnalytic(visitId, user, duration, location).then(() => {
-                // console.log("Visit analytic updated with user");
-              });
+              updateVisitAnalytic(visitId, user, duration, location).then(
+                () => {
+                  console.log("Visit analytic updated with user");
+                }
+              );
             }
           }
         }
@@ -201,9 +204,9 @@ function App() {
         if (duration % 20 === 0) {
           if (visitId !== null) {
             updateVisitAnalytic(visitId, user, duration, location).then(() => {
-              // console.log(
-              //   "Visit analytic updated with duration of " + duration
-              // );
+              console.log(
+                "Visit analytic updated with duration of " + duration
+              );
             });
           }
         }
@@ -232,73 +235,74 @@ function App() {
   useEffect(() => {
     const subscriber = onAuthStateChanged(auth, async (usuarioFirebase) => {
       // console.log('usuario firebase',usuarioFirebase)
-      
-      
+
       if (usuarioFirebase) {
-        console.log('antes de verific',usuarioFirebase)
-          let allusers=await getAllUsers()
-          let verific= allusers.filter((u)=>u.data.email === usuarioFirebase.email)
-          if(verific.length>0)usuarioFirebase=verific[0]
-          console.log('despues del verific',usuarioFirebase)
-          let userData = await getUser(usuarioFirebase.uid);
-          console.log(allusers)
-          console.log(verific)
-          console.log(userData)
-          if(userData ){
-            if( userData.disabled === true ){
-              console.log('entre a disable true')
-              await signOutUsuario()
-              return (Swal.fire({
-                position: "center",
-                icon: "error",
-                title: "Oops...",
-                text: "El usuario esta deshabilitado.",
-                showConfirmButton: false,
-                timer: 3000,
-              }))
-            }
+        console.log("antes de verific", usuarioFirebase);
+        let allusers = await getAllUsers();
+        let verific = allusers.filter(
+          (u) => u.data.email === usuarioFirebase.email
+        );
+        if (verific.length > 0) usuarioFirebase = verific[0];
+        console.log("despues del verific", usuarioFirebase);
+        let userData = await getUser(usuarioFirebase.uid);
+        console.log(allusers);
+        console.log(verific);
+        console.log(userData);
+        if (userData) {
+          if (userData.disabled === true) {
+            console.log("entre a disable true");
+            await signOutUsuario();
+            return Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "Oops...",
+              text: "El usuario esta deshabilitado.",
+              showConfirmButton: false,
+              timer: 3000,
+            });
           }
-          // If location is not "/" (home page), redirect to home page
-          if (window.location.pathname === "/login") {
-            window.location.href = "/";
-          }
-          
-          // Checks if user exists in the database
-          // If the user does not exist, create it
-          // console.log('userdata',userData)
-          if (!userData) { 
-            console.log('usuarionuevo... ver mails')
-            userData = {
-                email: usuarioFirebase.email,
-                role: "Cliente",
-                uid: usuarioFirebase.uid,
-                createdAt: Timestamp.now(),
-                updatedAt: Timestamp.now(),
-                phoneNumber: usuarioFirebase.phoneNumber,
-                shippingAddress: "",
-                name: "",
-                surname: "",
-                displayName: usuarioFirebase.displayName,
-                photoURL: usuarioFirebase.phoneNumber,
-                disabled: false,
-              };
-              // envio mails de bienvenida 
-              await emailSignIn(userData)
-              // Upload the user to the database
-              await uploadUser(usuarioFirebase.uid, userData);
-            }
-            
-          // Set user in redux
-          if (!user) {
-            await dispatch(setUser(userData));
-          }
-          // Cart actions
-          try {
-            //setCartLoading(true)
-            await dispatch(cartLoginFront(usuarioFirebase));
-          } catch (error) {
-            console.log("Cart actions error: ", error);
-          }
+        }
+        // If location is not "/" (home page), redirect to home page
+        if (window.location.pathname === "/login") {
+          window.location.href = "/";
+        }
+
+        // Checks if user exists in the database
+        // If the user does not exist, create it
+        // console.log('userdata',userData)
+        if (!userData) {
+          console.log("usuarionuevo... ver mails");
+          userData = {
+            email: usuarioFirebase.email,
+            role: "Cliente",
+            uid: usuarioFirebase.uid,
+            createdAt: Timestamp.now(),
+            updatedAt: Timestamp.now(),
+            phoneNumber: usuarioFirebase.phoneNumber,
+            shippingAddress: "",
+            name: "",
+            surname: "",
+            displayName: usuarioFirebase.displayName,
+            photoURL: usuarioFirebase.phoneNumber,
+            disabled: false,
+          };
+          // envio mails de bienvenida
+          await emailSignIn(userData);
+          // Upload the user to the database
+          await uploadUser(usuarioFirebase.uid, userData);
+        }
+
+        // Set user in redux
+        if (!user) {
+          await dispatch(setUser(userData));
+        }
+        // Cart actions
+        try {
+          //setCartLoading(true)
+          await dispatch(cartLoginFront(usuarioFirebase));
+        } catch (error) {
+          console.log("Cart actions error: ", error);
+        }
         // // Visits analytics
         // setVisitSent(false);
       } else {
@@ -377,7 +381,7 @@ function App() {
           <Route path="/publicPets" element={<PublicPets />} />
           <Route path="/newPublicPets" element={<NewPublicPets />} />
           <Route path="/passwordRecovery" element={<PasswordRecovery />} />
-          <Route path="/myform/:id" element={<MyForm/>} />
+          <Route path="/myform/:id" element={<MyForm />} />
         </Routes>
       </Router>
     </div>
