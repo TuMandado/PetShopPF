@@ -26,12 +26,32 @@ const PetDetails = () => {
     window.history.back(-1);
   };
 
+  const navigateToWhats = (e) => {
+    e.preventDefault();
+    if (pet.state === "perdido")
+      window.open(
+        `https://api.whatsapp.com/send?phone=549${user.phoneNumber}&text=Hola!, ${user.name}. ¡Tengo información sobre ${pet.name}!`,
+        "_blank"
+      );
+    if (pet.state === "en adopcion")
+      window.open(
+        `https://api.whatsapp.com/send?phone=549${user.phoneNumber}&text=Hola!, ${user.name}. ¡Quiero adoptar a ${pet.name}!`,
+        "_blank"
+      );
+    if (pet.state === "encontrado")
+      window.open(
+        `https://api.whatsapp.com/send?phone=549${user.phoneNumber}&text=Hola!, ${user.name}. ¡Soy el dueño/a de ${pet.name}!`,
+        "_blank"
+      );
+  };
+
   useEffect(() => {
     dispatch(petDetails(uid.id));
     return function () {
       dispatch(detailVacio());
     };
-  }, [dispatch, uid.id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!pet.name) {
     return (
@@ -87,19 +107,28 @@ const PetDetails = () => {
               <Aviso>
                 Si estas seguro de haber encontrado o visto a {pet.name}, podés
                 contactar a su dueño......
+                <WhatsAppButton onClick={(e) => navigateToWhats(e)}>
+                  WhatsApp {">"}
+                </WhatsAppButton>
               </Aviso>
             )}
             {pet.state === "en adopcion" && (
               <Aviso>
                 Si estas interesado en adoptar a {pet.name} y darle mucho amor,
-                podés contactar a quien lo haya publidado escribiendole a......
+                podés contactar a quien lo haya publidado escribiendole a:
+                <WhatsAppButton onClick={(e) => navigateToWhats(e)}>
+                  WhatsApp {">"}
+                </WhatsAppButton>
               </Aviso>
             )}
             {pet.state === "encontrado" && (
               <Aviso>
                 ¿Sos el dueño de {pet.name}? Si estás seguro que es tu mascota,
                 podes coordinar para verla y traerla de nuevo a tu hogar
-                escribiendole a......
+                escribiendole a:
+                <WhatsAppButton onClick={(e) => navigateToWhats(e)}>
+                  WhatsApp {">"}
+                </WhatsAppButton>
               </Aviso>
             )}
           </HelpMap>
@@ -355,5 +384,29 @@ const BtnToPets = styled.button`
     background: #ffff;
     border: 3px solid #067a4d;
     cursor: pointer;
+  }
+`;
+
+const WhatsAppButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 35px;
+  width: 134px;
+  border-radius: 12px;
+  margin: 8px 0px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 22px;
+  background: #edeeee;
+  border: 1px solid #edeeee;
+  box-sizing: border-box;
+  position: absolute;
+  cursor: pointer;
+  transition: 0.2s ease;
+  &:hover {
+    color: #0acf83;
   }
 `;
