@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import Navbar from "../../../components/navbar/Navbar";
 import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
 
@@ -11,6 +12,18 @@ import { userData } from "../../dummyData";
 import "./adminHome.css";
 
 const AdminHome = () => {
+  const user = useSelector((state) => state.clientReducer.user);
+  // If user role is not Admin, redirect to the home page
+  useEffect(() => {
+    console.log("user :",user);
+    if (user && Object.keys(user).length > 0 && user.role !== "Admin") {
+      window.location.href = "/";
+    }
+    if (!user) {
+      window.location.href = "/";
+    }
+  }, [user]);
+
   return (
      <div >
         <Navbar/>
