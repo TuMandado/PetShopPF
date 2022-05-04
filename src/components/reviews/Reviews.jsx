@@ -13,9 +13,7 @@ import { clearReviews } from "../../redux/actions/reviewsActions";
 
 const Reviews = ({ id }) => {
   const dispatch = useDispatch();
-  const productReviews = useSelector(
-    (state) => state.reviewsReducer.productReviews
-  );
+  const productReviews = useSelector(state => state.reviewsReducer.productReviews);
   const user = useSelector(state => state.clientReducer.user)
   const [editMode, setEditMode] = useState(0)
   const [reviewEdit, setReviewEdit] = useState("")
