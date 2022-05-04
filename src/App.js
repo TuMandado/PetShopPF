@@ -33,9 +33,13 @@ import Pyments from "./admin/pages/pyments/Pyments";
 import PaymentDetail from "./admin/pages/paymentDetail/PaymentDetail";
 import PublicPets from "./admin/pages/publicPets/PublicPets";
 import Swal from "sweetalert2";
+import MyForm from "./page/myForm/MyForm";
+
 
 import { getTotalProducts } from "./redux/actions";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import {getAllUsers} from '../src/firebase/Users/index'
+import {emailSignIn} from '../src/firebase/emails'
 
 import StateMercadoPago from "./page/StateMercadoPago/StateMercadoPago";
 import AboutTeam from "./page/about/aboutTeam.jsx";
@@ -231,8 +235,16 @@ function App() {
       
       
       if (usuarioFirebase) {
+        console.log('antes de verific',usuarioFirebase)
+          let allusers=await getAllUsers()
+          let verific= allusers.filter((u)=>u.data.email === usuarioFirebase.email)
+          if(verific.length>0)usuarioFirebase=verific[0]
+          console.log('despues del verific',usuarioFirebase)
           let userData = await getUser(usuarioFirebase.uid);
-          if(userData){
+          console.log(allusers)
+          console.log(verific)
+          console.log(userData)
+          if(userData ){
             if( userData.disabled === true ){
               console.log('entre a disable true')
               await signOutUsuario()
@@ -254,8 +266,9 @@ function App() {
           // Checks if user exists in the database
           // If the user does not exist, create it
           // console.log('userdata',userData)
-            if (!userData) {
-              userData = {
+          if (!userData) { 
+            console.log('usuarionuevo... ver mails')
+            userData = {
                 email: usuarioFirebase.email,
                 role: "Cliente",
                 uid: usuarioFirebase.uid,
@@ -269,10 +282,12 @@ function App() {
                 photoURL: usuarioFirebase.phoneNumber,
                 disabled: false,
               };
+              // envio mails de bienvenida 
+              await emailSignIn(userData)
               // Upload the user to the database
               await uploadUser(usuarioFirebase.uid, userData);
             }
-          
+            
           // Set user in redux
           if (!user) {
             await dispatch(setUser(userData));
@@ -362,6 +377,7 @@ function App() {
           <Route path="/publicPets" element={<PublicPets />} />
           <Route path="/newPublicPets" element={<NewPublicPets />} />
           <Route path="/passwordRecovery" element={<PasswordRecovery />} />
+          <Route path="/myform/:id" element={<MyForm/>} />
         </Routes>
       </Router>
     </div>

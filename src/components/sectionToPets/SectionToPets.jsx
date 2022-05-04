@@ -20,7 +20,7 @@ const SectionToPets = () => {
         </Description>
         <UnderDescription>
           ¡Sólo tenés que cargar la información!{" "}
-          <Strong>Nosotros hacemos el resto</Strong>.
+          <Strong>Nuestra comunidad hace el resto</Strong>.
         </UnderDescription>
       </TextContainer>
 

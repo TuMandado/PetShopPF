@@ -66,6 +66,7 @@ const StateMercadoPago = () => {
             close: true,
             status: "approved",
             total: total,
+            salestatus:'created'
           };
           editCartFirebase(infoMercadoPago.external_reference, status)
           .then(setLoad(false))
@@ -81,6 +82,7 @@ const StateMercadoPago = () => {
             close: true,
             status: "rejected",
             total: total,
+            salestatus:'cancelled'
           };
           console.log("hola 2");
           editCartFirebase(infoMercadoPago.external_reference, status)
@@ -95,6 +97,7 @@ const StateMercadoPago = () => {
             close: true,
             status: "in_process",
             total: total,
+            salestatus:'pending'
           };
           editCartFirebase(infoMercadoPago.external_reference, status)
           .then(setLoad(false))
@@ -136,7 +139,7 @@ const StateMercadoPago = () => {
                 </Pe>
 
                 <Image src={DogImg} />
-                <BtnToPets disabled={load} onClick={() => window.location.assign("/")}>
+                <BtnToPets onClick={() => window.location.assign("/")}>
                   Volver a Home
                 </BtnToPets>
               </InfoPayd>

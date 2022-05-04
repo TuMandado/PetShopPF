@@ -1,3 +1,5 @@
+import { PetsRounded } from "@mui/icons-material";
+
 const initialState = {
     products: [],
     productsCategories: [],
@@ -146,10 +148,22 @@ function clientReducer(state = initialState, action) {
                 ...state,
                 pets: action.payload
             }
+
         case "GET_MY_ORDERS":
             return {
                 ...state,
                 userOrders: action.payload
+
+        case "DELETE_PET": {
+                return {  
+                  ...state,
+                  backupPets: state.backupPets.filter(
+                    (backupPets) => backupPets.uid !== action.payload
+                  ),
+                  pets: state.pets.filter(
+                    (pets) => pets.uid !== action.payload
+                  )
+                };
             }
         default:
             return state;

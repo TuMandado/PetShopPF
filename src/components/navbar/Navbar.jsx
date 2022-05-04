@@ -176,6 +176,9 @@ export const Navbar = () => {
         </BrandNav>
         <Center>
           <div>
+           {
+           actualUrl[1] !== "m" && actualUrl[6] !== "m" ?  (
+             <>
             <InputSearch
               value={name}
               onChange={(e) => handleInputChange(e)}
@@ -187,11 +190,13 @@ export const Navbar = () => {
               }
               onKeyPress={(e) => handleEnterKeyPress(e)}
               ref={inputContainer}
-            />
+            /> 
             <BtnSearch onClick={(e) => handleSubmit(e)} type="submit">
               <BtnIconLupa src={icoLupa} alt="search" />
             </BtnSearch>
-          </div>
+             </>
+             ) : null }
+             </div>
           {actualUrl[1] === "p" && actualUrl[4] === "s" ? (
             <PopUpSearchProduct
               ref={popUpContainer}

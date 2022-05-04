@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Navbar } from "../navbar/Navbar";
@@ -13,6 +13,7 @@ import Reviews from "../reviews/Reviews";
 import { star } from "../../data";
 import Swal from "sweetalert2";
 import imgBackground from "../../assets/patrones_pet.png";
+import { Analytics } from "../wrappers/analytics/Analytics";
 
 const DetailContainer = styled.div`
   height: 100vh;
@@ -133,7 +134,6 @@ const InfoSpanStock = styled.span`
   margin-right: 3.8em;
 `;
 
-
 const StarsContainer = styled.div`
   position: absolute;
   transform: scale(1.5);
@@ -170,20 +170,19 @@ const GoBackButton = styled.div`
 `;
 
 const ProductWasDeletedContainer = styled.div`
-    background-image: url(imgBackground);
-    width: 100%;
-    height: 100vh;
-`
+  background-image: url(imgBackground);
+  width: 100%;
+  height: 100vh;
+`;
 
 const ProductWasDeletedError = styled.p`
-    font-family: "Poppins";
-    font-style: normal;
-    font-weight: 600;
-    font-size: 40%;
-    margin-left: auto;
-    margin-top: auto;
-`
-
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 40%;
+  margin-left: auto;
+  margin-top: auto;
+`;
 
 const ProductDetail = () => {
   const dispatch = useDispatch();
@@ -191,12 +190,24 @@ const ProductDetail = () => {
   const user = useSelector((state) => state.clientReducer.user);
   const product = useSelector((state) => state.clientReducer.backupDetail);
   const openCart = useSelector((state) => state.cartReducer.openCart);
+  const visitId = useSelector((state) => state.clientReducer.visitId);
   let productScore = useSelector((state) => state.reviewsReducer.productScore);
+  const settings = useSelector((state) => state.clientReducer.settings);
+  const [avaliable, setAvaliable] = useState(false);
   productScore = Math.ceil(productScore);
   const totalStars = [false, false, false, false, false];
   for (let i = 0; i < productScore; i++) {
     totalStars[i] = true;
   }
+
+  // When settings are loaded, check if useProductsHoverAnalytics == true, if so, set avaliable to true
+  useEffect(() => {
+    if (Object.keys(settings).length > 0) {
+      if (settings.useProductsHoverAnalytics) {
+        setAvaliable(true);
+      }
+    }
+  }, [settings]);
 
   useEffect(() => {
     dispatch(getDetailProducts(uid.id));
@@ -221,14 +232,13 @@ const ProductDetail = () => {
     let quantity = 0;
     console.log("uid =", uid.id, "product =", product);
     if (user) {
-      if(openCart){
+      if (openCart) {
         if (openCart[0]) {
           let itm = openCart[0].data.items.filter((el) => el.id === uid.id);
           if (itm.length) {
             quantity = itm[0].quantity;
           }
         }
-
       }
     } else {
       if (Object.keys(openCart).length) {
@@ -276,55 +286,71 @@ const ProductDetail = () => {
   return (
     <div>
       <Navbar />
-      <DetailContainer>
-        <DetailLeft>
-          <GoBackButton onClick={(e) => goBack(e)}> {"<"} Volver </GoBackButton>
-          <div>
-            <ProductName>{product.name}</ProductName>
-          </div>
-          <StarsContainer>
-            {totalStars.map((el) => {
-              if (el) return star.full;
-              else return star.empty;
-            })}
-          </StarsContainer>
-          <InfoContainer>
-            <IndividualInfoContainer>
-              <InfoSpanAnimal>Animal: </InfoSpanAnimal>
-              <span>{product.animalCategory}</span>
-            </IndividualInfoContainer>
-            <IndividualInfoContainer>
-              <InfoSpanCategory>Categoria: </InfoSpanCategory>
-              <span> {product.subCategory}</span>
-            </IndividualInfoContainer>
-            <IndividualInfoContainer>
-              <InfoSpanBrand>Marca: </InfoSpanBrand>
-              <span> {product.brand}</span>
-            </IndividualInfoContainer>
-            <IndividualInfoContainer>
-              <InfoSpanStock>Stock: </InfoSpanStock>
-              <span> {product.stock >= 1 && !product.delete ? product.stock : "No Disponible"}</span>
-            </IndividualInfoContainer>
-          </InfoContainer>
-          <Precio>{product.price}</Precio>
-          {
-              (product.stock >= 1 || product.delete) && <BtnAdd onClick={(e) => handleAddCart(e)}>Agregar</BtnAdd>
-          }
-          <Image
-            src={product.image || "https://imgur.com/lhLYKao"}
-            alt="imagen"
-          />
-        </DetailLeft>
-        <ReviewsContainer>
-          <Reviews id={uid.id} />
-          {user ? (
-            <FormReview user={user} id={uid.id} />
-          ) : (
-            <p>Regístrate para dejar tu comentario</p>
-          )}
-        </ReviewsContainer>
-        <Footer />
-      </DetailContainer>
+      <Analytics
+        user={user}
+        visitId={visitId}
+        type="detail"
+        productId={uid}
+        avaliable={avaliable}
+      >
+        <DetailContainer>
+          <DetailLeft>
+            <GoBackButton onClick={(e) => goBack(e)}>
+              {" "}
+              {"<"} Volver{" "}
+            </GoBackButton>
+            <div>
+              <ProductName>{product.name}</ProductName>
+            </div>
+            <StarsContainer>
+              {totalStars.map((el) => {
+                if (el) return star.full;
+                else return star.empty;
+              })}
+            </StarsContainer>
+            <InfoContainer>
+              <IndividualInfoContainer>
+                <InfoSpanAnimal>Animal: </InfoSpanAnimal>
+                <span>{product.animalCategory}</span>
+              </IndividualInfoContainer>
+              <IndividualInfoContainer>
+                <InfoSpanCategory>Categoria: </InfoSpanCategory>
+                <span> {product.subCategory}</span>
+              </IndividualInfoContainer>
+              <IndividualInfoContainer>
+                <InfoSpanBrand>Marca: </InfoSpanBrand>
+                <span> {product.brand}</span>
+              </IndividualInfoContainer>
+              <IndividualInfoContainer>
+                <InfoSpanStock>Stock: </InfoSpanStock>
+                <span>
+                  {" "}
+                  {product.stock >= 1 && !product.delete
+                    ? product.stock
+                    : "No Disponible"}
+                </span>
+              </IndividualInfoContainer>
+            </InfoContainer>
+            <Precio>{product.price}</Precio>
+            {(product.stock >= 1 || product.delete) && (
+              <BtnAdd onClick={(e) => handleAddCart(e)}>Agregar</BtnAdd>
+            )}
+            <Image
+              src={product.image || "https://imgur.com/lhLYKao"}
+              alt="imagen"
+            />
+          </DetailLeft>
+          <ReviewsContainer>
+            <Reviews id={uid.id} />
+            {user ? (
+              <FormReview user={user} id={uid.id} />
+            ) : (
+              <p>Regístrate para dejar tu comentario</p>
+            )}
+          </ReviewsContainer>
+          <Footer />
+        </DetailContainer>
+      </Analytics>
     </div>
   );
 };

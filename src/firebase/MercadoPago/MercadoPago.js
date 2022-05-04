@@ -10,22 +10,21 @@ export const MercadoPagoConfiguration = async (carrito, id_order,user) => {
         access_token: REACT_APP_ACCESS_TOKEN
     })
     
-    console.log(user)
+    const querystring = window.location.origin;
     
     const items = carrito.map(i=>{ // mapeo elementos del carrito
-      let price= i.price.slice(1)
-      let price1= price.split('.')
-      let price2=price1.join('')
-      let pricefinally=price2.split(',')
+        let price= i.price.slice(1)
+        let price1= price.split('.')
+        let price2=price1.join('')
+        let pricefinally=price2.split(',')
 
-       console.log('price',pricefinally)
         return {
             title: i.title,
             unit_price:Number(pricefinally[0]),
             quantity: i.quantity
         }
     })
-    console.log('item',items,'id_order',id_order[0].uid)
+    
     let preference ={
         items:items, // item para vender
         external_reference:  `${id_order[0].uid}`,// id orden compra
@@ -51,9 +50,9 @@ export const MercadoPagoConfiguration = async (carrito, id_order,user) => {
             installments:3, // cant maxima de cuotas
         },
         back_Urls: {
-                    success:'http://localhost:3000/StateMercadoPago',
-                    failure:'http://localhost:3000/StateMercadoPago',
-                    pending:'http://localhost:3000/StateMercadoPago',
+                    success:querystring + '/StateMercadoPago',
+                    failure:querystring + '/StateMercadoPago',
+                    pending:querystring + '/StateMercadoPago',
         },
         
         payer:{
@@ -69,19 +68,19 @@ export const MercadoPagoConfiguration = async (carrito, id_order,user) => {
 
     }
     axios({ /// anterior
-      method: 'POST',
-      url: 'https://api.mercadopago.com/checkout/preferences',
-      data: preference,
-      headers: {
-          'cache-control': 'no-cache',
-          'content-type': 'application/json',
-          Authorization: `Bearer ${REACT_APP_ACCESS_TOKEN}`,
-      },
-  })
-  .then((response) => {
-      console.log('esta es la respuesta de mp', response)
-      window.location.replace(response.data.sandbox_init_point)
-  })
+        method: 'POST',
+        url: 'https://api.mercadopago.com/checkout/preferences',
+        data: preference,
+        headers: {
+            'cache-control': 'no-cache',
+            'content-type': 'application/json',
+            Authorization: `Bearer ${REACT_APP_ACCESS_TOKEN}`,
+        },
+    })
+    .then((response) => {
+        console.log('esta es la respuesta de mp', response)
+        window.location.replace(response.data.sandbox_init_point)
+    })
 }
 
 
