@@ -11,7 +11,9 @@ const initialState = {
     user:[],
     orders:[],
     form:[],
-    animalCategory:[]
+    animalCategory:[],
+    allVisits:[],
+    allAnalytics:[],
 }
 
 
@@ -80,6 +82,18 @@ const initialState = {
       case 'PUT_USER': {
         return state;
       }  
+      case 'GET_ANALYTICS': {
+        return {
+          ...state,
+          allAnalytics: action.payload,
+        };
+      }
+      case 'GET_VISITS': {
+        return {
+          ...state,
+          allVisits: action.payload,
+        };
+      }
       default:
           return state;
 
