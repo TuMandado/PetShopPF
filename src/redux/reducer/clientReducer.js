@@ -153,7 +153,7 @@ function clientReducer(state = initialState, action) {
             return {
                 ...state,
                 userOrders: action.payload
-
+            }
         case "DELETE_PET": {
                 return {  
                   ...state,
