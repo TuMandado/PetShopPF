@@ -156,7 +156,7 @@ const PetCreated = () => {
         text: "Por favor, ingresa un nombre.¡Recordá que solo debe contener letras!",
         showConfirmButton: true,
       });
-    } else if (
+    } /* else if (
       pets.find(
         (e) =>
           e.data.name.toLowerCase().trim() === input.name.toLowerCase().trim()
@@ -168,7 +168,7 @@ const PetCreated = () => {
         text: `La mascota ${input.name} ya existe. ¡Intenta uno parecido!`,
         showConfirmButton: true,
       });
-    } else if (
+    }*/ else if (
       input.owner.trim() === "" ||
       input.owner.search(/^[^$%&|<>#]*$/)
     ) {
