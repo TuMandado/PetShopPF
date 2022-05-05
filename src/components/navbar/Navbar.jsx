@@ -40,11 +40,14 @@ export const Navbar = () => {
   const inputContainer = useRef(null);
 
   useEffect(() => {
-    dispatch(cartLoginFront(user));
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-  }, [dispatch, user]);
+    dispatch(cartLoginFront(user))
+    if(!user) {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 4000);
+    }
+    if(user) setIsLoading(false);
+  }, [user]);
 
   //Handle del Input y Search
   function handleInputChange(e) {
