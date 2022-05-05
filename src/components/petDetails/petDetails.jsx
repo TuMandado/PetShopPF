@@ -107,7 +107,7 @@ const PetDetails = () => {
   return (
     <div>
       <Navbar />
-      <div>
+      <MainContainer>
         <NameContainer>
           <Name>{pet.name}</Name>
         </NameContainer>
@@ -187,7 +187,7 @@ const PetDetails = () => {
             <BtnToPets onClick={(e) => navigateToBack(e)}>Volver</BtnToPets>
           </Link>
         </BtnContainer>
-      </div>
+      </MainContainer>
 
       <Footer />
     </div>
@@ -195,6 +195,11 @@ const PetDetails = () => {
 };
 
 export default PetDetails;
+
+const MainContainer = styled.div`
+    margin-left: 10em;
+`
+
 
 const NameContainer = styled.div`
   height: 60px;
