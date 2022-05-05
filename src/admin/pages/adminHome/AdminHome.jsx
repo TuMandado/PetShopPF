@@ -206,7 +206,7 @@ const AdminHome = () => {
   //     },
   useEffect(() => {
     if (users && users.length > 0) {
-      //try {
+      try {
         let days = [];
         // Get all the days from all users
         users.forEach((user) => {
@@ -226,9 +226,9 @@ const AdminHome = () => {
           }
         });
         setUserRegisteredPerDay(usersRegisteredPerDay);
-      //} catch (error) {
-        // console.log(error);
-      //}
+      } catch (error) {
+        console.log(error);
+      }
     }
   }, [users]);
   
