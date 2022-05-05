@@ -69,7 +69,7 @@ const StateMercadoPago = () => {
             salestatus:'created'
           };
           editCartFirebase(infoMercadoPago.external_reference, status)
-          .then(setLoad(false))
+          .then(el=> !el ? setLoad(false): setLoad(true))
         })
       } else if (infoMercadoPago.status === "rejected") {
         // "status=rejected"
