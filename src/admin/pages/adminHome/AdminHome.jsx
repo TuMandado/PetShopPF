@@ -110,7 +110,7 @@ const AdminHome = () => {
         setVisitsVsDays(visitsPerDay);
       }
     } catch (error) {
-      console.log(error);
+      console.log("setVisitsVsDays error  ",error);
     }
   }, [allVisits]);
 
@@ -127,12 +127,12 @@ const AdminHome = () => {
           let year = date.getFullYear();
           let dayKey = `${day}/${month}/${year}`;
           if (visitsDuration[dayKey]) {
-            visitsDuration[dayKey] += visit.data.duration
-              ? visit.data.duration
+            visitsDuration[dayKey] += visit.data.date.seconds
+              ? visit.data.date.seconds
               : 0;
           } else {
-            visitsDuration[dayKey] = visit.data.duration
-              ? visit.data.duration
+            visitsDuration[dayKey] = visit.data.date.seconds
+              ? visit.data.date.seconds
               : 0;
           }
         });
@@ -145,9 +145,20 @@ const AdminHome = () => {
         setVisitDurationAverage(visitsDurationAverage);
       }
     } catch (error) {
-      console.log(error);
+      console.log("visits timer error:",error);
     }
   }, [allVisits]);
+
+  // Console log allVIsits
+  useEffect(() => {
+    console.log("allVisits :", allVisits);
+  }, [allVisits]);
+
+  // Console log visit duration average
+  useEffect(() => {
+    console.log("visitDurationAverage :", visitDurationAverage);
+  }, [visitDurationAverage]);
+
 
   // When all visits are fetched, count the visit duration total per day
   useEffect(() => {
@@ -195,7 +206,7 @@ const AdminHome = () => {
   //     },
   useEffect(() => {
     if (users && users.length > 0) {
-      try {
+      //try {
         let days = [];
         // Get all the days from all users
         users.forEach((user) => {
@@ -215,10 +226,15 @@ const AdminHome = () => {
           }
         });
         setUserRegisteredPerDay(usersRegisteredPerDay);
-      } catch (error) {
-        console.log(error);
-      }
+      //} catch (error) {
+        // console.log(error);
+      //}
     }
+  }, [users]);
+  
+  // Console users
+  useEffect(() => {
+    console.log("users  :",users);
   }, [users]);
 
   // Console users registered per day
@@ -256,7 +272,7 @@ const AdminHome = () => {
         setPayingPerDay(payingPerDay);
       }
     } catch (error) {
-      console.log(error);
+      console.log("setPayingPerDay  error :",error);
     }
   }, [allPaying]);
   // ------------------------------------------------------------
