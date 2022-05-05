@@ -208,6 +208,11 @@ const BtnToPets = styled.button`
     border: 3px solid #067a4d;
     cursor: pointer;
   }
+  &:disabled {
+    background: #067a4d;
+    color: white;
+    cursor: auto;
+  }
 `;
 
 const Image = styled.img`
