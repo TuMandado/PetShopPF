@@ -78,7 +78,24 @@ const SidebarOptionsModify = styled.p`
             color: #0acf83;
             }`
     }
-
+`
+const SidebarOptionsPets = styled.p`
+    margin: 1em;
+    padding: 1em;
+    width: 90%;
+    border-radius: 8px;
+    transition: 0.2s ease;
+    cursor: pointer;
+    ${props => props.option === 'Pets'
+        ? ` background: #0acf83;
+            color:white;
+            margin-left: 2em;
+            `
+        :   `border: 4px solid #e5e5e5;
+            &:hover {
+            color: #0acf83;
+            }`
+    }
 `
 
 const UserSidebar = ({handleChange}) => {
@@ -94,6 +111,7 @@ const UserSidebar = ({handleChange}) => {
             <SidebarOptionsOrders option={option} id="Orders" onClick={e => changeOption(e)}> Mis Compras </SidebarOptionsOrders>
             <SidebarOptionsReviews option={option} id="Reviews" onClick={e => changeOption(e)}> Mis Reseñas </SidebarOptionsReviews>
             <SidebarOptionsModify option={option} id="Modify" onClick={e => changeOption(e)}> Modificar Usuario </SidebarOptionsModify>
+            <SidebarOptionsPets option={option} id="Pets" onClick={e => changeOption(e)}> Mascotas Publicadas </SidebarOptionsPets>
         </SidebarContainer>
     );
 };

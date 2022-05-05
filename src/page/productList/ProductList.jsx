@@ -120,11 +120,13 @@ const ProductList = () => {
     const changeViewModeGrid = (e) => {
         setViewMode('Grid')
         setProductsPerPage(8)
+        setCurrentPage(1)
     }
 
     const changeViewModeList = (e) => {
         setViewMode('List')
         setProductsPerPage(6)
+        setCurrentPage(1)
     }
 
     const paged = (PageNumber) => {

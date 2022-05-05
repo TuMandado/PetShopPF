@@ -14,8 +14,11 @@ export const UserSettings = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const uid = useParams().id;
+
   const user = useSelector((state) => state.clientReducer.user);
+  const clientUser = useSelector(state => state.clientReducer.user)
   const pets = useSelector((state) => state.clientReducer.backupPets)
+  const actualUserURL = window.location.pathname
   const [input, setInput] = useState({});
   const [myPets, setMyPets] = useState([]);
 
@@ -34,11 +37,13 @@ export const UserSettings = () => {
     photoURL: ``,
     disabled: false, */
 
+
     // useEffect(() => {
     //    dispatch(getDetailUser(uid));
     //    dispatch (getTotalPets())
       
     //  },[dispatch,uid])
+
 
      useEffect(() => {
       setMyPets(pets.filter(e => e.data.userId === user.uid))
@@ -201,7 +206,9 @@ export const UserSettings = () => {
             </div> */}
             <div>
               <br />
-              <Btnsubmit type="submit">Modificar datos</Btnsubmit>
+              {
+                clientUser ? <Btnsubmit type="submit">Modificar datos</Btnsubmit> : "Inicia Sesion Para Continuar."
+              }
             </div>
             <div>
               
