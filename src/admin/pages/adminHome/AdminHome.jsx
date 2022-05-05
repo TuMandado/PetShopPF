@@ -34,21 +34,23 @@ const AdminHome = () => {
 
   // allPaying is mounted add all allVisits[i].data.total to allPayingSum
   useEffect(() => {
-    if (allPaying && allPaying.length > 0) {
-      var sum = 0;
-      for (var i = 0; i < allPaying.length; i++) {
-        sum += allPaying[i].data.total;
+    try {
+      if (allPaying && allPaying.length > 0) {
+        var sum = 0;
+        for (var i = 0; i < allPaying.length; i++) {
+          sum += allPaying[i].data.total;
+        }
+        setAllPayingSum(sum);
       }
-      setAllPayingSum(sum);
+    } catch (error) {
+      console.log(error);
     }
   }, [allPaying]);
 
-  // Console log allPayingSum
-  useEffect(() => {
-    console.log("allPayingSum :", allPayingSum);
-  }
-  , [allPayingSum]);
-
+  // // Console log allPayingSum
+  // useEffect(() => {
+  //   console.log("allPayingSum :", allPayingSum);
+  // }, [allPayingSum]);
 
   // If user role is not Admin, redirect to the home page
   useEffect(() => {
@@ -85,87 +87,99 @@ const AdminHome = () => {
   //     "userId": "354345345345345345345345345345345",
   //   }
   useEffect(() => {
-    if (allVisits && allVisits.length > 0) {
-      let days = [];
-      // Get all the days from all visits
-      allVisits.forEach((visit) => {
-        let date = new Date(visit.data.date.seconds * 1000);
-        let day = date.getDate();
-        let month = date.getMonth();
-        let year = date.getFullYear();
-        days.push(`${day}/${month}/${year}`);
-      });
-      // Count the number of visits per day
-      let visitsPerDay = {};
-      days.forEach((day) => {
-        if (visitsPerDay[day]) {
-          visitsPerDay[day]++;
-        } else {
-          visitsPerDay[day] = 1;
-        }
-      });
-      setVisitsVsDays(visitsPerDay);
+    try {
+      if (allVisits && allVisits.length > 0) {
+        let days = [];
+        // Get all the days from all visits
+        allVisits.forEach((visit) => {
+          let date = new Date(visit.data.date.seconds * 1000);
+          let day = date.getDate();
+          let month = date.getMonth();
+          let year = date.getFullYear();
+          days.push(`${day}/${month}/${year}`);
+        });
+        // Count the number of visits per day
+        let visitsPerDay = {};
+        days.forEach((day) => {
+          if (visitsPerDay[day]) {
+            visitsPerDay[day]++;
+          } else {
+            visitsPerDay[day] = 1;
+          }
+        });
+        setVisitsVsDays(visitsPerDay);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }, [allVisits]);
 
   // When all visits are fetched, count the visit duration average per day
   useEffect(() => {
-    if (allVisits && allVisits.length > 0) {
-      let visitsDuration = [];
-      // Group all visits by day and get the duration average
-      allVisits.forEach((visit) => {
-        let date = new Date(visit.data.date.seconds * 1000);
-        let day = date.getDate();
-        let month = date.getMonth();
-        let year = date.getFullYear();
-        let dayKey = `${day}/${month}/${year}`;
-        if (visitsDuration[dayKey]) {
-          visitsDuration[dayKey] += visit.data.duration
-            ? visit.data.duration
-            : 0;
-        } else {
-          visitsDuration[dayKey] = visit.data.duration
-            ? visit.data.duration
-            : 0;
-        }
-      });
-      // Get the average duration per day
-      let visitsDurationAverage = {};
-      Object.keys(visitsDuration).forEach((day) => {
-        visitsDurationAverage[day] =
-          visitsDuration[day] / Object.keys(visitsDuration).length;
-      });
-      setVisitDurationAverage(visitsDurationAverage);
+    try {
+      if (allVisits && allVisits.length > 0) {
+        let visitsDuration = [];
+        // Group all visits by day and get the duration average
+        allVisits.forEach((visit) => {
+          let date = new Date(visit.data.date.seconds * 1000);
+          let day = date.getDate();
+          let month = date.getMonth();
+          let year = date.getFullYear();
+          let dayKey = `${day}/${month}/${year}`;
+          if (visitsDuration[dayKey]) {
+            visitsDuration[dayKey] += visit.data.duration
+              ? visit.data.duration
+              : 0;
+          } else {
+            visitsDuration[dayKey] = visit.data.duration
+              ? visit.data.duration
+              : 0;
+          }
+        });
+        // Get the average duration per day
+        let visitsDurationAverage = {};
+        Object.keys(visitsDuration).forEach((day) => {
+          visitsDurationAverage[day] =
+            visitsDuration[day] / Object.keys(visitsDuration).length;
+        });
+        setVisitDurationAverage(visitsDurationAverage);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }, [allVisits]);
 
   // When all visits are fetched, count the visit duration total per day
   useEffect(() => {
     if (allVisits && allVisits.length > 0) {
-      let visitsDuration = [];
-      // Group all visits by day and get the duration total
-      allVisits.forEach((visit) => {
-        let date = new Date(visit.data.date.seconds * 1000);
-        let day = date.getDate();
-        let month = date.getMonth();
-        let year = date.getFullYear();
-        let dayKey = `${day}/${month}/${year}`;
-        if (visitsDuration[dayKey]) {
-          visitsDuration[dayKey] += visit.data.duration
-            ? visit.data.duration
-            : 0;
-        } else {
-          visitsDuration[dayKey] = visit.data.duration
-            ? visit.data.duration
-            : 0;
-        }
-      });
-      // Get the total duration per day
-      let visitsDurationTotal = {};
-      Object.keys(visitsDuration).forEach((day) => {
-        visitsDurationTotal[day] = visitsDuration[day];
-      });
-      setVisitDurationTotal(visitsDurationTotal);
+      try {
+        let visitsDuration = [];
+        // Group all visits by day and get the duration total
+        allVisits.forEach((visit) => {
+          let date = new Date(visit.data.date.seconds * 1000);
+          let day = date.getDate();
+          let month = date.getMonth();
+          let year = date.getFullYear();
+          let dayKey = `${day}/${month}/${year}`;
+          if (visitsDuration[dayKey]) {
+            visitsDuration[dayKey] += visit.data.duration
+              ? visit.data.duration
+              : 0;
+          } else {
+            visitsDuration[dayKey] = visit.data.duration
+              ? visit.data.duration
+              : 0;
+          }
+        });
+        // Get the total duration per day
+        let visitsDurationTotal = {};
+        Object.keys(visitsDuration).forEach((day) => {
+          visitsDurationTotal[day] = visitsDuration[day];
+        });
+        setVisitDurationTotal(visitsDurationTotal);
+      } catch (error) {
+        console.log(error);
+      }
     }
   }, [allVisits]);
 
@@ -181,25 +195,29 @@ const AdminHome = () => {
   //     },
   useEffect(() => {
     if (users && users.length > 0) {
-      let days = [];
-      // Get all the days from all users
-      users.forEach((user) => {
-        let date = new Date(user.data.createdAt.seconds * 1000);
-        let day = date.getDate();
-        let month = date.getMonth();
-        let year = date.getFullYear();
-        days.push(`${day}/${month}/${year}`);
-      });
-      // Count the number of users registered per day
-      let usersRegisteredPerDay = {};
-      days.forEach((day) => {
-        if (usersRegisteredPerDay[day]) {
-          usersRegisteredPerDay[day]++;
-        } else {
-          usersRegisteredPerDay[day] = 1;
-        }
-      });
-      setUserRegisteredPerDay(usersRegisteredPerDay);
+      try {
+        let days = [];
+        // Get all the days from all users
+        users.forEach((user) => {
+          let date = new Date(user.data.createdAt.seconds * 1000);
+          let day = date.getDate();
+          let month = date.getMonth();
+          let year = date.getFullYear();
+          days.push(`${day}/${month}/${year}`);
+        });
+        // Count the number of users registered per day
+        let usersRegisteredPerDay = {};
+        days.forEach((day) => {
+          if (usersRegisteredPerDay[day]) {
+            usersRegisteredPerDay[day]++;
+          } else {
+            usersRegisteredPerDay[day] = 1;
+          }
+        });
+        setUserRegisteredPerDay(usersRegisteredPerDay);
+      } catch (error) {
+        console.log(error);
+      }
     }
   }, [users]);
 
@@ -219,31 +237,35 @@ const AdminHome = () => {
   // }
   // When all payments are fetched, count the add total per day
   useEffect(() => {
-    if (allPaying && allPaying.length > 0) {
-      payingPerDay = [];
-      // Group all payments by day and get the total
-      allPaying.forEach((paying) => {
-        let date = new Date(paying.data.createdAt);
-        let day = date.getDate();
-        let month = date.getMonth();
-        let year = date.getFullYear();
-        let dayKey = `${day}/${month}/${year}`;
-        if (payingPerDay[dayKey]) {
-          payingPerDay[dayKey] += paying.data.total ? paying.data.total : 0;
-        } else {
-          payingPerDay[dayKey] = paying.data.total ? paying.data.total : 0;
-        }
-      });
-      setPayingPerDay(payingPerDay);
+    try {
+      if (allPaying && allPaying.length > 0) {
+        payingPerDay = [];
+        // Group all payments by day and get the total
+        allPaying.forEach((paying) => {
+          let date = new Date(paying.data.createdAt);
+          let day = date.getDate();
+          let month = date.getMonth();
+          let year = date.getFullYear();
+          let dayKey = `${day}/${month}/${year}`;
+          if (payingPerDay[dayKey]) {
+            payingPerDay[dayKey] += paying.data.total ? paying.data.total : 0;
+          } else {
+            payingPerDay[dayKey] = paying.data.total ? paying.data.total : 0;
+          }
+        });
+        setPayingPerDay(payingPerDay);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }, [allPaying]);
   // ------------------------------------------------------------
 
   // The analytics structure is like this :
   // {
-    //   "id": "5e8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8",
+  //   "id": "5e8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8",
   //   "data": {
-    //     "date": {
+  //     "date": {
   //       "seconds": 1599098983,
   //       "nanoseconds": 52352000
   //     },
@@ -277,14 +299,10 @@ const AdminHome = () => {
   //   }
   // }, [allAnalytics]);
 
-
   // // Console all hover time per product
   // useEffect(() => {
   //   console.log("hoverTimeVsProducts : ", hoverTimeVsProducts);
   // }, [hoverTimeVsProducts]);
-  
-
-
 
   // useEffect(() => {
   //   if (allAnalytics && allAnalytics.length > 0) {
@@ -305,10 +323,9 @@ const AdminHome = () => {
         name: key,
         [tag]: data[key],
       });
-    }
-    );
+    });
     return adaptedData;
-  }
+  };
   // ------------------------------------------------------------
 
   return (
@@ -317,9 +334,7 @@ const AdminHome = () => {
       <div className="container">
         <AdminSidebar />
         <div className="home">
-          <FeaturedInfo 
-          allPayingSum = {allPayingSum}
-          />
+          <FeaturedInfo allPayingSum={allPayingSum} />
           <Chart
             data={adaptDataToChart(visitsVsDays, "Visita por día")}
             title="Visitas por día"
@@ -333,7 +348,10 @@ const AdminHome = () => {
             dataKey="Duración promedio"
           />
           <Chart
-            data={adaptDataToChart(userRegisteredPerDay, "Usuarios registrados")}
+            data={adaptDataToChart(
+              userRegisteredPerDay,
+              "Usuarios registrados"
+            )}
             title="Usuarios registrados"
             grid
             dataKey="Usuarios registrados"
@@ -344,7 +362,7 @@ const AdminHome = () => {
             grid
             dataKey="Cobros por día"
           />
-          
+
           <div className="homeWidgets">
             {/* <WidgetLg/> */}
             {/* <WidgetSm /> */}
