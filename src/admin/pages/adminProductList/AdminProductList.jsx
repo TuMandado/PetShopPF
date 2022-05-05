@@ -166,8 +166,7 @@ const ProductList = () => {
       <div className="container">
         <AdminSidebar />
         <div className="productList">
-          {allProducts &&
-          allProducts.length &&
+          {
           allProductsWithAnalytics &&
           allProductsWithAnalytics.length > 0 ? (
             <DataGrid
@@ -178,8 +177,16 @@ const ProductList = () => {
               rowsPerPageOptions={[10]}
               checkboxSelection
             />
-          ) : (
-            <Loader />
+          ) : ( 
+            allProducts.length &&
+            <DataGrid
+              rows={totalProducts}
+              disableSelectionOnClick
+              columns={columns}
+              pageSize={10}
+              rowsPerPageOptions={[10]}
+              checkboxSelection
+            />
           )}
         </div>
       </div>
