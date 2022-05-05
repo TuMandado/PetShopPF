@@ -104,10 +104,7 @@ const Pets = () => {
               Vaya! Parece que no hemos encontrado ninguna mascota con dichas
               caracteristicas
             </Error>
-            <CatSleeping
-              src="https://31.media.tumblr.com/e9c5a6eb1241c1cd3f89e12e89874c66/tumblr_mv1vm39xs51rz5dlbo1_500.gif"
-              alt=""
-            />
+            <CatSleeping src="https://i.imgur.com/sds8SCl.gif" alt="loading" />
           </div>
         )}
         <div></div>
