@@ -14,7 +14,7 @@ import { star } from "../../data";
 import Swal from "sweetalert2";
 import imgBackground from "../../assets/patrones_pet.png";
 import { Analytics } from "../wrappers/analytics/Analytics";
-import {clearProductScore} from '../../redux/actions/reviewsActions.js'
+import { clearProductScore } from "../../redux/actions/reviewsActions.js";
 
 const DetailContainer = styled.div`
   height: 100vh;
@@ -214,7 +214,7 @@ const ProductDetail = () => {
     dispatch(getDetailProducts(uid.id));
     return function () {
       dispatch(detailVacio());
-      dispatch(clearProductScore())
+      dispatch(clearProductScore());
     };
   }, [dispatch, uid.id]);
 
@@ -338,7 +338,7 @@ const ProductDetail = () => {
               <BtnAdd onClick={(e) => handleAddCart(e)}>Agregar</BtnAdd>
             )}
             <Image
-              src={product.image || "https://imgur.com/lhLYKao"}
+              src={product.image || "https://i.imgur.com/f1I4xIg.jpg"}
               alt="imagen"
             />
           </DetailLeft>

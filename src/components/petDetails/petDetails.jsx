@@ -114,7 +114,7 @@ const PetDetails = () => {
         <DivContainers>
           <div>
             <Image
-              src={pet.photos || "https://imgur.com/lhLYKao"}
+              src={pet.photos || "https://i.imgur.com/9bULXjH.png"}
               alt="imagen"
             />
           </div>

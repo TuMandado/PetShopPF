@@ -92,7 +92,7 @@ const Pets = () => {
                   sexo={e.data.sexo}
                   name={e.data.name}
                   description={e.data.description}
-                  photos={e.data.photos}
+                  photos={e.data.photos || "https://i.imgur.com/9bULXjH.png"}
                   city={e.data.city}
                 />
               </div>

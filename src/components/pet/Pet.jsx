@@ -141,7 +141,10 @@ const Pet = ({ state, name, category, sexo, description, city, photos }) => {
   return (
     <ContainerPets>
       <div>
-        <Image src={photos} alt="Photo not found" />
+        <Image
+          src={photos || "https://i.imgur.com/9bULXjH.png"}
+          alt="Photo not found"
+        />
       </div>
       <TagContainer>
         <div>

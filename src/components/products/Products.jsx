@@ -43,8 +43,10 @@ const Error = styled.h1`
 
 const CatSleeping = styled.img`
   position: absolute;
-  top: 0;
-  left: 10%;
+  top: 72px;
+  left: 12%;
+  height: 280px;
+  width: 300px;
 `;
 
 const Products = ({
@@ -93,7 +95,7 @@ const Products = ({
                 >
                   <Product
                     title={e.data.name}
-                    imagen={e.data.image}
+                    imagen={e.data.image || "https://i.imgur.com/f1I4xIg.jpg"}
                     info={e.data.info}
                     price={e.data.price}
                     animalCategory={e.data.animalCategory}
@@ -110,10 +112,10 @@ const Products = ({
         })
       ) : (
         <div style={{ position: "relative" }}>
-          <Error>Lo siento, no hemos encontrado nada :(</Error>
+          <Error>Lo siento, no hemos encontrado nada.</Error>
           <CatSleeping
-            src="https://31.media.tumblr.com/e9c5a6eb1241c1cd3f89e12e89874c66/tumblr_mv1vm39xs51rz5dlbo1_500.gif"
-            alt=""
+            src="https://i.imgur.com/sds8SCl.gif"
+            alt="sin datos para mostrar"
           />
         </div>
       )}
