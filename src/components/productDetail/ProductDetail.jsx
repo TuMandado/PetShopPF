@@ -33,12 +33,12 @@ const DetailLeft = styled.div`
 `;
 
 const Image = styled.img`
-  width: 30%;
-  height: 100%;
+  min-width: 20%;
+  max-width: 30%;
   max-height: 280px;
   position: absolute;
-  right: 10%;
-  top: 0;
+  right: 15%;
+  top: 10%;
   border-radius: 12px;
 `;
 
