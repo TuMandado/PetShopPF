@@ -8,13 +8,13 @@
     align-items: center;
 }
 
-.productListImg {
+/* .productListImg {
     width: 52px;
     height: 52px;
     border-radius: 50%;
     object-fit: contain;
     margin-right: 10px;
-  }
+  } */
 
 .productListEdit{
     border: none;
@@ -30,4 +30,10 @@
     color: red;
     cursor: pointer;
 }
+.productListImgProd {
+    width: 52px;
+    height: 52px;
+    border-radius: 20%;
+    object-fit: cover;
+  }
 
