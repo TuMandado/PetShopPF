@@ -34,7 +34,6 @@ import PaymentDetail from "./admin/pages/paymentDetail/PaymentDetail";
 import PublicPets from "./admin/pages/publicPets/PublicPets";
 import Swal from "sweetalert2";
 import MyForm from "./page/myForm/MyForm";
-import AppSettings from "./admin/pages/appSettings/AppSettings";
 
 import { getTotalProducts } from "./redux/actions";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -383,7 +382,6 @@ function App() {
           <Route path="/newPublicPets" element={<NewPublicPets />} />
           <Route path="/passwordRecovery" element={<PasswordRecovery />} />
           <Route path="/myform/:id" element={<MyForm />} />
-          <Route path="/appSettings" element={<AppSettings />} />
         </Routes>
       </Router>
     </div>
