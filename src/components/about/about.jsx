@@ -22,41 +22,6 @@ const About = () => {
       <AllProfile>
         <ContainerProfile style={containerStyle}>
           <InfoProfile>
-            <Foto src="https://i.imgur.com/jfIhevT.jpg" alt="Francisco" />
-            <Name>Francisco Molina</Name>
-            <Position>Team: Frontend</Position>
-            <Pet>Adopto a: Filo</Pet>
-            <div>
-              <span>
-                <a
-                  href="https://www.linkedin.com/in/franciscomolina-dev/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <img
-                    src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original-wordmark.svg"
-                    alt="linkedin"
-                    width="90"
-                    height="90"
-                  />
-                </a>
-              </span>
-              {/* <span>
-            //Si gustan, tambien el Github. 
-            <a href="https://github.com/TheFranciscoMolina">
-              <img
-                src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original-wordmark.svg"
-                alt="github"
-                width="45"
-                height="45"
-              />
-            </a>
-          </span> */}
-            </div>
-          </InfoProfile>
-        </ContainerProfile>
-        <ContainerProfile style={containerStyle}>
-          <InfoProfile>
             <Foto src="https://i.imgur.com/LlKaWDR.jpg" alt="Eugenio" />
             <Name>Eugenio Quiroga</Name>
             <Position>Team: Backend</Position>
@@ -92,14 +57,14 @@ const About = () => {
         </ContainerProfile>
         <ContainerProfile style={containerStyle}>
           <InfoProfile>
-            <Foto src="https://i.imgur.com/qwARQTe.jpg" alt="Nolis" />
-            <Name>Nolis Maldonado</Name>
-            <Position>Team: Backend</Position>
-            <Pet>Adopto a: ¿?</Pet>
+            <Foto src="https://i.imgur.com/jfIhevT.jpg" alt="Francisco" />
+            <Name>Francisco Molina</Name>
+            <Position>Team: Frontend</Position>
+            <Pet>Adopto a: Filo</Pet>
             <div>
               <span>
                 <a
-                  href="https://www.linkedin.com/in/nolis-maldonado-675945236/"
+                  href="https://www.linkedin.com/in/franciscomolina-dev/"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -113,7 +78,7 @@ const About = () => {
               </span>
               {/* <span>
             //Si gustan, tambien el Github. 
-            <a href="">
+            <a href="https://github.com/TheFranciscoMolina">
               <img
                 src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original-wordmark.svg"
                 alt="github"
@@ -127,10 +92,10 @@ const About = () => {
         </ContainerProfile>
         <ContainerProfile style={containerStyle}>
           <InfoProfile>
-            <Foto src="https://i.imgur.com/9bULXjH.png" alt="Franco" />
+            <Foto src="https://i.imgur.com/oBN8uDj.jpg" alt="Franco" />
             <Name>Franco Leyes</Name>
             <Position>Team: Frontend</Position>
-            <Pet>Adopto a: Unos cuantos xD</Pet>
+            <Pet>Adopto a: Pipo</Pet>
             <div>
               <span>
                 <a
@@ -162,7 +127,7 @@ const About = () => {
         </ContainerProfile>
         <ContainerProfile style={containerStyle}>
           <InfoProfile>
-            <Foto src="https://i.imgur.com/9bULXjH.png" alt="Franco" />
+            <Foto src="https://i.imgur.com/Sygo5pL.jpg" alt="Nacho" />
             <Name>Ignacio Euclides</Name>
             <Position>Team: Backend</Position>
             <Pet>Adopto a: ¿?</Pet>
@@ -197,10 +162,45 @@ const About = () => {
         </ContainerProfile>
         <ContainerProfile style={containerStyle}>
           <InfoProfile>
-            <Foto src="https://i.imgur.com/ufdChA4.jpg" alt="Franco" />
+            <Foto src="https://i.imgur.com/JVtMp23.jpg" alt="Leo" />
+            <Name>Leonardo Fernandez</Name>
+            <Position>Team: Frontend</Position>
+            <Pet>Adopto a: Maga</Pet>
+            <div>
+              <span>
+                <a
+                  href="https://www.linkedin.com/in/lion-fernandez/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img
+                    src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linkedin/linkedin-original-wordmark.svg"
+                    alt="linkedin"
+                    width="90"
+                    height="90"
+                  />
+                </a>
+              </span>
+              {/* <span>
+            //Si gustan, tambien el Github. 
+            <a href="">
+              <img
+                src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original-wordmark.svg"
+                alt="github"
+                width="45"
+                height="45"
+              />
+            </a>
+          </span> */}
+            </div>
+          </InfoProfile>
+        </ContainerProfile>
+        <ContainerProfile style={containerStyle}>
+          <InfoProfile>
+            <Foto src="https://i.imgur.com/ufdChA4.jpg" alt="Nico" />
             <Name>Nicolás Moises</Name>
             <Position>Team: Frontend</Position>
-            <Pet>Adopto a: ¿?</Pet>
+            <Pet>Adopto a: Maggiie</Pet>
             <div>
               <span>
                 <a
@@ -232,14 +232,14 @@ const About = () => {
         </ContainerProfile>
         <ContainerProfile style={containerStyle}>
           <InfoProfile>
-            <Foto src="https://i.imgur.com/JVtMp23.jpg" alt="Franco" />
-            <Name>Leonardo Fernandez</Name>
-            <Position>Team: Frontend</Position>
-            <Pet>Adopto a: unos cuantos</Pet>
+            <Foto src="https://i.imgur.com/qwARQTe.jpg" alt="Nolis" />
+            <Name>Nolis Maldonado</Name>
+            <Position>Team: Backend</Position>
+            <Pet>Adopto a: Negra</Pet>
             <div>
               <span>
                 <a
-                  href="https://www.linkedin.com/in/lion-fernandez/"
+                  href="https://www.linkedin.com/in/nolis-maldonado-675945236/"
                   target="_blank"
                   rel="noreferrer"
                 >

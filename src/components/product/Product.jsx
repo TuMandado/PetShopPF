@@ -366,7 +366,7 @@ const Product = ({
 
     let quantity = 0;
     if (user) {
-      if(openCart){
+      if (openCart) {
         if (openCart[0]) {
           let itm = openCart[0].data.items.filter((el) => el.id === id);
           if (itm.length) {
@@ -404,7 +404,7 @@ const Product = ({
     return (
       <ListContainer>
         <ListImage
-          src={imagen || "https://imgur.com/lhLYKao"}
+          src={imagen || "https://i.imgur.com/f1I4xIg.jpg"}
           alt="imagen not found"
         />
         <ListImageBackground />
@@ -448,7 +448,7 @@ const Product = ({
     return (
       <Container>
         <Image
-          src={imagen || "https://imgur.com/lhLYKao"}
+          src={imagen || "https://i.imgur.com/f1I4xIg.jpg"}
           alt="imagen not found"
         />
         <Title> {title} </Title>
