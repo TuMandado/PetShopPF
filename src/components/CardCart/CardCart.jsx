@@ -330,13 +330,14 @@ const CardCart = ({ id, imagen, title, price, quantity }) => {
           >
             -
           </BtnSup>
-          <Input
+          {quantity}
+          {/* <Input
             type="number"
             value={input}
             name="quantity"
             onChange={(e) => handleChange(e, id)}
           />
-          {err ? <p>{err}</p> : <p> </p>}
+          {err ? <p>{err}</p> : <p> </p>} */}
           <BtnSum
             onClick={(e) => {
               handleAdd(e, quantity, id);
