@@ -110,11 +110,11 @@ const ProductList = () => {
   };
 
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "id", headerName: "ID", width: 200 },
     {
       field: "product",
       headerName: "Producto",
-      width: 400,
+      width: 600,
       renderCell: (params) => {
         return (
           <div className="productListItem">
@@ -127,6 +127,7 @@ const ProductList = () => {
     {
       field: "price",
       headerName: "$ Precio",
+      alingItems:"center",
       width: 160,
     },
     { field: "stock", headerName: "Stock", width: 120 },
@@ -183,9 +184,8 @@ const ProductList = () => {
               rows={totalProducts}
               disableSelectionOnClick
               columns={columns}
-              pageSize={10}
-              rowsPerPageOptions={[10]}
-              checkboxSelection
+              pageSize={25}
+              rowsPerPageOptions={[25]}
             />
           )}
         </div>
