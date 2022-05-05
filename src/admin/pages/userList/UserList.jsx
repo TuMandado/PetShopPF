@@ -1,13 +1,14 @@
 import "./userList.css";
 import React from 'react'
 import { DataGrid } from "@material-ui/data-grid";
-import { DeleteOutline } from "@material-ui/icons";
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import { Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Navbar from "../../../components/navbar/Navbar";
+import NavAdmin from "../../../components/navbar/NavAdmin";
 import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
-import { deleteThisUser, getTotalUsers } from "../../../redux/actions/adminActions";
+import { getTotalUsers, offUser, onUser } from "../../../redux/actions/adminActions";
 import UserLog from "../../../assets/user.png"
 
 const UserList = () => {
@@ -28,14 +29,9 @@ const UserList = () => {
   const allUsers = useSelector(state => state.adminReducer.users)
   const [totalUsers, setTotalUsers] = useState([]);
 
-  const handleDelete = (id) => {
-    dispatch(deleteThisUser(id));
-    setTotalUsers(totalUsers.filter((item)=> item.id !== id));
-  };
 
   useEffect (()=>{
       dispatch(getTotalUsers())
-
   },[])
 
   useEffect(() => {
@@ -51,7 +47,21 @@ const UserList = () => {
           activo: el.data.disabled? "no": "si"
          })
     }))
-  },[allUsers]);
+  },[allUsers, dispatch]);
+
+  const handleDelete = (uid)=> {
+    dispatch(offUser(uid)) 
+    setTimeout(() => {
+    dispatch(getTotalUsers())
+    }, 200)
+   
+  };
+  const handleOk = (uid)=> {
+    dispatch(onUser(uid)) 
+    setTimeout(() => {
+    dispatch(getTotalUsers())
+    }, 200)
+  };
 
   if (!totalUsers.length) {
     setTimeout(() => {
@@ -106,10 +116,20 @@ const UserList = () => {
             <Link to={"/user/" + params.row.id}>
               <button className="userListEdit">Edit</button>
             </Link>
-            <DeleteOutline
-              className="userListDelete"
-              onClick={() => handleDelete(params.row.id)}
-            />
+            {params.row.activo==="si"?
+              <>
+              <HighlightOffOutlinedIcon
+                className="userListOff"
+                onClick={() => handleDelete(params.row.id)}
+              />
+              </>
+              :
+              <>
+              < CheckCircleOutlineOutlinedIcon
+                className="userListOn"
+                onClick={() => handleOk(params.row.id)}
+              />
+              </>}
           </>
         );
       },
@@ -118,7 +138,7 @@ const UserList = () => {
 
   return (
     <div >
-       <Navbar/>
+       <NavAdmin/>
        <div className="container">
          <AdminSidebar />   
          <div className="userList">
@@ -128,7 +148,6 @@ const UserList = () => {
            columns={columns}
            pageSize={8}
            rowsPerPageOptions={[8]}
-           checkboxSelection
          />
          </div>
        </div>

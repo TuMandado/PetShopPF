@@ -256,7 +256,7 @@ const ListSubCategorySpan = styled.span`
   font-size: 14px;
   line-height: 19px;
   color: #a9a9a9;
-  margin-right: 4em;
+  margin-right: 4.5em;
 `;
 
 const ListSubCategory = styled.span`
@@ -281,7 +281,7 @@ const ListAnimalCategorySpan = styled.span`
   font-size: 14px;
   line-height: 19px;
   color: #a9a9a9;
-  margin-right: 2.8em;
+  margin-right: 3.1em;
 `;
 
 const ListAnimalCategory = styled.span`
@@ -306,7 +306,7 @@ const ListStock = styled.span`
   font-size: 14px;
   line-height: 19px;
   color: #a9a9a9;
-  margin-right: 2.8em;
+  margin-right: 3.9em;
 `;
 
 const ListStockNumber = styled.span`
@@ -366,7 +366,7 @@ const Product = ({
 
     let quantity = 0;
     if (user) {
-      if(openCart){
+      if (openCart) {
         if (openCart[0]) {
           let itm = openCart[0].data.items.filter((el) => el.id === id);
           if (itm.length) {
@@ -404,7 +404,7 @@ const Product = ({
     return (
       <ListContainer>
         <ListImage
-          src={imagen || "https://imgur.com/lhLYKao"}
+          src={imagen || "https://i.imgur.com/f1I4xIg.jpg"}
           alt="imagen not found"
         />
         <ListImageBackground />
@@ -448,7 +448,7 @@ const Product = ({
     return (
       <Container>
         <Image
-          src={imagen || "https://imgur.com/lhLYKao"}
+          src={imagen || "https://i.imgur.com/f1I4xIg.jpg"}
           alt="imagen not found"
         />
         <Title> {title} </Title>

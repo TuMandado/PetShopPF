@@ -1,111 +1,171 @@
-import { getProduct, getAllProducts, uploadProduct, deleteProduct, getAllProductsCategories, editProduct, getReallyAllProducts } from "../../firebase/Products/index";
-import { getAllUsers, deleteUser, getUser, uploadUser, editUser } from "../../firebase/Users";
-import {getAllAnimalCategory} from '../../firebase/AnimalCategory/index'
-import { deletePet, editPet, getFullPets, okPet } from "../../firebase/Pets";
-export const GET_PRODUCTS = 'GET_PRODUCTS';
 
+import { getProduct, getAllProducts, uploadProduct, deleteProduct, getAllProductsCategories, editProduct, getReallyAllProducts } from "../../firebase/Products/index";
+import { getAllUsers, deleteUser, getUser, uploadUser, editUser, userOn, userOff } from "../../firebase/Users";
+import {getAllAnimalCategory} from '../../firebase/AnimalCategory/index'
+import { getAllVisits } from "../../firebase/Analytics/visits";
+import { getAllAnalytics } from "../../firebase/Analytics/hover";
+import { deletePet, editPet, getFullPets, okPet } from "../../firebase/Pets";
+export const GET_PRODUCTS = "GET_PRODUCTS";
+
+
+export function getTotalAnalytics() {
+  return async function (dispatch) {
+    try {
+      let jsonAnalytics = await getAllAnalytics();
+      // console.log("jsonAnalytics: ", jsonAnalytics);
+      return dispatch({
+        type: "GET_ANALYTICS",
+        payload: jsonAnalytics,
+      });
+    } catch (error) {
+      console.log("getTotalAnalytics error: ", error);
+    }
+  };
+}
+
+export function getTotalVisits() {
+  return async function (dispatch) {
+    try {
+      let jsonVisits = await getAllVisits();
+      // console.log("jsonVisits: ", jsonVisits);
+      return dispatch({
+        type: "GET_VISITS",
+        payload: jsonVisits,
+      });
+    } catch (error) {
+      console.log("getTotalVisits error: ", error);
+    }
+  }
+}
 
 export function getTotalProducts() {
-    return async function (dispatch) {
-      try {
-        let jsonProduct = await getReallyAllProducts();
-        console.log("-Action Flag-", jsonProduct);
-        return dispatch({
-          type: `GET_PRODUCTS`,
-          payload: jsonProduct,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  }
+  return async function (dispatch) {
+    try {
+      let jsonProduct = await getReallyAllProducts();
+      console.log("-Action Flag-", jsonProduct);
+      return dispatch({
+        type: `GET_PRODUCTS`,
+        payload: jsonProduct,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
 
 export function deleteThisProduct(id) {
+  return async function (dispatch) {
+    try {
+      let jsonDelete = await deleteProduct(id);
+      return dispatch({
+        type: `DELETE_PRODUCT`,
+        payload: id,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function getDetailProducts(uid) {
+  return async function (dispatch) {
+    try {
+      let jsonDetail = await getProduct(uid);
+      console.log("jsonDetail", jsonDetail);
+      return dispatch({
+        type: "GET_DETAIL_PRODUCTS",
+        payload: jsonDetail,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function getProductCategory() {
+  return async function (dispatch) {
+    let jsonCategory = await getAllProductsCategories();
+    // console.log('esto es json category',jsonCategory)
+    return dispatch({
+      type: "GET_PRODUCT_CATEGORY",
+      payload: jsonCategory,
+    });
+  };
+}
+
+export function getProductAnimalCategory() {
+  return async function (dispatch) {
+    let jsonAnimalCategory = await getAllAnimalCategory();
+    console.log("esto es json anmimalCategory", jsonAnimalCategory);
+    return dispatch({
+      type: "GET_ANIMAL_CATEGORY",
+      payload: jsonAnimalCategory,
+    });
+  };
+}
+
+export function postProduct(payload) {
+  return async function (dispatch) {
+    const jsonPost = await uploadProduct(payload);
+    console.log("esto es jsonPost", jsonPost);
+    return jsonPost;
+  };
+}
+
+export function putProduct(uid, data) {
+  return async function (dispatch) {
+    try {
+      let jsonputProduct = await editProduct(uid, data);
+      return dispatch({
+        type: "PUT_PRODUCT",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function getTotalUsers() {
+  return async function (dispatch) {
+    try {
+      let jsonUsers = await getAllUsers();
+      console.log("getAllUsers👉", jsonUsers);
+      return dispatch({
+        type: `GET_USERS`,
+        payload: jsonUsers,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+  export function onUser(uid) {
     return async function (dispatch) {
-      try {
-        let jsonDelete = await deleteProduct(id);
-        return dispatch({
-          type: `DELETE_PRODUCT`,
-          payload: id,
-        });
-      } catch (error) {
-        console.log(error);
-      }
+        try {
+            let jsonokUser = await userOn(uid);
+            console.log("llegue al onuser 🍳", uid);
+            return dispatch({
+                type: `USER_ON`,
+                payload: uid,
+            });
+        } catch (error) {
+            console.log(error);
+        }
     };
   }
 
-  export function getDetailProducts(uid) {
+  export function offUser(uid) {
     return async function (dispatch) {
-      try {
-        let jsonDetail = await getProduct(uid);
-        console.log("jsonDetail", jsonDetail);
-        return dispatch({
-          type: "GET_DETAIL_PRODUCTS",
-          payload: jsonDetail,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  }
-
-  export function getProductCategory() {
-    return async function (dispatch) {
-      let jsonCategory = await getAllProductsCategories()
-      // console.log('esto es json category',jsonCategory)
-      return dispatch ({
-        type: 'GET_PRODUCT_CATEGORY',
-        payload: jsonCategory
-
-      })
-    }
-  }
-
-  export function getProductAnimalCategory() {
-    return async function (dispatch) {
-      let jsonAnimalCategory = await getAllAnimalCategory()
-      console.log('esto es json anmimalCategory',jsonAnimalCategory)
-      return dispatch ({
-        type: 'GET_ANIMAL_CATEGORY',
-        payload: jsonAnimalCategory
-      })
-    }
-  }
-
-  export function postProduct(payload) {
-    return async function(dispatch) {
-      const jsonPost = await uploadProduct(payload)
-      console.log('esto es jsonPost', jsonPost)
-      return jsonPost
-    
-    }
-  }
-  
-  export function putProduct(uid, data) {
-    return async function (dispatch) {
-      try {
-        let jsonputProduct = await editProduct(uid, data);
-        return dispatch({
-          type: 'PUT_PRODUCT',
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  }
-
-  export function getTotalUsers() {
-    return async function (dispatch) {
-      try {
-        let jsonUsers = await getAllUsers();
-        console.log("getAllUsers👉", jsonUsers);
-        return dispatch({
-          type: `GET_USERS`,
-          payload: jsonUsers,
-        });
-      } catch (error) {
-        console.log(error);
-      }
+        try {
+            let jsonoffUser = await userOff(uid);
+            return dispatch({
+                type: `USER_OFF`,
+                payload: uid,
+            });
+        } catch (error) {
+            console.log(error);
+        }
     };
   }
 
@@ -124,20 +184,20 @@ export function deleteThisProduct(id) {
     };
   }
 
-  export function getDetailUser(uid) {
-    return async function (dispatch) {
-      try {
-        let jsonUser = await getUser(uid);
-        console.log("jsonUser", jsonUser);
-        return dispatch({
-          type: "GET_DETAIL_USER",
-          payload: jsonUser,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  }
+export function getDetailUser(uid) {
+  return async function (dispatch) {
+    try {
+      let jsonUser = await getUser(uid);
+      console.log("jsonUser", jsonUser);
+      return dispatch({
+        type: "GET_DETAIL_USER",
+        payload: jsonUser,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
   
   export function putUser(uid, data) {
     return async function (dispatch) {
@@ -214,3 +274,4 @@ export function putPet(uid, data) {
     };
 }
   
+

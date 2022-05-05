@@ -12,6 +12,8 @@
 
 .addProductTitle {
     margin-left: 400px;
+    font-family: 'Poppins';
+    font-style: normal;
 }
 
 .space {
@@ -20,11 +22,15 @@
 
 .addProductForm {
   margin-top: 10px;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .category{
     width:40px;
     max-width: 40px;
+    font-family: 'Poppins';
+    font-style: normal;
 }
 
 .addProductItem {
@@ -32,16 +38,22 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .addProductItem > label {
   color: gray;
   font-weight: 600;
   margin-bottom: 10px;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .addProductItem > input {
   padding: 10px;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .addProductItem > select {
@@ -49,7 +61,8 @@
 }
 
 .addProductButton {
-  
+  font-family: 'Poppins';
+    font-style: normal;
   margin-left:495px;
   margin-top: 10px;
   padding: 5px 10px;

@@ -18,7 +18,7 @@ import { cartLoginFront } from "../../redux/actions/cartActions";
 // import { signOutUsuario } from "../../firebase/auth";
 import { Link } from "react-router-dom";
 
-export const Navbar = () => {
+export const NavAdmin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -43,7 +43,7 @@ export const Navbar = () => {
     dispatch(cartLoginFront(user));
     setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
+    }, 2000);
   }, [dispatch, user]);
 
   //Handle del Input y Search
@@ -174,93 +174,6 @@ export const Navbar = () => {
           <Logo src={logoTemp} alt="logo-petshop" />
           <TextPetshop>PetShop</TextPetshop>
         </BrandNav>
-        <Center>
-          <div>
-           {
-           actualUrl[1] !== "m" && actualUrl[6] !== "m" ?  (
-             <>
-            <InputSearch
-              value={name}
-              onChange={(e) => handleInputChange(e)}
-              type="text"
-              placeholder={
-                actualUrl[1] === "p" && actualUrl[4] === "s"
-                  ? "¿A quien estas buscando?"
-                  : "¿Que vas a llevar hoy?"
-              }
-              onKeyPress={(e) => handleEnterKeyPress(e)}
-              ref={inputContainer}
-            /> 
-            <BtnSearch onClick={(e) => handleSubmit(e)} type="submit">
-              <BtnIconLupa src={icoLupa} alt="search" />
-            </BtnSearch>
-             </>
-             ) : null }
-             </div>
-          {actualUrl[1] === "p" && actualUrl[4] === "s" ? (
-            <PopUpSearchProduct
-              ref={popUpContainer}
-              name={name}
-              products={searchedPets}
-            >
-              {name.length > 2 &&
-                searchedPets.length >= 1 &&
-                searchedPets.map((el) => (
-                  <PopUpProductDiv
-                    key={el.uid}
-                    id={el.uid}
-                    onClick={(e) => goToPetDetail(e)}
-                  >
-                    <PopUpSpan> {el.data.name} </PopUpSpan>
-                    <PopUpImagePets
-                      src={
-                        Array.isArray(el.data.photos)
-                          ? el.data.photos[0]
-                          : el.data.photos
-                      }
-                      alt="Not Found"
-                    />
-                  </PopUpProductDiv>
-                ))}
-            </PopUpSearchProduct>
-          ) : (
-            <PopUpSearchProduct
-              ref={popUpContainer}
-              name={name}
-              products={searchedProducts}
-            >
-              {name.length > 2 &&
-                searchedProducts.length >= 1 &&
-                searchedProducts.map((el) => (
-                  <PopUpProductDiv
-                    key={el.uid}
-                    id={el.uid}
-                    onClick={(e) => goToProductDetail(e)}
-                  >
-                    <PopUpSpan> {el.data.name} </PopUpSpan>
-                    <PopUpImage src={el.data.image} alt="Not Found" />
-                  </PopUpProductDiv>
-                ))}
-            </PopUpSearchProduct>
-          )}
-        </Center>
-        <Right>
-          <MenuItem>
-            <Link to={"/products"} style={linkStyle}>
-              <Img
-                height="30px"
-                border="8px"
-                src={IcoProducts}
-                alt="productos"
-              />
-            </Link>
-          </MenuItem>
-          <MenuItem>
-            <Link to={"/pets"} style={linkStyle}>
-              <Img height="30px" margin="50px" src={IcoPets} alt="Mascotas" />
-            </Link>
-          </MenuItem>
-        </Right>
         {isLoading && !user ? (
           <Right>
             <MenuItem>Cargando...</MenuItem>
@@ -281,38 +194,25 @@ export const Navbar = () => {
                 <img src={icoUser} style={profilePic} alt="" />
               )}
               <span>{user.name ? user.name : user.email}</span>
-
-              {/* <Link to='/cart' style={linkStyle}>
-                       <Badge badgeContent={5} color='primary'>
-                         <ShoppingCartOutlined />
-                       </Badge>
-                      </Link> */}
             </MenuItem1>
-          </Right>
-        ) : (
-          <Right>
-            <MenuItem onClick={goLogin}>Iniciar Sesion / Registrarse</MenuItem>
-            {/* <MenuItem>
-                     <Link to='/cart' style={linkStyle}>
-                       <Badge badgeContent={1} color='primary'>
-                         <ShoppingCartOutlined />
-                       </Badge>
-                     </Link>
-                   </MenuItem> */}
-          </Right>
-        )}
-        <IconsNav>
+            <IconsNav>
           <BtnUser ref={userButton} onClick={() => handlePanel()}>
             <ExpandMoreRounded />
           </BtnUser>
         </IconsNav>
-        <MenuItem>
-          <Link to="/cart" style={linkStyle}>
-            <Badge badgeContent={quantity} color="primary">
-              <ShoppingCartOutlined />
-            </Badge>
-          </Link>
-        </MenuItem>
+          </Right>
+        ) : (
+          <Right>
+            <MenuItem onClick={goLogin}>Iniciar Sesion / Registrarse</MenuItem>
+            <IconsNav>
+          <BtnUser ref={userButton} onClick={() => handlePanel()}>
+            <ExpandMoreRounded />
+          </BtnUser>
+        </IconsNav>
+          </Right>
+        )}
+       
+
         {panel && (
           <ContainerLoginOption ref={loginContainer}>
             <LoginLogout />
@@ -323,7 +223,7 @@ export const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default NavAdmin;
 
 const NavContainer = styled.div`
   background: #ffff;
@@ -334,7 +234,7 @@ const NavContainer = styled.div`
   padding: 3px 10px;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 16px;
   margin-bottom: 2em;
@@ -529,6 +429,7 @@ const Right = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  margin-left: 20px
 `;
 
 const MenuItem1 = styled.div`

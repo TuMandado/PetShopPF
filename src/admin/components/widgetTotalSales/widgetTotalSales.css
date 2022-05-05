@@ -8,6 +8,8 @@
 .widgetLgTitle {
   font-size: 22px;
   font-weight: 600;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .widgetLgTable{
@@ -17,12 +19,16 @@
 
 .widgetLgTh{
   text-align: left;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .widgetLgUser{
   display: flex;
   align-items: center;
   font-weight: 600;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .widgetLgImg {
@@ -36,9 +42,13 @@
 .widgetLgProduct{
   font-weight: 300;
   text-align: left;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 .widgetLgDate,.widgetLgAmount{
   font-weight: 300;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .widgetLgButton {
@@ -50,14 +60,20 @@
 .widgetLgButton.Approved{
     background-color: #e5faf2;
     color: #3bb077;
+    font-family: 'Poppins';
+    font-style: normal;
 }
 .widgetLgButton.Declined{
     background-color: #fff0f1;
     color: #d95087;
+    font-family: 'Poppins';
+    font-style: normal;
 
 }
 .widgetLgButton.Pending{
     background-color: #ebf1fe;
     color: #2a7ade;
+    font-family: 'Poppins';
+    font-style: normal;
 
 }

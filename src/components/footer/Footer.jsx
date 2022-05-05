@@ -8,7 +8,7 @@ import {
 // import WhatsAppIcon from '@mui/icons-material/WhatsApp'
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import mercadoPago from "../../img/MPlogo.png";
+// import mercadoPago from "../../img/MPlogo.png";
 // import ReactWhatsapp from 'react-whatsapp';
 
 const Footer = () => {
@@ -142,6 +142,8 @@ const Center = styled.div`
 const Title = styled.h3`
   font-weight: 500;
   margin-bottom: 1em;
+  font-family: "Poppins";
+  font-style: normal;
 `;
 
 const List = styled.ul`
@@ -150,11 +152,15 @@ const List = styled.ul`
   list-style: none;
   display: flex;
   flex-wrap: wrap;
+  font-family: "Poppins";
+  font-style: normal;
 `;
 
 const ListItem = styled.li`
   margin-bottom: 10px;
   width: 50%;
+  font-family: "Poppins";
+  font-style: normal;
   &:hover {
     font-weight: 500;
     color: #ffffff;

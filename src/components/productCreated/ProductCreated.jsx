@@ -26,7 +26,9 @@ function validadora (input) {
         error.subCategory = 'ingrese sub categoria'
     } else if (!input.price || input.price < 0 ) {
         error.price = 'ingrese precio adecuado por favor'
-    } 
+    } else if (!input.stock || input.stock < 0) {
+        error.stock = 'ingrese stock por favor'
+    }
      
 
     return error
@@ -39,9 +41,9 @@ const ProductCreated = () => {
     const product = useSelector((state) => state.adminReducer.products)
     console.log('esto es product', product)
     const category = useSelector((state) => state.adminReducer.categories)
-    console.log('esto es category',category)
+    // console.log('esto es category',category)
     const animalCategory = useSelector((state) => state.adminReducer.animalCategory)
-    console.log('esto es animalCategory', animalCategory)
+    // console.log('esto es animalCategory', animalCategory)
 
 
     const [errors, setErrors] = useState({})
@@ -51,8 +53,9 @@ const ProductCreated = () => {
         brand:'',
         animalCategory: '',
         category: '',
-        price: '$ ',
+        price: '',
         subCategory: '',
+        stock:'',
         delete: false
     })
     const getBaseFile = files => {
@@ -74,8 +77,8 @@ const ProductCreated = () => {
 
     function handleChange2(e) {
         setInput({
-            ...input,
-            [e.target.name]: e.target.value
+            ...input, 
+            price: e.target.value
         })
     }
 
@@ -109,11 +112,11 @@ const ProductCreated = () => {
         e.preventDefault()
         if(input.name.trim() === '' || input.name.search(/^[^$%&|<>#]*$/)) {
             return alert('Ingrese un nombre adecuado')
-        } else if (
+        } /*else if (
             product.find(e => e.data.name.toLowerCase().trim() === input.name.toLowerCase().trim())
         ) {
             return alert(`El Producto ${input.name} ya existe`)
-        } else if (input.image.trim() === ''  ) {
+        } */ else if (input.image.trim() === ''  ) {
             return alert ('por favor ingrese imagen')
         } else if (input.brand.trim() === '' || input.brand.search(/^[^$%&|<>#]*$/)) {
             return alert('ingrese una marca')
@@ -121,26 +124,30 @@ const ProductCreated = () => {
             return alert('selecciona una categoria de animal por favor')
         }  else if (input.category.trim() === '') {
             return alert('selecciona una categoria por favor')
-        }   else if (input.price.trim() === '' || input.price < 1 || input.price.search( /^[0-9,$]*$/)) {
+        }   else if (input.price.trim() === '' || input.price < 1 || input.price.search( /^[0-9]([.,][0-9]{1,3})?$/)) {
             return alert('precio inadecuado ')
         } else if (input.subCategory.trim() === '' || input.subCategory.search(/^[^$%&|<>#]*$/)) {
             return alert('ingrese sub categoria')
+        } else if (input.stock < 0 ) {
+            return alert('stock inadecuado')
         }
         // /^[0-9,$]*$/
         
         
         
         else {
-            console.log(input)
-            dispatch(postProduct(input))
+            // console.log(input)
+            dispatch(postProduct({...input, price: '$ ' + input.price}))
             alert('Producto creado con exito!')
+            // console.log({...input, price: '$ ' + input.price})
             setInput({
                 name: '',
                 image: '',
                 animalCategory: '',
                 category: '',
-                price: '$ ',
+                price: '',
                 subCategory: '',
+                stock:'',
                 delete: false
             })
             navegate('/products')
@@ -324,6 +331,23 @@ const ProductCreated = () => {
                        {
                        errors.price && (
                            <p>{errors.price}</p>
+                       )
+                   }
+                </div>
+                <br />
+                <div>
+                    <Label>Stock: </Label>
+                    <br />
+                    <Input type="number"
+                    value=  { input.stock}
+                    name='stock'
+                    onChange={(e) => handleChange(e) }
+                    placeholder='agrege stock'
+                    
+                    />
+                       {
+                       errors.stock && (
+                           <p>{errors.stock}</p>
                        )
                    }
                 </div>

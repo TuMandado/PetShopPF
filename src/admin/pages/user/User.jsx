@@ -13,7 +13,7 @@ import { useParams } from "react-router";
 import { useNavigate } from 'react-router';
 import FileBase from 'react-file-base64';
 import { getDetailUser, putUser } from "../../../redux/actions/adminActions";
-import Navbar from "../../../components/navbar/Navbar";
+import NavAdmin from "../../../components/navbar/NavAdmin";
 import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
 
 export default function User() {
@@ -85,7 +85,7 @@ export default function User() {
 
   return (
     <div >
-    <Navbar/>
+    <NavAdmin/>
     <div className="container">
       <AdminSidebar />   
       <div className="user">

@@ -9,6 +9,8 @@
 .widgetSmTitle{
     font-size: 22px;
     font-weight: 600;
+    font-family: 'Poppins';
+    font-style: normal;
 }
 
 .widgetSmImg{
@@ -22,6 +24,8 @@
     margin: 0;
     padding: 0;
     list-style: none;
+    font-family: 'Poppins';
+    font-style: normal;
 }
 
 .widgetSmListItem{
@@ -29,6 +33,8 @@
     align-items: center;
     justify-content: space-between;
     margin: 20px 0px;
+    font-family: 'Poppins';
+    font-style: normal;
 }
 
 .widgetSmUser{
@@ -38,10 +44,14 @@
 
 .widgetSmUsername{
     font-weight: 600;
+    font-family: 'Poppins';
+    font-style: normal;
 }
 
 .widgetSmUserTitle{
     font-weight: 300;
+    font-family: 'Poppins';
+    font-style: normal;
 }
 
 .widgetSmButton{
@@ -53,6 +63,8 @@
     background-color: #eeeef7;
     color: #555;
     cursor: pointer;
+    font-family: 'Poppins';
+    font-style: normal;
 }
 
 .widgetSmIcon{

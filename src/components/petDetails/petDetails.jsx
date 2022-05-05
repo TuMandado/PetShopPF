@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import Mapa from "../../components/map/Map";
 import Footer from "../../components/footer/Footer";
 import { petDetails, detailVacio } from "../../redux/actions";
 import styled from "styled-components";
+import Swal from "sweetalert2";
 
 const PetDetails = () => {
   const user = useSelector((state) => state.clientReducer.user);
@@ -18,6 +19,7 @@ const PetDetails = () => {
   console.log("PET DETAIL =>", pet);
   console.log("ALL PET EN DETAIL =>", allPetsGeo);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const uid = useParams();
   /*   console.log("Uid flag =>", uid);
@@ -31,21 +33,49 @@ const PetDetails = () => {
 
   const navigateToWhats = (e) => {
     e.preventDefault();
-    if (pet.state === "perdido")
-      window.open(
-        `https://api.whatsapp.com/send?phone=549${user.phoneNumber}&text=Hola!, ${user.name}. ¡Tengo información sobre ${pet.name}!`,
-        "_blank"
-      );
-    if (pet.state === "en adopcion")
-      window.open(
-        `https://api.whatsapp.com/send?phone=549${user.phoneNumber}&text=Hola!, ${user.name}. ¡Quiero adoptar a ${pet.name}!`,
-        "_blank"
-      );
-    if (pet.state === "encontrado")
-      window.open(
-        `https://api.whatsapp.com/send?phone=549${user.phoneNumber}&text=Hola!, ${user.name}. ¡Soy el dueño/a de ${pet.name}!`,
-        "_blank"
-      );
+    if (!user) {
+      return Swal.fire({
+        title: "¡Logueate!",
+        text: " Debes estar logeado o registrado para hacer esta acción. ¿Deseas continuar?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#0acf83",
+        cancelButtonColor: "#e6704b",
+        confirmButtonText: "Ir al login!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate(`/login`);
+        }
+      });
+    } else {
+      if (pet.state === "perdido")
+        window.open(
+          `https://api.whatsapp.com/send?phone=549${pet.userPhone}&text=Hola, ${
+            pet.userOwnName
+          }! soy ${
+            user.name ? user.name : "vengo de la web El Petshop."
+          }. ¡Tengo información sobre ${pet.name}!`,
+          "_blank"
+        );
+      if (pet.state === "en adopcion")
+        window.open(
+          `https://api.whatsapp.com/send?phone=549${pet.userPhone}&text=Hola, ${
+            pet.userOwnName
+          }! soy ${
+            user.name ? user.name : "vengo de la web El Petshop."
+          }. ¡Quiero adoptar a ${pet.name}!`,
+          "_blank"
+        );
+      if (pet.state === "encontrado")
+        window.open(
+          `https://api.whatsapp.com/send?phone=549${pet.userPhone}&text=Hola, ${
+            pet.userOwnName
+          }! soy ${
+            user.name ? user.name : "vengo de la web El Petshop."
+          }. ¡Soy el dueño/a de ${pet.name}!`,
+          "_blank"
+        );
+    }
   };
 
   useEffect(() => {
@@ -84,7 +114,7 @@ const PetDetails = () => {
         <DivContainers>
           <div>
             <Image
-              src={pet.photos || "https://imgur.com/lhLYKao"}
+              src={pet.photos || "https://i.imgur.com/9bULXjH.png"}
               alt="imagen"
             />
           </div>
@@ -110,7 +140,7 @@ const PetDetails = () => {
           <HelpMap>
             <Referencias>Referencias:</Referencias>
             <LocalUbication>Tu ubicacion</LocalUbication>
-            <PetsUbication>Mascotas de la zona</PetsUbication>
+            <PetsUbication>La mascota</PetsUbication>
             {pet.state === "perdido" && (
               <Aviso>
                 Si estas seguro de haber encontrado o visto a {pet.name}, podés
@@ -142,12 +172,13 @@ const PetDetails = () => {
           </HelpMap>
           <MapContainer>
             <Mapa
-            /* locations={[
+              showUserLocation={true}
+              locations={[
                 {
-                  lat: -34.8889696,
-                  lng: -57.9567196,
+                  lat: pet.lat,
+                  lng: pet.lng,
                 },
-              ]} */
+              ]}
             />
           </MapContainer>
         </InferiorDivContainer>

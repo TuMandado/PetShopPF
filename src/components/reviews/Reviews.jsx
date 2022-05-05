@@ -74,10 +74,11 @@ const Reviews = ({ id }) => {
     setStarsEdit(newStars)
   }
 
+
   if (productReviews) {
     reviewsByTime = productReviews.sort(function (a, b) {
-      return new Date(a.data.createdAt) - new Date(b.data.createdAt);
-    });
+      return new Date(a.data.createdAt).getTime() - new Date(b.data.createdAt).getTime();
+    }).reverse();
   }
 
   return (

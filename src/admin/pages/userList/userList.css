@@ -5,6 +5,8 @@
 .userListUser {
   display: flex;
   align-items: center;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .userListImg {
@@ -23,9 +25,19 @@
     color: white;
     cursor: pointer;
     margin-right: 20px;
+    font-family: 'Poppins';
+    font-style: normal;
 }
 
-.userListDelete{
+.userListOff{
     color: red;
     cursor: pointer;
+    font-family: 'Poppins';
+    font-style: normal;
+}
+.userListOn{
+    color: green;
+    cursor: pointer;
+    font-family: 'Poppins';
+    font-style: normal;
 }

@@ -14,7 +14,7 @@ import { star } from "../../data";
 import Swal from "sweetalert2";
 import imgBackground from "../../assets/patrones_pet.png";
 import { Analytics } from "../wrappers/analytics/Analytics";
-import {clearProductScore} from '../../redux/actions/reviewsActions.js'
+import { clearProductScore } from "../../redux/actions/reviewsActions.js";
 
 const DetailContainer = styled.div`
   height: 100vh;
@@ -33,12 +33,12 @@ const DetailLeft = styled.div`
 `;
 
 const Image = styled.img`
-  width: 30%;
-  height: 100%;
+  min-width: 20%;
+  max-width: 30%;
   max-height: 280px;
   position: absolute;
-  right: 10%;
-  top: 0;
+  right: 15%;
+  top: 10%;
   border-radius: 12px;
 `;
 
@@ -185,6 +185,14 @@ const ProductWasDeletedError = styled.p`
   margin-top: auto;
 `;
 
+const Error = styled.p`
+  font-family: "Poppins";
+  font-style: normal;
+  position: absolute;
+  right: 0;
+  top: 30%;
+`
+
 const ProductDetail = () => {
   const dispatch = useDispatch();
   const uid = useParams();
@@ -214,7 +222,7 @@ const ProductDetail = () => {
     dispatch(getDetailProducts(uid.id));
     return function () {
       dispatch(detailVacio());
-      dispatch(clearProductScore())
+      dispatch(clearProductScore());
     };
   }, [dispatch, uid.id]);
 
@@ -292,7 +300,7 @@ const ProductDetail = () => {
         user={user}
         visitId={visitId}
         type="detail"
-        productId={uid}
+        productId={uid.id}
         avaliable={avaliable}
       >
         <DetailContainer>
@@ -338,7 +346,7 @@ const ProductDetail = () => {
               <BtnAdd onClick={(e) => handleAddCart(e)}>Agregar</BtnAdd>
             )}
             <Image
-              src={product.image || "https://imgur.com/lhLYKao"}
+              src={product.image || "https://i.imgur.com/f1I4xIg.jpg"}
               alt="imagen"
             />
           </DetailLeft>
@@ -347,7 +355,7 @@ const ProductDetail = () => {
             {user ? (
               <FormReview user={user} id={uid.id} />
             ) : (
-              <p>Regístrate para dejar tu comentario</p>
+              <Error>Regístrate/Inicia Sesion para dejar tu reseña.</Error>
             )}
           </ReviewsContainer>
           <Footer />

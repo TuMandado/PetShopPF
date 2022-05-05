@@ -22,20 +22,35 @@
     color: white;
     cursor: pointer;
     margin-right: 20px;
+    font-family: 'Poppins';
+    font-style: normal;
 }
 
 .productListDelete{
     color: red;
     cursor: pointer;
+    font-family: 'Poppins';
+    font-style: normal;
 }
 
 .productListOk{
     color: green;
     cursor: pointer;
+    font-family: 'Poppins';
+    font-style: normal;
+}
+
+.productListNo{
+    color: gray;
+    cursor: pointer;
+    font-family: 'Poppins';
+    font-style: normal;
 }
 
 .userUpdateItem{
     display: flex;
     flex-direction: column;
     margin-top: 10px;
+    font-family: 'Poppins';
+    font-style: normal;
 }

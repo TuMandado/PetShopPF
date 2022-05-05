@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FileBase from "react-file-base64";
 import postMap from "../../firebase/Map/index";
+import Swal from "sweetalert2";
 import {
   getTotalPets,
   getTotalCategoryPets,
@@ -22,19 +23,25 @@ function validadora(input) {
     input.name.length < 3 ||
     input.name.search(/^[^$%&|<>#]*$/)
   ) {
-    error.name = "ingrese un nombre por favor";
+    error.name = "Debes ingresar un nombre. ¡Solo debe contener letras!";
   } else if (!input.owner) {
-    error.owner = "ingrese el nombre del dueño";
+    error.owner = "Por favor, ingresa el nombre del dueño.";
   } else if (input.sexo === "masculino" || input.sexo === "femenino") {
-    error.sexo = "se ingreso el sexo correcto?";
+    error.sexo = "¿Se ingreso el sexo correcto?";
   } else if (input.category.length === 0) {
-    error.category = "ingrese una categoria porfitas";
+    // error.category = "Por favor, Ingresa una categoria.";
   } else if (!input.photos) {
-    error.sexo = "ingrese una imagen porfitas";
+    error.sexo = "Falta ingresar una imagen";
   } else if (!input.description) {
-    error.description = "ingrese una descripcion por favor";
+    error.description = "Ingrese una descripcion por favor.";
+  } else if (!input.number) {
+    error.number = "Ingresa la altura de la calle.";
+  } else if (!input.street) {
+    error.street = "Ingresa en nombre de la calle.";
+  } else if (!input.city) {
+    error.city = "Ingresa el nombre de la ciudad.";
   } else if (!input.state || input.state.search(/^[^$%&|<>#]*$/)) {
-    error.state = "ingrese un estado";
+    error.state = "¿En qué estado se encuentra la mascota?";
   }
 
   return error;
@@ -70,6 +77,8 @@ const PetCreated = () => {
     lat: "",
     lng: "",
     userId: "",
+    userPhone: "",
+    userOwnName: "",
     delete: false,
   });
 
@@ -87,6 +96,8 @@ const PetCreated = () => {
       ...input,
       [e.target.name]: e.target.value,
       userId: user.uid,
+      userPhone: user.phoneNumber,
+      userOwnName: user.name,
     });
     setErrors(
       validadora({
@@ -131,12 +142,6 @@ const PetCreated = () => {
     if (number && street && city) {
       console.log("INGRESO =>", number, street, city);
       return await postMap(number, street, city, "Argentina");
-      /*  console.log("RESPONSE MAP BTN=>", dataResponse);
-      const lat = dataResponse[0].latitude;
-      const lng = dataResponse[0].longitude; */
-      /*  console.log("LAT =>", lat);
-      console.log("LONG =>", lng);
-      return { lat, lng }; */
     } else {
       console.log("ERROR");
     }
@@ -145,36 +150,93 @@ const PetCreated = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (input.name.trim() === "" || input.name.search(/^[^$%&|<>#]*$/)) {
-      return alert("Ingrese nombre adecuado");
-    } else if (
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Por favor, ingresa un nombre.¡Recordá que solo debe contener letras!",
+        showConfirmButton: true,
+      });
+    } /* else if (
       pets.find(
         (e) =>
           e.data.name.toLowerCase().trim() === input.name.toLowerCase().trim()
       )
     ) {
-      return alert(`El Producto ${input.name} ya existe`);
-    } else if (
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `La mascota ${input.name} ya existe. ¡Intenta uno parecido!`,
+        showConfirmButton: true,
+      });
+    }*/ else if (
       input.owner.trim() === "" ||
       input.owner.search(/^[^$%&|<>#]*$/)
     ) {
-      return alert("por favor ingrese dueño");
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Por favor, ingrese el nombre del dueño.",
+        showConfirmButton: true,
+      });
     } else if (input.sexo.trim() === "" || input.sexo.search(/^[^$%&|<>#]*$/)) {
-      return alert("por favor ingrese sexo adecuado");
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Ingresa el sexo adecuado.",
+        showConfirmButton: true,
+      });
     } else if (input.category.trim() === "") {
-      return alert("selecciona una categoria de animal por favor");
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Por favor, selecciona una categoria de animal.",
+        showConfirmButton: true,
+      });
     } else if (input.photos.trim() === "") {
-      return alert("Por favor, Carga una imagen");
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Falta una iamgen. ¡Intenta cargarla!.",
+        showConfirmButton: true,
+      });
     } else if (
       input.description.trim() === "" ||
       input.description.search(/^[^$%&|<>#]*$/)
     ) {
-      return alert(
-        "por favor ingrese descripcion o ingrese una descripcion adecuada"
-      );
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Por favor, ingrese una descripcion adecuada.",
+        showConfirmButton: true,
+      });
     } else if (input.state.trim() === "") {
-      return alert(
-        "por favor ingrese el estado en el que se encuentra su mascota "
-      );
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Por favor, ingrese el estado de su mascota.",
+        showConfirmButton: true,
+      });
+    } else if (input.number.trim() === "") {
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Por favor, ingresa la altura de la calle.",
+        showConfirmButton: true,
+      });
+    } else if (input.street.trim() === "") {
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Por favor, ingresa el nombre de la calle.",
+        showConfirmButton: true,
+      });
+    } else if (input.city.trim() === "") {
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Debes ingreasr el nombre de la ciudad.",
+        showConfirmButton: true,
+      });
     } else {
       console.log(
         "INPUTS PARA GEOLOC=>",
@@ -183,37 +245,39 @@ const PetCreated = () => {
         input.city
       );
       const geo = await getLocation(input.number, input.street, input.city);
-      console.log("ES GEO : o =>", geo);
-      /*  setInput({
-        ...input,
-        lat: geo[0].latitude,
-        lng: geo[0].longitude,
-      }); */
       dispatch(
         postPets({ ...input, lat: geo[0].latitude, lng: geo[0].longitude })
       );
-      alert("Animal creado con exito!");
-      // if (user) {
-      //   setInput({
-      //     name: "",
-      //     owner: "",
-      //     sexo: "",
-      //     description: "",
-      //     photos: "",
-      //     ubicacion: "",
-      //     state: "",
-      //     category: "",
-      //     userId: "",
-      //     city: "",
-      //     street: "",
-      //     lat: "",
-      //     lng: "",
-      //     country: "Argentina",
-      //     number: "",
-      //     delete: false,
-      //   });
-      // }
-      // navigate("/pets");
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "¡Excelente!",
+        text: "Mascota creada con éxito.",
+        showConfirmButton: true,
+      });
+      if (user) {
+        setInput({
+          name: "",
+          owner: "",
+          sexo: "",
+          description: "",
+          photos: "",
+          ubicacion: "",
+          state: "",
+          category: "",
+          userId: "",
+          city: "",
+          street: "",
+          lat: "",
+          lng: "",
+          country: "Argentina",
+          number: "",
+          delete: false,
+          userPhone: "",
+          userOwnName: "",
+        });
+      }
+      navigate("/pets");
     }
   };
   console.log("ES INPUT=>", input);
@@ -227,7 +291,7 @@ const PetCreated = () => {
   const containerStyle = {
     backgroundImage: `url(${imgBackground})`,
     width: "100%",
-    height: "100%",
+    height: "120vh",
   };
 
   const btnStyle = {
@@ -279,7 +343,7 @@ const PetCreated = () => {
                 placeholder="Tu ciudad"
                 onChange={(e) => handleChange(e)}
               />
-              {/* {errors.owner && <p>{errors.owner}</p>} */}
+              {errors.city && <p>{errors.city}</p>}
             </div>
             <div>
               <Label>Calle: </Label>
@@ -291,7 +355,7 @@ const PetCreated = () => {
                 placeholder="Tu calle"
                 onChange={(e) => handleChange(e)}
               />
-              {/* {errors.owner && <p>{errors.owner}</p>} */}
+              {errors.street && <p>{errors.street}</p>}
             </div>
             <div>
               <Label>Numero de calle: </Label>
@@ -303,15 +367,15 @@ const PetCreated = () => {
                 placeholder="Altura de la calle"
                 onChange={(e) => handleChange(e)}
               />
-              {/* {errors.owner && <p>{errors.owner}</p>} */}
+              {errors.number && <p>{errors.number}</p>}
             </div>
             <div>
               <Label>Sexo: </Label>
               <br />
               <Select defaultValue="Elegir" onChange={(e) => handleSelect3(e)}>
                 <Options disabled>Elegir</Options>
-                <Options value="male">Male</Options>
-                <Options value="female">Female</Options>
+                <Options value="male">Macho</Options>
+                <Options value="female">Hembra</Options>
               </Select>
               {/* {<h3> {input.sexo? false : <p>se necesita un sexo</p>}</h3>} */}
               {errors.sexo && <p>{errors.sexo}</p>}
@@ -380,7 +444,7 @@ const PetCreated = () => {
           </FormContent>
         </InfoForm>
         <BtnContainer>
-          <BtnToPets onClick={() => window.history.back()}> Volver </BtnToPets>
+          <BtnToPets onClick={() => window.history.back()}> {"<"} Volver </BtnToPets>
         </BtnContainer>
       </div>
     </div>
@@ -425,7 +489,6 @@ const InfoForm = styled.form`
   grid-column-gap: 2px;
   background: rgba(255, 255, 255, 0.808);
   max-width: 650px;
-  max-height: 700px;
   margin-right: 30%;
   margin-left: 30%;
   padding-bottom: 100px;
@@ -546,10 +609,10 @@ const BtnToCreate = styled.button`
 `;
 
 const BtnToPets = styled.button`
-  display: absolute;
-  flex-direction: row;
+position: absolute;
+top: 9%;
+left: 20%;
   margin-top: 5px;
-  position: relative;
   width: 105px;
   height: 35px;
   font-family: "Poppins";

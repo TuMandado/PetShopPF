@@ -18,11 +18,15 @@
 .sidebarTitle {
   font-size: 20px;
   color: #575757;
+  font-family: 'Poppins';
+  font-style: normal;
 }
 
 .sidebarList {
   list-style: none;
   padding: 5px;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .sidebarListItem {
@@ -30,6 +34,8 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  font-family: 'Poppins';
+  font-style: normal;
   border-radius: 10px;
   font-size: 16px;
   color: #575757;
@@ -52,5 +58,7 @@
 
 .link{
   text-decoration: none;
+  font-family: "Poppins";
+  font-style: normal;
   color: inherit;
 }

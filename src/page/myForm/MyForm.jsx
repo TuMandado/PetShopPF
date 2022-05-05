@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { getTotalPets, deleteThisPet} from "../../redux/actions";
+import { getTotalPets, deleteThisPet } from "../../redux/actions";
 // import Pet from "../pet/Pet";
 import { Loader } from "../../page/loader/Loader";
 import { Link } from "react-router-dom";
@@ -61,6 +61,7 @@ const ContainerPets = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
+  background: white;
   padding: 16px;
   width: 288px;
   height: 520px;
@@ -69,11 +70,6 @@ const ContainerPets = styled.div`
   border-radius: 12px;
   margin: 0px 32px;
   margin-bottom: 4em;
-  &:hover {
-    padding: 15px;
-    cursor: pointer;
-    border: 2px solid #0acf83;
-  }
   &:hover ${NombreSpan} {
      transition: color 0.2s ease;
      color: #0acf83;
@@ -178,100 +174,146 @@ const Ubicacion = styled.p`
   color: #eb8d70;
 `;
 
+const ButtonsContainer = styled.div`
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+
+`
+
+const DeleteButton = styled.button`
+  padding: 0.6em;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  border:none; 
+  background: #0acf83;
+  color: white;
+  margin-right: 0.5em;
+  &:hover {
+    color: #0acf83;
+    background: white;
+  }
+`
+
+const DetailsButton = styled.button`
+  padding: 0.6em;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  border:none; 
+  background: #0acf83;
+  color: white;
+  margin-left: 0.5em;
+  &:hover {
+    color: #0acf83;
+    background: white;
+  }
+`
+
 
 const MyForm = () => {
-    const dispatch = useDispatch();
-    // const navigate = useNavigate();
-    const user = useSelector((state) => state.clientReducer.user);
-    const allPets = useSelector((state) => state.clientReducer.pets);
-    // console.log('pets', allPets)
-    const [loader, setLoader] = useState(true);
-    // eslint-disable-next-line no-unused-vars
-    const [error, setError] = useState(false);
-    const [myPets, setMyPets] = useState([])
-     
-    function handleDelete (uid) {
-        dispatch(deleteThisPet(uid)) 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.clientReducer.user);
+  const allPets = useSelector((state) => state.clientReducer.pets);
+  // console.log('pets', allPets)
+  const [loader, setLoader] = useState(true);
+  // eslint-disable-next-line no-unused-vars
+  const [error, setError] = useState(false);
+  const [myPets, setMyPets] = useState([])
+
+  function handleDelete(uid) {
+    dispatch(deleteThisPet(uid))
+  }
+
+  useEffect(() => {
+    dispatch(getTotalPets())
+      .then((response) => {
+        setLoader(false);
+      })
+      .catch((error) => setError(error.message));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (allPets.length && user) {
+      setMyPets(allPets.filter(e => e.data.userId === user.uid))
     }
-        
-    useEffect(() => {
-            dispatch(getTotalPets())
-            .then((response) => {
-                setLoader(false);
-            })
-            .catch((error) => setError(error.message));
-        }, [dispatch]);
-        
-    useEffect(() => {
-            if(allPets.length && user) {
-                setMyPets(allPets.filter(e => e.data.userId === user.uid))
-            }
-          }, [user, allPets])
+  }, [user, allPets])
 
+  const goToPetDetail = (id) => {
+    navigate(`/pets/${id}`)
+  }
 
-    if (loader) {
-        return (
-            <div>
-                <Loader />
-            </div>
-        );
-    }
-
+  if (loader) {
     return (
-        <div>
-            {/* <AsidePets /> */}
-            <Navbar/>
-            <MainAllCards>
-                {myPets.length ? (
-                    myPets.map((e) => {
-                        return (
-                            <div key={e.uid} id={e.uid}>
-             <ContainerPets>
-                    <div>
-                     <button onClick={() => handleDelete(e.uid)}>X</button>
-                     </div>
-            <div>
-                <Image src={e.data.photos} alt="Photo not found" />
-            </div>
-            <TagContainer>
-                <div>
-                    <State>{e.data.state === "encontrado" ? "Encontrado" : e.data.state === "perdido" ? "Perdido" : e.data.state === "en adopcion" ? "En Adopcion" : e.data.state}</State>
-                </div>
-                <div>
-                    <Category>{e.data.category === 'gato' ? "Gato" : e.data.category === 'perro' ? "Perro" : e.data.category}</Category>
-                </div>
-                <div>
-                    <Sexo>{e.data.sexo === 'male' ? "Macho" : "Hembra"}</Sexo>
-                </div>
-            </TagContainer>
-            <div>
-                <Nombre>Me llamo: <NombreSpan>{e.data.name} </NombreSpan> </Nombre>
-            </div>
-            <div>
-                <Description>{e.data.description}</Description>
-            </div>
-            <div>
-                <Ubicacion>Aqui va la ubicacion </Ubicacion>
-            </div>
-        </ContainerPets>
-                            </div>
-                        );
-                    })
-                ) : (
-                    <div>
-                        <Error>Vaya! Parece que no hemos encontrado ninguna mascota con dichas caracteristicas</Error>
-                        <CatSleeping src='https://31.media.tumblr.com/e9c5a6eb1241c1cd3f89e12e89874c66/tumblr_mv1vm39xs51rz5dlbo1_500.gif' alt='' />
-                    </div>
-                )}
-                <div>
-                    <Link to='/'>
-                    <button>Volver al home</button>
-                    </Link>
-                </div>
-            </MainAllCards>
-            <Footer />
-        </div>
+      <div>
+        <Loader />
+      </div>
     );
+  }
+
+  return (
+    <div>
+      {/* <AsidePets /> */}
+      <MainAllCards>
+        {myPets.length ? (
+          myPets.map((e) => {
+            return (
+              <div key={e.uid} id={e.uid}>
+                <ContainerPets>
+                  <ButtonsContainer>
+                    <DeleteButton onClick={() => handleDelete(e.uid)}>Eliminar</DeleteButton>
+                    <DetailsButton onClick={() => goToPetDetail(e.uid)}> Detalles </DetailsButton>
+                  </ButtonsContainer>
+                  <div>
+                    <Image src={e.data.photos} alt="Photo not found" />
+                  </div>
+                  <TagContainer>
+                    <div>
+                      <State>{e.data.state === "encontrado" ? "Encontrado" : e.data.state === "perdido" ? "Perdido" : e.data.state === "en adopcion" ? "En Adopcion" : e.data.state}</State>
+                    </div>
+                    <div>
+                      <Category>{e.data.category === 'gato' ? "Gato" : e.data.category === 'perro' ? "Perro" : e.data.category}</Category>
+                    </div>
+                    <div>
+                      <Sexo>{e.data.sexo === 'male' ? "Macho" : "Hembra"}</Sexo>
+                    </div>
+                  </TagContainer>
+                  <div>
+                    <Nombre>Me llamo: <NombreSpan>{e.data.name} </NombreSpan> </Nombre>
+                  </div>
+                  <div>
+                    <Description>{e.data.description}</Description>
+                  </div>
+                  <div>
+                    <Ubicacion>Aqui va la ubicacion </Ubicacion>
+                  </div>
+                </ContainerPets>
+              </div>
+            );
+          })
+        ) : (
+          <div>
+            <Error>Vaya! Parece que no has publicado ninguna mascota aun.</Error>
+            <CatSleeping src='https://31.media.tumblr.com/e9c5a6eb1241c1cd3f89e12e89874c66/tumblr_mv1vm39xs51rz5dlbo1_500.gif' alt='' />
+          </div>
+        )}
+      </MainAllCards>
+    </div>
+  );
 };
 
 export default MyForm;

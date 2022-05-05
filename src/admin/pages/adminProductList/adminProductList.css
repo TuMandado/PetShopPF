@@ -6,6 +6,8 @@
 .productListItem{
     display: flex;
     align-items: center;
+    font-family: 'Poppins';
+    font-style: normal;
 }
 
 .productListImgProd {
@@ -23,10 +25,22 @@
     color: white;
     cursor: pointer;
     margin-right: 20px;
+    font-family: 'Poppins';
+    font-style: normal;
 }
 
 .productListDelete{
     color: red;
     cursor: pointer;
+    font-family: 'Poppins';
+    font-style: normal;
 }
+.productListImgProd {
+    width: 52px;
+    height: 52px;
+    border-radius: 20%;
+    object-fit: cover;
+    font-family: 'Poppins';
+    font-style: normal;
+  }
 

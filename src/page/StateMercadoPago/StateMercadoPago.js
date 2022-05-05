@@ -69,7 +69,7 @@ const StateMercadoPago = () => {
             salestatus:'created'
           };
           editCartFirebase(infoMercadoPago.external_reference, status)
-          .then(setLoad(false))
+          .then(el=> !el ? setLoad(false): setLoad(true))
         })
       } else if (infoMercadoPago.status === "rejected") {
         // "status=rejected"
@@ -207,6 +207,11 @@ const BtnToPets = styled.button`
     background: #ffff;
     border: 3px solid #067a4d;
     cursor: pointer;
+  }
+  &:disabled {
+    background: #067a4d;
+    color: white;
+    cursor: auto;
   }
 `;
 

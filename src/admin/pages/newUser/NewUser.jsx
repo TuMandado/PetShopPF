@@ -1,5 +1,5 @@
 import "./newUser.css";
-import Navbar from "../../../components/navbar/Navbar";
+import NavAdmin from "../../../components/navbar/NavAdmin";
 import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -18,7 +18,7 @@ export default function NewUser() {
   }, [user]);
   return (
     <div >
-         <Navbar/>
+         <NavAdmin/>
          <div className="container">
             <AdminSidebar /> 
             <div className="newUser">
