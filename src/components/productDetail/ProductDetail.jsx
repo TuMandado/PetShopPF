@@ -185,6 +185,14 @@ const ProductWasDeletedError = styled.p`
   margin-top: auto;
 `;
 
+const Error = styled.p`
+  font-family: "Poppins";
+  font-style: normal;
+  position: absolute;
+  right: 0;
+  top: 30%;
+`
+
 const ProductDetail = () => {
   const dispatch = useDispatch();
   const uid = useParams();
@@ -347,7 +355,7 @@ const ProductDetail = () => {
             {user ? (
               <FormReview user={user} id={uid.id} />
             ) : (
-              <p>Regístrate para dejar tu comentario</p>
+              <Error>Regístrate/Inicia Sesion para dejar tu reseña.</Error>
             )}
           </ReviewsContainer>
           <Footer />
