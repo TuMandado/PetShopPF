@@ -130,7 +130,7 @@ const About = () => {
             <Foto src="https://i.imgur.com/Sygo5pL.jpg" alt="Nacho" />
             <Name>Ignacio Euclides</Name>
             <Position>Team: Backend</Position>
-            <Pet>Adopto a: ¿?</Pet>
+            <Pet>Adopto a: Corita y Mora</Pet>
             <div>
               <span>
                 <a
