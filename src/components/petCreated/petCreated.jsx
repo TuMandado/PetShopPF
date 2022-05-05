@@ -34,6 +34,12 @@ function validadora(input) {
     error.sexo = "Falta ingresar una imagen";
   } else if (!input.description) {
     error.description = "Ingrese una descripcion por favor.";
+  } else if (!input.number) {
+    error.number = "Ingresa la altura de la calle.";
+  } else if (!input.street) {
+    error.street = "Ingresa en nombre de la calle.";
+  } else if (!input.city) {
+    error.city = "Ingresa el nombre de la ciudad.";
   } else if (!input.state || input.state.search(/^[^$%&|<>#]*$/)) {
     error.state = "¿En qué estado se encuentra la mascota?";
   }
@@ -210,6 +216,27 @@ const PetCreated = () => {
         text: "Por favor, ingrese el estado de su mascota.",
         showConfirmButton: true,
       });
+    } else if (input.number.trim() === "") {
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Por favor, ingresa la altura de la calle.",
+        showConfirmButton: true,
+      });
+    } else if (input.street.trim() === "") {
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Por favor, ingresa el nombre de la calle.",
+        showConfirmButton: true,
+      });
+    } else if (input.city.trim() === "") {
+      return Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Debes ingreasr el nombre de la ciudad.",
+        showConfirmButton: true,
+      });
     } else {
       console.log(
         "INPUTS PARA GEOLOC=>",
@@ -316,7 +343,7 @@ const PetCreated = () => {
                 placeholder="Tu ciudad"
                 onChange={(e) => handleChange(e)}
               />
-              {/* {errors.owner && <p>{errors.owner}</p>} */}
+              {errors.city && <p>{errors.city}</p>}
             </div>
             <div>
               <Label>Calle: </Label>
@@ -328,7 +355,7 @@ const PetCreated = () => {
                 placeholder="Tu calle"
                 onChange={(e) => handleChange(e)}
               />
-              {/* {errors.owner && <p>{errors.owner}</p>} */}
+              {errors.street && <p>{errors.street}</p>}
             </div>
             <div>
               <Label>Numero de calle: </Label>
@@ -340,7 +367,7 @@ const PetCreated = () => {
                 placeholder="Altura de la calle"
                 onChange={(e) => handleChange(e)}
               />
-              {/* {errors.owner && <p>{errors.owner}</p>} */}
+              {errors.number && <p>{errors.number}</p>}
             </div>
             <div>
               <Label>Sexo: </Label>
