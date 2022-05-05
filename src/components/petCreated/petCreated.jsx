@@ -291,7 +291,7 @@ const PetCreated = () => {
   const containerStyle = {
     backgroundImage: `url(${imgBackground})`,
     width: "100%",
-    height: "100%",
+    height: "120vh",
   };
 
   const btnStyle = {
@@ -444,7 +444,7 @@ const PetCreated = () => {
           </FormContent>
         </InfoForm>
         <BtnContainer>
-          <BtnToPets onClick={() => window.history.back()}> Volver </BtnToPets>
+          <BtnToPets onClick={() => window.history.back()}> {"<"} Volver </BtnToPets>
         </BtnContainer>
       </div>
     </div>
@@ -489,7 +489,6 @@ const InfoForm = styled.form`
   grid-column-gap: 2px;
   background: rgba(255, 255, 255, 0.808);
   max-width: 650px;
-  max-height: 700px;
   margin-right: 30%;
   margin-left: 30%;
   padding-bottom: 100px;
@@ -610,10 +609,10 @@ const BtnToCreate = styled.button`
 `;
 
 const BtnToPets = styled.button`
-  display: absolute;
-  flex-direction: row;
+position: absolute;
+top: 9%;
+left: 20%;
   margin-top: 5px;
-  position: relative;
   width: 105px;
   height: 35px;
   font-family: "Poppins";
