@@ -6,6 +6,7 @@ import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
 import { getAllCartsData } from '../../../redux/actions/cartActions';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from "styled-components";
+import { editCartFirebase } from "../../../firebase/Cart";
 
 const PaymentDetail = () => {
   const user = useSelector((state) => state.clientReducer.user);
@@ -24,14 +25,21 @@ const PaymentDetail = () => {
     const navigate = useNavigate();
     const uid = useParams().payId;
     const allPaying = useSelector((state) => state.cartReducer.allCartsData);
+    const allUsers = useSelector(state => state.adminReducer.users);
     const [paying, setPaying] = useState([]);
+    const [input, setInput] = useState({})
+
+    
     
     useEffect(() => {
       dispatch(getAllCartsData())
     }, []);
   
     useEffect(() => {
-        setPaying((allPaying.find(pay => pay.uid == uid)));
+        setPaying(
+          allPaying.find(pay => pay.uid == uid),
+          
+        );
     //   setPaying({
     //     return({
     //       fecha: el.data.createdAt,
@@ -43,10 +51,26 @@ const PaymentDetail = () => {
     //     })
     //   })
     }, [allPaying, dispatch]);
-
+    // const UserPay = allUsers.find(obj => obj.uid == paying.data.userUid);
+    // console.log("🎁=>", paying.data.userUid);
+    // console.log("🎄=>", UserPay);
     const navigateToProduct = (e) => {
         navigate(`/product/${e.currentTarget.id}`);
       };
+
+    const handleChange = function (e) {
+      e.preventDefault()
+      setInput({
+        ...input,
+        salestatus: e.target.value,
+      })  
+    }
+
+    useEffect(() => {
+      editCartFirebase(uid,input)
+    }, [uid, input]);
+
+    // editCartFirebase(uid,data)
 
   return (
     <div >
@@ -61,6 +85,7 @@ const PaymentDetail = () => {
               <TuCarritoText> Id usuario:{paying.data.userUid}</TuCarritoText>
               <TuCarritoText> productos:</TuCarritoText>
             </TitleContainer>
+           
             <ListProduct>
               {paying.data.items.map((el) => {
                 return (
@@ -84,6 +109,16 @@ const PaymentDetail = () => {
                 );
               })}
             </ListProduct>
+            <AsideOrden>
+                  <label>Estado  </label> 
+                    <select name='salestatus' id='salestatus' onChange={handleChange}>
+                        <option value="created" > Activo </option>
+                        <option value="despatch" > Despachado </option>
+                        <option value="revision" > En Revision </option>
+                        <option value="delivered" > Entregado </option>
+                        <option value="cancel" > Cancelado </option>
+                  </select>             
+            </AsideOrden>
             <AsideOrden>
               <DataContainer>
                 <Resumen>Resumen de compra:</Resumen>

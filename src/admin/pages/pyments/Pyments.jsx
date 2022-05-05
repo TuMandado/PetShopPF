@@ -23,7 +23,11 @@ const Pyments = () => {
 
   const dispatch = useDispatch()
   const allPaying = useSelector((state) => state.cartReducer.allCartsData);
+  const allUsers = useSelector(state => state.adminReducer.users);
   const [totalPaying, setTotalPaying] = useState([]);
+
+  // const nickName= (allUsers.find(obj => obj.id == el.data.userUid)).nickName
+  // allUsers.find(obj => obj.id == id)
   
   useEffect(() => {
     dispatch(getAllCartsData())
@@ -31,6 +35,8 @@ const Pyments = () => {
 
   useEffect(() => {
     setTotalPaying(allPaying.map(el=>{
+      const nick= allUsers.find(obj => obj.uid == el.data.userUid);
+      console.log("🎪=>", nick.data.displayName);
       return({
         fecha: el.data.createdAt,
         usuarioId: el.data.userUid,
@@ -38,17 +44,21 @@ const Pyments = () => {
         estado: el.data.status,
         productos: el.data.items.map(e=> e.title),
         total: el.data.total,
+        displayName: nick.data.displayName,
+        salestatus: el.data.salestatus
       })
     }))
   }, [allPaying, dispatch]);
 
   useEffect(() => {
+    console.log("allUsers 🎆:", allUsers);
     console.log("allPaying ♦:", allPaying);
     console.log("totalPaying 🚩:", totalPaying);
   }, [totalPaying]);
 
     const columns = [
         { field: "id", headerName: "ID de Orden", width: 180 },
+        { field: "displayName", headerName: "Nombre de Usuario", width: 240 },
         { field: "usuarioId", headerName: "ID de Usuario", width: 180 },
             
         // {
@@ -73,7 +83,8 @@ const Pyments = () => {
         // },
 
         { field: "productos", headerName: "Productos", width: 200 },
-        { field: "estado", headerName: "Estado", width: 138 },
+        { field: "salestatus", headerName: "Estado de venta", width: 200 },
+        { field: "estado", headerName: "Estado de pago", width: 200 },
         { field: "total", headerName: "Importe $", width: 138 },
         // { field: "nickname", headerName: "Nombre", width: 200 },  
     
@@ -104,9 +115,8 @@ const Pyments = () => {
             rowHeight={140}
             disableSelectionOnClick
             columns={columns}
-            pageSize={10}
-            rowsPerPageOptions={[10]}
-            checkboxSelection
+            pageSize={20}
+            rowsPerPageOptions={[20]}
           />
           </div>
     </div>
