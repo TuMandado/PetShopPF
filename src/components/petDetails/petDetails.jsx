@@ -127,7 +127,7 @@ const PetDetails = () => {
                 <State>Estado: {pet.state}</State>
               </div>
               <div>
-                <Sexo>Sexo: {pet.sexo}</Sexo>
+                <Sexo>Sexo: {pet.sexo === 'famale' ? 'Hembra' : 'Macho'}</Sexo>
               </div>
             </TagContainer>
             <InfoContainer>
