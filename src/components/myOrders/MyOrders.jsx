@@ -120,7 +120,7 @@ const MyOrders = () => {
                 })
 
                 return <OrderContainer>
-                  <OrderStatus> Estado: {el.data.status === 'approved' && 'Aprobada'}  </OrderStatus>
+                  <OrderStatus> Estado: {el.data.status === 'approved' ? 'Aprobada' : el.data.status}  </OrderStatus>
                   <OrderDate>  Fecha: {el.data.createdAt.slice(3, 10) + '/' + el.data.createdAt.slice(11, 15)} </OrderDate>
                   <OrderProductSpan> Productos: </OrderProductSpan>
                   <OrderProducts>

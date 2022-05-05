@@ -256,7 +256,7 @@ const ListSubCategorySpan = styled.span`
   font-size: 14px;
   line-height: 19px;
   color: #a9a9a9;
-  margin-right: 4em;
+  margin-right: 4.5em;
 `;
 
 const ListSubCategory = styled.span`
@@ -281,7 +281,7 @@ const ListAnimalCategorySpan = styled.span`
   font-size: 14px;
   line-height: 19px;
   color: #a9a9a9;
-  margin-right: 2.8em;
+  margin-right: 3.1em;
 `;
 
 const ListAnimalCategory = styled.span`
@@ -306,7 +306,7 @@ const ListStock = styled.span`
   font-size: 14px;
   line-height: 19px;
   color: #a9a9a9;
-  margin-right: 2.8em;
+  margin-right: 3.9em;
 `;
 
 const ListStockNumber = styled.span`

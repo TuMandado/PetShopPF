@@ -14,7 +14,9 @@ export const UserSettings = () => {
   const navigate = useNavigate();
   const uid = useParams().id;
   const user = useSelector((state) => state.adminReducer.user);
-  const pets = useSelector((state) => state.clientReducer.backupPets);
+  const clientUser = useSelector(state => state.clientReducer.user)
+  const pets = useSelector((state) => state.clientReducer.backupPets)
+  const actualUserURL = window.location.pathname
   const [input, setInput] = useState({});
   const [myPets, setMyPets] = useState([]);
 
@@ -30,11 +32,11 @@ export const UserSettings = () => {
     displayName: ``,
     photoURL: ``,
     disabled: false, */
-
-  useEffect(() => {
-    dispatch(getDetailUser(uid));
-    dispatch(getTotalPets());
-  }, [dispatch, uid]);
+  
+    useEffect(() => {
+       dispatch(getDetailUser(uid));
+       dispatch (getTotalPets())
+     },[dispatch,uid])
 
   useEffect(() => {
     setMyPets(pets.filter((e) => e.data.userId === user.uid));
@@ -222,14 +224,19 @@ export const UserSettings = () => {
                 <option value={1}> No </option>
               </select>
             </div> */}
-              <div>
-                <br />
-                <Btnsubmit type="submit">Modificar datos</Btnsubmit>
-              </div>
-              <div></div>
-            </FormContent>
-          </InfoForm>
-        </FormContainer>
+            <div>
+              <br />
+              {
+                clientUser ? <Btnsubmit type="submit">Modificar datos</Btnsubmit> : "Inicia Sesion Para Continuar."
+              }
+            </div>
+            <div>
+              
+            </div>
+          </FormContent>
+        </InfoForm>
+      </FormContainer>
+    </div>
       </div>
     </div>
   );
