@@ -374,8 +374,8 @@ const PetCreated = () => {
               <br />
               <Select defaultValue="Elegir" onChange={(e) => handleSelect3(e)}>
                 <Options disabled>Elegir</Options>
-                <Options value="male">Male</Options>
-                <Options value="female">Female</Options>
+                <Options value="male">Macho</Options>
+                <Options value="female">Hembra</Options>
               </Select>
               {/* {<h3> {input.sexo? false : <p>se necesita un sexo</p>}</h3>} */}
               {errors.sexo && <p>{errors.sexo}</p>}
