@@ -15,7 +15,7 @@ const About = () => {
   };
   //Hago el ejemplo conmigo. Luego le pido la info a c/u de ustedes.
   return (
-    <div>
+    <MainContainer>
       <TitleContainer>
         <TextPetshop>PetShop Team</TextPetshop>
       </TitleContainer>
@@ -269,11 +269,16 @@ const About = () => {
       <BtnContainer>
         <BtnToHome onClick={(e) => navigateToHome(e)}>Ir a home</BtnToHome>
       </BtnContainer>
-    </div>
+    </MainContainer>
   );
 };
 
 export default About;
+
+const MainContainer = styled.div`
+    margin-left: auto;
+    margin-right: auto;
+`
 
 const TitleContainer = styled.div`
   height: 60px;
@@ -299,6 +304,7 @@ const AllProfile = styled.div`
   grid-template-columns: repeat(3, 3fr);
   grid-gap: 10px;
   margin: auto;
+  margin-left: 10em;
 `;
 
 const ContainerProfile = styled.div`
