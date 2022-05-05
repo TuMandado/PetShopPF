@@ -1,12 +1,7 @@
-# Plantilla de React y Firebase
 
-Este proyecto es creado con [Create React App](https://github.com/facebook/create-react-app) y la adición de Firebase.
+<h1> Petshop - #SoyHenry </h1>
+Este proyecto es creado como proyecto final del Bootcamp de Soy Henry.
 
-## Instrucciones
+## Resumen:
+Desarrollamos un Petshop, que además, tiene incorporado un apartado para potenciar la adopción de mascotas, buscar una mascota perdida o publicar una que encontraste.
 
-Antes de comenzar a trabajar no olvides añadir las credenciales de tu aplicación en src/firebase/credenciales.js
-
-- Ejecuta npm install
-- Añade tus credenciales en src/firebase/credenciales
-- Ejecuta npm start para correr el ambiente de desarrollo
-- ¡A escribir código!
