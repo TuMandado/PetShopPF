@@ -99,7 +99,7 @@ const AppSettings = () => {
                   }}
                 />
               </div>
-              <div
+              {/* <div
                 style={{
                   // Items should be aligned horizontally
                   display: "flex",
@@ -120,7 +120,7 @@ const AppSettings = () => {
                     });
                   }}
                 />
-              </div>
+              </div> */}
               <div
                 style={{
                   // Items should be aligned horizontally
