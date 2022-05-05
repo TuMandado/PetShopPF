@@ -149,135 +149,154 @@ const PetCreated = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (input.name.trim() === "" || input.name.search(/^[^$%&|<>#]*$/)) {
+    if (!user) {
       return Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Por favor, ingresa un nombre.¡Recordá que solo debe contener letras!",
-        showConfirmButton: true,
-      });
-    } else if (
-      pets.find(
-        (e) =>
-          e.data.name.toLowerCase().trim() === input.name.toLowerCase().trim()
-      )
-    ) {
-      return Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: `La mascota ${input.name} ya existe. ¡Intenta uno parecido!`,
-        showConfirmButton: true,
-      });
-    } else if (
-      input.owner.trim() === "" ||
-      input.owner.search(/^[^$%&|<>#]*$/)
-    ) {
-      return Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Por favor, ingrese el nombre del dueño.",
-        showConfirmButton: true,
-      });
-    } else if (input.sexo.trim() === "" || input.sexo.search(/^[^$%&|<>#]*$/)) {
-      return Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Ingresa el sexo adecuado.",
-        showConfirmButton: true,
-      });
-    } else if (input.category.trim() === "") {
-      return Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Por favor, selecciona una categoria de animal.",
-        showConfirmButton: true,
-      });
-    } else if (input.photos.trim() === "") {
-      return Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Falta una iamgen. ¡Intenta cargarla!.",
-        showConfirmButton: true,
-      });
-    } else if (
-      input.description.trim() === "" ||
-      input.description.search(/^[^$%&|<>#]*$/)
-    ) {
-      return Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Por favor, ingrese una descripcion adecuada.",
-        showConfirmButton: true,
-      });
-    } else if (input.state.trim() === "") {
-      return Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Por favor, ingrese el estado de su mascota.",
-        showConfirmButton: true,
-      });
-    } else if (input.number.trim() === "") {
-      return Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Por favor, ingresa la altura de la calle.",
-        showConfirmButton: true,
-      });
-    } else if (input.street.trim() === "") {
-      return Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Por favor, ingresa el nombre de la calle.",
-        showConfirmButton: true,
-      });
-    } else if (input.city.trim() === "") {
-      return Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Debes ingreasr el nombre de la ciudad.",
-        showConfirmButton: true,
+        title: "¡Logueate!",
+        text: "Para publicar la mascota, debes estar logeado o registrado. ¿Deseas continuar?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#0acf83",
+        cancelButtonColor: "#e6704b",
+        confirmButtonText: "Ir al login!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate(`/login`);
+        }
       });
     } else {
-      console.log(
-        "INPUTS PARA GEOLOC=>",
-        input.number,
-        input.street,
-        input.city
-      );
-      const geo = await getLocation(input.number, input.street, input.city);
-      dispatch(
-        postPets({ ...input, lat: geo[0].latitude, lng: geo[0].longitude })
-      );
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "¡Excelente!",
-        text: "Mascota creada con éxito.",
-        showConfirmButton: true,
-      });
-      if (user) {
-        setInput({
-          name: "",
-          owner: "",
-          sexo: "",
-          description: "",
-          photos: "",
-          ubicacion: "",
-          state: "",
-          category: "",
-          userId: "",
-          city: "",
-          street: "",
-          lat: "",
-          lng: "",
-          country: "Argentina",
-          number: "",
-          delete: false,
-          userPhone: "",
-          userOwnName: "",
+      if (input.name.trim() === "" || input.name.search(/^[^$%&|<>#]*$/)) {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Por favor, ingresa un nombre.¡Recordá que solo debe contener letras!",
+          showConfirmButton: true,
         });
+      } else if (
+        pets.find(
+          (e) =>
+            e.data.name.toLowerCase().trim() === input.name.toLowerCase().trim()
+        )
+      ) {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: `La mascota ${input.name} ya existe. ¡Intenta uno parecido!`,
+          showConfirmButton: true,
+        });
+      } else if (
+        input.owner.trim() === "" ||
+        input.owner.search(/^[^$%&|<>#]*$/)
+      ) {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Por favor, ingrese el nombre del dueño.",
+          showConfirmButton: true,
+        });
+      } else if (
+        input.sexo.trim() === "" ||
+        input.sexo.search(/^[^$%&|<>#]*$/)
+      ) {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Ingresa el sexo adecuado.",
+          showConfirmButton: true,
+        });
+      } else if (input.category.trim() === "") {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Por favor, selecciona una categoria de animal.",
+          showConfirmButton: true,
+        });
+      } else if (input.photos.trim() === "") {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Falta una iamgen. ¡Intenta cargarla!.",
+          showConfirmButton: true,
+        });
+      } else if (
+        input.description.trim() === "" ||
+        input.description.search(/^[^$%&|<>#]*$/)
+      ) {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Por favor, ingrese una descripcion adecuada.",
+          showConfirmButton: true,
+        });
+      } else if (input.state.trim() === "") {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Por favor, ingrese el estado de su mascota.",
+          showConfirmButton: true,
+        });
+      } else if (input.number.trim() === "") {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Por favor, ingresa la altura de la calle.",
+          showConfirmButton: true,
+        });
+      } else if (input.street.trim() === "") {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Por favor, ingresa el nombre de la calle.",
+          showConfirmButton: true,
+        });
+      } else if (input.city.trim() === "") {
+        return Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Debes ingreasr el nombre de la ciudad.",
+          showConfirmButton: true,
+        });
+      } else {
+        console.log(
+          "INPUTS PARA GEOLOC=>",
+          input.number,
+          input.street,
+          input.city
+        );
+        const geo = await getLocation(input.number, input.street, input.city);
+        dispatch(
+          postPets({ ...input, lat: geo[0].latitude, lng: geo[0].longitude })
+        );
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "¡Excelente!",
+          text: "Mascota creada con éxito.",
+          showConfirmButton: true,
+        });
+        if (user) {
+          setInput({
+            name: "",
+            owner: "",
+            sexo: "",
+            description: "",
+            photos: "",
+            ubicacion: "",
+            state: "",
+            category: "",
+            userId: "",
+            city: "",
+            street: "",
+            lat: "",
+            lng: "",
+            country: "Argentina",
+            number: "",
+            delete: false,
+            userPhone: "",
+            userOwnName: "",
+          });
+        }
+        navigate("/pets");
       }
-      navigate("/pets");
     }
   };
   console.log("ES INPUT=>", input);
