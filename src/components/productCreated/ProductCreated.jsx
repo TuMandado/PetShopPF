@@ -53,7 +53,7 @@ const ProductCreated = () => {
         brand:'',
         animalCategory: '',
         category: '',
-        price: ' ',
+        price: '',
         subCategory: '',
         stock:'',
         delete: false
