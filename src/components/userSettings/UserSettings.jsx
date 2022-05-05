@@ -14,10 +14,11 @@ export const UserSettings = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const uid = useParams().id;
-  const user = useSelector((state) => state.adminReducer.user);
+  const user = useSelector((state) => state.clientReducer.user);
   const pets = useSelector((state) => state.clientReducer.backupPets)
   const [input, setInput] = useState({});
   const [myPets, setMyPets] = useState([]);
+
   
 
   /*  Estructura de la info:
@@ -33,11 +34,11 @@ export const UserSettings = () => {
     photoURL: ``,
     disabled: false, */
 
-    useEffect(() => {
-       dispatch(getDetailUser(uid));
-       dispatch (getTotalPets())
+    // useEffect(() => {
+    //    dispatch(getDetailUser(uid));
+    //    dispatch (getTotalPets())
       
-     },[dispatch,uid])
+    //  },[dispatch,uid])
 
      useEffect(() => {
       setMyPets(pets.filter(e => e.data.userId === user.uid))
@@ -52,6 +53,7 @@ export const UserSettings = () => {
 
 
   useEffect(() => {
+    if(user){
       setInput({
         displayName:  user.displayName ? user.displayName : "",
         name: user.name ? user.name : "",
@@ -63,6 +65,7 @@ export const UserSettings = () => {
         role: user.role ? user.role : "Cliente",
         disabled: user.disabled ? user.disabled : false,
       });
+    }
   }, [user]);
 
 
@@ -96,6 +99,8 @@ export const UserSettings = () => {
 
   return (
     <div >
+       {!user ? (<Error> Inicia Sesion Para Continuar </Error>) :
+(<div>
       <div>
       <TitleContainer>
         <Title>Configura tu cuenta:</Title>
@@ -205,10 +210,22 @@ export const UserSettings = () => {
         </InfoForm>
       </FormContainer>
     </div>
+  
+</div>)
+
+       }
 
       </div>
   );
 };
+
+const Error = styled.h1`
+    font-family: "Poppins";
+    font-style: normal;
+    font-size: 2em;
+    padding: 1em;
+    text-align: center;
+`
 
 const TitleContainer = styled.div`
   height: 60px;
