@@ -1,5 +1,5 @@
 import "./publicPets.css";
-import Navbar from "../../../components/navbar/Navbar";
+import NavAdmin from "../../../components/navbar/NavAdmin";
 import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
 import { DataGrid } from "@material-ui/data-grid";
 import { DeleteOutline, Publish } from "@material-ui/icons";
@@ -152,7 +152,7 @@ const PublicPets = () =>{
   
   return (
     <div >
-        <Navbar/>
+        <NavAdmin/>
         <div className="container">
           <AdminSidebar /> 
     <div className="productList">

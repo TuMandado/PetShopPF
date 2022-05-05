@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import Navbar from '../../../components/navbar/Navbar'
+import NavAdmin from "../../../components/navbar/NavAdmin";
 import AdminSidebar from '../../components/adminSidebar/AdminSidebar'
 import PetDetails from '../../../components/petDetails/petDetails'
 import { useSelector } from "react-redux"
@@ -18,7 +18,7 @@ const AdminPet = () => {
   }, [user]);
   return (
     <div>
-       <Navbar/>
+       <NavAdmin/>
         <div className="container">
           <AdminSidebar /> 
           <div>

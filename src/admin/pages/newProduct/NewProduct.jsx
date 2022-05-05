@@ -1,5 +1,5 @@
 import "./newProduct.css";
-import Navbar from "../../../components/navbar/Navbar";
+import NavAdmin from "../../../components/navbar/NavAdmin";
 import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
 import ProductCreated from "../../../components/productCreated/ProductCreated";
 import { useSelector } from "react-redux";
@@ -19,7 +19,7 @@ export default function NewProduct() {
   }, [user]);
   return (
     <div >
-    <Navbar/>
+    <NavAdmin/>
     <div className="container">
        <AdminSidebar /> 
        <div className="petList">

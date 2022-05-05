@@ -11,7 +11,7 @@ import FileBase from 'react-file-base64';
 
 import { getDetailProducts} from "../../../redux/actions";
 // import { getDetailProducts } from "../../../redux/actions/adminActions";
-import Navbar from '../../../components/navbar/Navbar';
+import NavAdmin from "../../../components/navbar/NavAdmin";
 import AdminSidebar from '../../components/adminSidebar/AdminSidebar';
 import { putProduct } from '../../../redux/actions/adminActions';
 
@@ -104,7 +104,7 @@ import { putProduct } from '../../../redux/actions/adminActions';
     return (
         
         <div >
-        <Navbar/>
+        <NavAdmin/>
         <div className="container">
           <AdminSidebar /> 
         <div className="product">
