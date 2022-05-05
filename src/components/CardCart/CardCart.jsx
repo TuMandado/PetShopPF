@@ -19,7 +19,7 @@ const ContainerProduct = styled.div`
   display: flex;
   position: relative;
   width: 900px;
-  height: 180px;
+  height: 200px;
   padding: 15px;
   margin: 15px 0px;
   border: 1px solid #d1d1d1;
@@ -138,7 +138,7 @@ const CantidadContainer = styled.div`
   position: absolute;
   height: 35px;
   width: 180px;
-  bottom: 30%;
+  bottom: 40%;
   right: 8%;
   padding: 10px;
   justify-content: center;
@@ -158,7 +158,9 @@ const CantidadContainer = styled.div`
 const SumDelContainer = styled.div`
   width: 150px;
   height: 35px;
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const BtnSum = styled.button`

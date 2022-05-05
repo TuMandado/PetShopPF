@@ -168,6 +168,7 @@ const OrderContainer = styled.div`
 const AllCartContainer = styled.div`
   display: flex;
   min-height: calc(100vh - 30px);
+  margin-left: 12em;
 `;
 
 const ListProduct = styled.div`
@@ -305,6 +306,7 @@ export function Cart() {
                     title={el.title}
                     price={el.price}
                     quantity={el.quantity}
+                    stock={el.stock}
                   />
                 );
               })}
