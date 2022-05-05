@@ -30,6 +30,25 @@ const AdminHome = () => {
   // var [hoverTimeVsProducts, setHoverTimeVsProducts] = useState([]);
   var products = useSelector((state) => state.clientReducer.products);
   // const [hoverTimeVsProduct, setHoverTimeVsProduct] = useState([]);
+  var [allPayingSum, setAllPayingSum] = useState(0);
+
+  // allPaying is mounted add all allVisits[i].data.total to allPayingSum
+  useEffect(() => {
+    if (allPaying && allPaying.length > 0) {
+      var sum = 0;
+      for (var i = 0; i < allPaying.length; i++) {
+        sum += allPaying[i].data.total;
+      }
+      setAllPayingSum(sum);
+    }
+  }, [allPaying]);
+
+  // Console log allPayingSum
+  useEffect(() => {
+    console.log("allPayingSum :", allPayingSum);
+  }
+  , [allPayingSum]);
+
 
   // If user role is not Admin, redirect to the home page
   useEffect(() => {
@@ -298,7 +317,9 @@ const AdminHome = () => {
       <div className="container">
         <AdminSidebar />
         <div className="home">
-          <FeaturedInfo />
+          <FeaturedInfo 
+          allPayingSum = {allPayingSum}
+          />
           <Chart
             data={adaptDataToChart(visitsVsDays, "Visita por día")}
             title="Visitas por día"
