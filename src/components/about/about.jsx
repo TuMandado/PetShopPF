@@ -57,7 +57,7 @@ const About = () => {
         </ContainerProfile>
         <ContainerProfile style={containerStyle}>
           <InfoProfile>
-            <Foto src="https://i.imgur.com/9bULXjH.png" alt="Eugenio" />
+            <Foto src="https://i.imgur.com/LlKaWDR.jpg" alt="Eugenio" />
             <Name>Eugenio Quiroga</Name>
             <Position>Team: Backend</Position>
             <Pet>Adopto a: Sam</Pet>
@@ -92,7 +92,7 @@ const About = () => {
         </ContainerProfile>
         <ContainerProfile style={containerStyle}>
           <InfoProfile>
-            <Foto src="https://i.imgur.com/9bULXjH.png" alt="Nolis" />
+            <Foto src="https://i.imgur.com/qwARQTe.jpg" alt="Nolis" />
             <Name>Nolis Maldonado</Name>
             <Position>Team: Backend</Position>
             <Pet>Adopto a: ¿?</Pet>
@@ -197,7 +197,7 @@ const About = () => {
         </ContainerProfile>
         <ContainerProfile style={containerStyle}>
           <InfoProfile>
-            <Foto src="https://i.imgur.com/9bULXjH.png" alt="Franco" />
+            <Foto src="https://i.imgur.com/ufdChA4.jpg" alt="Franco" />
             <Name>Nicolás Moises</Name>
             <Position>Team: Frontend</Position>
             <Pet>Adopto a: ¿?</Pet>
@@ -232,7 +232,7 @@ const About = () => {
         </ContainerProfile>
         <ContainerProfile style={containerStyle}>
           <InfoProfile>
-            <Foto src="https://i.imgur.com/9bULXjH.png" alt="Franco" />
+            <Foto src="https://i.imgur.com/JVtMp23.jpg" alt="Franco" />
             <Name>Leonardo Fernandez</Name>
             <Position>Team: Frontend</Position>
             <Pet>Adopto a: unos cuantos</Pet>
@@ -320,8 +320,8 @@ const InfoProfile = styled.div`
 `;
 
 const Foto = styled.img`
-  width: 260px;
-  height: 260px;
+  width: 240px;
+  height: 240px;
   object-fit: cover;
   border: 2px solid #a9a9a9;
   border-radius: 200px;
