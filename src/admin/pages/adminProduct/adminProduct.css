@@ -18,6 +18,8 @@
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .productTop {
@@ -47,27 +49,37 @@
 .productInfoTop {
   display: flex;
   align-items: flex-start;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .productName {
   font-weight: 600;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .productInfoBottom {
   margin-top: 10px;
   display: flex;
   flex-direction	: column;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .productInfoItem {
   width: 150px;
   display: flex;
   justify-content: space-between;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .productInfoValue {
   font-weight: 300;
   padding-left:3px;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .productBottom {
@@ -75,21 +87,29 @@
   margin: 20px;
   -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
   box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .productForm {
   display: flex;
   justify-content: space-between;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .productFormLeft {
   display: flex;
   flex-direction: column;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .productFormLeft > label {
   margin-bottom: 10px;
   color: gray;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .productFormLeft > input {
@@ -97,10 +117,14 @@
   border: none;
   padding: 5px;
   border-bottom: 1px solid gray;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .productFormLeft >select{
   margin-bottom: 10px;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .productUploadImg{
@@ -109,17 +133,23 @@
   border-radius: 10px;
   object-fit: cover;
   margin-right: 20px;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .productFormRight{
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .productUpload{
   display: flex;
   align-items: center;
+  font-family: 'Poppins';
+    font-style: normal;
 }
 
 .productButton{
@@ -130,4 +160,6 @@
   color:white;
   font-weight: 600;
   cursor: pointer;
+  font-family: 'Poppins';
+    font-style: normal;
 }
