@@ -43,7 +43,7 @@ export const Navbar = () => {
     dispatch(cartLoginFront(user));
     setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 1000);
   }, [dispatch, user]);
 
   //Handle del Input y Search
