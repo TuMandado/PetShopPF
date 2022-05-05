@@ -1,7 +1,7 @@
 import { DataGrid } from "@material-ui/data-grid";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import Navbar from "../../../components/navbar/Navbar";
+import NavAdmin from "../../../components/navbar/NavAdmin";
 import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
 import { getAllCartsData } from '../../../redux/actions/cartActions';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -50,7 +50,7 @@ const PaymentDetail = () => {
 
   return (
     <div >
-     <Navbar/>
+     <NavAdmin/>
      <div className="container">
          <AdminSidebar /> 
          <AllCartContainer>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Navbar from "../../../components/navbar/Navbar";
+import NavAdmin from "../../../components/navbar/NavAdmin";
 import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
 
 import Chart from "../../components/chart/Chart";
@@ -294,7 +294,7 @@ const AdminHome = () => {
 
   return (
     <div>
-      <Navbar />
+      <NavAdmin />
       <div className="container">
         <AdminSidebar />
         <div className="home">

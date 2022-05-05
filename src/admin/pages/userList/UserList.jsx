@@ -6,7 +6,7 @@ import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import { Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Navbar from "../../../components/navbar/Navbar";
+import NavAdmin from "../../../components/navbar/NavAdmin";
 import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
 import { getTotalUsers, offUser, onUser } from "../../../redux/actions/adminActions";
 import UserLog from "../../../assets/user.png"
@@ -138,7 +138,7 @@ const UserList = () => {
 
   return (
     <div >
-       <Navbar/>
+       <NavAdmin/>
        <div className="container">
          <AdminSidebar />   
          <div className="userList">

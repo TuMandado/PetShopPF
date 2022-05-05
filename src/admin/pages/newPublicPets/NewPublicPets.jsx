@@ -1,5 +1,5 @@
 import "./newPublicPets.css";
-import Navbar from "../../../components/navbar/Navbar";
+import NavAdmin from "../../../components/navbar/NavAdmin";
 import AdminSidebar from "../../components/adminSidebar/AdminSidebar";
 import Pets from "../../../components/pets/Pets";
 import PetCreated from "../../../components/petCreated/petCreated";
@@ -20,7 +20,7 @@ const NewPublicPets = () => {
   }, [user]);
   return (
     <div >
-    <Navbar/>
+    <NavAdmin/>
     <div className="container">
        <AdminSidebar /> 
        <div className="petList">
