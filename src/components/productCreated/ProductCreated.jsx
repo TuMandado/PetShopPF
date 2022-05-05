@@ -137,7 +137,7 @@ const ProductCreated = () => {
         
         else {
             // console.log(input)
-            dispatch(postProduct({...input, price: '$ ' + input.price}))
+            dispatch(postProduct({...input, price: '$ ' + input.price + ',00'}))
             alert('Producto creado con exito!')
             // console.log({...input, price: '$ ' + input.price})
             setInput({
