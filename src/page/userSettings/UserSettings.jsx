@@ -6,6 +6,7 @@ import styled from "styled-components";
 import imgBackground from "../../assets/patrones_pet.png";
 import MyOrders from '../../components/myOrders/MyOrders'
 import MyReviews from '../../components/myReviews/MyReviews'
+import MyForm from "../myForm/MyForm";
 // import Footer from "../../components/footer/Footer";
 
 const containerStyle = {
@@ -35,7 +36,9 @@ const UserSettings = () => {
             ? <MyOrders />
             :
             option === 'Reviews'
-            && <MyReviews />
+            ? <MyReviews />
+            : option === 'Pets'
+            && <MyForm />
       }
       {/* <Footer /> */}
     </div>
