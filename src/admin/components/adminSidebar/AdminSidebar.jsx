@@ -13,6 +13,7 @@ import {
     WorkOutline,
     Report,
 } from "@material-ui/icons";
+import SettingsIcon from '@mui/icons-material/Settings';
 import { Link } from "react-router-dom";
 
 
@@ -55,6 +56,12 @@ const Sidebar = () => {
                             <li className="sidebarListItem">
                                 <AttachMoney className="sidebarIcon" />
                                 ventas
+                            </li>
+                        </Link>
+                        <Link to="/appSettings" className="link">
+                            <li className="sidebarListItem">
+                                <SettingsIcon className="sidebarIcon" />
+                                Ajustes
                             </li>
                         </Link>
                     </ul>
