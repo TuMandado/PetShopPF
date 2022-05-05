@@ -15,7 +15,9 @@ export const UserSettings = () => {
   const navigate = useNavigate();
   const uid = useParams().id;
   const user = useSelector((state) => state.adminReducer.user);
+  const clientUser = useSelector(state => state.clientReducer.user)
   const pets = useSelector((state) => state.clientReducer.backupPets)
+  const actualUserURL = window.location.pathname
   const [input, setInput] = useState({});
   const [myPets, setMyPets] = useState([]);
   
@@ -36,7 +38,6 @@ export const UserSettings = () => {
     useEffect(() => {
        dispatch(getDetailUser(uid));
        dispatch (getTotalPets())
-      
      },[dispatch,uid])
 
      useEffect(() => {
@@ -196,7 +197,9 @@ export const UserSettings = () => {
             </div> */}
             <div>
               <br />
-              <Btnsubmit type="submit">Modificar datos</Btnsubmit>
+              {
+                clientUser ? <Btnsubmit type="submit">Modificar datos</Btnsubmit> : "Inicia Sesion Para Continuar."
+              }
             </div>
             <div>
               
