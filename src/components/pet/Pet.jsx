@@ -1,11 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
-
 const NombreSpan = styled.span`
-display: inline-block;
-&::after {
-    content: '';
+  display: inline-block;
+  &::after {
+    content: "";
     width: 0px;
     height: 1px;
     display: block;
@@ -13,7 +12,7 @@ display: inline-block;
     transition: color 0.2s ease;
     transition: width 0.3s;
   }
-`
+`;
 
 const ContainerPets = styled.div`
   display: flex;
@@ -33,13 +32,13 @@ const ContainerPets = styled.div`
     border: 2px solid #0acf83;
   }
   &:hover ${NombreSpan} {
-     transition: color 0.2s ease;
-     color: #0acf83;
+    transition: color 0.2s ease;
+    color: #0acf83;
     &::after {
-        background: #0acf83;
-        width: 100%;
+      background: #0acf83;
+      width: 100%;
     }
- }
+  }
 `;
 
 const Image = styled.img`
@@ -124,7 +123,7 @@ const Nombre = styled.h3`
   font-size: 18px;
   line-height: 20px;
   color: #575757;
-  margin: 2px;  
+  margin: 2px;
 `;
 
 const Ubicacion = styled.p`
@@ -136,45 +135,51 @@ const Ubicacion = styled.p`
   color: #eb8d70;
 `;
 
-
 //A los Pets les falta el Titulo. Por ejm: "Gato negro perdido en el puerto" para mostrar previo a la descripcion. (para revisar con los chicos)
 
-const Pet = ({
-    state,
-    owner,
-    name,
-    category,
-    sexo,
-    description,
-    ubicacion,
-    photos,
-}) => {
-    return (
-        <ContainerPets>
-            <div>
-                <Image src={photos} alt="Photo not found" />
-            </div>
-            <TagContainer>
-                <div>
-                    <State>{state === "encontrado" ? "Encontrado" : state === "perdido" ? "Perdido" : state === "en adopcion" ? "En Adopcion" : state}</State>
-                </div>
-                <div>
-                    <Category>{category === 'gato' ? "Gato" : category === 'perro' ? "Perro" : category}</Category>
-                </div>
-                <div>
-                    <Sexo>{sexo === 'male' ? "Macho" : "Hembra"}</Sexo>
-                </div>
-            </TagContainer>
-            <div>
-                <Nombre>Me llamo: <NombreSpan>{name} </NombreSpan> </Nombre>
-            </div>
-            <div>
-                <Description>{description}</Description>
-            </div>
-            <div>
-                <Ubicacion>Aqui va la ubicacion </Ubicacion>
-            </div>
-        </ContainerPets>
-    );
+const Pet = ({ state, name, category, sexo, description, city, photos }) => {
+  return (
+    <ContainerPets>
+      <div>
+        <Image src={photos} alt="Photo not found" />
+      </div>
+      <TagContainer>
+        <div>
+          <State>
+            {state === "encontrado"
+              ? "Encontrado"
+              : state === "perdido"
+              ? "Perdido"
+              : state === "en adopcion"
+              ? "En Adopcion"
+              : state}
+          </State>
+        </div>
+        <div>
+          <Category>
+            {category === "gato"
+              ? "Gato"
+              : category === "perro"
+              ? "Perro"
+              : category}
+          </Category>
+        </div>
+        <div>
+          <Sexo>{sexo === "male" ? "Macho" : "Hembra"}</Sexo>
+        </div>
+      </TagContainer>
+      <div>
+        <Nombre>
+          Me llamo: <NombreSpan>{name} </NombreSpan>{" "}
+        </Nombre>
+      </div>
+      <div>
+        <Description>{description}</Description>
+      </div>
+      <div>
+        <Ubicacion>Ciudad: {city} </Ubicacion>
+      </div>
+    </ContainerPets>
+  );
 };
 export default Pet;
