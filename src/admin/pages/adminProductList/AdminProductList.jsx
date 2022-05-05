@@ -92,7 +92,7 @@ const ProductList = () => {
           category: el.data.category,
           image: el.data.image,
           name: el.data.name,
-          price: el.data.price,
+          price:Number(el.data.price.match(/\d+.\d+(?=,)/g)[0].split('.').join('')),
           subCategory: el.data.subCategory,
           stock: el.data.stock,
           activo: el.data.delete ? "no" : "si",
@@ -118,7 +118,7 @@ const ProductList = () => {
       renderCell: (params) => {
         return (
           <div className="productListItem">
-            <img className="productListImg" src={params.row.image} alt="" />
+            <img className="productListImgProd" src={params.row.image} alt="" />
             {params.row.name}
           </div>
         );
